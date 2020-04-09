@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net462</TargetFrameworks>
@@ -12,5 +12,13 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MdlpApiClient\MdlpApiClient.csproj" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <RootNamespace>MdlpApiClient.Tests</RootNamespace>
+  </PropertyGroup>
 
 </Project>

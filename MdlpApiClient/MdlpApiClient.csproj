@@ -9,4 +9,8 @@
     <PackageReference Include="GostCryptography" Version="2.0.8" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <RootNamespace>MdlpApiClient</RootNamespace>
+  </PropertyGroup>
+
 </Project>
