@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace MdlpApiClient
+﻿namespace MdlpApiClient
 {
+    using System;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// MDLP REST API authentication token.
     /// </summary>

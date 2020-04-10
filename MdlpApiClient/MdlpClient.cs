@@ -1,8 +1,8 @@
-﻿using System;
-using RestSharp;
-
-namespace MdlpApiClient
+﻿namespace MdlpApiClient
 {
+    using System;
+    using RestSharp;
+
     /// <summary>
     /// MDLP REST API client.
     /// </summary>
@@ -13,30 +13,30 @@ namespace MdlpApiClient
         /// <summary>
         /// Initializes a new instance of the MDLP REST API client.
         /// </summary>
-        /// <param name="baseUrl">Base URL of the API endpoint.</param>
         /// <param name="credentials">Credentials used for authentication.</param>
-        public MdlpClient(string baseUrl = StageApiUrl, CredentialsBase credentials = null)
+        /// <param name="baseUrl">Base URL of the API endpoint.</param>
+        public MdlpClient(CredentialsBase credentials, string baseUrl = StageApiUrl)
         {
-            BaseUrl = baseUrl;
+            // make sure BaseUrl ends with a slash
+            BaseUrl = baseUrl ?? string.Empty;
+            if (!baseUrl.EndsWith("/"))
+            {
+                BaseUrl += "/";
+            }
+
             Client = new RestClient(BaseUrl);
+            Client.Authenticator = new CredentialsAuthenticator(BaseUrl, credentials);
         }
 
         public string BaseUrl { get; }
 
-        public CredentialsBase Credentials { get; set; }
-
         private IRestClient Client { get; }
 
-        /// <summary>
-        /// Authenticates the user.
-        /// This method should be called before all other methods.
-        /// </summary>
-        /// <param name="clientId">Client identity.</param>
-        /// <param name="clientSecret">Client secret.</param>
-        /// <param name="userId">User identity, user name or GOST certificate thumbprint.</param>
-        /// <param name="password">Password (for the non-resident users).</param>
-        public void Authenticate(string clientId, string clientSecret, string userId, string password = null)
+        public MdlpDocumentMetadata GetDocumentMetadata(string documentId)
         {
+            var url = BaseUrl + "documents/" + documentId;
+            var request = new RestRequest(url, DataFormat.Json);
+            return Client.Get<MdlpDocumentMetadata>(request).Data;
         }
     }
 }
