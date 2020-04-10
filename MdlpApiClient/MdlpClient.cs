@@ -7,7 +7,7 @@
     /// <summary>
     /// MDLP REST API client.
     /// </summary>
-    public class MdlpClient
+    public partial class MdlpClient
     {
         public const string StageApiUrl = "http://api.stage.mdlp.crpt.ru/api/v1/";
 
@@ -36,37 +36,56 @@
 
         private IRestClient Client { get; set; }
 
-        public T Get<T>(string url)
+        public T Execute<T>(IRestRequest request)
             where T : class, new()
         {
-            var request = new RestRequest(BaseUrl + url, DataFormat.Json);
-            var response = Client.Get<T>(request);
+            Trace(request);
+            var response = Client.Execute<T>(request);
+            Trace(response);
+
             if (!response.IsSuccessful)
             {
                 throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
             }
 
             return response.Data;
+        }
+
+        public T Get<T>(string url)
+            where T : class, new()
+        {
+            var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            return Execute<T>(request);
         }
 
         public T Post<T>(string url, object body)
             where T : class, new()
         {
-            var request = new RestRequest(BaseUrl + url, DataFormat.Json);
+            var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
 
-            var response = Client.Post<T>(request);
-            if (!response.IsSuccessful)
-            {
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
-
-            return response.Data;
+            return Execute<T>(request);
         }
 
         public DocumentMetadata GetDocumentMetadata(string documentId)
         {
             return Get<DocumentMetadata>("documents/" + documentId);
+        }
+
+        public string RegisterResidentUser(string sysId, string publicCertificate,
+            string firstName, string lastName, string middleName, string email)
+        {
+            var user = Post<RegisterResidentUserResponse>("registration/user_resident", new
+            {
+                sys_id = sysId,
+                public_cert = publicCertificate,
+                first_name = firstName,
+                last_name = lastName,
+                middle_name = middleName,
+                email = email
+            });
+
+            return user.UserID;
         }
     }
 }

@@ -15,7 +15,10 @@ namespace MdlpApiClient.Tests
                 ClientSecret = ClientSecret,
                 UserID = UserStarter1,
                 Password = UserPassword1
-            });
+            })
+            {
+                Tracer = TestContext.Progress.WriteLine
+            };
 
             // the next line authenticates, then it requests a document
             var md = client.GetDocumentMetadata(TestDocumentID);
@@ -32,7 +35,10 @@ namespace MdlpApiClient.Tests
                 ClientSecret = ClientSecret,
                 UserID = UserStarter2,
                 Password = UserPassword2
-            });
+            })
+            {
+                Tracer = TestContext.Progress.WriteLine
+            };
 
             // the second user doesn't seem to have the DOWNLOAD_DOCUMENT permission
             Assert.Throws<MdlpException>(() =>
@@ -51,7 +57,10 @@ namespace MdlpApiClient.Tests
                 ClientID = ClientID,
                 ClientSecret = ClientSecret,
                 UserID = TestUserID,
-            });
+            })
+            {
+                Tracer = TestContext.Progress.WriteLine
+            };
 
             // the document is available to the test user
             var md = client.GetDocumentMetadata(TestDocumentID);
