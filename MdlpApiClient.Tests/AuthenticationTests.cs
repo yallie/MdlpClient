@@ -16,6 +16,7 @@ namespace MdlpApiClient.Tests
         [Test]
         public void AuthenticateNonResident1()
         {
+            // the client is not connected until the first call is performed
             var client = new MdlpClient(credentials: new NonResidentCredentials
             {
                 ClientID = ClientID,
@@ -24,6 +25,7 @@ namespace MdlpApiClient.Tests
                 Password = UserPassword1
             });
 
+            // the next line authenticates, then it requests a document
             var md = client.GetDocumentMetadata(TestDocumentID);
             Assert.NotNull(md);
             Assert.AreEqual(TestDocumentID, md.DocumentID);

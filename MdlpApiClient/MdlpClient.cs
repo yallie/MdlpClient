@@ -25,7 +25,7 @@
             }
 
             Client = new RestClient(BaseUrl);
-            Client.Authenticator = new CredentialsAuthenticator(BaseUrl, credentials);
+            Client.Authenticator = new CredentialsAuthenticator(this, credentials);
             Client.ThrowOnAnyError = true;
         }
 
@@ -33,10 +33,26 @@
 
         private IRestClient Client { get; }
 
-        public T Get<T>(string url) where T : class, new()
+        public T Get<T>(string url)
+            where T : class, new()
         {
             var request = new RestRequest(BaseUrl + url, DataFormat.Json);
             var response = Client.Get<T>(request);
+            if (!response.IsSuccessful)
+            {
+                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+            }
+
+            return response.Data;
+        }
+
+        public T Post<T>(string url, object body)
+            where T : class, new()
+        {
+            var request = new RestRequest(BaseUrl + url, DataFormat.Json);
+            request.AddJsonBody(body);
+
+            var response = Client.Post<T>(request);
             if (!response.IsSuccessful)
             {
                 throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);

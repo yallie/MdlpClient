@@ -20,9 +20,8 @@
         /// <summary>
         /// Performs authentication, returns access token with a limited lifetime.
         /// </summary>
-        /// <param name="baseUrl">Base URL of the API endpoint.</param>
-        /// <param name="restClient">REST client to perform API calls.</param>
+        /// <param name="apiClient">MDLP client to perform API calls.</param>
         /// <returns><see cref="MdlpAuthToken"/> instance.</returns>
-        public abstract MdlpAuthToken Authenticate(string baseUrl, IRestClient restClient);
+        public abstract MdlpAuthToken Authenticate(MdlpClient restClient);
     }
 }

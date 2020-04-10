@@ -1,7 +1,5 @@
 ﻿namespace MdlpApiClient
 {
-    using RestSharp;
-
     /// <summary>
     /// Resident credentials. Uses GOST cryptocertificate with a private key.
     /// </summary>
@@ -13,7 +11,7 @@
         public string UserID { get; set; }
 
         /// </inheritdoc>
-        public override MdlpAuthToken Authenticate(string baseUrl, IRestClient restClient)
+        public override MdlpAuthToken Authenticate(MdlpClient apiClient)
         {
             return new MdlpAuthToken
             {

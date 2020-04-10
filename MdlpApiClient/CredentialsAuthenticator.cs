@@ -8,13 +8,13 @@
     /// </summary>
     internal class CredentialsAuthenticator : IAuthenticator
     {
-        public CredentialsAuthenticator(string baseUrl, CredentialsBase credentials)
+        public CredentialsAuthenticator(MdlpClient apiClient, CredentialsBase credentials)
         {
-            BaseUrl = baseUrl;
+            Client = apiClient;
             Credentials = credentials;
         }
 
-        private string BaseUrl { get; set; }
+        private MdlpClient Client { get; set; }
 
         private CredentialsBase Credentials { get; set; }
 
@@ -38,7 +38,7 @@
             if (State == AuthState.NotAuthenticated)
             {
                 State = AuthState.InProgress;
-                AuthToken = Credentials.Authenticate(BaseUrl, client);
+                AuthToken = Credentials.Authenticate(Client);
                 SetAuthToken(AuthToken.Token);
                 State = AuthState.Authenticated;
             }

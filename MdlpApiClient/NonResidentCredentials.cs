@@ -1,7 +1,5 @@
 ﻿namespace MdlpApiClient
 {
-    using RestSharp;
-
     /// <summary>
     /// Non-resident user credentials (password-based authentication).
     /// </summary>
@@ -18,12 +16,10 @@
         public string Password { get; set; }
 
         /// </inheritdoc>
-        public override MdlpAuthToken Authenticate(string baseUrl, IRestClient restClient)
+        public override MdlpAuthToken Authenticate(MdlpClient apiClient)
         {
             // get authentication code
-            var url = baseUrl + "auth";
-            var request = new RestRequest(url, DataFormat.Json);
-            request.AddJsonBody(new
+            var authResponse = apiClient.Post<MdlpAuthResponse>("auth", new
             {
                 client_id = ClientID,
                 client_secret = ClientSecret,
@@ -31,20 +27,12 @@
                 auth_type = "PASSWORD",
             });
 
-            var authResponse = restClient.Post<MdlpAuthResponse>(request);
-            var authCode = authResponse.Data.Code;
-
             // get authentication token
-            url = baseUrl + "token";
-            request = new RestRequest(url, DataFormat.Json);
-            request.AddJsonBody(new
+            return apiClient.Post<MdlpAuthToken>("token", new
             {
-                code = authCode,
+                code = authResponse.Code,
                 password = Password,
             });
-
-            var tokenResponse = restClient.Post<MdlpAuthToken>(request);
-            return tokenResponse.Data;
         }
     }
 }
