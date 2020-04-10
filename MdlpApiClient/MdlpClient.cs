@@ -26,17 +26,26 @@
 
             Client = new RestClient(BaseUrl);
             Client.Authenticator = new CredentialsAuthenticator(BaseUrl, credentials);
+            Client.ThrowOnAnyError = true;
         }
 
         public string BaseUrl { get; }
 
         private IRestClient Client { get; }
 
-        public MdlpDocumentMetadata GetDocumentMetadata(string documentId)
+        public T Get<T>(string url) where T : class, new()
         {
-            var url = BaseUrl + "documents/" + documentId;
-            var request = new RestRequest(url, DataFormat.Json);
-            return Client.Get<MdlpDocumentMetadata>(request).Data;
+            var request = new RestRequest(BaseUrl + url, DataFormat.Json);
+            var response = Client.Get<T>(request);
+            if (!response.IsSuccessful)
+            {
+                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+            }
+
+            return response.Data;
         }
+
+        public MdlpDocumentMetadata GetDocumentMetadata(string documentId) =>
+            Get<MdlpDocumentMetadata>("documents/" + documentId);
     }
 }
