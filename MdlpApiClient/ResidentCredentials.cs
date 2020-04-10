@@ -1,7 +1,7 @@
-﻿using System.Security;
-
-namespace MdlpApiClient
+﻿namespace MdlpApiClient
 {
+    using System.Security;
+
     /// <summary>
     /// Resident credentials. Uses GOST cryptocertificate with a private key.
     /// </summary>

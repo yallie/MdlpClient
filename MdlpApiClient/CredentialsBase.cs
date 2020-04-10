@@ -1,7 +1,5 @@
 ﻿namespace MdlpApiClient
 {
-    using RestSharp;
-
     /// <summary>
     /// MDLP REST API credentials base class.
     /// </summary>
