@@ -1,10 +1,10 @@
-﻿namespace MdlpApiClient
+﻿namespace MdlpApiClient.DataContracts
 {
     using System;
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class MdlpDocumentMetadata
+    public class DocumentMetadata
     {
         [DataMember(Name = "request_id")]
         public string RequestID { get; set; } // "996f487c-d902-4dbd-b99f-76aef2d904dc",

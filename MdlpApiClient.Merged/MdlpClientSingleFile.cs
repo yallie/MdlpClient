@@ -1,6 +1,7 @@
 ﻿// This is an auto-generated file.
 namespace MdlpApiClient
 {
+    using DataContracts;
     using RestSharp;
     using RestSharp.Authenticators;
 
@@ -27,7 +28,7 @@ namespace MdlpApiClient
             NotAuthenticated, InProgress, Authenticated
         }
 
-        private MdlpAuthToken AuthToken { get; set; }
+        private AuthToken AuthToken { get; set; }
 
         private string AuthHeader { get; set; }
 
@@ -59,6 +60,8 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using DataContracts;
+
     /// <summary>
     /// MDLP REST API credentials base class.
     /// </summary>
@@ -78,8 +81,97 @@ namespace MdlpApiClient
         /// Performs authentication, returns access token with a limited lifetime.
         /// </summary>
         /// <param name="apiClient">MDLP client to perform API calls.</param>
-        /// <returns><see cref="MdlpAuthToken"/> instance.</returns>
-        public abstract MdlpAuthToken Authenticate(MdlpClient restClient);
+        /// <returns><see cref="AuthToken"/> instance.</returns>
+        public abstract AuthToken Authenticate(MdlpClient restClient);
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    internal class AuthResponse
+    {
+        [DataMember(Name = "code")]
+        public string Code { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// MDLP REST API authentication token.
+    /// </summary>
+    [DataContract]
+    public class AuthToken
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthToken"/>.
+        /// </summary>
+        public AuthToken()
+        {
+            // make sure we don't expire prematurely
+            CreationDate = DateTime.Now.AddSeconds(-30);
+        }
+
+        [IgnoreDataMember]
+        public DateTime CreationDate { get; private set; }
+
+        [IgnoreDataMember]
+        public DateTime ExpirationDate
+        {
+            get { return CreationDate.AddMinutes(LifeTime); }
+        }
+
+        [DataMember(Name = "token")]
+        public string Token { get; set; }
+
+        [DataMember(Name = "life_time")]
+        public int LifeTime { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    public class DocumentMetadata
+    {
+        [DataMember(Name = "request_id")]
+        public string RequestID { get; set; } // "996f487c-d902-4dbd-b99f-76aef2d904dc",
+
+        [DataMember(Name = "document_id")]
+        public string DocumentID { get; set; } // "6e491238-d4a9-495b-8d37-45181916c846",
+
+        [DataMember(Name = "date")]
+        public DateTime Date { get; set; } // "2017-11-23 05:48:15",
+
+        [DataMember(Name = "sender")]
+        public string SenderID { get; set; } // "935ba7bc-b022-11e7-abc4-cec278b6b50a",
+
+        [DataMember(Name = "sys_id")]
+        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
+
+        [DataMember(Name = "doc_type")]
+        public int DocType { get; set; } // 0,
+
+        [DataMember(Name = "doc_status")]
+        public string DocStatus { get; set; } // "PROCESSED_DOCUMENT",
+
+        [DataMember(Name = "device_id")]
+        public string DeviceID { get; set; } // 1230000011111111 (optional)
+
+        [DataMember(Name = "skzkm_origin_msg_id")]
+        public string SkzkmOriginMessageID { get; set; } // "e2cb20c1-1d5b-4ab6-b8dd-9297bec23f63" (optional)
+
+        [DataMember(Name = "version")]
+        public string Version { get; set; } // API version: "1.28"
     }
 }
 
@@ -176,56 +268,8 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
-    using System.Runtime.Serialization;
-
-    [DataContract]
-    internal class MdlpAuthResponse
-    {
-        [DataMember(Name = "code")]
-        public string Code { get; set; }
-    }
-}
-
-namespace MdlpApiClient
-{
     using System;
-    using System.Runtime.Serialization;
-
-    /// <summary>
-    /// MDLP REST API authentication token.
-    /// </summary>
-    [DataContract]
-    public class MdlpAuthToken
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MdlpAuthToken"/>.
-        /// </summary>
-        public MdlpAuthToken()
-        {
-            // make sure we don't expire prematurely
-            CreationDate = DateTime.Now.AddSeconds(-30);
-        }
-
-        [IgnoreDataMember]
-        public DateTime CreationDate { get; private set; }
-
-        [IgnoreDataMember]
-        public DateTime ExpirationDate
-        {
-            get { return CreationDate.AddMinutes(LifeTime); }
-        }
-
-        [DataMember(Name = "token")]
-        public string Token { get; set; }
-
-        [DataMember(Name = "life_time")]
-        public int LifeTime { get; set; }
-    }
-}
-
-namespace MdlpApiClient
-{
-    using System;
+    using DataContracts;
     using RestSharp;
 
     /// <summary>
@@ -288,50 +332,10 @@ namespace MdlpApiClient
             return response.Data;
         }
 
-        public MdlpDocumentMetadata GetDocumentMetadata(string documentId)
+        public DocumentMetadata GetDocumentMetadata(string documentId)
         {
-            return Get<MdlpDocumentMetadata>("documents/" + documentId);
+            return Get<DocumentMetadata>("documents/" + documentId);
         }
-    }
-}
-
-namespace MdlpApiClient
-{
-    using System;
-    using System.Runtime.Serialization;
-
-    [DataContract]
-    public class MdlpDocumentMetadata
-    {
-        [DataMember(Name = "request_id")]
-        public string RequestID { get; set; } // "996f487c-d902-4dbd-b99f-76aef2d904dc",
-
-        [DataMember(Name = "document_id")]
-        public string DocumentID { get; set; } // "6e491238-d4a9-495b-8d37-45181916c846",
-
-        [DataMember(Name = "date")]
-        public DateTime Date { get; set; } // "2017-11-23 05:48:15",
-
-        [DataMember(Name = "sender")]
-        public string SenderID { get; set; } // "935ba7bc-b022-11e7-abc4-cec278b6b50a",
-
-        [DataMember(Name = "sys_id")]
-        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
-
-        [DataMember(Name = "doc_type")]
-        public int DocType { get; set; } // 0,
-
-        [DataMember(Name = "doc_status")]
-        public string DocStatus { get; set; } // "PROCESSED_DOCUMENT",
-
-        [DataMember(Name = "device_id")]
-        public string DeviceID { get; set; } // 1230000011111111 (optional)
-
-        [DataMember(Name = "skzkm_origin_msg_id")]
-        public string SkzkmOriginMessageID { get; set; } // "e2cb20c1-1d5b-4ab6-b8dd-9297bec23f63" (optional)
-
-        [DataMember(Name = "version")]
-        public string Version { get; set; } // API version: "1.28"
     }
 }
 
@@ -368,6 +372,8 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using DataContracts;
+
     /// <summary>
     /// Non-resident user credentials (password-based authentication).
     /// </summary>
@@ -384,10 +390,10 @@ namespace MdlpApiClient
         public string Password { get; set; }
 
         /// </inheritdoc>
-        public override MdlpAuthToken Authenticate(MdlpClient apiClient)
+        public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // get authentication code
-            var authResponse = apiClient.Post<MdlpAuthResponse>("auth", new
+            var authResponse = apiClient.Post<AuthResponse>("auth", new
             {
                 client_id = ClientID,
                 client_secret = ClientSecret,
@@ -396,7 +402,7 @@ namespace MdlpApiClient
             });
 
             // get authentication token
-            return apiClient.Post<MdlpAuthToken>("token", new
+            return apiClient.Post<AuthToken>("token", new
             {
                 code = authResponse.Code,
                 password = Password,
@@ -408,6 +414,7 @@ namespace MdlpApiClient
 namespace MdlpApiClient
 {
     using System.Security;
+    using DataContracts;
 
     /// <summary>
     /// Resident credentials. Uses GOST cryptocertificate with a private key.
@@ -420,7 +427,7 @@ namespace MdlpApiClient
         public string UserID { get; set; }
 
         /// </inheritdoc>
-        public override MdlpAuthToken Authenticate(MdlpClient apiClient)
+        public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // load the certificate with a private key by userId
             var certificate = GostCryptoHelpers.FindCertificate(UserID);
@@ -432,7 +439,7 @@ namespace MdlpApiClient
             }
 
             // get authentication code
-            var authResponse = apiClient.Post<MdlpAuthResponse>("auth", new
+            var authResponse = apiClient.Post<AuthResponse>("auth", new
             {
                 client_id = ClientID,
                 client_secret = ClientSecret,
@@ -441,7 +448,7 @@ namespace MdlpApiClient
             });
 
             // get authentication token
-            return apiClient.Post<MdlpAuthToken>("token", new
+            return apiClient.Post<AuthToken>("token", new
             {
                 code = authResponse.Code,
                 signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authResponse.Code),

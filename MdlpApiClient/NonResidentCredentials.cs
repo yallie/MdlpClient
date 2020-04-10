@@ -1,5 +1,7 @@
 ﻿namespace MdlpApiClient
 {
+    using DataContracts;
+
     /// <summary>
     /// Non-resident user credentials (password-based authentication).
     /// </summary>
@@ -16,10 +18,10 @@
         public string Password { get; set; }
 
         /// </inheritdoc>
-        public override MdlpAuthToken Authenticate(MdlpClient apiClient)
+        public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // get authentication code
-            var authResponse = apiClient.Post<MdlpAuthResponse>("auth", new
+            var authResponse = apiClient.Post<AuthResponse>("auth", new
             {
                 client_id = ClientID,
                 client_secret = ClientSecret,
@@ -28,7 +30,7 @@
             });
 
             // get authentication token
-            return apiClient.Post<MdlpAuthToken>("token", new
+            return apiClient.Post<AuthToken>("token", new
             {
                 code = authResponse.Code,
                 password = Password,

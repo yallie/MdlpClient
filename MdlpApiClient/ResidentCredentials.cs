@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using System.Security;
+    using DataContracts;
 
     /// <summary>
     /// Resident credentials. Uses GOST cryptocertificate with a private key.
@@ -13,7 +14,7 @@
         public string UserID { get; set; }
 
         /// </inheritdoc>
-        public override MdlpAuthToken Authenticate(MdlpClient apiClient)
+        public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // load the certificate with a private key by userId
             var certificate = GostCryptoHelpers.FindCertificate(UserID);
@@ -25,7 +26,7 @@
             }
 
             // get authentication code
-            var authResponse = apiClient.Post<MdlpAuthResponse>("auth", new
+            var authResponse = apiClient.Post<AuthResponse>("auth", new
             {
                 client_id = ClientID,
                 client_secret = ClientSecret,
@@ -34,7 +35,7 @@
             });
 
             // get authentication token
-            return apiClient.Post<MdlpAuthToken>("token", new
+            return apiClient.Post<AuthToken>("token", new
             {
                 code = authResponse.Code,
                 signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authResponse.Code),

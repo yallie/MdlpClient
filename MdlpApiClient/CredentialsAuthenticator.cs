@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient
 {
+    using DataContracts;
     using RestSharp;
     using RestSharp.Authenticators;
 
@@ -26,7 +27,7 @@
             NotAuthenticated, InProgress, Authenticated
         }
 
-        private MdlpAuthToken AuthToken { get; set; }
+        private AuthToken AuthToken { get; set; }
 
         private string AuthHeader { get; set; }
 

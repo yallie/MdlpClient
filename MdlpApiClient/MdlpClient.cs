@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using System;
+    using DataContracts;
     using RestSharp;
 
     /// <summary>
@@ -63,9 +64,9 @@
             return response.Data;
         }
 
-        public MdlpDocumentMetadata GetDocumentMetadata(string documentId)
+        public DocumentMetadata GetDocumentMetadata(string documentId)
         {
-            return Get<MdlpDocumentMetadata>("documents/" + documentId);
+            return Get<DocumentMetadata>("documents/" + documentId);
         }
     }
 }
