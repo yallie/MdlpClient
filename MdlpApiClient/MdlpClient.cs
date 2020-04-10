@@ -24,9 +24,11 @@
                 BaseUrl += "/";
             }
 
-            Client = new RestClient(BaseUrl);
-            Client.Authenticator = new CredentialsAuthenticator(this, credentials);
-            Client.ThrowOnAnyError = true;
+            Client = new RestClient(BaseUrl)
+            {
+                Authenticator = new CredentialsAuthenticator(this, credentials),
+                ThrowOnAnyError = true
+            };
         }
 
         public string BaseUrl { get; private set; }

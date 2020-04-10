@@ -1,4 +1,6 @@
-﻿namespace MdlpApiClient
+﻿using System.Security;
+
+namespace MdlpApiClient
 {
     /// <summary>
     /// Resident credentials. Uses GOST cryptocertificate with a private key.
@@ -13,11 +15,30 @@
         /// </inheritdoc>
         public override MdlpAuthToken Authenticate(MdlpClient apiClient)
         {
-            return new MdlpAuthToken
+            // load the certificate with a private key by userId
+            var certificate = GostCryptoHelpers.FindCertificate(UserID);
+            if (certificate == null)
             {
-                Token = "Hello",
-                LifeTime = 10,
-            };
+                throw new SecurityException("GOST-compliant certificate not found. " +
+                    "Make sure that the certificate is properly installed and has the associated private key. " +
+                    "Thumbprint or subject name: " + UserID);
+            }
+
+            // get authentication code
+            var authResponse = apiClient.Post<MdlpAuthResponse>("auth", new
+            {
+                client_id = ClientID,
+                client_secret = ClientSecret,
+                user_id = UserID,
+                auth_type = "SIGNED_CODE",
+            });
+
+            // get authentication token
+            return apiClient.Post<MdlpAuthToken>("token", new
+            {
+                code = authResponse.Code,
+                signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authResponse.Code),
+            });
         }
     }
 }

@@ -3,16 +3,8 @@ namespace MdlpApiClient.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class AuthenticationTests
+    public class AuthenticationTests : UnitTestsBase
     {
-        private const string ClientID = "01db16f2-9a4e-4d9f-b5e8-c68f12566fd5";
-        private const string ClientSecret = "9199fe04-42c3-4e81-83b5-120eb5f129f2";
-        private const string UserStarter1 = "starter_resident_1";
-        private const string UserPassword1 = "password";
-        private const string UserStarter2 = "starter_resident_2";
-        private const string UserPassword2 = "password";
-        private const string TestDocumentID = "60786bb4-fcb5-4587-b703-d0147e3f9d1c";
-
         [Test]
         public void AuthenticateNonResident1()
         {
@@ -42,13 +34,29 @@ namespace MdlpApiClient.Tests
                 Password = UserPassword2
             });
 
-            // the document is forbidden for the second user
+            // the second user doesn't seem to have the DOWNLOAD_DOCUMENT permission
             Assert.Throws<MdlpException>(() =>
             {
                 var md = client.GetDocumentMetadata(TestDocumentID);
                 Assert.NotNull(md);
                 Assert.AreEqual(TestDocumentID, md.DocumentID);
             });
+        }
+
+        [Test]
+        public void AuthenticateResident()
+        {
+            var client = new MdlpClient(credentials: new ResidentCredentials
+            {
+                ClientID = ClientID,
+                ClientSecret = ClientSecret,
+                UserID = TestUserID,
+            });
+
+            // the document is available to the test user
+            var md = client.GetDocumentMetadata(TestDocumentID);
+            Assert.NotNull(md);
+            Assert.AreEqual(TestDocumentID, md.DocumentID);
         }
     }
 }
