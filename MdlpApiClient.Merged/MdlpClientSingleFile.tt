@@ -15,7 +15,6 @@
  ***************************************************************************************************/
 
   var projectName = "MdlpApiClient";
-  var rootNamespace = "Ultima.Scripting";
 
   var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
   var project = visualStudio.Solution.Projects.OfType<EnvDTE.Project>().FirstOrDefault(p => p.Name == projectName);
@@ -24,19 +23,14 @@
     return "";
   }
 
-  string root = Host.ResolvePath("../" + projectName);
   var projectItems = GetProjectItemsRecursively(project.ProjectItems);
+
+  foreach (var item in projectItems.Where(i => i.EndsWith(".cs")).OrderBy(i => i))
+  {
+     var text = File.ReadAllText(item).Trim();
+     WriteLine(text + Environment.NewLine);
+  }
 #>
-namespace <#= rootNamespace #>
-{
-<#
-	foreach (var item in projectItems.Where(i => i.EndsWith(".cs")).OrderBy(i => i))
-	{
-		var text = File.ReadAllText(item).Trim();
-		WriteLine(text + Environment.NewLine);
-	}
-#>
-}
 <#+
 	public List<string> GetProjectItemsRecursively(EnvDTE.ProjectItems items)
 	{

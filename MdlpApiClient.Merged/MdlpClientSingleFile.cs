@@ -1,6 +1,4 @@
 ﻿// This is an auto-generated file.
-namespace Ultima.Scripting
-{
 namespace MdlpApiClient
 {
     using RestSharp;
@@ -452,4 +450,3 @@ namespace MdlpApiClient
     }
 }
 
-}
