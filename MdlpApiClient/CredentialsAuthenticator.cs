@@ -10,6 +10,7 @@
     {
         public CredentialsAuthenticator(MdlpClient apiClient, CredentialsBase credentials)
         {
+            State = AuthState.NotAuthenticated;
             Client = apiClient;
             Credentials = credentials;
         }
@@ -18,19 +19,22 @@
 
         private CredentialsBase Credentials { get; set; }
 
+        private AuthState State { get; set; }
+
         private enum AuthState
         {
             NotAuthenticated, InProgress, Authenticated
         }
 
-        private AuthState State { get; set; } = AuthState.NotAuthenticated;
-
         private MdlpAuthToken AuthToken { get; set; }
 
         private string AuthHeader { get; set; }
 
-        public void SetAuthToken(string authToken) =>
-            AuthHeader = string.IsNullOrWhiteSpace(authToken) ? null : $"token {authToken}";
+        public void SetAuthToken(string authToken)
+        {
+            AuthHeader = string.IsNullOrWhiteSpace(authToken) ?
+                null : "token " + authToken;
+        }
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {

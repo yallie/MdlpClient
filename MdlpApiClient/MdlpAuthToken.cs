@@ -19,10 +19,13 @@
         }
 
         [IgnoreDataMember]
-        public DateTime CreationDate { get; }
+        public DateTime CreationDate { get; private set; }
 
         [IgnoreDataMember]
-        public DateTime ExpirationDate => CreationDate.AddMinutes(LifeTime);
+        public DateTime ExpirationDate
+        {
+            get { return CreationDate.AddMinutes(LifeTime); }
+        }
 
         [DataMember(Name = "token")]
         public string Token { get; set; }

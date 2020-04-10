@@ -15,7 +15,7 @@
 
         protected MdlpException(SerializationInfo info, StreamingContext context)
         {
-            Code = (HttpStatusCode)info.GetInt32(nameof(Code));
+            Code = (HttpStatusCode)info.GetInt32("Code");
         }
 
         public HttpStatusCode Code { get; set; }
@@ -24,7 +24,7 @@
         {
             base.GetObjectData(info, context);
 
-            info.AddValue(nameof(Code), (int)Code);
+            info.AddValue("Code", (int)Code);
         }
     }
 }

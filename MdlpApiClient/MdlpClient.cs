@@ -29,9 +29,9 @@
             Client.ThrowOnAnyError = true;
         }
 
-        public string BaseUrl { get; }
+        public string BaseUrl { get; private set; }
 
-        private IRestClient Client { get; }
+        private IRestClient Client { get; set; }
 
         public T Get<T>(string url)
             where T : class, new()
@@ -61,7 +61,9 @@
             return response.Data;
         }
 
-        public MdlpDocumentMetadata GetDocumentMetadata(string documentId) =>
-            Get<MdlpDocumentMetadata>("documents/" + documentId);
+        public MdlpDocumentMetadata GetDocumentMetadata(string documentId)
+        {
+            return Get<MdlpDocumentMetadata>("documents/" + documentId);
+        }
     }
 }

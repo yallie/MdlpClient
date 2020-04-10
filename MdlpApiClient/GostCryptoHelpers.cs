@@ -13,7 +13,7 @@
         /// For the unit tests, set this to the StoreLocation.CurrentUser.
         /// For the production code, keep it set to the StoreLocation.LocalMachine.
         /// </summary>
-        public static StoreLocation DefaultStoreLocation { get; set; } = StoreLocation.LocalMachine;
+        public static StoreLocation DefaultStoreLocation = StoreLocation.LocalMachine;
 
         /// <summary>
         /// Checks if GOST cryptoprovider CryptoPro is installed.
