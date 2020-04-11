@@ -23,7 +23,7 @@
         [Test]
         public void FormatBodyTest()
         {
-            Assert.AreEqual(string.Empty, MdlpClient.FormatBody(null));
+            Assert.AreEqual(string.Empty, MdlpClient.FormatBody(null as string));
             Assert.AreEqual(string.Empty, MdlpClient.FormatBody(new RequestBody(string.Empty, string.Empty, null)));
             Assert.AreEqual("body: Hello!" + CR, MdlpClient.FormatBody(new RequestBody("Text/plain", string.Empty, "Hello!")));
             Assert.AreEqual(@"body: {

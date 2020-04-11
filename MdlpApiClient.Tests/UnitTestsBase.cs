@@ -8,10 +8,12 @@
     public class UnitTestsBase
     {
         // MDLP test stage data
-        public const string ClientID = "01db16f2-9a4e-4d9f-b5e8-c68f12566fd5";
-        public const string ClientSecret = "9199fe04-42c3-4e81-83b5-120eb5f129f2";
+        public const string ClientID1 = "01db16f2-9a4e-4d9f-b5e8-c68f12566fd5";
+        public const string ClientSecret1 = "9199fe04-42c3-4e81-83b5-120eb5f129f2";
         public const string UserStarter1 = "starter_resident_1";
         public const string UserPassword1 = "password";
+        public const string ClientID2 = "c9c307fd-dcb0-4505-8178-13ba2f362339";
+        public const string ClientSecret2 = "4d3a2f91-992f-4604-a8a1-71378a1eb75e";
         public const string UserStarter2 = "starter_resident_2";
         public const string UserPassword2 = "password";
         public const string TestDocumentID = "60786bb4-fcb5-4587-b703-d0147e3f9d1c";

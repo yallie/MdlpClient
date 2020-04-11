@@ -36,6 +36,16 @@
             CR + "}" + CR;
         }
 
+        public static string FormatBody(string content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                return string.Empty;
+            }
+
+            return "body: " + JsonFormatter.FormatJson(content) + CR;
+        }
+
         public static string FormatBody(RequestBody body)
         {
             if (IsEmpty(body))
@@ -99,18 +109,23 @@
             var tracer = Tracer;
             if (tracer != null)
             {
-                var resp = new
+                var result = response.IsSuccessful ? "OK" : "ERROR";
+                var headerList = response.Headers.Select(p => Tuple.Create(p.Name, p.Value));
+                var headers = FormatHeaders(headerList);
+                var body = FormatBody(response.Content);
+                var errorMessage = string.IsNullOrWhiteSpace(response.ErrorMessage) ? string.Empty :
+                    "error message: " + response.ErrorMessage + CR;
+
+                tracer("<- {0} {1} ({2}) {3}{4}{5}{6}{7}", new object[]
                 {
-                    statusCode = response.StatusCode,
-                    content = response.Content,
-                    headers = response.Headers,
-
-                    // The Uri that actually responded (could be different from the requestUri if a redirection occurred)
-                    responseUri = response.ResponseUri,
-                    errorMessage = response.ErrorMessage,
-                };
-
-                tracer("<- {0}", new[] { Json.Serialize(resp) });
+                    result,
+                    (int)response.StatusCode,
+                    response.StatusCode.ToString(),
+                    response.ResponseUri, CR,
+                    errorMessage,
+                    headers,
+                    body,
+                });
             }
         }
     }
