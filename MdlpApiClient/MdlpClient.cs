@@ -1,7 +1,5 @@
 ﻿namespace MdlpApiClient
 {
-    using System;
-    using DataContracts;
     using RestSharp;
 
     /// <summary>
@@ -36,7 +34,12 @@
 
         private IRestClient Client { get; set; }
 
-        public T Execute<T>(IRestRequest request)
+        /// <summary>
+        /// Executes the given request and checks the result.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="request">The request to execute.</param>
+        internal T Execute<T>(IRestRequest request)
             where T : class, new()
         {
             Trace(request);
@@ -51,6 +54,11 @@
             return response.Data;
         }
 
+        /// <summary>
+        /// Performs GET request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
         public T Get<T>(string url)
             where T : class, new()
         {
@@ -58,34 +66,17 @@
             return Execute<T>(request);
         }
 
+        /// <summary>
+        /// Performs POST request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
         public T Post<T>(string url, object body)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
-
             return Execute<T>(request);
-        }
-
-        public DocumentMetadata GetDocumentMetadata(string documentId)
-        {
-            return Get<DocumentMetadata>("documents/" + documentId);
-        }
-
-        public string RegisterResidentUser(string sysId, string publicCertificate,
-            string firstName, string lastName, string middleName, string email)
-        {
-            var user = Post<RegisterResidentUserResponse>("registration/user_resident", new
-            {
-                sys_id = sysId,
-                public_cert = publicCertificate,
-                first_name = firstName,
-                last_name = lastName,
-                middle_name = middleName,
-                email = email
-            });
-
-            return user.UserID;
         }
     }
 }

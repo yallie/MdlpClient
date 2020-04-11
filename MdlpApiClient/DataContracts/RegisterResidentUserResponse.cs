@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-
-namespace MdlpApiClient.DataContracts
+﻿namespace MdlpApiClient.DataContracts
 {
+    using System.Runtime.Serialization;
+
     [DataContract]
     internal class RegisterResidentUserResponse
     {

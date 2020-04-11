@@ -175,6 +175,18 @@ namespace MdlpApiClient.DataContracts
     }
 }
 
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    internal class RegisterResidentUserResponse
+    {
+        [DataMember(Name = "user_id")]
+        public string UserID { get; set; }
+    }
+}
+
 namespace MdlpApiClient
 {
     using GostCryptography.Base;
@@ -268,14 +280,64 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
-    using System;
     using DataContracts;
+
+    /// <remarks>
+    /// This file contains strongly typed REST API methods.
+    /// </remarks>
+    partial class MdlpClient
+    {
+        /// <summary>
+        /// 5.9. Получение метаданных документа
+        /// </summary>
+        /// <param name="documentId">Идентификатор документа</param>
+        /// <returns>Метаданные документа</returns>
+        public DocumentMetadata GetDocumentMetadata(string documentId)
+        {
+            return Get<DocumentMetadata>("documents/" + documentId);
+        }
+
+        /// <summary>
+        /// 6.1.2. Метод для регистрации пользователей (для резидентов страны)
+        /// </summary>
+        /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>
+        /// <param name="publicCertificate">Публичный сертификат пользователя</param>
+        /// <param name="firstName">Имя пользователя</param>
+        /// <param name="lastName">Фамилия пользователя</param>
+        /// <param name="middleName">Отчество пользователя</param>
+        /// <param name="email">Электронная почта</param>
+        /// <param name="phone">Контактный телефон</param>
+        /// <param name="position">Должность</param>
+        /// <returns>Идентификатор пользователя</returns>
+        public string RegisterResidentUser(string sysId, string publicCertificate,
+            string firstName, string lastName, string middleName,
+            string email, string phone, string position)
+        {
+            var user = Post<RegisterResidentUserResponse>("registration/user_resident", new
+            {
+                sys_id = sysId,
+                public_cert = publicCertificate,
+                first_name = firstName,
+                last_name = lastName,
+                middle_name = middleName,
+                email = email,
+                phone = phone,
+                position = position,
+            });
+
+            return user.UserID;
+        }
+    }
+}
+
+namespace MdlpApiClient
+{
     using RestSharp;
 
     /// <summary>
     /// MDLP REST API client.
     /// </summary>
-    public class MdlpClient
+    public partial class MdlpClient
     {
         public const string StageApiUrl = "http://api.stage.mdlp.crpt.ru/api/v1/";
 
@@ -304,37 +366,125 @@ namespace MdlpApiClient
 
         private IRestClient Client { get; set; }
 
+        /// <summary>
+        /// Executes the given request and checks the result.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="request">The request to execute.</param>
+        internal T Execute<T>(IRestRequest request)
+            where T : class, new()
+        {
+            Trace(request);
+            var response = Client.Execute<T>(request);
+            Trace(response);
+
+            if (!response.IsSuccessful)
+            {
+                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+            }
+
+            return response.Data;
+        }
+
+        /// <summary>
+        /// Performs GET request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
         public T Get<T>(string url)
             where T : class, new()
         {
-            var request = new RestRequest(BaseUrl + url, DataFormat.Json);
-            var response = Client.Get<T>(request);
-            if (!response.IsSuccessful)
-            {
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
-
-            return response.Data;
+            var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            return Execute<T>(request);
         }
 
+        /// <summary>
+        /// Performs POST request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
         public T Post<T>(string url, object body)
             where T : class, new()
         {
-            var request = new RestRequest(BaseUrl + url, DataFormat.Json);
+            var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
+            return Execute<T>(request);
+        }
+    }
+}
 
-            var response = Client.Post<T>(request);
-            if (!response.IsSuccessful)
+namespace MdlpApiClient
+{
+    using RestSharp;
+    using RestSharp.Serialization.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    partial class MdlpClient
+    {
+        public Action<string, object[]> Tracer { get; set; }
+
+        private void Trace(string format, params object[] arguments)
+        {
+            var tracer = Tracer;
+            if (tracer != null)
             {
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+                tracer(format, arguments);
             }
-
-            return response.Data;
         }
 
-        public DocumentMetadata GetDocumentMetadata(string documentId)
+        private JsonSerializer Json = new JsonSerializer();
+
+        private void Trace(IRestRequest request)
         {
-            return Get<DocumentMetadata>("documents/" + documentId);
+            var tracer = Tracer;
+            if (tracer != null)
+            {
+                var req = new
+                {
+                    resource = request.Resource,
+
+                    // Parameters are custom anonymous objects in order to have the parameter type as a nice string
+                    // otherwise it will just show the enum value
+                    parameters = request.Parameters.Select(parameter => new
+                    {
+                        name = parameter.Name,
+                        value = parameter.Value,
+                        type = parameter.Type.ToString()
+                    }),
+
+                    // ToString() here to have the method as a nice string otherwise it will just show the enum value
+                    method = request.Method.ToString(),
+
+                    // This will generate the actual Uri used in the request
+                    uri = Client.BuildUri(request),
+                };
+
+                tracer("-> {0}", new[] { Json.Serialize(req) });
+            }
+        }
+
+        private void Trace(IRestResponse response)
+        {
+            var tracer = Tracer;
+            if (tracer != null)
+            {
+                var resp = new
+                {
+                    statusCode = response.StatusCode,
+                    content = response.Content,
+                    headers = response.Headers,
+
+                    // The Uri that actually responded (could be different from the requestUri if a redirection occurred)
+                    responseUri = response.ResponseUri,
+                    errorMessage = response.ErrorMessage,
+                };
+
+                tracer("<- {0}", new[] { Json.Serialize(resp) });
+            }
         }
     }
 }
