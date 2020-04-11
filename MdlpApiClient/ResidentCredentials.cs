@@ -2,6 +2,7 @@
 {
     using System.Security;
     using DataContracts;
+    using MdlpApiClient.Toolbox;
 
     /// <summary>
     /// Resident credentials. Uses GOST cryptocertificate with a private key.

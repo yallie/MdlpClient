@@ -1,4 +1,4 @@
-﻿namespace MdlpApiClient
+﻿namespace MdlpApiClient.Toolbox
 {
     using GostCryptography.Base;
     using GostCryptography.Pkcs;

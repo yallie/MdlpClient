@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient
 {
+    using System.Text;
     using RestSharp;
 
     /// <summary>
@@ -26,6 +27,7 @@
             Client = new RestClient(BaseUrl)
             {
                 Authenticator = new CredentialsAuthenticator(this, credentials),
+                Encoding = Encoding.UTF8,
                 ThrowOnAnyError = true
             };
         }
@@ -42,7 +44,7 @@
         internal T Execute<T>(IRestRequest request)
             where T : class, new()
         {
-            Trace(request);
+            // authenticator traces all outgoing requests
             var response = Client.Execute<T>(request);
             Trace(response);
 

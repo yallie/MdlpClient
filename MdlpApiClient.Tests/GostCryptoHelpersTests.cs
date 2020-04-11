@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient.Tests
 {
+    using MdlpApiClient.Toolbox;
     using NUnit.Framework;
     using System.Security.Cryptography.X509Certificates;
 

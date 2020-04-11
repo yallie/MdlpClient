@@ -2,6 +2,7 @@
 {
     using System.Security.Cryptography.X509Certificates;
     using NUnit.Framework;
+    using MdlpApiClient.Toolbox;
 
     [TestFixture]
     public class UnitTestsBase
