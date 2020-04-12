@@ -151,5 +151,14 @@
             var link = Get<GetDocumentResponse>("documents/" + documentId + "/ticket");
             return Get(link.Link);
         }
+
+        /// <summary>
+        /// 5.13. Получение электронной подписи исходящего документа
+        /// </summary>
+        /// <param name="requestId">Идентификатор документа</param>
+        public string GetSignature(string documentId)
+        {
+            return Get("documents/" + documentId + "/signature", accept: "text/plain");
+        }
     }
 }

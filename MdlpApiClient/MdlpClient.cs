@@ -12,14 +12,15 @@
     /// </summary>
     public partial class MdlpClient
     {
-        public const string StageApiUrl = "http://api.stage.mdlp.crpt.ru/api/v1/";
+        public const string StageApiHttp = "http://api.stage.mdlp.crpt.ru/api/v1/";
+        public const string StageApiHttps = "https://api.stage.mdlp.crpt.ru/api/v1/";
 
         /// <summary>
         /// Initializes a new instance of the MDLP REST API client.
         /// </summary>
         /// <param name="credentials">Credentials used for authentication.</param>
         /// <param name="baseUrl">Base URL of the API endpoint.</param>
-        public MdlpClient(CredentialsBase credentials, string baseUrl = StageApiUrl)
+        public MdlpClient(CredentialsBase credentials, string baseUrl = StageApiHttp)
         {
             // make sure BaseUrl ends with a slash
             BaseUrl = baseUrl ?? string.Empty;
@@ -182,10 +183,16 @@
         /// Performs GET request and returns a string.
         /// </summary>
         /// <param name="url">Resource url.</param>
+        /// <param name="accept">Override accept header.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public string Get(string url, [CallerMemberName] string apiMethodName = null)
+        public string Get(string url, string accept = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            if (!string.IsNullOrWhiteSpace(accept))
+            {
+                request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
+            }
+
             return ExecuteString(request, apiMethodName);
         }
 

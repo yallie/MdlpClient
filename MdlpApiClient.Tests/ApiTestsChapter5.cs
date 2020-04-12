@@ -156,5 +156,22 @@
             TestContext.Progress.WriteLine("Downloaded TicketID: {0}", TestTicketID);
             TestContext.Progress.WriteLine("{0}", XDocument.Parse(ticket).ToString());
         }
+
+        [Test]
+        public void GetSignature_5_13()
+        {
+            // GetSignature doesn't seem to work, always returns error 406
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var outDocId = "64037f8a-c816-4555-88ab-a00f74f7b222";
+                var signature = Client.GetSignature(outDocId);
+                Assert.IsNotNull(signature);
+
+                TestContext.Progress.WriteLine("Signature for DocumentID: {0}", outDocId);
+                TestContext.Progress.WriteLine("{0}", signature);
+            });
+
+            Assert.AreEqual(HttpStatusCode.NotAcceptable, ex.StatusCode); // 406
+        }
     }
 }
