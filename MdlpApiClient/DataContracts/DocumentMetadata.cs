@@ -3,6 +3,9 @@
     using System;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// 5.9. Получение метаданных документа
+    /// </summary>
     [DataContract]
     public class DocumentMetadata
     {

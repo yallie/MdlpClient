@@ -8,16 +8,6 @@
     partial class MdlpClient
     {
         /// <summary>
-        /// 5.9. Получение метаданных документа
-        /// </summary>
-        /// <param name="documentId">Идентификатор документа</param>
-        /// <returns>Метаданные документа</returns>
-        public DocumentMetadata GetDocumentMetadata(string documentId)
-        {
-            return Get<DocumentMetadata>("documents/" + documentId);
-        }
-
-        /// <summary>
         /// 6.1.2. Метод для регистрации пользователей (для резидентов страны)
         /// </summary>
         /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>

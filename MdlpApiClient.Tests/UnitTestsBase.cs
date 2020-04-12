@@ -28,5 +28,16 @@
             // for unit tests: use current user's certificates
             GostCryptoHelpers.DefaultStoreLocation = StoreLocation.CurrentUser;
         }
+
+        public UnitTestsBase()
+        {
+            TestContext.Progress.WriteLine("====> {0} <====", GetType().Name);
+        }
+
+        [SetUp]
+        public void SetupBeforeEachTest()
+        {
+            TestContext.Progress.WriteLine("------> {0} <------", TestContext.CurrentContext.Test.MethodName);
+        }
     }
 }
