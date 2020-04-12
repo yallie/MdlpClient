@@ -107,6 +107,32 @@
         }
 
         /// <summary>
+        /// Executes the given request and checks the result.
+        /// </summary>
+        /// <param name="request">The request to execute.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        internal void Execute(IRestRequest request, string apiMethodName)
+        {
+            if (!string.IsNullOrWhiteSpace(apiMethodName))
+            {
+                request.AddHeader(ApiMethodNameHeader, apiMethodName);
+            }
+
+            // trace requests and responses
+            if (Tracer != null)
+            {
+                request.OnBeforeRequest = http => Trace(http, request);
+                request.OnBeforeDeserialization = resp => Trace(resp);
+            }
+
+            var response = Client.Execute(request);
+            if (!response.IsSuccessful)
+            {
+                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+            }
+        }
+
+        /// <summary>
         /// Performs GET request.
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
@@ -124,6 +150,7 @@
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
+        /// <param name="body">Request body, to be serialized as JSON.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         public T Post<T>(string url, object body, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
@@ -131,6 +158,20 @@
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
             return Execute<T>(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs PUT request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
+        /// <param name="body">Request body, serialized as string.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public void Put(string url, string body, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.PUT, DataFormat.None);
+            request.AddParameter(string.Empty, body, ParameterType.RequestBody);
+            Execute(request, apiMethodName);
         }
     }
 }
