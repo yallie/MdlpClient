@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient.Tests
 {
     using System.Net;
+    using MdlpApiClient.DataContracts;
     using NUnit.Framework;
 
     [TestFixture]
@@ -78,6 +79,38 @@
             });
 
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+        }
+
+        [Test]
+        public void GetOutcomeDocuments_5_7()
+        {
+            var docs = Client.GetOutcomeDocuments(new DocFilter
+            {
+                DocType = 311,
+                DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
+            }, 
+            startFrom: 0, count: 10);
+
+            Assert.IsNotNull(docs);
+            Assert.IsNotNull(docs.Documents);
+            Assert.AreEqual(10, docs.Documents.Count);
+            Assert.IsTrue(docs.Total > 10);
+        }
+
+        [Test]
+        public void GetIncomeDocuments_5_8()
+        {
+            var docs = Client.GetIncomeDocuments(new DocFilter
+            {
+                DocType = 311,
+                DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
+            },
+            startFrom: 0, count: 10);
+
+            Assert.IsNotNull(docs);
+            Assert.IsNotNull(docs.Documents);
+            Assert.AreEqual(10, docs.Documents.Count);
+            Assert.IsTrue(docs.Total > 10);
         }
 
         [Test]

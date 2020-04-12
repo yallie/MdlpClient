@@ -18,13 +18,11 @@
         /// <returns>Идентификатор документа</returns>
         public string SendDocument(string xmlDocument)
         {
-            // 5.1
-            var requestId = Guid.NewGuid().ToString();
             var result = Post<SendDocumentResponse>("documents/send", new
             {
                 document = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlDocument)),
                 sign = ComputeSignature(xmlDocument),
-                request_id = requestId,
+                request_id = Guid.NewGuid().ToString(),
             });
 
             return result.DocumentID;
@@ -40,12 +38,11 @@
         public string SendLargeDocument(string xmlDocument)
         {
             // 5.2
-            var requestId = Guid.NewGuid().ToString();
             var link = Post<SendLargeDocumentResponse>("documents/send_large", new
             {
                 sign = ComputeSignature(xmlDocument),
                 hash_sum = xmlDocument.ComputeHash<SHA256>(),
-                request_id = requestId,
+                request_id = Guid.NewGuid().ToString(),
             });
 
             // 5.3
@@ -66,7 +63,6 @@
         /// <returns>Максимальный размер документа в байтах.</returns>
         public int GetLargeDocumentSize()
         {
-            // 5.5
             var result = Get<GetLargeDocumentSizeResponse>("documents/doc_size");
             return result.DocSize;
         }
@@ -82,6 +78,38 @@
             {
                 document_id = docId,
                 request_id = requestId,
+            });
+        }
+
+        /// <summary>
+        /// 5.7. Получение списка исходящих документов
+        /// </summary>
+        /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
+        /// <param name="count">Количество записей в списке возвращаемых документов</param>
+        public GetDocumentsResponse GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
+        {
+            return Post<GetDocumentsResponse>("documents/outcome", new
+            {
+                filter = filter,
+                start_from = startFrom,
+                count = count
+            });
+        }
+
+        /// <summary>
+        /// 5.8. Получение списка входящих документов
+        /// </summary>
+        /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
+        /// <param name="count">Количество записей в списке возвращаемых документов</param>
+        public GetDocumentsResponse GetIncomeDocuments(DocFilter filter, int startFrom, int count)
+        {
+            return Post<GetDocumentsResponse>("documents/income", new
+            {
+                filter = filter,
+                start_from = startFrom,
+                count = count
             });
         }
 
