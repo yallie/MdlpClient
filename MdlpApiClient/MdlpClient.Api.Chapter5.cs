@@ -141,5 +141,15 @@
         {
             return Get<GetDocumentsResponse>("documents/request/" + requestId);
         }
+
+        /// <summary>
+        /// 5.12. Получение квитанции по номеру исходящего документа
+        /// </summary>
+        /// <param name="requestId">Идентификатор документа</param>
+        public string GetTicket(string documentId)
+        {
+            var link = Get<GetDocumentResponse>("documents/" + documentId + "/ticket");
+            return Get(link.Link);
+        }
     }
 }

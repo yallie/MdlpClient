@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Net;
+    using System.Xml.Linq;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
 
@@ -144,6 +145,16 @@
             var doc = md.Documents.Single();
             Assert.AreEqual(TestDocumentID, doc.DocumentID);
             Assert.AreEqual(TestDocRequestID, doc.RequestID);
+        }
+
+        [Test]
+        public void GetTicket_5_12()
+        {
+            var ticket = Client.GetTicket(TestTicketID);
+            Assert.IsNotNull(ticket);
+
+            TestContext.Progress.WriteLine("Downloaded TicketID: {0}", TestTicketID);
+            TestContext.Progress.WriteLine("{0}", XDocument.Parse(ticket).ToString());
         }
     }
 }

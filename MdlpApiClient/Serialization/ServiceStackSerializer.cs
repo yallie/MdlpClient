@@ -6,7 +6,7 @@ namespace MdlpApiClient.Serialization
     using ServiceStack.Text;
 
     /// <summary>
-    /// ServiceStack.Text-based serializer.
+    /// ServiceStack.Text.v4.0.33-based serializer.
     /// </summary>
     internal class ServiceStackSerializer : IRestSerializer
     {
