@@ -9,6 +9,8 @@
 
     partial class MdlpClient
     {
+        private const string ApiMethodNameHeader = "X-ApiMethodName";
+
         public Action<string, object[]> Tracer { get; set; }
 
         private void Trace(string format, params object[] arguments)
@@ -85,7 +87,24 @@
             return headers;
         }
 
-        internal void Trace(IRestRequest request)
+        private IEnumerable<Tuple<string, object>> GetHeaders(IHttp http)
+        {
+            var headers =
+                from p in http.Headers
+                select Tuple.Create(p.Name, p.Value as object);
+
+            if (!string.IsNullOrWhiteSpace(http.RequestContentType))
+            {
+                headers = headers.Concat(new[]
+                {
+                    Tuple.Create("Content-type", http.RequestContentType as object)
+                });
+            }
+
+            return headers;
+        }
+
+        private void Trace(IRestRequest request)
         {
             var tracer = Tracer;
             if (tracer != null)
@@ -94,6 +113,33 @@
                 var uri = Client.BuildUri(request);
                 var body = FormatBody(request.Body);
                 var headers = FormatHeaders(GetHeaders(request));
+
+                tracer("-> {0} {1}{2}{3}{4}", new object[]
+                {
+                    method, uri, CR,
+                    headers,
+                    body,
+                });
+            }
+        }
+
+        private void Trace(IHttp http, IRestRequest request)
+        {
+            var tracer = Tracer;
+            if (tracer != null)
+            {
+                // trace API method name
+                var apiMethod = http.Headers.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiMethodNameHeader));
+                if (apiMethod != null && !string.IsNullOrWhiteSpace(apiMethod.Value))
+                {
+                    tracer("// {0}", new[] { apiMethod.Value });
+                }
+
+                // trace HTTP request internals
+                var method = request.Method.ToString();
+                var uri = http.Url;
+                var body = FormatBody(request.Body);
+                var headers = FormatHeaders(GetHeaders(http));
 
                 tracer("-> {0} {1}{2}{3}{4}", new object[]
                 {

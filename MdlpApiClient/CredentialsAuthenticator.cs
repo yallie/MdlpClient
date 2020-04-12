@@ -53,9 +53,6 @@
             {
                request.AddOrUpdateParameter("Authorization", AuthHeader, ParameterType.HttpHeader);
             }
-
-            // trace each outgoing request
-            Client.Trace(request);
         }
     }
 }

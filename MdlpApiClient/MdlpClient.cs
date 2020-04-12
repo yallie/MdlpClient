@@ -87,13 +87,17 @@
         {
             if (!string.IsNullOrWhiteSpace(apiMethodName))
             {
-                Trace("// {0}", apiMethodName);
+                request.AddHeader(ApiMethodNameHeader, apiMethodName);
             }
 
-            // authenticator traces all outgoing requests
-            var response = Client.Execute<T>(request);
-            Trace(response);
+            // trace requests and responses
+            if (Tracer != null)
+            {
+                request.OnBeforeRequest = http => Trace(http, request);
+                request.OnBeforeDeserialization = resp => Trace(resp);
+            }
 
+            var response = Client.Execute<T>(request);
             if (!response.IsSuccessful)
             {
                 throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
