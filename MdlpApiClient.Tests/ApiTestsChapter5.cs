@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient.Tests
 {
+    using System.Linq;
     using System.Net;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
@@ -120,6 +121,29 @@
             Assert.IsNotNull(md);
             Assert.AreEqual(TestDocumentID, md.DocumentID);
             Assert.AreEqual(TestDocRequestID, md.RequestID);
+        }
+
+        [Test]
+        public void GetDocument_5_10()
+        {
+            var doc = Client.GetDocument(TestDocumentID);
+            Assert.IsNotNull(doc);
+
+            TestContext.Progress.WriteLine("Downloaded document: {0}", TestDocumentID);
+            TestContext.Progress.WriteLine("{0}", doc);
+        }
+
+        [Test]
+        public void GetDocuments_5_11()
+        {
+            var md = Client.GetDocuments(TestDocRequestID);
+            Assert.IsNotNull(md);
+            Assert.AreEqual(1, md.Total);
+            Assert.AreEqual(1, md.Documents.Count);
+
+            var doc = md.Documents.Single();
+            Assert.AreEqual(TestDocumentID, doc.DocumentID);
+            Assert.AreEqual(TestDocRequestID, doc.RequestID);
         }
     }
 }

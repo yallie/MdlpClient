@@ -134,6 +134,35 @@
         }
 
         /// <summary>
+        /// Executes the given request and checks the result.
+        /// </summary>
+        /// <param name="request">The request to execute.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        internal string ExecuteString(IRestRequest request, string apiMethodName)
+        {
+            if (!string.IsNullOrWhiteSpace(apiMethodName))
+            {
+                request.AddHeader(ApiMethodNameHeader, apiMethodName);
+            }
+
+            // trace requests and responses
+            if (Tracer != null)
+            {
+                request.OnBeforeRequest = http => Trace(http, request);
+                request.OnBeforeDeserialization = resp => Trace(resp);
+            }
+
+            var response = Client.Execute(request);
+            if (!response.IsSuccessful)
+            {
+                Trace(response);
+                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+            }
+
+            return response.Content;
+        }
+
+        /// <summary>
         /// Performs GET request.
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
@@ -144,6 +173,17 @@
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
             return Execute<T>(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs GET request and returns a string.
+        /// </summary>
+        /// <param name="url">Resource url.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public string Get(string url, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            return ExecuteString(request, apiMethodName);
         }
 
         /// <summary>

@@ -122,5 +122,24 @@
         {
             return Get<DocumentMetadata>("documents/" + documentId);
         }
+
+        /// <summary>
+        /// 5.10. Получение документа по идентификатору
+        /// </summary>
+        /// <param name="documentId">Идентификатор документа</param>
+        public string GetDocument(string documentId)
+        {
+            var docLink = Get<GetDocumentResponse>("/documents/download/" + documentId);
+            return Get(docLink.Link);
+        }
+
+        /// <summary>
+        /// 5.11. Получение списка документов по идентификатору запроса
+        /// </summary>
+        /// <param name="requestId">Идентификатор запроса</param>
+        public GetDocumentsResponse GetDocuments(string requestId)
+        {
+            return Get<GetDocumentsResponse>("documents/request/" + requestId);
+        }
     }
 }
