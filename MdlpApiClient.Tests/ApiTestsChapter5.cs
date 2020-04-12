@@ -88,7 +88,7 @@
             var docs = Client.GetOutcomeDocuments(new DocFilter
             {
                 DocType = 311,
-                DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
+                DocStatus = DocStatusEnum.FAILED_RESULT_READY,
             }, 
             startFrom: 0, count: 10);
 
@@ -103,7 +103,7 @@
         {
             var docs = Client.GetIncomeDocuments(new DocFilter
             {
-                DocType = 311,
+                DocType = 607,
                 DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
             },
             startFrom: 0, count: 10);

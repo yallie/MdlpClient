@@ -5,6 +5,7 @@
     using System.Security.Cryptography.X509Certificates;
     using MdlpApiClient.Toolbox;
     using System.Runtime.CompilerServices;
+    using MdlpApiClient.Serialization;
 
     /// <summary>
     /// MDLP REST API client.
@@ -34,11 +35,13 @@
                 Encoding = Encoding.UTF8,
                 ThrowOnAnyError = true
             };
+
+            Client.UseSerializer<ServiceStackSerializer>();
         }
 
         public string BaseUrl { get; private set; }
 
-        private IRestClient Client { get; set; }
+        public IRestClient Client { get; private set; }
 
         private CredentialsBase Credentials { get; set; }
 
