@@ -21,9 +21,6 @@
                     "Thumbprint or subject name: " + UserID);
             }
 
-            // cache loaded certificate for signing documents, etc.
-            apiClient.UserCertificate = certificate;
-
             // get authentication code
             var authResponse = apiClient.Post<AuthResponse>("auth", new
             {

@@ -10,21 +10,21 @@
         public MdlpException(HttpStatusCode code, string message, Exception innerException)
             : base(message, innerException)
         {
-            Code = code;
+            StatusCode = code;
         }
 
         protected MdlpException(SerializationInfo info, StreamingContext context)
         {
-            Code = (HttpStatusCode)info.GetInt32("Code");
+            StatusCode = (HttpStatusCode)info.GetInt32("Code");
         }
 
-        public HttpStatusCode Code { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
-            info.AddValue("Code", (int)Code);
+            info.AddValue("Code", (int)StatusCode);
         }
     }
 }

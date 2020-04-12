@@ -128,6 +128,7 @@
             var response = Client.Execute(request);
             if (!response.IsSuccessful)
             {
+                Trace(response);
                 throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
             }
         }
@@ -158,6 +159,20 @@
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
             return Execute<T>(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs POST request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
+        /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public void Post(string url, object body, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.POST, DataFormat.Json);
+            request.AddJsonBody(body);
+            Execute(request, apiMethodName);
         }
 
         /// <summary>

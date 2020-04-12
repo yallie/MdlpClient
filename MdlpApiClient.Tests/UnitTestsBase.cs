@@ -17,6 +17,7 @@
         public const string UserStarter2 = "starter_resident_2";
         public const string UserPassword2 = "password";
         public const string TestDocumentID = "60786bb4-fcb5-4587-b703-d0147e3f9d1c";
+        public const string TestDocRequestID = "528700e0-f967-4ddb-995d-5c6c7b73bcc9";
 
         // Custom test data, feel free to replace with your own certificate information
         public const string TestCertificateSubjectName = @"Тестовый УКЭП им. Юрия Гагарина";

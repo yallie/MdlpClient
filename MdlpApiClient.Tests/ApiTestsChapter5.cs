@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient.Tests
 {
+    using System.Net;
     using NUnit.Framework;
 
     [TestFixture]
@@ -14,9 +15,6 @@
         {
             Tracer = TestContext.Progress.WriteLine
         };
-
-        // uploaded document identity
-        private string DocumentID { get; set; }
 
         [Test]
         public void SendDocumentTest_5_1()
@@ -36,12 +34,9 @@
   </register_end_packing>
 </documents>";
 
-            DocumentID = Client.SendDocument(docXml);
-            Assert.NotNull(DocumentID);
+            var docId = Client.SendDocument(docXml);
+            Assert.NotNull(docId);
         }
-
-        // uploaded large document identity
-        private string LargeDocumentID { get; set; }
 
         [Test]
         public void SendLargeDocumentTest_5_234()
@@ -61,8 +56,8 @@
   </register_end_packing>
 </documents>";
 
-            LargeDocumentID = Client.SendLargeDocument(docXml);
-            Assert.NotNull(LargeDocumentID);
+            var docId = Client.SendLargeDocument(docXml);
+            Assert.NotNull(docId);
         }
 
         [Test]
@@ -70,6 +65,28 @@
         {
             var size = Client.GetLargeDocumentSize();
             Assert.NotZero(size);
+        }
+
+        [Test]
+        public void CancelSendDocumentTest_5_6()
+        {
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var badDocId = "123";
+                var badReqId = "321";
+                Client.CancelSendDocument(badDocId, badReqId);
+            });
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+        }
+
+        [Test]
+        public void GetDocumentMetadata_5_9()
+        {
+            var md = Client.GetDocumentMetadata(TestDocumentID);
+            Assert.IsNotNull(md);
+            Assert.AreEqual(TestDocumentID, md.DocumentID);
+            Assert.AreEqual(TestDocRequestID, md.RequestID);
         }
     }
 }

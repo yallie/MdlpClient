@@ -19,11 +19,12 @@
         public string SendDocument(string xmlDocument)
         {
             // 5.1
+            var requestId = Guid.NewGuid().ToString();
             var result = Post<SendDocumentResponse>("documents/send", new
             {
                 document = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlDocument)),
                 sign = ComputeSignature(xmlDocument),
-                request_id = Guid.NewGuid().ToString(),
+                request_id = requestId,
             });
 
             return result.DocumentID;
@@ -39,11 +40,12 @@
         public string SendLargeDocument(string xmlDocument)
         {
             // 5.2
+            var requestId = Guid.NewGuid().ToString();
             var link = Post<SendLargeDocumentResponse>("documents/send_large", new
             {
                 sign = ComputeSignature(xmlDocument),
                 hash_sum = xmlDocument.ComputeHash<SHA256>(),
-                request_id = Guid.NewGuid().ToString(),
+                request_id = requestId,
             });
 
             // 5.3
@@ -67,6 +69,20 @@
             // 5.5
             var result = Get<GetLargeDocumentSizeResponse>("documents/doc_size");
             return result.DocSize;
+        }
+
+        /// <summary>
+        /// 5.6. Отмена отправки документа
+        /// </summary>
+        /// <param name="docId"></param>
+        /// <param name="requestId"></param>
+        public void CancelSendDocument(string docId, string requestId)
+        {
+            Post("documents/cancel", new
+            {
+                document_id = docId,
+                request_id = requestId,
+            });
         }
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace MdlpApiClient.Tests
                 client.GetDocumentMetadata(TestDocumentID);
             });
 
-            Assert.AreEqual(HttpStatusCode.BadRequest, ex.Code); // 400
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode); // 400
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace MdlpApiClient.Tests
                 client.GetDocumentMetadata(TestDocumentID);
             });
 
-            Assert.AreEqual(HttpStatusCode.Forbidden, ex.Code); // 403
+            Assert.AreEqual(HttpStatusCode.Forbidden, ex.StatusCode); // 403
         }
 
         [Test]
