@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MdlpApiClient.Toolbox
+﻿namespace MdlpApiClient.Toolbox
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
     /// <summary>
     /// Helper class for working with hashes.
     /// </summary>
