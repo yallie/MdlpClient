@@ -9,22 +9,20 @@
     /// </summary>
     public class ResidentCredentials : CredentialsBase
     {
-        /// <summary>
-        /// GOST Certificate subject name or thumbprint.
-        /// </summary>
-        public string UserID { get; set; }
-
         /// </inheritdoc>
         public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // load the certificate with a private key by userId
-            var certificate = GostCryptoHelpers.FindCertificate(UserID);
+            var certificate = apiClient.UserCertificate;
             if (certificate == null)
             {
                 throw new SecurityException("GOST-compliant certificate not found. " +
                     "Make sure that the certificate is properly installed and has the associated private key. " +
                     "Thumbprint or subject name: " + UserID);
             }
+
+            // cache loaded certificate for signing documents, etc.
+            apiClient.UserCertificate = certificate;
 
             // get authentication code
             var authResponse = apiClient.Post<AuthResponse>("auth", new

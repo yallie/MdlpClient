@@ -18,6 +18,14 @@
         public string ClientSecret { get; set; }
 
         /// <summary>
+        /// Gets or sets the user identity.
+        /// </summary>
+        /// <remarks>
+        /// For resident users: installed GOST certificate subject name or thumbprint.
+        /// </remarks>
+        public string UserID { get; set; }
+
+        /// <summary>
         /// Performs authentication, returns access token with a limited lifetime.
         /// </summary>
         /// <param name="apiClient">MDLP client to perform API calls.</param>

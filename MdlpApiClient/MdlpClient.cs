@@ -2,6 +2,8 @@
 {
     using System.Text;
     using RestSharp;
+    using System.Security.Cryptography.X509Certificates;
+    using MdlpApiClient.Toolbox;
 
     /// <summary>
     /// MDLP REST API client.
@@ -24,6 +26,7 @@
                 BaseUrl += "/";
             }
 
+            Credentials = credentials;
             Client = new RestClient(BaseUrl)
             {
                 Authenticator = new CredentialsAuthenticator(this, credentials),
@@ -35,6 +38,42 @@
         public string BaseUrl { get; private set; }
 
         private IRestClient Client { get; set; }
+
+        private CredentialsBase Credentials { get; set; }
+
+        private X509Certificate2 userCertificate;
+
+        /// <summary>
+        /// X.509 certificate of the resident user (if applicable).
+        /// </summary>
+        internal X509Certificate2 UserCertificate
+        {
+            set { userCertificate = value; }
+            get
+            {
+                if (userCertificate == null)
+                {
+                    userCertificate = GostCryptoHelpers.FindCertificate(Credentials.UserID);
+                }
+
+                return userCertificate;
+            }
+        }
+
+        /// <summary>
+        /// Computes the detached digital signature of the given text.
+        /// </summary>
+        /// <param name="textToSign">Text to sign.</param>
+        /// <returns>Detached signature in CMS format and base64 encoding.</returns>
+        private string ComputeSignature(string textToSign)
+        {
+            if (UserCertificate == null)
+            {
+                return null;
+            }
+
+            return GostCryptoHelpers.ComputeDetachedSignature(UserCertificate, textToSign);
+        }
 
         /// <summary>
         /// Executes the given request and checks the result.

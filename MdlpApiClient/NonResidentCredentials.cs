@@ -8,11 +8,6 @@
     public class NonResidentCredentials : CredentialsBase
     {
         /// <summary>
-        /// Gets or sets the user identity.
-        /// </summary>
-        public string UserID { get; set; }
-
-        /// <summary>
         /// Gets or sets the password.
         /// </summary>
         public string Password { get; set; }
