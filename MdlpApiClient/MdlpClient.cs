@@ -4,6 +4,7 @@
     using RestSharp;
     using System.Security.Cryptography.X509Certificates;
     using MdlpApiClient.Toolbox;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// MDLP REST API client.
@@ -80,9 +81,15 @@
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="request">The request to execute.</param>
-        internal T Execute<T>(IRestRequest request)
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        internal T Execute<T>(IRestRequest request, string apiMethodName)
             where T : class, new()
         {
+            if (!string.IsNullOrWhiteSpace(apiMethodName))
+            {
+                Trace("// {0}", apiMethodName);
+            }
+
             // authenticator traces all outgoing requests
             var response = Client.Execute<T>(request);
             Trace(response);
@@ -100,11 +107,12 @@
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
-        public T Get<T>(string url)
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public T Get<T>(string url, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
-            return Execute<T>(request);
+            return Execute<T>(request, apiMethodName);
         }
 
         /// <summary>
@@ -112,12 +120,13 @@
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
-        public T Post<T>(string url, object body)
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public T Post<T>(string url, object body, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
-            return Execute<T>(request);
+            return Execute<T>(request, apiMethodName);
         }
     }
 }
