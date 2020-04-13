@@ -290,10 +290,6 @@ namespace MdlpApiClient.DataContracts
     [DataContract]
     public class DocumentMetadata
     {
-        public DocumentMetadata()
-        {
-        }
-
         [DataMember(Name = "request_id")]
         public string RequestID { get; set; } // "996f487c-d902-4dbd-b99f-76aef2d904dc",
 
@@ -328,6 +324,55 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 5.14. Прослеживание документов по отчёту из СУЗ
+    /// </summary>
+    [DataContract]
+    public class DocumentSkzkmMetadata
+    {
+        [DataMember(Name = "request_id")]
+        public string RequestID { get; set; } // "996f487c-d902-4dbd-b99f-76aef2d904dc",
+
+        [DataMember(Name = "document_id")]
+        public string DocumentID { get; set; } // "6e491238-d4a9-495b-8d37-45181916c846",
+
+        [DataMember(Name = "date")]
+        public DateTime Date { get; set; } // "2017-11-23 05:48:15",
+
+        [DataMember(Name = "doc_type")]
+        public int DocType { get; set; } // 0,
+
+        [DataMember(Name = "processing_document_status")]
+        public string ProcessingDocStatus { get; set; } // "PROCESSING",
+
+        [DataMember(Name = "processed_date")]
+        public DateTime ProcessedDate { get; set; } // "2017-11-23 05:48:15",
+
+        [DataMember(Name = "sgtin_count")]
+        public int SgtinCount { get; set; } // 10
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 5.10. Получение документа по идентификатору
+    /// </summary>
+    [DataContract]
+    public class GetDocumentResponse
+    {
+        [DataMember(Name = "link")]
+        public string Link { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
@@ -338,12 +383,26 @@ namespace MdlpApiClient.DataContracts
     [DataContract]
     public class GetDocumentsResponse
     {
-        public GetDocumentsResponse()
-        {
-        }
-
         [DataMember(Name = "documents")]
-        public List<DocumentMetadata> Documents { get; set; }
+        public DocumentMetadata[] Documents { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 5.14. Прослеживание документов по отчёту из СУЗ
+    /// </summary>
+    [DataContract]
+    public class GetDocumentsSkzkmResponse
+    {
+        [DataMember(Name = "items")]
+        public DocumentSkzkmMetadata[] Documents { get; set; }
 
         [DataMember(Name = "total")]
         public int Total { get; set; }
@@ -588,6 +647,63 @@ namespace MdlpApiClient
         {
             return Get<DocumentMetadata>("documents/" + documentId);
         }
+
+        /// <summary>
+        /// 5.10. Получение документа по идентификатору
+        /// </summary>
+        /// <param name="documentId">Идентификатор документа</param>
+        public string GetDocument(string documentId)
+        {
+            var docLink = Get<GetDocumentResponse>("/documents/download/" + documentId);
+            return Get(docLink.Link);
+        }
+
+        /// <summary>
+        /// 5.11. Получение списка документов по идентификатору запроса
+        /// </summary>
+        /// <param name="requestId">Идентификатор запроса</param>
+        public GetDocumentsResponse GetDocuments(string requestId)
+        {
+            return Get<GetDocumentsResponse>("documents/request/" + requestId);
+        }
+
+        /// <summary>
+        /// 5.12. Получение квитанции по номеру исходящего документа
+        /// </summary>
+        /// <param name="requestId">Идентификатор документа</param>
+        public string GetTicket(string documentId)
+        {
+            var link = Get<GetDocumentResponse>("documents/" + documentId + "/ticket");
+            return Get(link.Link);
+        }
+
+        /// <summary>
+        /// 5.13. Получение электронной подписи исходящего документа
+        /// </summary>
+        /// <param name="requestId">Идентификатор документа</param>
+        public string GetSignature(string documentId)
+        {
+            return Get("documents/" + documentId + "/signature", accept: "text/plain");
+        }
+
+        /// <summary>
+        /// 5.14. Прослеживание документов по отчёту из СУЗ
+        /// </summary>
+        /// <param name="reportId">Идентификатор отчета СУЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
+        /// <param name="count">Количество записей в списке возвращаемых документов</param>
+        public GetDocumentsSkzkmResponse GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
+        {
+            return Post<GetDocumentsSkzkmResponse>("documents/skzkm-traces/filter", new
+            {
+                filter = new
+                {
+                    skzkm_report_id = reportId,
+                },
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
 
@@ -640,20 +756,22 @@ namespace MdlpApiClient
     using System.Security.Cryptography.X509Certificates;
     using MdlpApiClient.Toolbox;
     using System.Runtime.CompilerServices;
+    using MdlpApiClient.Serialization;
 
     /// <summary>
     /// MDLP REST API client.
     /// </summary>
     public partial class MdlpClient
     {
-        public const string StageApiUrl = "http://api.stage.mdlp.crpt.ru/api/v1/";
+        public const string StageApiHttp = "http://api.stage.mdlp.crpt.ru/api/v1/";
+        public const string StageApiHttps = "https://api.stage.mdlp.crpt.ru/api/v1/";
 
         /// <summary>
         /// Initializes a new instance of the MDLP REST API client.
         /// </summary>
         /// <param name="credentials">Credentials used for authentication.</param>
         /// <param name="baseUrl">Base URL of the API endpoint.</param>
-        public MdlpClient(CredentialsBase credentials, string baseUrl = StageApiUrl)
+        public MdlpClient(CredentialsBase credentials, string baseUrl = StageApiHttp)
         {
             // make sure BaseUrl ends with a slash
             BaseUrl = baseUrl ?? string.Empty;
@@ -669,11 +787,13 @@ namespace MdlpApiClient
                 Encoding = Encoding.UTF8,
                 ThrowOnAnyError = true
             };
+
+            Client.UseSerializer<ServiceStackSerializer>();
         }
 
         public string BaseUrl { get; private set; }
 
-        private IRestClient Client { get; set; }
+        public IRestClient Client { get; private set; }
 
         private CredentialsBase Credentials { get; set; }
 
@@ -769,6 +889,35 @@ namespace MdlpApiClient
         }
 
         /// <summary>
+        /// Executes the given request and checks the result.
+        /// </summary>
+        /// <param name="request">The request to execute.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        internal string ExecuteString(IRestRequest request, string apiMethodName)
+        {
+            if (!string.IsNullOrWhiteSpace(apiMethodName))
+            {
+                request.AddHeader(ApiMethodNameHeader, apiMethodName);
+            }
+
+            // trace requests and responses
+            if (Tracer != null)
+            {
+                request.OnBeforeRequest = http => Trace(http, request);
+                request.OnBeforeDeserialization = resp => Trace(resp);
+            }
+
+            var response = Client.Execute(request);
+            if (!response.IsSuccessful)
+            {
+                Trace(response);
+                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
+            }
+
+            return response.Content;
+        }
+
+        /// <summary>
         /// Performs GET request.
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
@@ -779,6 +928,23 @@ namespace MdlpApiClient
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
             return Execute<T>(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs GET request and returns a string.
+        /// </summary>
+        /// <param name="url">Resource url.</param>
+        /// <param name="accept">Override accept header.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public string Get(string url, string accept = null, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            if (!string.IsNullOrWhiteSpace(accept))
+            {
+                request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
+            }
+
+            return ExecuteString(request, apiMethodName);
         }
 
         /// <summary>
@@ -1110,6 +1276,58 @@ namespace MdlpApiClient
                 code = authResponse.Code,
                 signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authResponse.Code),
             });
+        }
+    }
+}
+
+namespace MdlpApiClient.Serialization
+{
+    using RestSharp;
+    using RestSharp.Serialization;
+    using ServiceStack.Text;
+
+    /// <summary>
+    /// ServiceStack.Text.v4.0.33-based serializer.
+    /// </summary>
+    internal class ServiceStackSerializer : IRestSerializer
+    {
+        public string[] SupportedContentTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    "application/json", "text/json", "text/x-json", "text/javascript", "*+json"
+                };
+            }
+        }
+
+        public DataFormat DataFormat
+        {
+            get { return DataFormat.Json; }
+        }
+
+        private string contentType = "application/json";
+
+        public string ContentType
+        {
+            get { return contentType; }
+            set { contentType = value; }
+        }
+
+        public T Deserialize<T>(IRestResponse response)
+        {
+            return JsonSerializer.DeserializeFromString<T>(response.Content);
+        }
+
+        public string Serialize(Parameter bodyParameter)
+        {
+            return Serialize(bodyParameter.Value);
+        }
+
+        public string Serialize(object obj)
+        {
+            return JsonSerializer.SerializeToString(obj);
         }
     }
 }
