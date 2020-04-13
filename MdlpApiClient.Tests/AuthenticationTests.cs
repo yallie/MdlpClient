@@ -2,6 +2,7 @@ namespace MdlpApiClient.Tests
 {
     using NUnit.Framework;
     using System.Net;
+    using MdlpApiClient.DataContracts;
 
     [TestFixture]
     public class AuthenticationTests : UnitTestsBase
@@ -90,6 +91,46 @@ namespace MdlpApiClient.Tests
             var md = client.GetDocumentMetadata(TestDocumentID);
             Assert.NotNull(md);
             Assert.AreEqual(TestDocumentID, md.DocumentID);
+        }
+
+        [Test]
+        public void ResourceNotFoundDifferentErrorMessages()
+        {
+            var client = new MdlpClient(credentials: new NonResidentCredentials
+            {
+                ClientID = ClientID2,
+                ClientSecret = ClientSecret2,
+                UserID = UserStarter2,
+                Password = UserPassword2
+            })
+            {
+                Tracer = TestContext.Progress.WriteLine
+            };
+
+            // в теле ответа по неверному адресу branches/filter посылается HTML
+            var ex = Assert.Throws<MdlpException>(() => client.Get("branches/filter"));
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
+            Assert.IsTrue(ex.Message.Contains("404"));
+            Assert.IsTrue(ex.Message.Contains("nginx"));
+
+            // а тут по умолчанию RestSharp сообщает ошибку десериализации XML
+            ex = Assert.Throws<MdlpException>(() => client.Get<EmptyResponse>("branches/filter"));
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
+            Assert.IsTrue(ex.Message.Contains("404"));
+            Assert.IsTrue(ex.Message.Contains("nginx"));
+
+            // а здесь ресурс возвращает типизированный объект ErrorResponse
+            ex = Assert.Throws<MdlpException>(() => client.Get<EmptyResponse>("reestr/shtuchek/dryuchek"));
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
+            Assert.AreEqual("Not Found", ex.Message);
+
+            // только в этом последнем случае у нас есть ErrorResponse
+            var error = ex.ErrorResponse;
+            Assert.NotNull(error);
+            Assert.AreEqual("Not Found", error.Message);
+            Assert.AreEqual(404, error.StatusCode);
+            Assert.NotNull(error.Path);
+            Assert.IsTrue(error.Path.EndsWith("dryuchek"));
         }
     }
 }

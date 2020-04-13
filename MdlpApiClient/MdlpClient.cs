@@ -6,6 +6,10 @@
     using MdlpApiClient.Toolbox;
     using System.Runtime.CompilerServices;
     using MdlpApiClient.Serialization;
+    using System.Xml;
+    using RestSharp.Serialization;
+    using System.Linq;
+    using MdlpApiClient.DataContracts;
 
     /// <summary>
     /// MDLP REST API client.
@@ -34,13 +38,16 @@
             {
                 Authenticator = new CredentialsAuthenticator(this, credentials),
                 Encoding = Encoding.UTF8,
-                ThrowOnAnyError = true
+                ThrowOnDeserializationError = false
             };
 
-            Client.UseSerializer<ServiceStackSerializer>();
+            Serializer = new ServiceStackSerializer();
+            Client.UseSerializer(Serializer);
         }
 
         public string BaseUrl { get; private set; }
+
+        private IRestSerializer Serializer { get; set; }
 
         public IRestClient Client { get; private set; }
 
@@ -102,12 +109,63 @@
             }
 
             var response = Client.Execute<T>(request);
+            ThrowOnFailure(response);
+            return response.Data;
+        }
+
+        private void ThrowOnFailure(IRestResponse response)
+        {
             if (!response.IsSuccessful)
             {
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
+                Trace(response);
 
-            return response.Data;
+                // try to find the non-empty error message
+                var errorMessage = response.ErrorMessage;
+                var contentMessage = response.Content;
+                var errorResponse = default(ErrorResponse);
+                if (response.ContentType != null)
+                {
+                    // Text/plain;charset=UTF-8 => text/plain
+                    var contentType = response.ContentType.ToLower().Trim();
+                    var semicolonIndex = contentType.IndexOf(';');
+                    if (semicolonIndex >= 0)
+                    {
+                        contentType = contentType.Substring(0, semicolonIndex).Trim();
+                    }
+
+                    // Try to deserialize error response DTO
+                    if (Serializer.SupportedContentTypes.Contains(contentType))
+                    {
+                        errorResponse = Serializer.Deserialize<ErrorResponse>(response);
+                        contentMessage = errorResponse.Error;
+                    }
+                    else if (response.ContentType.ToLower().Contains("html"))
+                    {
+                        // Try to parse HTML
+                        contentMessage = HtmlHelper.ExtractText(response.Content);
+                    }
+                    else
+                    {
+                        // Return as is assuming text/plain content
+                        contentMessage = response.Content;
+                    }
+                }
+
+                // HTML->XML deserialization errors are meaningless
+                if (response.ErrorException is XmlException && errorMessage == response.ErrorException.Message)
+                {
+                    errorMessage = contentMessage;
+                }
+
+                // empty error message is meaningless
+                if (string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    errorMessage = contentMessage;
+                }
+
+                // finally, throw it
+                throw new MdlpException(response.StatusCode, errorMessage, errorResponse, response.ErrorException);
+            }
         }
 
         /// <summary>
@@ -130,11 +188,7 @@
             }
 
             var response = Client.Execute(request);
-            if (!response.IsSuccessful)
-            {
-                Trace(response);
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
+            ThrowOnFailure(response);
         }
 
         /// <summary>
@@ -157,12 +211,7 @@
             }
 
             var response = Client.Execute(request);
-            if (!response.IsSuccessful)
-            {
-                Trace(response);
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
-
+            ThrowOnFailure(response);
             return response.Content;
         }
 

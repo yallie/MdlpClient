@@ -10,6 +10,11 @@ namespace MdlpApiClient.Serialization
     /// </summary>
     internal class ServiceStackSerializer : IRestSerializer
     {
+        //public ServiceStackSerializer()
+        //{
+        //    JsConfig.DateHandler = DateHandler.ISO8601;// ISO8601;
+        //}
+
         public string[] SupportedContentTypes
         {
             get
@@ -46,7 +51,11 @@ namespace MdlpApiClient.Serialization
 
         public string Serialize(object obj)
         {
-            return JsonSerializer.SerializeToString(obj);
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.DateHandler = DateHandler.UnixTime;
+                return JsonSerializer.SerializeToString(obj);
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
     using DataContracts;
 
     /// <remarks>
-    /// This file contains strongly typed REST API methods.
+    /// Strongly typed REST API methods. Chapter 6: users accounts.
     /// </remarks>
     partial class MdlpClient
     {

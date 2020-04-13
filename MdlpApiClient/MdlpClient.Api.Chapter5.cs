@@ -7,7 +7,7 @@
     using MdlpApiClient.Toolbox;
 
     /// <remarks>
-    /// This file contains strongly typed REST API methods.
+    /// Strongly typed REST API methods. Chapter 5: documents.
     /// </remarks>
     partial class MdlpClient
     {
