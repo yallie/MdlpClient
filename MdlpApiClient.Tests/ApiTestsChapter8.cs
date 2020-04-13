@@ -119,5 +119,15 @@
             Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", whouse.Address.HouseGuid);
             Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", whouse.Address.AddressDescription);
         }
+
+        [Test]
+        public void GetWarehouse_8_2_3()
+        {
+            var warehouse = Client.GetWarehouses("00000000100931");
+            Assert.NotNull(warehouse);
+            Assert.NotNull(warehouse.Address);
+            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", warehouse.Address.HouseGuid);
+            Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", warehouse.Address.AddressDescription);
+        }
     }
 }

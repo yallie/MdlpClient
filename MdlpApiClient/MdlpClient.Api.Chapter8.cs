@@ -65,5 +65,16 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.2.3. Получение информации о конкретном месте ответственного хранения
+        /// </summary>
+        public GetWarehouseResponse GetWarehouses(string warehouseId)
+        {
+            return Get<GetWarehouseResponse>("reestr/warehouses/{warehouse_id}", new[]
+            {
+                new Parameter("warehouse_id", warehouseId, ParameterType.UrlSegment)
+            });
+        }
     }
 }
