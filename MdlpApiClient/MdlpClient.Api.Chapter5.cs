@@ -160,5 +160,24 @@
         {
             return Get("documents/" + documentId + "/signature", accept: "text/plain");
         }
+
+        /// <summary>
+        /// 5.14. Прослеживание документов по отчёту из СУЗ
+        /// </summary>
+        /// <param name="reportId">Идентификатор отчета СУЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
+        /// <param name="count">Количество записей в списке возвращаемых документов</param>
+        public GetDocumentsSkzkmResponse GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
+        {
+            return Post<GetDocumentsSkzkmResponse>("documents/skzkm-traces/filter", new
+            {
+                filter = new
+                {
+                    skzkm_report_id = reportId,
+                },
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

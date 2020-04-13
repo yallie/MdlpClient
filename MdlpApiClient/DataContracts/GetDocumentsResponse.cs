@@ -10,12 +10,8 @@
     [DataContract]
     public class GetDocumentsResponse
     {
-        public GetDocumentsResponse()
-        {
-        }
-
         [DataMember(Name = "documents")]
-        public List<DocumentMetadata> Documents { get; set; }
+        public DocumentMetadata[] Documents { get; set; }
 
         [DataMember(Name = "total")]
         public int Total { get; set; }

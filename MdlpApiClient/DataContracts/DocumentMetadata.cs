@@ -9,10 +9,6 @@
     [DataContract]
     public class DocumentMetadata
     {
-        public DocumentMetadata()
-        {
-        }
-
         [DataMember(Name = "request_id")]
         public string RequestID { get; set; } // "996f487c-d902-4dbd-b99f-76aef2d904dc",
 

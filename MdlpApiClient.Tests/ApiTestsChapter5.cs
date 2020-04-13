@@ -95,7 +95,7 @@
 
             Assert.IsNotNull(docs);
             Assert.IsNotNull(docs.Documents);
-            Assert.AreEqual(10, docs.Documents.Count);
+            Assert.AreEqual(10, docs.Documents.Length);
             Assert.IsTrue(docs.Total > 10);
         }
 
@@ -111,7 +111,7 @@
 
             Assert.IsNotNull(docs);
             Assert.IsNotNull(docs.Documents);
-            Assert.AreEqual(10, docs.Documents.Count);
+            Assert.AreEqual(10, docs.Documents.Length);
             Assert.IsTrue(docs.Total > 10);
         }
 
@@ -140,7 +140,7 @@
             var md = Client.GetDocuments(TestDocRequestID);
             Assert.IsNotNull(md);
             Assert.AreEqual(1, md.Total);
-            Assert.AreEqual(1, md.Documents.Count);
+            Assert.AreEqual(1, md.Documents.Length);
 
             var doc = md.Documents.Single();
             Assert.AreEqual(TestDocumentID, doc.DocumentID);
@@ -172,6 +172,19 @@
             });
 
             Assert.AreEqual(HttpStatusCode.NotAcceptable, ex.StatusCode); // 406
+        }
+
+        [Test]
+        public void GetDocumentsBySkzkmReportID_5_14()
+        {
+            var docs = Client.GetDocumentsBySkzkmReportID(
+                "434bc499-4b85-4775-8c19-bf6dbf730e93",
+                startFrom: 0, count: 10);
+
+            Assert.IsNotNull(docs);
+            Assert.IsNotNull(docs.Documents);
+            Assert.AreEqual(0, docs.Documents.Length);
+            Assert.AreEqual(0, docs.Total);
         }
     }
 }
