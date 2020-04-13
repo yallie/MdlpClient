@@ -48,5 +48,22 @@
 
             return branch.BranchID;
         }
+
+        /// <summary>
+        /// 8.2.2. Метод для поиска информации о местах ответственного хранения по фильтру
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска мест осуществления деятельности</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
+        /// <param name="count">Количество записей в списке возвращаемых мест</param>
+        /// <returns>Список мест ответственного хранения</returns>
+        public GetWarehousesResponse GetWarehouses(WarehouseFilter filter, int startFrom, int count)
+        {
+            return Post<GetWarehousesResponse>("reestr/warehouses/filter", new
+            {
+                filter = filter ?? new WarehouseFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

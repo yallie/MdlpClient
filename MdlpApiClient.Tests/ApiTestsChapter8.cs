@@ -86,5 +86,38 @@
             // "Ошибка при выполнении операции: указанные данные уже зарегистрированы в системе"
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode); // 400
         }
+
+        [Test]
+        public void GetWarehouses_8_2_2()
+        {
+            // пример из документации с кодом 00000000000561 — не находится
+            var whouses = Client.GetWarehouses(new WarehouseFilter
+            {
+                WarehouseID = "00000000100931", // "00000000000561"
+                HouseGuid = "986f2934-be05-438f-a30e-c15b90e15dbc", // "3e311a10-3d0c-438e-a013-7c5fd3ea66a6", // "3e311a10-3d0c-438e-a013-7c5fd3ea66a6",
+                Status = 1,
+                StartDate = new DateTime(2018, 11, 1), // 2019-11-01
+                EndDate = new DateTime(2019, 1, 1), // 2019-12-01
+            },
+            startFrom: 0, count: 10);
+
+            Assert.IsNotNull(whouses);
+            Assert.AreEqual(1, whouses.Entries.Length);
+
+            // попробуем найти хоть что-нибудь
+            whouses = Client.GetWarehouses(null, startFrom: 0, count: 10);
+            Assert.IsNotNull(whouses);
+            Assert.IsNotNull(whouses.Entries);
+            Assert.AreEqual(3, whouses.Total);
+
+            var whouse = whouses.Entries[0];
+            Assert.NotNull(whouse);
+            Assert.AreEqual("Аптечный1", whouse.OrgName);
+            Assert.NotNull(whouse.WorkList);
+            Assert.AreEqual(1, whouse.WorkList.Length);
+            Assert.NotNull(whouse.Address);
+            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", whouse.Address.HouseGuid);
+            Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", whouse.Address.AddressDescription);
+        }
     }
 }
