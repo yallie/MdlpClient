@@ -42,7 +42,7 @@
             };
 
             Serializer = new ServiceStackSerializer();
-            Client.UseSerializer(Serializer);
+            Client.UseSerializer(() => Serializer);
         }
 
         public string BaseUrl { get; private set; }
@@ -220,11 +220,17 @@
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public T Get<T>(string url, [CallerMemberName] string apiMethodName = null)
+        public T Get<T>(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             return Execute<T>(request, apiMethodName);
         }
 
@@ -232,15 +238,20 @@
         /// Performs GET request and returns a string.
         /// </summary>
         /// <param name="url">Resource url.</param>
-        /// <param name="accept">Override accept header.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public string Get(string url, string accept = null, [CallerMemberName] string apiMethodName = null)
+        public string Get(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
-            if (!string.IsNullOrWhiteSpace(accept))
+            if (!parameters.IsNullOrEmpty())
             {
-                request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
+                request.AddOrUpdateParameters(parameters);
             }
+
+            //if (!string.IsNullOrWhiteSpace(accept))
+            //{
+            //    request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
+            //}
 
             return ExecuteString(request, apiMethodName);
         }
@@ -251,12 +262,18 @@
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public T Post<T>(string url, object body, [CallerMemberName] string apiMethodName = null)
+        public T Post<T>(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             return Execute<T>(request, apiMethodName);
         }
 
@@ -266,11 +283,17 @@
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public void Post(string url, object body, [CallerMemberName] string apiMethodName = null)
+        public void Post(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             Execute(request, apiMethodName);
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient.Toolbox
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
@@ -96,6 +97,17 @@
             var hasher = (T)CryptoConfig.CreateFromName(algorithm);
             var hash = hasher.ComputeHash(fs);
             return hash.ToHexString();
+        }
+
+        /// <summary>
+        /// Checks whether the given enumerable sequence is null or empty.
+        /// </summary>
+        /// <typeparam name="T">Sequence element type.</typeparam>
+        /// <param name="sequence">Enumerable sequence.</param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> sequence)
+        {
+            return sequence == null || !sequence.Any();
         }
     }
 }

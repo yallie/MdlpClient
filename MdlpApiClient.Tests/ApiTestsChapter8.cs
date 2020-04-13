@@ -48,5 +48,15 @@
             Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", branch.Address.HouseGuid);
             Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", branch.Address.AddressDescription);
         }
+
+        [Test]
+        public void GetBranch_8_1_3()
+        {
+            var branch = Client.GetBranch("00000000100930");
+            Assert.NotNull(branch);
+            Assert.NotNull(branch.Address);
+            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", branch.Address.HouseGuid);
+            Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", branch.Address.AddressDescription);
+        }
     }
 }

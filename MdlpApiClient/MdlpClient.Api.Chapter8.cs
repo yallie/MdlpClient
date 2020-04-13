@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using DataContracts;
+    using RestSharp;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 8: MDLP information.
@@ -21,6 +22,17 @@
                 filter = filter ?? new BranchFilter(),
                 start_from = startFrom,
                 count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.1.3. Получение информации о конкретном месте осуществления деятельности
+        /// </summary>
+        public GetBranchResponse GetBranch(string branchId)
+        {
+            return Get<GetBranchResponse>("reestr/branches/{branch_id}", new[]
+            {
+                new Parameter("branch_id", branchId, ParameterType.UrlSegment)
             });
         }
     }

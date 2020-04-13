@@ -5,6 +5,7 @@
     using System.Text;
     using System.Security.Cryptography;
     using MdlpApiClient.Toolbox;
+    using RestSharp;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 5: documents.
@@ -120,7 +121,10 @@
         /// <returns>Метаданные документа</returns>
         public DocumentMetadata GetDocumentMetadata(string documentId)
         {
-            return Get<DocumentMetadata>("documents/" + documentId);
+            return Get<DocumentMetadata>("documents/{document_id}", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+            });
         }
 
         /// <summary>
@@ -129,7 +133,11 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetDocument(string documentId)
         {
-            var docLink = Get<GetDocumentResponse>("/documents/download/" + documentId);
+            var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+            });
+
             return Get(docLink.Link);
         }
 
@@ -139,7 +147,10 @@
         /// <param name="requestId">Идентификатор запроса</param>
         public GetDocumentsResponse GetDocuments(string requestId)
         {
-            return Get<GetDocumentsResponse>("documents/request/" + requestId);
+            return Get<GetDocumentsResponse>("documents/request/{request_id}", new[]
+            {
+                new Parameter("request_id", requestId, ParameterType.UrlSegment),
+            });
         }
 
         /// <summary>
@@ -148,7 +159,11 @@
         /// <param name="requestId">Идентификатор документа</param>
         public string GetTicket(string documentId)
         {
-            var link = Get<GetDocumentResponse>("documents/" + documentId + "/ticket");
+            var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+            });
+
             return Get(link.Link);
         }
 
@@ -158,7 +173,11 @@
         /// <param name="requestId">Идентификатор документа</param>
         public string GetSignature(string documentId)
         {
-            return Get("documents/" + documentId + "/signature", accept: "text/plain");
+            return Get("documents/{document_id}/signature", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+                new Parameter("Accept", "text/plain", ParameterType.HttpHeader),
+            });
         }
 
         /// <summary>
