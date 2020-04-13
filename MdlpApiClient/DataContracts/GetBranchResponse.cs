@@ -17,7 +17,7 @@
         /// <summary>
         /// Адрес места осуществления деятельности
         /// </summary>
-        [DataMember(Name = "address")]
+        [DataMember(Name = "address", IsRequired = false)]
         public Address Address { get; set; }
     }
 }

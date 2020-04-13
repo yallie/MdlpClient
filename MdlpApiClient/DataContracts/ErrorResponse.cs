@@ -6,6 +6,8 @@
     [DataContract]
     public class ErrorResponse
     {
+        // Sometimes error response has this structure: { timestamp, status, error, message, path }
+
         [DataMember(Name = "timestamp")] // "2020-04-13T12:51:22.873+0000",
         public DateTime TimeStamp { get; set; }
 
@@ -20,5 +22,10 @@
 
         [DataMember(Name = "path")] // "/api/v1/reestr/shtuchek/dryuchek"
         public string Path { get; set; }
+
+        // And sometimes it's like { error_description }
+
+        [DataMember(Name = "error_description")] // "Ошибка такая-то с подробностями",
+        public string Description { get; set; }
     }
 }

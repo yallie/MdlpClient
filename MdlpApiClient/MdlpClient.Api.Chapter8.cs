@@ -35,5 +35,18 @@
                 new Parameter("branch_id", branchId, ParameterType.UrlSegment)
             });
         }
+
+        /// <summary>
+        /// 8.1.4. Метод для регистрация места осуществления деятельности
+        /// </summary>
+        public string RegisterBranch(Address address)
+        {
+            var branch = Post<GetBranchResponse>("reestr/branches/register", new
+            {
+                branch_address = address
+            });
+
+            return branch.BranchID;
+        }
     }
 }

@@ -27,6 +27,7 @@
                     Error = info.GetString("Error"),
                     Message = info.GetString("Message"),
                     Path = info.GetString("Path"),
+                    Description = info.GetString("Description"),
                 };
             }
         }
@@ -47,6 +48,7 @@
                 info.AddValue("Error", ErrorResponse.Error);
                 info.AddValue("Message", ErrorResponse.Message);
                 info.AddValue("Path", ErrorResponse.Path);
+                info.AddValue("Description", ErrorResponse.Description);
             }
         }
     }

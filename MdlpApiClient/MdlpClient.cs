@@ -117,7 +117,8 @@
         {
             if (!response.IsSuccessful)
             {
-                Trace(response);
+                // already traced
+                //Trace(response);
 
                 // try to find the non-empty error message
                 var errorMessage = response.ErrorMessage;
@@ -137,7 +138,14 @@
                     if (Serializer.SupportedContentTypes.Contains(contentType))
                     {
                         errorResponse = Serializer.Deserialize<ErrorResponse>(response);
-                        contentMessage = errorResponse.Error;
+                        contentMessage = string.Join(". ", new[]
+                        {
+                            errorResponse.Error,
+                            errorResponse.Message,
+                            errorResponse.Description,
+                        }
+                        .Distinct()
+                        .Where(m => !string.IsNullOrWhiteSpace(m)));
                     }
                     else if (response.ContentType.ToLower().Contains("html"))
                     {
