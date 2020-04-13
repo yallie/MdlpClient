@@ -1,6 +1,7 @@
 # MdlpClient
 
-MDLP API REST Client.
+MDLP API REST Client.  
+Список реализованных методов: [list_of_methods.txt](https://github.com/yallie/MdlpClient/blob/master/Docs/list_of_methods.txt)
 
 # Официальная инструкция по быстрому старту
 
