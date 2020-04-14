@@ -93,5 +93,21 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.3.2. Метод поиска по реестру КИЗ по списку значений
+        /// </summary>
+        /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
+        /// <returns>Список КИЗ</returns>
+        public GetSgtinResponse GetSgtin(string[] sgtins)
+        {
+            return Post<GetSgtinResponse>("reestr/sgtin/sgtins-by-list", new
+            {
+                filter = new
+                {
+                    sgtins = sgtins
+                },
+            });
+        }
     }
 }

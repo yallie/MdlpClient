@@ -98,6 +98,27 @@ namespace MdlpApiClient.DataContracts
 {
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// 8.1.2. Адрес места осуществления деятельности.
+    /// </summary>
+    [DataContract]
+    public class Address
+    {
+        [DataMember(Name = "aoguid")]
+        public string AoGuid { get; set; }
+
+        [DataMember(Name = "houseguid")]
+        public string HouseGuid { get; set; }
+
+        [DataMember(Name = "address_description")]
+        public string AddressDescription { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
     [DataContract]
     internal class AuthResponse
     {
@@ -140,6 +161,129 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "life_time")]
         public int LifeTime { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.1.2. Место осуществления деятельности.
+    /// </summary>
+    [DataContract]
+    public class BranchEntry
+    {
+        /// <summary>
+        /// Уникальный идентификатор места осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Код субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_code")]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Название субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_name")]
+        public string FederalSubjectName { get; set; }
+
+        /// <summary>
+        /// Название организации
+        /// </summary>
+        [DataMember(Name = "org_name")]
+        public string OrgName { get; set; }
+
+        /// <summary>
+        /// Перечень работ/услуг согласно лицензии
+        /// </summary>
+        [DataMember(Name = "work_list")]
+        public string[] WorkList { get; set; }
+
+        /// <summary>
+        /// Адрес места осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "address")]
+        public Address Address { get; set; }
+
+        /// <summary>
+        /// Статус: 0 — не действует, 1 — действует, 2 — в процессе приостановления
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public int? Status { get; set; }
+
+        /// <summary>
+        /// Дата регистрации
+        /// </summary>
+        [DataMember(Name = "registration_date")]
+        public DateTime RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Дата приостановления
+        /// </summary>
+        [DataMember(Name = "suspension_date", IsRequired = false)]
+        public DateTime? SuspensionDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.1.2. Фильтр для мест осуществления деятельности.
+    /// Содержит информацию для фильтрации списка мест осуществления деятельности.
+    /// </summary>
+    [DataContract]
+    public class BranchFilter
+    {
+        /// <summary>
+        /// Уникальный идентификатор места осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "branch_id", IsRequired = false)]
+        public string BranchID { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор дома
+        /// </summary>
+        [DataMember(Name = "houseguid", IsRequired = false)]
+        public string HouseGuid { get; set; }
+
+        /// <summary>
+        /// Код субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_code", IsRequired = false)]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Код округа РФ
+        /// </summary>
+        [DataMember(Name = "federal_district_code", IsRequired = false)]
+        public string FederalDistrictCode { get; set; }
+
+        /// <summary>
+        /// Статус: 0 — не действует, 1 — действует, 2 — в процессе приостановления
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public int? Status { get; set; }
+
+        /// <summary>
+        /// Дата начала периода фильтрации
+        /// </summary>
+        [DataMember(Name = "start_date", IsRequired = false)]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Дата окончания периода фильтрации
+        /// </summary>
+        [DataMember(Name = "end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; }
     }
 }
 
@@ -194,17 +338,14 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Уникальный идентификатор отправителя.
         /// Идентификатор места осуществления деятельности, места ответственного 
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
-        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sender_id", IsRequired = false)]
         public string SenderID { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор получателя.
         /// Идентификатор места осуществления деятельности, места ответственного 
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
-        /// Применимо для входящих документов.
-        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// Применимо для входящих документов.        /// </summary>
         [DataMember(Name = "receiver_id", IsRequired = false)]
         public string ReceiverID { get; set; }
 
@@ -275,8 +416,7 @@ namespace MdlpApiClient.DataContracts
         /// Квитанция для документа с информацией о причине сбоя 
         /// сформирована и может быть получена по request_id
         /// </summary>
-        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";
-    }
+        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";    }
 }
 
 namespace MdlpApiClient.DataContracts
@@ -360,6 +500,150 @@ namespace MdlpApiClient.DataContracts
 {
     using System.Runtime.Serialization;
 
+    [DataContract]
+    public class EgripRegistryResponse
+    {
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        [DataMember(Name = "FIRST_NAME")]
+        public string FirstName { get; set; }
+
+        [DataMember(Name = "MIDDLE_NAME")]
+        public string MiddleName { get; set; }
+
+        [DataMember(Name = "LAST_NAME")]
+        public string LastName { get; set; }
+
+        [DataMember(Name = "ORG_NAME")]
+        public string OrgName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    public class EgrulRegistryResponse
+    {
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        [DataMember(Name = "OGRN")]
+        public string Ogrn { get; set; }
+
+        [DataMember(Name = "KPP")]
+        public string Kpp { get; set; }
+
+        [DataMember(Name = "FIRST_NAME")]
+        public string FirstName { get; set; }
+
+        [DataMember(Name = "MIDDLE_NAME")]
+        public string MiddleName { get; set; }
+
+        [DataMember(Name = "LAST_NAME")]
+        public string LastName { get; set; }
+
+        [DataMember(Name = "ORG_NAME")]
+        public string OrgName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    public class EmptyResponse
+    {
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    public class ErrorResponse
+    {
+        // Sometimes error response has this structure: { timestamp, status, error, message, path }
+
+        [DataMember(Name = "timestamp")] // "2020-04-13T12:51:22.873+0000",
+        public DateTime TimeStamp { get; set; }
+
+        [DataMember(Name = "status")] // 404,
+        public int StatusCode { get; set; }
+
+        [DataMember(Name = "error")] // "Not Found",
+        public string Error { get; set; }
+
+        [DataMember(Name = "message")] // "Not Found",
+        public string Message{ get; set; }
+
+        [DataMember(Name = "path")] // "/api/v1/reestr/shtuchek/dryuchek"
+        public string Path { get; set; }
+
+        // And sometimes it's like { error_description }
+
+        [DataMember(Name = "error_description")] // "Ошибка такая-то с подробностями",
+        public string Description { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.1.2. Список мест осуществления деятельности.
+    /// </summary>
+    [DataContract]
+    public class GetBranchesResponse
+    {
+        [DataMember(Name = "entries")]
+        public BranchEntry[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.1.3. Получение информации о конкретном месте осуществления деятельности
+    /// </summary>
+    [DataContract]
+    public class GetBranchResponse
+    {
+        /// <summary>
+        /// Уникальный идентификатор места осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "branch_id", IsRequired = false)]
+        public string BranchID { get; set; }
+
+        /// <summary>
+        /// Адрес места осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "address", IsRequired = false)]
+        public Address Address { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// 5.10. Получение документа по идентификатору
     /// </summary>
@@ -421,6 +705,93 @@ namespace MdlpApiClient.DataContracts
     {
         [DataMember(Name = "doc_size")]
         public int DocSize { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.1. Список КИЗ
+    /// </summary>
+    [DataContract]
+    public class GetSgtinResponse
+    {
+        [DataMember(Name = "entries")]
+        public SgtinExtended[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.1.3. Получение информации о конкретном месте ответственного хранения
+    /// </summary>
+    [DataContract]
+    public class GetWarehouseResponse
+    {
+        /// <summary>
+        /// Уникальный идентификатор места ответственного хранения
+        /// </summary>
+        [DataMember(Name = "warehouse_id", IsRequired = false)]
+        public string WarehouseID { get; set; }
+
+        /// <summary>
+        /// Адрес места ответственного хранения
+        /// </summary>
+        [DataMember(Name = "address", IsRequired = false)]
+        public Address Address { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.2.2. Список мест ответственного хранения.
+    /// </summary>
+    [DataContract]
+    public class GetWarehousesResponse
+    {
+        [DataMember(Name = "entries")]
+        public WarehouseEntry[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    public class RafpRegistryResponse
+    {
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        [DataMember(Name = "FIRST_NAME")]
+        public string FirstName { get; set; }
+
+        [DataMember(Name = "MIDDLE_NAME")]
+        public string MiddleName { get; set; }
+
+        [DataMember(Name = "LAST_NAME")]
+        public string LastName { get; set; }
+
+        [DataMember(Name = "KPP")]
+        public string Kpp { get; set; }
     }
 }
 
@@ -523,6 +894,581 @@ namespace MdlpApiClient.DataContracts
     }
 }
 
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.32. Формат объекта SGTIN
+    /// </summary>
+    [DataContract]
+    public class Sgtin
+    {
+        /// <summary>
+        /// Уникальный идентификатор
+        /// </summary>
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// ИНН владельца
+        /// </summary>
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// SGTIN (КИЗ) 
+        /// </summary>
+        [DataMember(Name = "sgtin")]
+        public string SgtinValue { get; set; }
+
+        /// <summary>
+        /// Статус (см. Список возможных статусов КИЗ)
+        /// </summary>
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Дата последней смены статуса
+        /// </summary>
+        [DataMember(Name = "status_date")]
+        public DateTime StatusFrom { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "batch")]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Наименование владельца
+        /// </summary>
+        [DataMember(Name = "owner")]
+        public string Owner { get; set; }
+
+        /// <summary>
+        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// </summary>
+        [DataMember(Name = "emission_type")]
+        public int EmissionType { get; set; }
+
+        /// <summary>
+        /// Дата ввода в гражданский оборот
+        /// </summary>
+        [DataMember(Name = "release_date")]
+        public DateTime ReleaseDate { get; set; }
+
+        /// <summary>
+        /// Дата начала периода регистрации
+        /// </summary>
+        [DataMember(Name = "emission_operation_date")]
+        public DateTime EmissionDate { get; set; }
+
+        /// <summary>
+        /// Код субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_code", IsRequired = false)]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Местонахождение ЛП — название субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_name")]
+        public string FederalSubjectName { get; set; }
+
+        /// <summary>
+        /// Срок годности
+        /// </summary>
+        [DataMember(Name = "expiration_date", IsRequired = false)]
+        public DateTime? ExpirationDate { get; set; }
+
+        /// <summary>
+        /// Название препарата.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "sell_name", IsRequired = false)]
+        public string SellingName { get; set; }
+
+        /// <summary>
+        /// Полное наименование товара
+        /// Например: лиофилизат для приготовления концентрата для приготовления раствора для инфузий "гертикад®" 150 мг, 440 мг
+        /// </summary>
+        [DataMember(Name = "full_prod_name", IsRequired = false)]
+        public string FullProductName { get; set; }
+
+        /// <summary>
+        /// Держатель рег. удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_holder", IsRequired = false)]
+        public string RegHolder { get; set; }
+
+        /// <summary>
+        /// Полное наименование товара (что это за чертовщина?)
+        /// </summary>
+        [DataMember(Name = "pack1_desc", IsRequired = false)]
+        public string Pack1Desc { get; set; }
+
+        /// <summary>
+        /// SSCC (Идентификатор третичной упаковки)
+        /// </summary>
+        [DataMember(Name = "pack3_id", IsRequired = false)]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// Дата выполнения последней операции
+        /// </summary>
+        [DataMember(Name = "last_tracing_op_date", IsRequired = false)]
+        public DateTime? LastTracingDate { get; set; }
+
+        /// <summary>
+        /// Источник финансирования.
+        /// Возможные значения см. в XSD описании базовых типов комплекта схем.
+        /// </summary>
+        [DataMember(Name = "source_type", IsRequired = false)]
+        public int? SourceType { get; set; }
+
+        /// <summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        [DataMember(Name = "drug_code", IsRequired = false)]
+        public string DrugCode { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_name", IsRequired = false)]
+        public string ProdFormName { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_name", IsRequired = false)]
+        public string ProdDosageName { get; set; }
+
+        /// <summary>
+        /// Идентификатор места нахождения товара в ЗТК (в формате SysID)
+        /// </summary>
+        [DataMember(Name = "customs_point_id", IsRequired = false)]
+        public string CustomsPointID { get; set; }
+
+        /// <summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        [DataMember(Name = "oms_order_id", IsRequired = false)]
+        public string OmsOrderID { get; set; }
+
+        /// <summary>
+        /// Информация о биллинге        /// </summary>
+        [DataMember(Name = "billing_info", IsRequired = false)]
+        public SgtinBillingInformation BillingInfo { get; set; }
+
+        /// <summary>
+        /// Состояние оплаты SGTIN
+        /// 0 — успешно оплачен
+        /// 1 — выбран для перемещения в очередь на оплату
+        /// 2 — помещается в очередь на оплату
+        /// 3 — помещен в очередь на оплату
+        /// 4 — не оплачен в установленные сроки
+        /// </summary>
+        [DataMember(Name = "billing_state", IsRequired = false)]
+        public int? BillingState { get; set; }
+
+        /// <summary>
+        /// Признак, отображающий, относится ли ЛП к списку 7ВЗН
+        /// </summary>
+        [DataMember(Name = "vzn_drug")]
+        public bool VznDrug { get; set; }
+
+        /// <summary>
+        /// Признак наличия в ЖНВЛП
+        /// </summary>
+        [DataMember(Name = "gnvlp")]
+        public bool Gnvlp { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.34. Формат объекта SgtinBillingInformation
+    /// </summary>
+    [DataContract]
+    public class SgtinBillingInformation
+    {
+        /// <summary>
+        /// Признак предоплаты
+        /// </summary>
+        [DataMember(Name = "is_prepaid")]
+        public bool IsPrepaid { get; set; }
+
+        /// <summary>
+        /// Признак бесплатного кода
+        /// </summary>
+        [DataMember(Name = "free_code")]
+        public bool FreeCode { get; set; }
+
+        /// <summary>
+        /// Статус оплаты
+        /// </summary>
+        [DataMember(Name = "is_paid")]
+        public bool IsPaid { get; set; }
+
+        /// <summary>
+        /// Признак вхождения в список высокозатратных нозологий        /// </summary>
+        [DataMember(Name = "contains_vzn")]
+        public bool ContainsVzn { get; set; }
+
+        /// <summary>
+        /// Список информации о платежах        /// </summary>
+        [DataMember(Name = "payments")]
+        public SgtinPaymentInformation[] Payments { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.33. Формат объекта SgtinExtended
+    /// </summary>
+    [DataContract]
+    public class SgtinExtended : Sgtin
+    {
+        // <summary>
+        // Идентификатор заказа системы управления заказами (СУЗ), Guid        // Он и так есть в классе Sgtin.        // </summary>
+        // [DataMember(Name = "oms_order_id", IsRequired = false)]
+        // public string OmsOrderID { get; set; }
+
+        /// <summary>
+        /// ИНН/ИТИН производителя-упаковщика        /// </summary>
+        [DataMember(Name = "packing_inn", IsRequired = false)]
+        public string PackingInn { get; set; }
+
+        /// <summary>
+        /// Наименование производителя-упаковщика        /// </summary>
+        [DataMember(Name = "packing_name", IsRequired = false)]
+        public string PackingName { get; set; }
+
+        /// <summary>
+        /// ИНН/ИТИН производителя-выпускающего        /// </summary>
+        [DataMember(Name = "control_inn", IsRequired = false)]
+        public string ControlInn { get; set; }
+
+        /// <summary>
+        /// Наименование производителя-выпускающего        /// </summary>
+        [DataMember(Name = "control_name", IsRequired = false)]
+        public string ControlName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter    /// </summary>
+    [DataContract]
+    public class SgtinFilter
+    {
+        /// <summary>
+        /// Статус
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public string[] Status { get; set; }
+
+        /// <summary>
+        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// </summary>
+        [DataMember(Name = "emission_type", IsRequired = false)]
+        public int[] EmissionType { get; set; }
+
+        /// <summary>
+        /// Название препарата.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "sell_name", IsRequired = false)]
+        public string SellingName { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin", IsRequired = false)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin", IsRequired = false)]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// SSCC (Идентификатор третичной упаковки)
+        /// </summary>
+        [DataMember(Name = "pack3_id", IsRequired = false)]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "batch", IsRequired = false)]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
+        [DataMember(Name = "sys_id", IsRequired = false)]
+        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
+
+        /// <summary>
+        /// Дата упаковки, начала временного диапазона — дата ввода в гражданский оборот
+        /// </summary>
+        [DataMember(Name = "release_date_from", IsRequired = false)]
+        public DateTime? ReleaseDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата упаковки, конец временного диапазона — дата окончания в гражданский оборот
+        /// </summary>
+        [DataMember(Name = "release_date_to", IsRequired = false)]
+        public DateTime? ReleaseDateTo { get; set; }
+
+        /// <summary>
+        /// Дата начала периода регистрации
+        /// </summary>
+        [DataMember(Name = "emission_operation_date_from", IsRequired = false)]
+        public DateTime? EmissionDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата окончания периода регистрации
+        /// </summary>
+        [DataMember(Name = "emission_operation_date_to", IsRequired = false)]
+        public DateTime? EmissionDateTo { get; set; }
+
+        /// <summary>
+        /// Дата начала периода выполнения последней операции
+        /// </summary>
+        [DataMember(Name = "last_tracing_op_date_from", IsRequired = false)]
+        public DateTime? LastTracingDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата окончания периода выполнения последней операции
+        /// </summary>
+        [DataMember(Name = "last_tracing_op_date_to", IsRequired = false)]
+        public DateTime? LastTracingDateTo { get; set; }
+
+        /// <summary>
+        /// Источник финансирования.
+        /// Возможные значения см. в XSD описании базовых типов комплекта схем.
+        /// </summary>
+        [DataMember(Name = "source_type", IsRequired = false)]
+        public int[] SourceType { get; set; }
+
+        /// <summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        [DataMember(Name = "oms_order_id", IsRequired = false)]
+        public string OmsOrderID { get; set; }
+
+        /// <summary>
+        /// Информация о биллинге        /// </summary>
+        [DataMember(Name = "billing_info", IsRequired = false)]
+        public SgtinBillingInformation BillingInfo { get; set; }
+
+        /// <summary>
+        /// Признак, отображающий, относится ли ЛП к списку 7ВЗН
+        /// </summary>
+        [DataMember(Name = "vzn_drug", IsRequired = false)]
+        public bool? VznDrug { get; set; }
+
+        /// <summary>
+        /// Признак наличия в ЖНВЛП
+        /// </summary>
+        [DataMember(Name = "gnvlp", IsRequired = false)]
+        public bool? Gnvlp { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.35. Формат объекта SgtinPaymentInformation
+    /// </summary>
+    [DataContract]
+    public class SgtinPaymentInformation
+    {
+        /// <summary>
+        /// Дата создания
+        /// </summary>
+        [DataMember(Name = "created_date", IsRequired = false)]
+        public DateTime? CreatedDate { get; set; }
+
+        /// <summary>
+        /// Дата оплаты платежа
+        /// </summary>
+        [DataMember(Name = "payment_date", IsRequired = false)]
+        public DateTime? PaymentDate { get; set; }
+
+        /// <summary>
+        /// Тариф оплаты
+        /// </summary>
+        [DataMember(Name = "tariff", IsRequired = false)]
+        public decimal? Tariff { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.2.2. Место ответственного хранения
+    /// </summary>
+    [DataContract]
+    public class WarehouseEntry
+    {
+        /// <summary>
+        /// Уникальный идентификатор места ответственного хранения
+        /// </summary>
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Код субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_code")]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Название субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_name")]
+        public string FederalSubjectName { get; set; }
+
+        /// <summary>
+        /// Название организации
+        /// </summary>
+        [DataMember(Name = "org_name")]
+        public string OrgName { get; set; }
+
+        /// <summary>
+        /// ИНН юридического лица
+        /// </summary>
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Перечень работ/услуг согласно лицензии
+        /// </summary>
+        [DataMember(Name = "work_list")]
+        public string[] WorkList { get; set; }
+
+        /// <summary>
+        /// Адрес места осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "address")]
+        public Address Address { get; set; }
+
+        /// <summary>
+        /// Название владельца лицензии
+        /// </summary>
+        [DataMember(Name = "warehouse_org_name")]
+        public string WarehouseOrgName { get; set; }
+
+        /// <summary>
+        /// ИНН владельца лицензии
+        /// </summary>
+        [DataMember(Name = "warehouse_org_inn")]
+        public string WarehouseOrgInn { get; set; }
+
+        /// <summary>
+        /// Статус: 0 — не действует, 1 — действует, 2 — в процессе приостановления
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public int? Status { get; set; }
+
+        /// <summary>
+        /// Дата регистрации
+        /// </summary>
+        [DataMember(Name = "registration_date")]
+        public DateTime RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Дата приостановления
+        /// </summary>
+        [DataMember(Name = "suspension_date", IsRequired = false)]
+        public DateTime? SuspensionDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.2.2. Метод для поиска информации о местах ответственного хранения по фильтру
+    /// </summary>
+    [DataContract]
+    public class WarehouseFilter
+    {
+        /// <summary>
+        /// Уникальный идентификатор места ответственного хранения
+        /// </summary>
+        [DataMember(Name = "warehouse_id", IsRequired = false)]
+        public string WarehouseID { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор дома
+        /// </summary>
+        [DataMember(Name = "houseguid", IsRequired = false)]
+        public string HouseGuid { get; set; }
+
+        /// <summary>
+        /// Статус: 0 — не действует, 1 — действует, 2 — в процессе приостановления
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public int? Status { get; set; }
+
+        /// <summary>
+        /// Дата начала периода фильтрации по дате регистрации
+        /// </summary>
+        [DataMember(Name = "start_date", IsRequired = false)]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Дата окончания периода фильтрации по дате регистрации
+        /// </summary>
+        [DataMember(Name = "end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; }
+    }
+}
+
 namespace MdlpApiClient
 {
     using DataContracts;
@@ -530,9 +1476,10 @@ namespace MdlpApiClient
     using System.Text;
     using System.Security.Cryptography;
     using MdlpApiClient.Toolbox;
+    using RestSharp;
 
     /// <remarks>
-    /// This file contains strongly typed REST API methods.
+    /// Strongly typed REST API methods. Chapter 5: documents.
     /// </remarks>
     partial class MdlpClient
     {
@@ -645,7 +1592,10 @@ namespace MdlpApiClient
         /// <returns>Метаданные документа</returns>
         public DocumentMetadata GetDocumentMetadata(string documentId)
         {
-            return Get<DocumentMetadata>("documents/" + documentId);
+            return Get<DocumentMetadata>("documents/{document_id}", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+            });
         }
 
         /// <summary>
@@ -654,7 +1604,11 @@ namespace MdlpApiClient
         /// <param name="documentId">Идентификатор документа</param>
         public string GetDocument(string documentId)
         {
-            var docLink = Get<GetDocumentResponse>("/documents/download/" + documentId);
+            var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+            });
+
             return Get(docLink.Link);
         }
 
@@ -664,7 +1618,10 @@ namespace MdlpApiClient
         /// <param name="requestId">Идентификатор запроса</param>
         public GetDocumentsResponse GetDocuments(string requestId)
         {
-            return Get<GetDocumentsResponse>("documents/request/" + requestId);
+            return Get<GetDocumentsResponse>("documents/request/{request_id}", new[]
+            {
+                new Parameter("request_id", requestId, ParameterType.UrlSegment),
+            });
         }
 
         /// <summary>
@@ -673,7 +1630,11 @@ namespace MdlpApiClient
         /// <param name="requestId">Идентификатор документа</param>
         public string GetTicket(string documentId)
         {
-            var link = Get<GetDocumentResponse>("documents/" + documentId + "/ticket");
+            var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+            });
+
             return Get(link.Link);
         }
 
@@ -683,7 +1644,11 @@ namespace MdlpApiClient
         /// <param name="requestId">Идентификатор документа</param>
         public string GetSignature(string documentId)
         {
-            return Get("documents/" + documentId + "/signature", accept: "text/plain");
+            return Get("documents/{document_id}/signature", new[]
+            {
+                new Parameter("document_id", documentId, ParameterType.UrlSegment),
+                new Parameter("Accept", "text/plain", ParameterType.HttpHeader),
+            });
         }
 
         /// <summary>
@@ -712,7 +1677,7 @@ namespace MdlpApiClient
     using DataContracts;
 
     /// <remarks>
-    /// This file contains strongly typed REST API methods.
+    /// Strongly typed REST API methods. Chapter 6: users accounts.
     /// </remarks>
     partial class MdlpClient
     {
@@ -751,12 +1716,154 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using DataContracts;
+
+    /// <remarks>
+    /// Strongly typed REST API methods. Chapter 7: registries.
+    /// </remarks>
+    partial class MdlpClient
+    {
+        /// <summary>
+        /// 7.1.1. Получение данных записи ЕГРЮЛ
+        /// </summary>
+        /// <returns>Данные из реестра ЕГРЮЛ</returns>
+        public EgrulRegistryResponse GetEgrulRegistryEntry()
+        {
+            return Get<EgrulRegistryResponse>("reestr/egrul");
+        }
+
+        /// <summary>
+        /// 7.2.1. Получение данных записи ЕГРИП
+        /// </summary>
+        /// <returns>Данные из реестра ЕГРИП</returns>
+        public EgripRegistryResponse GetEgripRegistryEntry()
+        {
+            return Get<EgripRegistryResponse>("reestr/egrip");
+        }
+
+        /// <summary>
+        /// 7.3.1. Получение записи реестра РАФП (реестра аккредитованных филиалов и представительств)
+        /// </summary>
+        /// <returns>Данные из реестра РАФП</returns>
+        public RafpRegistryResponse GetRafpRegistryEntry()
+        {
+            return Get<RafpRegistryResponse>("reestr/rafp");
+        }
+    }
+}
+
+namespace MdlpApiClient
+{
+    using DataContracts;
+    using RestSharp;
+
+    /// <remarks>
+    /// Strongly typed REST API methods. Chapter 8: MDLP information.
+    /// </remarks>
+    partial class MdlpClient
+    {
+        /// <summary>
+        /// 8.1.2. Метод для поиска информации о местах осуществления деятельности по фильтру
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска мест осуществления деятельности</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
+        /// <param name="count">Количество записей в списке возвращаемых мест</param>
+        /// <returns>Список мест осуществления деятельности</returns>
+        public GetBranchesResponse GetBranches(BranchFilter filter, int startFrom, int count)
+        {
+            return Post<GetBranchesResponse>("reestr/branches/filter", new
+            {
+                filter = filter ?? new BranchFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.1.3. Получение информации о конкретном месте осуществления деятельности
+        /// </summary>
+        public GetBranchResponse GetBranch(string branchId)
+        {
+            return Get<GetBranchResponse>("reestr/branches/{branch_id}", new[]
+            {
+                new Parameter("branch_id", branchId, ParameterType.UrlSegment)
+            });
+        }
+
+        /// <summary>
+        /// 8.1.4. Метод для регистрация места осуществления деятельности
+        /// </summary>
+        public string RegisterBranch(Address address)
+        {
+            var branch = Post<GetBranchResponse>("reestr/branches/register", new
+            {
+                branch_address = address
+            });
+
+            return branch.BranchID;
+        }
+
+        /// <summary>
+        /// 8.2.2. Метод для поиска информации о местах ответственного хранения по фильтру
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска мест осуществления деятельности</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
+        /// <param name="count">Количество записей в списке возвращаемых мест</param>
+        /// <returns>Список мест ответственного хранения</returns>
+        public GetWarehousesResponse GetWarehouses(WarehouseFilter filter, int startFrom, int count)
+        {
+            return Post<GetWarehousesResponse>("reestr/warehouses/filter", new
+            {
+                filter = filter ?? new WarehouseFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.2.3. Получение информации о конкретном месте ответственного хранения
+        /// </summary>
+        public GetWarehouseResponse GetWarehouses(string warehouseId)
+        {
+            return Get<GetWarehouseResponse>("reestr/warehouses/{warehouse_id}", new[]
+            {
+                new Parameter("warehouse_id", warehouseId, ParameterType.UrlSegment)
+            });
+        }
+
+        /// <summary>
+        /// 8.3.1. Метод для поиска по реестру КИЗ
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
+        public GetSgtinResponse GetSgtin(SgtinFilter filter, int startFrom, int count)
+        {
+            return Post<GetSgtinResponse>("reestr/sgtin/filter", new
+            {
+                filter = filter ?? new SgtinFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+    }
+}
+
+namespace MdlpApiClient
+{
     using System.Text;
     using RestSharp;
     using System.Security.Cryptography.X509Certificates;
     using MdlpApiClient.Toolbox;
     using System.Runtime.CompilerServices;
     using MdlpApiClient.Serialization;
+    using System.Xml;
+    using RestSharp.Serialization;
+    using System.Linq;
+    using MdlpApiClient.DataContracts;
+    using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// MDLP REST API client.
@@ -785,13 +1892,16 @@ namespace MdlpApiClient
             {
                 Authenticator = new CredentialsAuthenticator(this, credentials),
                 Encoding = Encoding.UTF8,
-                ThrowOnAnyError = true
+                ThrowOnDeserializationError = false
             };
 
-            Client.UseSerializer<ServiceStackSerializer>();
+            Serializer = new ServiceStackSerializer();
+            Client.UseSerializer(() => Serializer);
         }
 
         public string BaseUrl { get; private set; }
+
+        private IRestSerializer Serializer { get; set; }
 
         public IRestClient Client { get; private set; }
 
@@ -831,6 +1941,87 @@ namespace MdlpApiClient
             return GostCryptoHelpers.ComputeDetachedSignature(UserCertificate, textToSign);
         }
 
+        private void PrepareRequest(IRestRequest request, string apiMethodName)
+        {
+            // use request parameters to store additional properties, not really used by the requests
+            request.AddParameter(ApiTimestampParameterName, DateTime.Now.Ticks, ParameterType.UrlSegment);
+            request.AddParameter(ApiStopwatchParameterName, Stopwatch.StartNew(), ParameterType.UrlSegment);
+            if (!string.IsNullOrWhiteSpace(apiMethodName))
+            {
+                request.AddHeader(ApiMethodNameHeaderName, apiMethodName);
+            }
+
+            // trace requests and responses
+            if (Tracer != null)
+            {
+                request.OnBeforeRequest = http => Trace(http, request);
+                request.OnBeforeDeserialization = resp => Trace(resp);
+            }
+        }
+
+        private void ThrowOnFailure(IRestResponse response)
+        {
+            if (!response.IsSuccessful)
+            {
+                // already traced
+                //Trace(response);
+
+                // try to find the non-empty error message
+                var errorMessage = response.ErrorMessage;
+                var contentMessage = response.Content;
+                var errorResponse = default(ErrorResponse);
+                if (response.ContentType != null)
+                {
+                    // Text/plain;charset=UTF-8 => text/plain
+                    var contentType = response.ContentType.ToLower().Trim();
+                    var semicolonIndex = contentType.IndexOf(';');
+                    if (semicolonIndex >= 0)
+                    {
+                        contentType = contentType.Substring(0, semicolonIndex).Trim();
+                    }
+
+                    // Try to deserialize error response DTO
+                    if (Serializer.SupportedContentTypes.Contains(contentType))
+                    {
+                        errorResponse = Serializer.Deserialize<ErrorResponse>(response);
+                        contentMessage = string.Join(". ", new[]
+                        {
+                            errorResponse.Error,
+                            errorResponse.Message,
+                            errorResponse.Description,
+                        }
+                        .Distinct()
+                        .Where(m => !string.IsNullOrWhiteSpace(m)));
+                    }
+                    else if (response.ContentType.ToLower().Contains("html"))
+                    {
+                        // Try to parse HTML
+                        contentMessage = HtmlHelper.ExtractText(response.Content);
+                    }
+                    else
+                    {
+                        // Return as is assuming text/plain content
+                        contentMessage = response.Content;
+                    }
+                }
+
+                // HTML->XML deserialization errors are meaningless
+                if (response.ErrorException is XmlException && errorMessage == response.ErrorException.Message)
+                {
+                    errorMessage = contentMessage;
+                }
+
+                // empty error message is meaningless
+                if (string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    errorMessage = contentMessage;
+                }
+
+                // finally, throw it
+                throw new MdlpException(response.StatusCode, errorMessage, errorResponse, response.ErrorException);
+            }
+        }
+
         /// <summary>
         /// Executes the given request and checks the result.
         /// </summary>
@@ -840,24 +2031,9 @@ namespace MdlpApiClient
         internal T Execute<T>(IRestRequest request, string apiMethodName)
             where T : class, new()
         {
-            if (!string.IsNullOrWhiteSpace(apiMethodName))
-            {
-                request.AddHeader(ApiMethodNameHeader, apiMethodName);
-            }
-
-            // trace requests and responses
-            if (Tracer != null)
-            {
-                request.OnBeforeRequest = http => Trace(http, request);
-                request.OnBeforeDeserialization = resp => Trace(resp);
-            }
-
+            PrepareRequest(request, apiMethodName);
             var response = Client.Execute<T>(request);
-            if (!response.IsSuccessful)
-            {
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
-
+            ThrowOnFailure(response);
             return response.Data;
         }
 
@@ -868,24 +2044,12 @@ namespace MdlpApiClient
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         internal void Execute(IRestRequest request, string apiMethodName)
         {
-            if (!string.IsNullOrWhiteSpace(apiMethodName))
-            {
-                request.AddHeader(ApiMethodNameHeader, apiMethodName);
-            }
-
-            // trace requests and responses
-            if (Tracer != null)
-            {
-                request.OnBeforeRequest = http => Trace(http, request);
-                request.OnBeforeDeserialization = resp => Trace(resp);
-            }
-
+            PrepareRequest(request, apiMethodName);
             var response = Client.Execute(request);
-            if (!response.IsSuccessful)
-            {
-                Trace(response);
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
+
+            // there is no body deserialization step, so we need to trace
+            Trace(response);
+            ThrowOnFailure(response);
         }
 
         /// <summary>
@@ -895,25 +2059,12 @@ namespace MdlpApiClient
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         internal string ExecuteString(IRestRequest request, string apiMethodName)
         {
-            if (!string.IsNullOrWhiteSpace(apiMethodName))
-            {
-                request.AddHeader(ApiMethodNameHeader, apiMethodName);
-            }
-
-            // trace requests and responses
-            if (Tracer != null)
-            {
-                request.OnBeforeRequest = http => Trace(http, request);
-                request.OnBeforeDeserialization = resp => Trace(resp);
-            }
-
+            PrepareRequest(request, apiMethodName);
             var response = Client.Execute(request);
-            if (!response.IsSuccessful)
-            {
-                Trace(response);
-                throw new MdlpException(response.StatusCode, response.ErrorMessage, response.ErrorException);
-            }
 
+            // there is no body deserialization step, so we need to trace
+            Trace(response);
+            ThrowOnFailure(response);
             return response.Content;
         }
 
@@ -922,11 +2073,17 @@ namespace MdlpApiClient
         /// </summary>
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public T Get<T>(string url, [CallerMemberName] string apiMethodName = null)
+        public T Get<T>(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             return Execute<T>(request, apiMethodName);
         }
 
@@ -934,15 +2091,20 @@ namespace MdlpApiClient
         /// Performs GET request and returns a string.
         /// </summary>
         /// <param name="url">Resource url.</param>
-        /// <param name="accept">Override accept header.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public string Get(string url, string accept = null, [CallerMemberName] string apiMethodName = null)
+        public string Get(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
-            if (!string.IsNullOrWhiteSpace(accept))
+            if (!parameters.IsNullOrEmpty())
             {
-                request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
+                request.AddOrUpdateParameters(parameters);
             }
+
+            //if (!string.IsNullOrWhiteSpace(accept))
+            //{
+            //    request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
+            //}
 
             return ExecuteString(request, apiMethodName);
         }
@@ -953,12 +2115,18 @@ namespace MdlpApiClient
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public T Post<T>(string url, object body, [CallerMemberName] string apiMethodName = null)
+        public T Post<T>(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
             where T : class, new()
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             return Execute<T>(request, apiMethodName);
         }
 
@@ -968,11 +2136,17 @@ namespace MdlpApiClient
         /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public void Post(string url, object body, [CallerMemberName] string apiMethodName = null)
+        public void Post(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             Execute(request, apiMethodName);
         }
 
@@ -1000,10 +2174,13 @@ namespace MdlpApiClient
     using RestSharp;
     using RestSharp.Serialization.Json;
     using MdlpApiClient.Toolbox;
+    using System.Diagnostics;
 
     partial class MdlpClient
     {
-        private const string ApiMethodNameHeader = "X-ApiMethodName";
+        private const string ApiMethodNameHeaderName = "X-ApiMethodName";
+        private const string ApiTimestampParameterName = "X-ApiTimestamp";
+        private const string ApiStopwatchParameterName = "X-ApiStopwatch";
 
         public Action<string, object[]> Tracer { get; set; }
 
@@ -1027,7 +2204,7 @@ namespace MdlpApiClient
                 return "headers: none" + CR;
             }
 
-            return "headers: {" + CR + 
+            return "headers: {" + CR +
                 string.Join(CR, headers.Select(h => "  " + h.Item1 + " = " + h.Item2)) +
             CR + "}" + CR;
         }
@@ -1123,7 +2300,7 @@ namespace MdlpApiClient
             if (tracer != null)
             {
                 // trace API method name
-                var apiMethod = http.Headers.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiMethodNameHeader));
+                var apiMethod = http.Headers.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiMethodNameHeaderName));
                 if (apiMethod != null && !string.IsNullOrWhiteSpace(apiMethod.Value))
                 {
                     tracer("// {0}", new[] { apiMethod.Value });
@@ -1144,25 +2321,82 @@ namespace MdlpApiClient
             }
         }
 
+        public static string FormatTimings(DateTime? startTime, Stopwatch stopwatch)
+        {
+            if (startTime == null && stopwatch == null)
+            {
+                return string.Empty;
+            }
+
+            var items = new List<string>()
+            {
+                "timings: {"
+            };
+
+            if (startTime.HasValue)
+            {
+                items.Add("  started: " + startTime.Value.ToString("s").Replace("T", " ").Replace("00:00:00", "").Trim());
+            }
+
+            if (stopwatch != null)
+            {
+                stopwatch.Stop();
+                items.Add("  elapsed: " + stopwatch.Elapsed);
+            }
+
+            items.Add("}");
+            return string.Join(CR, items) + CR;
+        }
+
+        private static string FormatTimings(IRestResponse response)
+        {
+            // extract timings from request parameters
+            var timings = string.Empty;
+            var startTime = default(DateTime?);
+            var timestampParameter = response.Request.Parameters.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiTimestampParameterName));
+            if (timestampParameter != null && timestampParameter.Value != null)
+            {
+                var timestampTicks = Convert.ToInt64(timestampParameter.Value);
+                startTime = new DateTime(timestampTicks);
+            }
+
+            var stopwatch = default(Stopwatch);
+            var stopwatchParameter = response.Request.Parameters.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiStopwatchParameterName));
+            if (stopwatchParameter != null && stopwatchParameter.Value is Stopwatch)
+            {
+                stopwatch = stopwatchParameter.Value as Stopwatch;
+                if (stopwatch != null)
+                {
+                    stopwatch.Stop();
+                }
+            }
+
+            // trace timestamp and duration
+            return FormatTimings(startTime, stopwatch);
+        }
+
         private void Trace(IRestResponse response)
         {
             var tracer = Tracer;
             if (tracer != null)
             {
+                // trace the response
                 var result = response.IsSuccessful ? "OK" : "ERROR";
+                var timings = FormatTimings(response);
                 var headerList = response.Headers.Select(p => Tuple.Create(p.Name, p.Value));
                 var headers = FormatHeaders(headerList);
                 var body = FormatBody(response.Content);
                 var errorMessage = string.IsNullOrWhiteSpace(response.ErrorMessage) ? string.Empty :
                     "error message: " + response.ErrorMessage + CR;
 
-                tracer("<- {0} {1} ({2}) {3}{4}{5}{6}{7}", new object[]
+                tracer("<- {0} {1} ({2}) {3}{4}{5}{6}{7}{8}", new object[]
                 {
                     result,
                     (int)response.StatusCode,
                     response.StatusCode.ToString(),
                     response.ResponseUri, CR,
                     errorMessage,
+                    timings,
                     headers,
                     body,
                 });
@@ -1176,28 +2410,53 @@ namespace MdlpApiClient
     using System;
     using System.Net;
     using System.Runtime.Serialization;
+    using MdlpApiClient.DataContracts;
 
     [Serializable]
     public class MdlpException : Exception
     {
-        public MdlpException(HttpStatusCode code, string message, Exception innerException)
+        public MdlpException(HttpStatusCode code, string message, ErrorResponse errorResponse, Exception innerException)
             : base(message, innerException)
         {
             StatusCode = code;
+            ErrorResponse = errorResponse;
         }
 
         protected MdlpException(SerializationInfo info, StreamingContext context)
         {
             StatusCode = (HttpStatusCode)info.GetInt32("Code");
+            if (info.GetString("Path") != null)
+            {
+                ErrorResponse = new ErrorResponse
+                {
+                    TimeStamp = info.GetDateTime("TimeStamp"),
+                    StatusCode = info.GetInt32("StatusCode"),
+                    Error = info.GetString("Error"),
+                    Message = info.GetString("Message"),
+                    Path = info.GetString("Path"),
+                    Description = info.GetString("Description"),
+                };
+            }
         }
 
         public HttpStatusCode StatusCode { get; set; }
+
+        public ErrorResponse ErrorResponse { get; set; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
             info.AddValue("Code", (int)StatusCode);
+            if (ErrorResponse != null)
+            {
+                info.AddValue("TimeStamp", ErrorResponse.TimeStamp);
+                info.AddValue("StatusCode", ErrorResponse.StatusCode);
+                info.AddValue("Error", ErrorResponse.Error);
+                info.AddValue("Message", ErrorResponse.Message);
+                info.AddValue("Path", ErrorResponse.Path);
+                info.AddValue("Description", ErrorResponse.Description);
+            }
         }
     }
 }
@@ -1291,6 +2550,11 @@ namespace MdlpApiClient.Serialization
     /// </summary>
     internal class ServiceStackSerializer : IRestSerializer
     {
+        //public ServiceStackSerializer()
+        //{
+        //    JsConfig.DateHandler = DateHandler.ISO8601;// ISO8601;
+        //}
+
         public string[] SupportedContentTypes
         {
             get
@@ -1327,7 +2591,11 @@ namespace MdlpApiClient.Serialization
 
         public string Serialize(object obj)
         {
-            return JsonSerializer.SerializeToString(obj);
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.DateHandler = DateHandler.UnixTime;
+                return JsonSerializer.SerializeToString(obj);
+            }
         }
     }
 }
@@ -1426,6 +2694,7 @@ namespace MdlpApiClient.Toolbox
 namespace MdlpApiClient.Toolbox
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
@@ -1521,6 +2790,58 @@ namespace MdlpApiClient.Toolbox
             var hasher = (T)CryptoConfig.CreateFromName(algorithm);
             var hash = hasher.ComputeHash(fs);
             return hash.ToHexString();
+        }
+
+        /// <summary>
+        /// Checks whether the given enumerable sequence is null or empty.
+        /// </summary>
+        /// <typeparam name="T">Sequence element type.</typeparam>
+        /// <param name="sequence">Enumerable sequence.</param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> sequence)
+        {
+            return sequence == null || !sequence.Any();
+        }
+    }
+}
+
+namespace MdlpApiClient.Toolbox
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+
+    public static class HtmlHelper
+    {
+        /// <summary>
+        /// Try to extract readable text from HTML.
+        /// </summary>
+        /// <param name="html">HTML to process.</param>
+        /// <returns>Human-readable text.</returns>
+        public static string ExtractText(string html)
+        {
+            if (string.IsNullOrWhiteSpace(html))
+            {
+                return string.Empty;
+            }
+
+            var bodyStart = html.IndexOf("<body");
+            if (bodyStart >= 0)
+            {
+                html = html.Substring(bodyStart);
+            }
+
+            // replace tags
+            var text = new Regex("<(br/?)|(</h[1-6])>").Replace(html, Environment.NewLine);
+            text = new Regex("<[^>]+>").Replace(text, " ");
+            text = new Regex("[ \t]+").Replace(text, " ");
+
+            // trim lines
+            var lines = text.Split('\r').Select(l => l.Trim()).Where(l => !string.IsNullOrEmpty(l));
+            return string.Join(Environment.NewLine, lines);
         }
     }
 }
