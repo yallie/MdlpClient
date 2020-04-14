@@ -94,19 +94,22 @@
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
-        /// Торговая марка (бренд)
+        /// Название препарата.
+        /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
         public string ProductName { get; set; }
 
         /// <summary>
         /// Торговое наименованиe
+        /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string TradeName { get; set; }
+        public string SellingName { get; set; }
 
         /// <summary>
         /// Полное наименование товара
+        /// Например: лиофилизат для приготовления концентрата для приготовления раствора для инфузий "гертикад®" 150 мг, 440 мг
         /// </summary>
         [DataMember(Name = "full_prod_name", IsRequired = false)]
         public string FullProductName { get; set; }
@@ -149,12 +152,14 @@
 
         /// <summary>
         /// Лекарственная форма
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
         /// </summary>
         [DataMember(Name = "prod_form_name", IsRequired = false)]
         public string ProdFormName { get; set; }
 
         /// <summary>
         /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name", IsRequired = false)]
         public string ProdDosageName { get; set; }

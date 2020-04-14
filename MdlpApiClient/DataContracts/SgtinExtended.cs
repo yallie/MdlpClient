@@ -8,10 +8,10 @@
     [DataContract]
     public class SgtinExtended : Sgtin
     {
-        /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
-        [DataMember(Name = "oms_order_id", IsRequired = false)]
-        public string OmsOrderID { get; set; }
+        // <summary>
+        // Идентификатор заказа системы управления заказами (СУЗ), Guid        // Он и так есть в классе Sgtin.        // </summary>
+        // [DataMember(Name = "oms_order_id", IsRequired = false)]
+        // public string OmsOrderID { get; set; }
 
         /// <summary>
         /// ИНН/ИТИН производителя-упаковщика        /// </summary>

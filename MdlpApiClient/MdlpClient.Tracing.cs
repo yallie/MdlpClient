@@ -6,10 +6,13 @@
     using RestSharp;
     using RestSharp.Serialization.Json;
     using MdlpApiClient.Toolbox;
+    using System.Diagnostics;
 
     partial class MdlpClient
     {
-        private const string ApiMethodNameHeader = "X-ApiMethodName";
+        private const string ApiMethodNameHeaderName = "X-ApiMethodName";
+        private const string ApiTimestampParameterName = "X-ApiTimestamp";
+        private const string ApiStopwatchParameterName = "X-ApiStopwatch";
 
         public Action<string, object[]> Tracer { get; set; }
 
@@ -33,7 +36,7 @@
                 return "headers: none" + CR;
             }
 
-            return "headers: {" + CR + 
+            return "headers: {" + CR +
                 string.Join(CR, headers.Select(h => "  " + h.Item1 + " = " + h.Item2)) +
             CR + "}" + CR;
         }
@@ -129,7 +132,7 @@
             if (tracer != null)
             {
                 // trace API method name
-                var apiMethod = http.Headers.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiMethodNameHeader));
+                var apiMethod = http.Headers.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiMethodNameHeaderName));
                 if (apiMethod != null && !string.IsNullOrWhiteSpace(apiMethod.Value))
                 {
                     tracer("// {0}", new[] { apiMethod.Value });
@@ -150,25 +153,82 @@
             }
         }
 
+        public static string FormatTimings(DateTime? startTime, Stopwatch stopwatch)
+        {
+            if (startTime == null && stopwatch == null)
+            {
+                return string.Empty;
+            }
+
+            var items = new List<string>()
+            {
+                "timings: {"
+            };
+
+            if (startTime.HasValue)
+            {
+                items.Add("  started: " + startTime.Value.ToString("s").Replace("T", " ").Replace("00:00:00", "").Trim());
+            }
+
+            if (stopwatch != null)
+            {
+                stopwatch.Stop();
+                items.Add("  elapsed: " + stopwatch.Elapsed);
+            }
+
+            items.Add("}");
+            return string.Join(CR, items) + CR;
+        }
+
+        private static string FormatTimings(IRestResponse response)
+        {
+            // extract timings from request parameters
+            var timings = string.Empty;
+            var startTime = default(DateTime?);
+            var timestampParameter = response.Request.Parameters.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiTimestampParameterName));
+            if (timestampParameter != null && timestampParameter.Value != null)
+            {
+                var timestampTicks = Convert.ToInt64(timestampParameter.Value);
+                startTime = new DateTime(timestampTicks);
+            }
+
+            var stopwatch = default(Stopwatch);
+            var stopwatchParameter = response.Request.Parameters.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiStopwatchParameterName));
+            if (stopwatchParameter != null && stopwatchParameter.Value is Stopwatch)
+            {
+                stopwatch = stopwatchParameter.Value as Stopwatch;
+                if (stopwatch != null)
+                {
+                    stopwatch.Stop();
+                }
+            }
+
+            // trace timestamp and duration
+            return FormatTimings(startTime, stopwatch);
+        }
+
         private void Trace(IRestResponse response)
         {
             var tracer = Tracer;
             if (tracer != null)
             {
+                // trace the response
                 var result = response.IsSuccessful ? "OK" : "ERROR";
+                var timings = FormatTimings(response);
                 var headerList = response.Headers.Select(p => Tuple.Create(p.Name, p.Value));
                 var headers = FormatHeaders(headerList);
                 var body = FormatBody(response.Content);
                 var errorMessage = string.IsNullOrWhiteSpace(response.ErrorMessage) ? string.Empty :
                     "error message: " + response.ErrorMessage + CR;
 
-                tracer("<- {0} {1} ({2}) {3}{4}{5}{6}{7}", new object[]
+                tracer("<- {0} {1} ({2}) {3}{4}{5}{6}{7}{8}", new object[]
                 {
                     result,
                     (int)response.StatusCode,
                     response.StatusCode.ToString(),
                     response.ResponseUri, CR,
                     errorMessage,
+                    timings,
                     headers,
                     body,
                 });

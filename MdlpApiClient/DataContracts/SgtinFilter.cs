@@ -21,16 +21,18 @@
         public int[] EmissionType { get; set; }
 
         /// <summary>
-        /// Наименованиe
+        /// Название препарата.
+        /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
         public string ProductName { get; set; }
 
         /// <summary>
         /// Торговое наименованиe
+        /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string TradeName { get; set; }
+        public string SellingName { get; set; }
 
         /// <summary>
         /// GTIN

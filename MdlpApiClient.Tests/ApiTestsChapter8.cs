@@ -129,5 +129,34 @@
             Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", warehouse.Address.HouseGuid);
             Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", warehouse.Address.AddressDescription);
         }
+
+        [Test]
+        public void GetSgtin_8_2_2()
+        {
+            // пример из документации с кодом 611700126101510000000001311 — не находится
+            // если искать без фильтра — ищет прям долго
+            // походу там в ИС МДЛП реально поднимаются все КИЗ, а уж потом отсекается лимит
+            // поиск по фильтру Sgtin:  elapsed: 00:00:00.8176175
+            // поиск без фильтра Sgtin: elapsed: 00:00:09.8758950
+            var sgtins = Client.GetSgtin(new SgtinFilter
+            {
+                Sgtin = "04607028394287PQ28I2DHQDF1V"
+            },
+            startFrom: 0, count: 10);
+
+            Assert.IsNotNull(sgtins);
+            Assert.AreEqual(1, sgtins.Entries.Length);
+
+            var sgtin = sgtins.Entries[0];
+            Assert.NotNull(sgtin);
+            Assert.AreEqual("Аптечный1", sgtin.Owner);
+            Assert.AreEqual("77", sgtin.FederalSubjectCode);
+            Assert.AreEqual("Москва", sgtin.FederalSubjectName);
+
+            Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
+            Assert.AreEqual("Гертикад®", sgtin.SellingName);
+            Assert.AreEqual("лиофилизат для приготовления концентрата для приготовления раствора для инфузий \"гертикад®\" 150 мг, 440 мг", sgtin.FullProductName);
+            Assert.AreEqual("ЗАО БИОКАД", sgtin.RegHolder);
+        }
     }
 }

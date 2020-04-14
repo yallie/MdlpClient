@@ -10,6 +10,8 @@
     using RestSharp.Serialization;
     using System.Linq;
     using MdlpApiClient.DataContracts;
+    using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// MDLP REST API client.
@@ -87,18 +89,14 @@
             return GostCryptoHelpers.ComputeDetachedSignature(UserCertificate, textToSign);
         }
 
-        /// <summary>
-        /// Executes the given request and checks the result.
-        /// </summary>
-        /// <typeparam name="T">Response type.</typeparam>
-        /// <param name="request">The request to execute.</param>
-        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        internal T Execute<T>(IRestRequest request, string apiMethodName)
-            where T : class, new()
+        private void PrepareRequest(IRestRequest request, string apiMethodName)
         {
+            // use request parameters to store additional properties, not really used by the requests
+            request.AddParameter(ApiTimestampParameterName, DateTime.Now.Ticks, ParameterType.UrlSegment);
+            request.AddParameter(ApiStopwatchParameterName, Stopwatch.StartNew(), ParameterType.UrlSegment);
             if (!string.IsNullOrWhiteSpace(apiMethodName))
             {
-                request.AddHeader(ApiMethodNameHeader, apiMethodName);
+                request.AddHeader(ApiMethodNameHeaderName, apiMethodName);
             }
 
             // trace requests and responses
@@ -107,10 +105,6 @@
                 request.OnBeforeRequest = http => Trace(http, request);
                 request.OnBeforeDeserialization = resp => Trace(resp);
             }
-
-            var response = Client.Execute<T>(request);
-            ThrowOnFailure(response);
-            return response.Data;
         }
 
         private void ThrowOnFailure(IRestResponse response)
@@ -179,23 +173,30 @@
         /// <summary>
         /// Executes the given request and checks the result.
         /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="request">The request to execute.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        internal T Execute<T>(IRestRequest request, string apiMethodName)
+            where T : class, new()
+        {
+            PrepareRequest(request, apiMethodName);
+            var response = Client.Execute<T>(request);
+            ThrowOnFailure(response);
+            return response.Data;
+        }
+
+        /// <summary>
+        /// Executes the given request and checks the result.
+        /// </summary>
         /// <param name="request">The request to execute.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         internal void Execute(IRestRequest request, string apiMethodName)
         {
-            if (!string.IsNullOrWhiteSpace(apiMethodName))
-            {
-                request.AddHeader(ApiMethodNameHeader, apiMethodName);
-            }
-
-            // trace requests and responses
-            if (Tracer != null)
-            {
-                request.OnBeforeRequest = http => Trace(http, request);
-                request.OnBeforeDeserialization = resp => Trace(resp);
-            }
-
+            PrepareRequest(request, apiMethodName);
             var response = Client.Execute(request);
+
+            // there is no body deserialization step, so we need to trace
+            Trace(response);
             ThrowOnFailure(response);
         }
 
@@ -206,19 +207,11 @@
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         internal string ExecuteString(IRestRequest request, string apiMethodName)
         {
-            if (!string.IsNullOrWhiteSpace(apiMethodName))
-            {
-                request.AddHeader(ApiMethodNameHeader, apiMethodName);
-            }
-
-            // trace requests and responses
-            if (Tracer != null)
-            {
-                request.OnBeforeRequest = http => Trace(http, request);
-                request.OnBeforeDeserialization = resp => Trace(resp);
-            }
-
+            PrepareRequest(request, apiMethodName);
             var response = Client.Execute(request);
+
+            // there is no body deserialization step, so we need to trace
+            Trace(response);
             ThrowOnFailure(response);
             return response.Content;
         }

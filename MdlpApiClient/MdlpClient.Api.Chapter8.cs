@@ -76,5 +76,22 @@
                 new Parameter("warehouse_id", warehouseId, ParameterType.UrlSegment)
             });
         }
+
+        /// <summary>
+        /// 8.3.1. Метод для поиска по реестру КИЗ
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
+        public GetSgtinResponse GetSgtin(SgtinFilter filter, int startFrom, int count)
+        {
+            return Post<GetSgtinResponse>("reestr/sgtin/filter", new
+            {
+                filter = filter ?? new SgtinFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
