@@ -121,6 +121,25 @@
         }
 
         [Test]
+        public void RegisterWarehouse_8_2_4()
+        {
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var inn = "7720672100";
+                var warehouseId = Client.RegisterWarehouse(inn, new Address
+                {
+                    AoGuid = "00000000-0000-0000-0000-000000000000",
+                    HouseGuid = "986f2934-be05-438f-a30e-c15b90e15dbc" // "3e311a10-3d0c-438e-a013-7c5fd3ea66a6"
+                });
+
+                Assert.NotNull(warehouseId);
+            });
+
+            // "Ошибка при выполнении операции: указанные данные не могут быть идентифицированы (не зарегистрированы)"
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode); // 400
+        }
+
+        [Test]
         public void GetWarehouse_8_2_3()
         {
             var warehouse = Client.GetWarehouses("00000000100931");

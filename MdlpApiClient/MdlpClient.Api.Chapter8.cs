@@ -78,6 +78,20 @@
         }
 
         /// <summary>
+        /// 8.2.4. Метод для регистрация места ответственного хранения
+        /// </summary>
+        public string RegisterWarehouse(string warehouseOrgInn, Address address)
+        {
+            var warehouse = Post<RegisterWarehouseResponse>("reestr/warehouses/register", new
+            {
+                warehouse_org_inn = warehouseOrgInn,
+                warehouse_address = address
+            });
+
+            return warehouse.WarehouseID;
+        }
+
+        /// <summary>
         /// 8.3.1. Метод для поиска по реестру КИЗ
         /// </summary>
         /// <param name="filter">Фильтр для поиска по реестру КИЗ</param>

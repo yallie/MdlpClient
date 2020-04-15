@@ -602,6 +602,27 @@ namespace MdlpApiClient.DataContracts
 {
     using System.Runtime.Serialization;
 
+    [DataContract]
+    public class FailedSgtin
+    {
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
+        /// </summary>
+        [DataMember(Name = "error_code")]
+        public int ErrorCode { get; set; }
+
+        [DataMember(Name = "error_desc")]
+        public string ErrorDescription { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// 8.1.2. Список мест осуществления деятельности.
     /// </summary>
@@ -713,7 +734,32 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.1. Список КИЗ
+    /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
+    /// </summary>
+    [DataContract]
+    public class GetPublicSgtinResponse
+    {
+        [DataMember(Name = "entries")]
+        public PublicSgtin[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+
+        [DataMember(Name = "failed")]
+        public int Failed { get; set; }
+
+        [DataMember(Name = "failed_entries")]
+        public string[] FailedEntries { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.1. Список найденных КИЗ
+    /// 8.3.2. Список КИЗ и список ошибок поиска
     /// </summary>
     [DataContract]
     public class GetSgtinResponse
@@ -723,6 +769,14 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "total")]
         public int Total { get; set; }
+
+        // следующие поля есть только в ответе метода 8.3.2
+
+        [DataMember(Name = "failed")]
+        public int Failed { get; set; }
+
+        [DataMember(Name = "failed_entries")]
+        public FailedSgtin[] FailedEntries { get; set; }
     }
 }
 
@@ -770,6 +824,88 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.32. Формат объекта PublicSGTIN
+    /// </summary>
+    [DataContract]
+    public class PublicSgtin
+    {
+        /// <summary>
+        /// SGTIN (КИЗ) 
+        /// </summary>
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "batch")]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Срок годности
+        /// </summary>
+        [DataMember(Name = "expiration_date", IsRequired = false)]
+        public DateTime? ExpirationDate { get; set; }
+
+        /// <summary>
+        /// Название препарата.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "sell_name", IsRequired = false)]
+        public string SellingName { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_name", IsRequired = false)]
+        public string ProdFormName { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_name", IsRequired = false)]
+        public string ProdDosageName { get; set; }
+
+        /// <summary>
+        /// Дата гос. регистрации
+        /// </summary>
+        [DataMember(Name = "reg_date")]
+        public DateTime RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Номер регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_number")]
+        public string RegistrationNumber { get; set; }
+
+        /// <summary>
+        /// Держатель регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_holder", IsRequired = false)]
+        public string RegistrationHolder { get; set; }
+
+        /// <summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        [DataMember(Name = "drug_code", IsRequired = false)]
+        public string DrugCode { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Runtime.Serialization;
 
     [DataContract]
@@ -807,6 +943,21 @@ namespace MdlpApiClient.DataContracts
     {
         [DataMember(Name = "user_id")]
         public string UserID { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.2.4. Метод для регистрация места ответственного хранения
+    /// </summary>
+    [DataContract]
+    internal class RegisterWarehouseResponse
+    {
+        [DataMember(Name = "safe_warehouse_id")]
+        public string WarehouseID { get; set; }
     }
 }
 
@@ -1011,10 +1162,10 @@ namespace MdlpApiClient.DataContracts
         public string FullProductName { get; set; }
 
         /// <summary>
-        /// Держатель рег. удостоверения
+        /// Держатель регистрационного удостоверения
         /// </summary>
         [DataMember(Name = "reg_holder", IsRequired = false)]
-        public string RegHolder { get; set; }
+        public string RegistrationHolder { get; set; }
 
         /// <summary>
         /// Полное наименование товара (что это за чертовщина?)
@@ -1616,7 +1767,7 @@ namespace MdlpApiClient
         /// 5.11. Получение списка документов по идентификатору запроса
         /// </summary>
         /// <param name="requestId">Идентификатор запроса</param>
-        public GetDocumentsResponse GetDocuments(string requestId)
+        public GetDocumentsResponse GetDocumentsByRequestID(string requestId)
         {
             return Get<GetDocumentsResponse>("documents/request/{request_id}", new[]
             {
@@ -1832,19 +1983,65 @@ namespace MdlpApiClient
         }
 
         /// <summary>
+        /// 8.2.4. Метод для регистрация места ответственного хранения
+        /// </summary>
+        public string RegisterWarehouse(string warehouseOrgInn, Address address)
+        {
+            var warehouse = Post<RegisterWarehouseResponse>("reestr/warehouses/register", new
+            {
+                warehouse_org_inn = warehouseOrgInn,
+                warehouse_address = address
+            });
+
+            return warehouse.WarehouseID;
+        }
+
+        /// <summary>
         /// 8.3.1. Метод для поиска по реестру КИЗ
         /// </summary>
         /// <param name="filter">Фильтр для поиска по реестру КИЗ</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
         /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtin(SgtinFilter filter, int startFrom, int count)
+        public GetSgtinResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
             return Post<GetSgtinResponse>("reestr/sgtin/filter", new
             {
                 filter = filter ?? new SgtinFilter(),
                 start_from = startFrom,
                 count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.3.2. Метод поиска по реестру КИЗ по списку значений
+        /// </summary>
+        /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
+        /// <returns>Список КИЗ</returns>
+        public GetSgtinResponse GetSgtins(string[] sgtins)
+        {
+            return Post<GetSgtinResponse>("reestr/sgtin/sgtins-by-list", new
+            {
+                filter = new
+                {
+                    sgtins = sgtins
+                },
+            });
+        }
+
+        /// <summary>
+        /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
+        /// </summary>
+        /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
+        /// <returns>Список КИЗ</returns>
+        public GetPublicSgtinResponse GetPublicSgtins(string[] sgtins)
+        {
+            return Post<GetPublicSgtinResponse>("reestr/sgtin/public/sgtins-by-list", new
+            {
+                filter = new
+                {
+                    sgtins = sgtins
+                },
             });
         }
     }
