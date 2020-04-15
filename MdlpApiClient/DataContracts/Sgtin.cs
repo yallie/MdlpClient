@@ -115,10 +115,10 @@
         public string FullProductName { get; set; }
 
         /// <summary>
-        /// Держатель рег. удостоверения
+        /// Держатель регистрационного удостоверения
         /// </summary>
         [DataMember(Name = "reg_holder", IsRequired = false)]
-        public string RegHolder { get; set; }
+        public string RegistrationHolder { get; set; }
 
         /// <summary>
         /// Полное наименование товара (что это за чертовщина?)

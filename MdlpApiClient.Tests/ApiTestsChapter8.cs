@@ -131,14 +131,14 @@
         }
 
         [Test]
-        public void GetSgtin_8_2_2()
+        public void GetSgtins_8_2_2()
         {
             // пример из документации с кодом 611700126101510000000001311 — не находится
             // если искать без фильтра — ищет прям долго
             // походу там в ИС МДЛП реально поднимаются все КИЗ, а уж потом отсекается лимит
             // поиск по фильтру Sgtin:  elapsed: 00:00:00.8176175
             // поиск без фильтра Sgtin: elapsed: 00:00:09.8758950
-            var sgtins = Client.GetSgtin(new SgtinFilter
+            var sgtins = Client.GetSgtins(new SgtinFilter
             {
                 Sgtin = "04607028394287PQ28I2DHQDF1V"
             },
@@ -156,18 +156,13 @@
             Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
             Assert.AreEqual("Гертикад®", sgtin.SellingName);
             Assert.AreEqual("лиофилизат для приготовления концентрата для приготовления раствора для инфузий \"гертикад®\" 150 мг, 440 мг", sgtin.FullProductName);
-            Assert.AreEqual("ЗАО БИОКАД", sgtin.RegHolder);
+            Assert.AreEqual("ЗАО БИОКАД", sgtin.RegistrationHolder);
         }
 
         [Test]
-        public void GetSgtin_8_2_3()
+        public void GetSgtins_8_2_3()
         {
-            // пример из документации с кодом 611700126101510000000001311 — не находится
-            // если искать без фильтра — ищет прям долго
-            // походу там в ИС МДЛП реально поднимаются все КИЗ, а уж потом отсекается лимит
-            // поиск по фильтру Sgtin:  elapsed: 00:00:00.8176175
-            // поиск без фильтра Sgtin: elapsed: 00:00:09.8758950
-            var sgtins = Client.GetSgtin(new[]
+            var sgtins = Client.GetSgtins(new[]
             {
                 "04607028394287PQ28I2DHQDF1V", // найдется
                 "611700126101510000000001311" // не найдется
@@ -189,12 +184,46 @@
             Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
             Assert.AreEqual("Гертикад®", sgtin.SellingName);
             Assert.AreEqual("лиофилизат для приготовления концентрата для приготовления раствора для инфузий \"гертикад®\" 150 мг, 440 мг", sgtin.FullProductName);
-            Assert.AreEqual("ЗАО БИОКАД", sgtin.RegHolder);
+            Assert.AreEqual("ЗАО БИОКАД", sgtin.RegistrationHolder);
 
             var failed = sgtins.FailedEntries[0];
             Assert.AreEqual("611700126101510000000001311", failed.Sgtin);
             Assert.AreEqual(4, failed.ErrorCode);
             Assert.AreEqual("Запрашиваемые данные доступны только текущему владельцу или контрагенту по операции", failed.ErrorDescription);
+        }
+
+        [Test]
+        public void GetPublicSgtins_8_2_3()
+        {
+            var sgtins = Client.GetPublicSgtins(new[]
+            {
+                "04607028394287PQ28I2DHQDF1V", // найдется
+                "611700126101510000000001311", // найдется
+                "61170012610151000000000131V" // не найдется
+            });
+
+            Assert.IsNotNull(sgtins);
+            Assert.AreEqual(3, sgtins.Total);
+            Assert.AreEqual(2, sgtins.Entries.Length);
+            Assert.AreEqual(1, sgtins.Failed);
+            Assert.AreEqual(1, sgtins.FailedEntries.Length);
+
+            var sgtin = sgtins.Entries[0];
+            Assert.NotNull(sgtin);
+            Assert.AreEqual("04607028394287PQ28I2DHQDF1V", sgtin.Sgtin);
+            Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
+            Assert.AreEqual("Гертикад®", sgtin.SellingName);
+            Assert.AreEqual("ЗАО БИОКАД", sgtin.RegistrationHolder);
+
+            sgtin = sgtins.Entries[1];
+            Assert.NotNull(sgtin);
+            Assert.AreEqual("611700126101510000000001311", sgtin.Sgtin);
+            Assert.AreEqual("Сертикан", sgtin.ProductName);
+            Assert.AreEqual("Сертикан", sgtin.SellingName);
+            Assert.AreEqual("ACG", sgtin.RegistrationHolder);
+
+            var failed = sgtins.FailedEntries[0];
+            Assert.AreEqual("61170012610151000000000131V", failed);
         }
     }
 }

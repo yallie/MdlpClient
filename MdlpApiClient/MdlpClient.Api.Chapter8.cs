@@ -84,7 +84,7 @@
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
         /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtin(SgtinFilter filter, int startFrom, int count)
+        public GetSgtinResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
             return Post<GetSgtinResponse>("reestr/sgtin/filter", new
             {
@@ -99,9 +99,25 @@
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtin(string[] sgtins)
+        public GetSgtinResponse GetSgtins(string[] sgtins)
         {
             return Post<GetSgtinResponse>("reestr/sgtin/sgtins-by-list", new
+            {
+                filter = new
+                {
+                    sgtins = sgtins
+                },
+            });
+        }
+
+        /// <summary>
+        /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
+        /// </summary>
+        /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
+        /// <returns>Список КИЗ</returns>
+        public GetPublicSgtinResponse GetPublicSgtins(string[] sgtins)
+        {
+            return Post<GetPublicSgtinResponse>("reestr/sgtin/public/sgtins-by-list", new
             {
                 filter = new
                 {

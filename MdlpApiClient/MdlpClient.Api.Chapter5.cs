@@ -145,7 +145,7 @@
         /// 5.11. Получение списка документов по идентификатору запроса
         /// </summary>
         /// <param name="requestId">Идентификатор запроса</param>
-        public GetDocumentsResponse GetDocuments(string requestId)
+        public GetDocumentsResponse GetDocumentsByRequestID(string requestId)
         {
             return Get<GetDocumentsResponse>("documents/request/{request_id}", new[]
             {

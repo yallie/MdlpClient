@@ -135,9 +135,9 @@
         }
 
         [Test]
-        public void GetDocuments_5_11()
+        public void GetDocumentsByRequestID_5_11()
         {
-            var md = Client.GetDocuments(TestDocRequestID);
+            var md = Client.GetDocumentsByRequestID(TestDocRequestID);
             Assert.IsNotNull(md);
             Assert.AreEqual(1, md.Total);
             Assert.AreEqual(1, md.Documents.Length);
