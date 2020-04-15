@@ -74,6 +74,10 @@ body: {
 }
 
 <- OK 200 (OK) http://api.stage.mdlp.crpt.ru/api/v1/auth
+timings: {
+  started: 2020-04-15 16:32:54
+  elapsed: 00:00:00.2112343
+}
 headers: {
   Connection = keep-alive
   X-XSS-Protection = 1; mode=block
@@ -85,12 +89,12 @@ headers: {
   Content-Length = 47
   Cache-Control = no-cache, no-store, max-age=0, must-revalidate
   Content-Type = application/json;charset=UTF-8
-  Date = Sun, 12 Apr 2020 22:24:54 GMT
+  Date = Wed, 15 Apr 2020 13:32:54 GMT
   Expires = 0
   Server = nginx/1.14.0
 }
 body: {
-  "code": "0d312fa5-b3bd-48da-b916-ac72feaf17e1"
+  "code": "e6127c99-91e7-44fc-9ed2-bf409be72c1a"
 }
 
 // Authenticate
@@ -101,11 +105,15 @@ headers: {
   Content-type = application/json
 }
 body: {
-  "code": "0d312fa5-b3bd-48da-b916-ac72feaf17e1",
+  "code": "e6127c99-91e7-44fc-9ed2-bf409be72c1a",
   "password": "password"
 }
 
 <- OK 200 (OK) http://api.stage.mdlp.crpt.ru/api/v1/token
+timings: {
+  started: 2020-04-15 16:32:54
+  elapsed: 00:00:00.2524283
+}
 headers: {
   Connection = keep-alive
   X-XSS-Protection = 1; mode=block
@@ -117,12 +125,12 @@ headers: {
   Content-Length = 63
   Cache-Control = no-cache, no-store, max-age=0, must-revalidate
   Content-Type = application/json;charset=UTF-8
-  Date = Sun, 12 Apr 2020 22:24:54 GMT
+  Date = Wed, 15 Apr 2020 13:32:54 GMT
   Expires = 0
   Server = nginx/1.14.0
 }
 body: {
-  "token": "4fc26cf2-bace-401b-a666-acdb1f052617",
+  "token": "cdfb0eb2-e9fc-46d8-a57b-665b48a1dce7",
   "life_time": 30
 }
 
@@ -130,11 +138,15 @@ body: {
 -> GET http://api.stage.mdlp.crpt.ru/api/v1/documents/60786bb4-fcb5-4587-b703-d0147e3f9d1c
 headers: {
   X-ApiMethodName = GetDocumentMetadata
-  Authorization = token 4fc26cf2-bace-401b-a666-acdb1f052617
+  Authorization = token cdfb0eb2-e9fc-46d8-a57b-665b48a1dce7
   Accept = application/json, text/json, text/x-json, text/javascript, application/xml, text/xml
 }
 
 <- OK 200 (OK) http://api.stage.mdlp.crpt.ru/api/v1/documents/60786bb4-fcb5-4587-b703-d0147e3f9d1c
+timings: {
+  started: 2020-04-15 16:32:54
+  elapsed: 00:00:00.5707467
+}
 headers: {
   Transfer-Encoding = chunked
   Connection = keep-alive
@@ -146,7 +158,7 @@ headers: {
   Strict-Transport-Security = max-age=15768000
   Cache-Control = no-cache, no-store, max-age=0, must-revalidate
   Content-Type = application/json;charset=UTF-8
-  Date = Sun, 12 Apr 2020 22:24:54 GMT
+  Date = Wed, 15 Apr 2020 13:32:54 GMT
   Expires = 0
   Server = nginx/1.14.0
 }
