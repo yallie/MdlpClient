@@ -259,5 +259,27 @@
             var failed = sgtins.FailedEntries[0];
             Assert.AreEqual("61170012610151000000000131V", failed);
         }
+
+        [Test]
+        public void GetSgtin_8_3_4()
+        {
+            // пример из документации 046065560030TRACKING0000000 приводит к ошибке 400 BadRequest
+            var info = Client.GetSgtin("04607028394287PQ28I2DHQDF1V");
+            Assert.NotNull(info);
+            Assert.NotNull(info.SgtinInfo);
+            Assert.NotNull(info.GtinInfo);
+
+            Assert.AreEqual("04607028394287PQ28I2DHQDF1V", info.SgtinInfo.SgtinValue);
+            Assert.AreEqual("04607028394287", info.SgtinInfo.Gtin);
+            Assert.AreEqual("marked", info.SgtinInfo.Status);
+            Assert.AreEqual(new DateTime(2018, 12, 20, 11, 31, 21), info.SgtinInfo.StatusDate);
+            Assert.AreEqual("0007770000", info.SgtinInfo.BatchNumber);
+            Assert.AreEqual(true, info.SgtinInfo.Gnvlp);
+
+            Assert.AreEqual("ФЛАКОН", info.GtinInfo.TypeForm);
+            Assert.AreEqual("ФЛАКОН", info.GtinInfo.ProductPack1Name);
+            Assert.AreEqual("КАРТОННАЯ ПАЧКА", info.GtinInfo.ProductPack2Name);
+            Assert.AreEqual("1", info.GtinInfo.ProductPack1InPack2);
+        }
     }
 }

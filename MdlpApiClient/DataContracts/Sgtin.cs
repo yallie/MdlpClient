@@ -43,7 +43,7 @@
         /// Дата последней смены статуса
         /// </summary>
         [DataMember(Name = "status_date")]
-        public DateTime StatusFrom { get; set; }
+        public DateTime StatusDate { get; set; }
 
         /// <summary>
         /// Номер производственной серии

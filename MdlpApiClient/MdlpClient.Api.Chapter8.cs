@@ -113,9 +113,9 @@
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
         /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
+        public GetSgtinsResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinResponse>("reestr/sgtin/filter", new
+            return Post<GetSgtinsResponse>("reestr/sgtin/filter", new
             {
                 filter = filter ?? new SgtinFilter(),
                 start_from = startFrom,
@@ -128,9 +128,9 @@
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtins(string[] sgtins)
+        public GetSgtinsResponse GetSgtins(string[] sgtins)
         {
-            return Post<GetSgtinResponse>("reestr/sgtin/sgtins-by-list", new
+            return Post<GetSgtinsResponse>("reestr/sgtin/sgtins-by-list", new
             {
                 filter = new
                 {
@@ -152,6 +152,19 @@
                 {
                     sgtins = sgtins
                 },
+            });
+        }
+
+        /// <summary>
+        /// 8.3.4. Метод для получения детальной информации о КИЗ и связанным с ним ЛП
+        /// </summary>
+        /// <param name="sgtin">КИЗ для поиска</param>
+        /// <returns>Подробная информация КИЗ и ЛП</returns>
+        public GetSgtinResponse GetSgtin(string sgtin)
+        {
+            return Get<GetSgtinResponse>("reestr/sgtin/{sgtin}", new[]
+            {
+                new Parameter("sgtin", sgtin, ParameterType.UrlSegment),
             });
         }
     }
