@@ -20,7 +20,7 @@
         };
 
         [Test]
-        public void SendDocumentTest_5_1()
+        public void Chapter5_01_SendDocumentTest()
         {
             var docXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
@@ -42,7 +42,7 @@
         }
 
         [Test]
-        public void SendLargeDocumentTest_5_234()
+        public void Chapter5_0234_SendLargeDocumentTest()
         {
             var docXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
@@ -64,14 +64,14 @@
         }
 
         [Test]
-        public void GetLargeDocumentSizeTest_5_5()
+        public void Chapter5_05_GetLargeDocumentSizeTest()
         {
             var size = Client.GetLargeDocumentSize();
             Assert.NotZero(size);
         }
 
         [Test]
-        public void CancelSendDocumentTest_5_6()
+        public void Chapter5_06_CancelSendDocumentTest()
         {
             var ex = Assert.Throws<MdlpException>(() =>
             {
@@ -84,7 +84,7 @@
         }
 
         [Test]
-        public void GetOutcomeDocuments_5_7()
+        public void Chapter5_07_GetOutcomeDocuments()
         {
             var docs = Client.GetOutcomeDocuments(new DocFilter
             {
@@ -100,7 +100,7 @@
         }
 
         [Test]
-        public void GetIncomeDocuments_5_8()
+        public void Chapter5_08_GetIncomeDocuments()
         {
             var docs = Client.GetIncomeDocuments(new DocFilter
             {
@@ -116,7 +116,7 @@
         }
 
         [Test]
-        public void GetDocumentMetadata_5_9()
+        public void Chapter5_09_GetDocumentMetadata()
         {
             var md = Client.GetDocumentMetadata(TestDocumentID);
             Assert.IsNotNull(md);
@@ -125,7 +125,7 @@
         }
 
         [Test]
-        public void GetDocument_5_10()
+        public void Chapter5_10_GetDocument()
         {
             var doc = Client.GetDocument(TestDocumentID);
             Assert.IsNotNull(doc);
@@ -135,7 +135,7 @@
         }
 
         [Test]
-        public void GetDocumentsByRequestID_5_11()
+        public void Chapter5_11_GetDocumentsByRequestID()
         {
             var md = Client.GetDocumentsByRequestID(TestDocRequestID);
             Assert.IsNotNull(md);
@@ -148,7 +148,7 @@
         }
 
         [Test]
-        public void GetTicket_5_12()
+        public void Chapter5_12_GetTicket()
         {
             var ticket = Client.GetTicket(TestTicketID);
             Assert.IsNotNull(ticket);
@@ -158,7 +158,7 @@
         }
 
         [Test]
-        public void GetSignature_5_13()
+        public void Chapter5_13_GetSignature()
         {
             // GetSignature doesn't seem to work, always returns error 406
             var ex = Assert.Throws<MdlpException>(() =>
@@ -175,7 +175,7 @@
         }
 
         [Test]
-        public void GetDocumentsBySkzkmReportID_5_14()
+        public void Chapter5_14_GetDocumentsBySkzkmReportID()
         {
             var docs = Client.GetDocumentsBySkzkmReportID(
                 "434bc499-4b85-4775-8c19-bf6dbf730e93",

@@ -21,7 +21,7 @@
         };
 
         [Test]
-        public void GetEgrulRegistryEntry_7_1_1()
+        public void Chapter7_01_1_GetEgrulRegistryEntry()
         {
             var entry = Client.GetEgrulRegistryEntry();
             Assert.IsNotNull(entry);
@@ -29,7 +29,7 @@
         }
 
         [Test]
-        public void GetEgripRegistryEntry_7_2_1()
+        public void Chapter7_02_1_GetEgripRegistryEntry()
         {
             // UserStarter1 — не ИП, поэтому запись в ЕГРИП отсутствует
             var ex = Assert.Throws<MdlpException>(() => Client.GetEgripRegistryEntry());
@@ -37,7 +37,7 @@
         }
 
         [Test]
-        public void GetRafpRegistryEntry_7_3_1()
+        public void Chapter7_03_1_GetRafpRegistryEntry()
         {
             // UserStarter1 — не филиал и не представительство, поэтому запись в РАФП отсутствует
             var ex = Assert.Throws<MdlpException>(() => Client.GetRafpRegistryEntry());

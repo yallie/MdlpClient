@@ -30,7 +30,7 @@
         };
 
         [Test]
-        public void GetBranches_8_1_2()
+        public void Chapter8_01_2_GetBranches()
         {
             // пример из документации с кодом 00000000000464 — не находится
             Client.GetBranches(new BranchFilter
@@ -60,7 +60,7 @@
         }
 
         [Test]
-        public void GetBranch_8_1_3()
+        public void Chapter8_01_3_GetBranch()
         {
             var branch = Client.GetBranch("00000000100930");
             Assert.NotNull(branch);
@@ -70,7 +70,7 @@
         }
 
         [Test]
-        public void RegisterBranch_8_1_4()
+        public void Chapter8_01_4_RegisterBranch()
         {
             var ex = Assert.Throws<MdlpException>(() =>
             {
@@ -88,7 +88,7 @@
         }
 
         [Test]
-        public void GetWarehouses_8_2_2()
+        public void Chapter8_02_2_GetWarehouses()
         {
             // пример из документации с кодом 00000000000561 — не находится
             var whouses = Client.GetWarehouses(new WarehouseFilter
@@ -121,7 +121,7 @@
         }
 
         [Test]
-        public void GetWarehouse_8_2_3()
+        public void Chapter8_02_3_GetWarehouse()
         {
             var warehouse = Client.GetWarehouses("00000000100931");
             Assert.NotNull(warehouse);
@@ -131,7 +131,7 @@
         }
 
         [Test]
-        public void RegisterWarehouse_8_2_4()
+        public void Chapter8_02_4_RegisterWarehouse()
         {
             var ex = Assert.Throws<MdlpException>(() =>
             {
@@ -150,7 +150,7 @@
         }
 
         [Test]
-        public void GetAvailableAddresses_8_2_5()
+        public void Chapter8_02_5_GetAvailableAddresses()
         {
             var addresses = Client.GetAvailableAddresses("7720672100");
             Assert.NotNull(addresses);
@@ -165,7 +165,7 @@
         }
 
         [Test]
-        public void GetSgtins_8_2_2()
+        public void Chapter8_03_1_GetSgtins()
         {
             // пример из документации с кодом 611700126101510000000001311 — не находится
             // если искать без фильтра — ищет прям долго
@@ -194,7 +194,7 @@
         }
 
         [Test]
-        public void GetSgtins_8_2_3()
+        public void Chapter8_03_2_GetSgtins()
         {
             var sgtins = Client.GetSgtins(new[]
             {
@@ -227,7 +227,7 @@
         }
 
         [Test]
-        public void GetPublicSgtins_8_2_3()
+        public void Chapter8_03_3_GetPublicSgtins()
         {
             var sgtins = Client.GetPublicSgtins(new[]
             {
@@ -261,7 +261,7 @@
         }
 
         [Test]
-        public void GetSgtin_8_3_4()
+        public void Chapter8_03_4_GetSgtin()
         {
             // пример из документации 046065560030TRACKING0000000 приводит к ошибке 400 BadRequest
             var info = Client.GetSgtin("04607028394287PQ28I2DHQDF1V");
