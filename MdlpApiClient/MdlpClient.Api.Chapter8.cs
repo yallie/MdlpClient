@@ -92,6 +92,21 @@
         }
 
         /// <summary>
+        /// 8.2.5. Метод получения информации об адресах искомого участника,
+        /// для регистрации мест ответственного хранения или отправки документов.
+        /// </summary>
+        /// <param name="inn">ИНН (необязательно)</param>
+        /// <param name="licenseNumber">Номер лицензии (необязательно)</param>
+        public GetAvailableAddressesResponse GetAvailableAddresses(string inn = null, string licenseNumber = null)
+        {
+            return Post<GetAvailableAddressesResponse>("reestr/warehouses/available_safe_warehouses_addresses", new
+            {
+                inn = inn,
+                licence_number = licenseNumber,
+            });
+        }
+
+        /// <summary>
         /// 8.3.1. Метод для поиска по реестру КИЗ
         /// </summary>
         /// <param name="filter">Фильтр для поиска по реестру КИЗ</param>

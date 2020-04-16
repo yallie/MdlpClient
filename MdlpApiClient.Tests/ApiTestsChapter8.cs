@@ -121,6 +121,16 @@
         }
 
         [Test]
+        public void GetWarehouse_8_2_3()
+        {
+            var warehouse = Client.GetWarehouses("00000000100931");
+            Assert.NotNull(warehouse);
+            Assert.NotNull(warehouse.Address);
+            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", warehouse.Address.HouseGuid);
+            Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", warehouse.Address.AddressDescription);
+        }
+
+        [Test]
         public void RegisterWarehouse_8_2_4()
         {
             var ex = Assert.Throws<MdlpException>(() =>
@@ -140,13 +150,18 @@
         }
 
         [Test]
-        public void GetWarehouse_8_2_3()
+        public void GetAvailableAddresses_8_2_5()
         {
-            var warehouse = Client.GetWarehouses("00000000100931");
-            Assert.NotNull(warehouse);
-            Assert.NotNull(warehouse.Address);
-            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", warehouse.Address.HouseGuid);
-            Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", warehouse.Address.AddressDescription);
+            var addresses = Client.GetAvailableAddresses("7720672100");
+            Assert.NotNull(addresses);
+            Assert.AreEqual(1, addresses.Total);
+            Assert.NotNull(addresses.Entries);
+            Assert.AreEqual(1, addresses.Entries.Length);
+
+            var address = addresses.Entries[0];
+            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", address.AddressID);
+            Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", address.Address.HouseGuid);
+            Assert.AreEqual("г Москва, ул Щипок, д. 9/26 стр. 3", address.ResolvedAddress);
         }
 
         [Test]
