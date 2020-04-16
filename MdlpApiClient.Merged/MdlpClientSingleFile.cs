@@ -624,6 +624,24 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.2.5. Метод получения информации об адресах искомого участника.
+    /// </summary>
+    [DataContract]
+    public class GetAvailableAddressesResponse
+    {
+        [DataMember(Name = "entries")]
+        public RegistrationAddress[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.1.2. Список мест осуществления деятельности.
     /// </summary>
     [DataContract]
@@ -758,11 +776,29 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.3.5. Подробности о КИЗ (SGTIN) и ЛП (GTIN)
+    /// </summary>
+    [DataContract]
+    public class GetSgtinResponse
+    {
+        [DataMember(Name = "sgtin_info")]
+        public SgtinExtended SgtinInfo { get; set; }
+
+        [DataMember(Name = "gtin_info")]
+        public GtinInfo GtinInfo { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.3.1. Список найденных КИЗ
     /// 8.3.2. Список КИЗ и список ошибок поиска
     /// </summary>
     [DataContract]
-    public class GetSgtinResponse
+    public class GetSgtinsResponse
     {
         [DataMember(Name = "entries")]
         public SgtinExtended[] Entries { get; set; }
@@ -819,6 +855,231 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "total")]
         public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.5. Подробности о ЛП (GTIN)
+    /// </summary>
+    [DataContract]
+    public class GtinInfo
+    {
+        /// <summary>
+        /// Уникальный идентификатор
+        /// </summary>
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Статус рег. удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_status")]
+        public string RegistrationStatus { get; set; }
+
+        /// <summary>
+        /// Номер рег. удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_number")]
+        public string RegistrationNumber { get; set; }
+
+        /// <summary>
+        /// Дата гос. регистрации
+        /// </summary>
+        [DataMember(Name = "reg_date")]
+        public DateTime RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Дата окончания рег. удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_end_date", IsRequired = false)]
+        public DateTime? RegistrationEndDate { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма
+        /// </summary>
+        [DataMember(Name = "type_form")]
+        public string TypeForm { get; set; }
+
+        /// <summary>
+        /// Количество массы/объема в первичной упаковке        /// </summary>
+        [DataMember(Name = "prod_pack_1_ed")]
+        public string ProductPack1Amount { get; set; }
+
+        /// <summary>
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке        /// </summary>
+        [DataMember(Name = "prod_pack1_ed_name")]
+        public string ProductPack1AmountName { get; set; }
+
+        /// <summary>
+        /// Адрес упаковщика
+        /// </summary>
+        [DataMember(Name = "packer_address")]
+        public string PackerAddress { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe лекарственного препарата
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "prod_sell_name", IsRequired = false)]
+        public string SellingName { get; set; }
+
+        /// <summary>
+        /// Содержимое лекарственного препарата
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_content", IsRequired = false)]
+        public string ProductContent { get; set; }
+
+        /// <summary>
+        /// Наименование товара на этикетке
+        /// Например: лиофилизат для приготовления концентрата для приготовления раствора для инфузий "гертикад®" 150 мг, 440 мг
+        /// </summary>
+        [DataMember(Name = "prod_desc", IsRequired = false)]
+        public string ProductDescription { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_name")]
+        public string ProdDosageName { get; set; }
+
+        /// <summary>
+        /// Первичная упаковка (строковое представление)
+        /// </summary>
+        [DataMember(Name = "prod_pack_1_name")]
+        public string ProductPack1Name { get; set; }
+
+        /// <summary>
+        /// Вторичная (потребительская) упаковка (строковое представление)
+        /// </summary>
+        [DataMember(Name = "prod_pack_2_name")]
+        public string ProductPack2Name { get; set; }
+
+        /// <summary>
+        /// Количество первичной упаковки в потребительской упаковке
+        /// </summary>
+        [DataMember(Name = "prod_pack_1_2")]
+        public string ProductPack1InPack2 { get; set; }
+
+        /// <summary>
+        /// Код ТНВЭД ЕАЭС
+        /// </summary>
+        [DataMember(Name = "tn_ved")]
+        public string Tnved { get; set; }
+
+        /// <summary>
+        /// Признак наличия в ЖНВЛП
+        /// </summary>
+        [DataMember(Name = "gnvlp")]
+        public bool Gnvlp { get; set; }
+
+        /// <summary>
+        /// Предельная зарегистрированная цена (для ЖНВЛП) (руб)
+        /// </summary>
+        [DataMember(Name = "max_gnvlp", IsRequired = false)]
+        public string MaxGnvlpPrice { get; set; }
+
+        /// <summary>
+        /// Дата регистрации предельной цены
+        /// </summary>
+        [DataMember(Name = "max_gnvlp_reg_date", IsRequired = false)]
+        public DateTime? MaxGnvlpPriceRegistrationDate { get; set; }
+
+        /// <summary>
+        /// Наименование держателя регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_holder")]
+        public string RegistrationHolder { get; set; }
+
+        /// <summary>
+        /// Страна регистрации держателя регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_country")]
+        public string RegistrationHolderCountry { get; set; }
+
+        /// <summary>
+        /// Статус лекарственного препарата
+        /// </summary>
+        [DataMember(Name = "prod_status")]
+        public string ProductStatus { get; set; }
+
+        /// <summary>
+        /// Признак регистрации в Минздраве
+        /// </summary>
+        [DataMember(Name = "min_zdrav")]
+        public bool MinZdrav { get; set; }
+
+        /// <summary>
+        /// Признак регистрации в ГС1
+        /// </summary>
+        [DataMember(Name = "gs1")]
+        public bool Gs1 { get; set; }
+
+        /// <summary>
+        /// Предельная зарегистрированная цена
+        /// </summary>
+        [DataMember(Name = "cost_limit", IsRequired = false)]
+        public string CostLimit { get; set; }
+
+        /// <summary>
+        /// ИНН держателя регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_inn")]
+        public string RegistrationHolderInn { get; set; }
+
+        /// <summary>
+        /// Комплектность
+        /// </summary>
+        [DataMember(Name = "completeness", IsRequired = false)]
+        public string Сompleteness { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_name", IsRequired = false)]
+        public string ProdFormName { get; set; }
+
+        /// <summary>
+        /// Производитель готовой ЛФ
+        /// </summary>
+        [DataMember(Name = "glf_name", IsRequired = false)]
+        public string FormProducerName { get; set; }
+
+        /// <summary>
+        /// Страна регистрации производителя готовой ЛФ
+        /// </summary>
+        [DataMember(Name = "glf_country", IsRequired = false)]
+        public string FormProducerCountry { get; set; }
+
+        /// <summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        [DataMember(Name = "drug_code", IsRequired = false)]
+        public string DrugCode { get; set; }
+
+        /// <summary>
+        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП        /// 1 — устаревшие, 2 — актуальные данные        /// </summary>
+        [DataMember(Name = "drug_code_version", IsRequired = false)]
+        public int? DrugCodeVersion { get; set; }
     }
 }
 
@@ -963,6 +1224,33 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.2.5. Адрес для регистрации места ответственного хранения.
+    /// </summary>
+    [DataContract]
+    public class RegistrationAddress
+    {
+        [DataMember(Name = "address_id")]
+        public string AddressID { get; set; }
+
+        [DataMember(Name = "address")]
+        public Address Address { get; set; }
+
+        [DataMember(Name = "resolved_address")]
+        public string ResolvedAddress { get; set; }
+
+        [DataMember(Name = "license_type")]
+        public string LicenseType { get; set; }
+
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     /// <summary>
     /// 4.11. Список прав пользователей учетной системы
     /// </summary>
@@ -1090,7 +1378,7 @@ namespace MdlpApiClient.DataContracts
         /// Дата последней смены статуса
         /// </summary>
         [DataMember(Name = "status_date")]
-        public DateTime StatusFrom { get; set; }
+        public DateTime StatusDate { get; set; }
 
         /// <summary>
         /// Номер производственной серии
@@ -1997,15 +2285,30 @@ namespace MdlpApiClient
         }
 
         /// <summary>
+        /// 8.2.5. Метод получения информации об адресах искомого участника,
+        /// для регистрации мест ответственного хранения или отправки документов.
+        /// </summary>
+        /// <param name="inn">ИНН (необязательно)</param>
+        /// <param name="licenseNumber">Номер лицензии (необязательно)</param>
+        public GetAvailableAddressesResponse GetAvailableAddresses(string inn = null, string licenseNumber = null)
+        {
+            return Post<GetAvailableAddressesResponse>("reestr/warehouses/available_safe_warehouses_addresses", new
+            {
+                inn = inn,
+                licence_number = licenseNumber,
+            });
+        }
+
+        /// <summary>
         /// 8.3.1. Метод для поиска по реестру КИЗ
         /// </summary>
         /// <param name="filter">Фильтр для поиска по реестру КИЗ</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
         /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
+        public GetSgtinsResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinResponse>("reestr/sgtin/filter", new
+            return Post<GetSgtinsResponse>("reestr/sgtin/filter", new
             {
                 filter = filter ?? new SgtinFilter(),
                 start_from = startFrom,
@@ -2018,9 +2321,9 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinResponse GetSgtins(string[] sgtins)
+        public GetSgtinsResponse GetSgtins(string[] sgtins)
         {
-            return Post<GetSgtinResponse>("reestr/sgtin/sgtins-by-list", new
+            return Post<GetSgtinsResponse>("reestr/sgtin/sgtins-by-list", new
             {
                 filter = new
                 {
@@ -2042,6 +2345,19 @@ namespace MdlpApiClient
                 {
                     sgtins = sgtins
                 },
+            });
+        }
+
+        /// <summary>
+        /// 8.3.4. Метод для получения детальной информации о КИЗ и связанным с ним ЛП
+        /// </summary>
+        /// <param name="sgtin">КИЗ для поиска</param>
+        /// <returns>Подробная информация КИЗ и ЛП</returns>
+        public GetSgtinResponse GetSgtin(string sgtin)
+        {
+            return Get<GetSgtinResponse>("reestr/sgtin/{sgtin}", new[]
+            {
+                new Parameter("sgtin", sgtin, ParameterType.UrlSegment),
             });
         }
     }
