@@ -15,9 +15,9 @@
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
         /// <param name="count">Количество записей в списке возвращаемых мест</param>
         /// <returns>Список мест осуществления деятельности</returns>
-        public GetBranchesResponse GetBranches(BranchFilter filter, int startFrom, int count)
+        public EntriesResponse<BranchEntry> GetBranches(BranchFilter filter, int startFrom, int count)
         {
-            return Post<GetBranchesResponse>("reestr/branches/filter", new
+            return Post<EntriesResponse<BranchEntry>>("reestr/branches/filter", new
             {
                 filter = filter ?? new BranchFilter(),
                 start_from = startFrom,
@@ -56,9 +56,9 @@
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
         /// <param name="count">Количество записей в списке возвращаемых мест</param>
         /// <returns>Список мест ответственного хранения</returns>
-        public GetWarehousesResponse GetWarehouses(WarehouseFilter filter, int startFrom, int count)
+        public EntriesResponse<WarehouseEntry> GetWarehouses(WarehouseFilter filter, int startFrom, int count)
         {
-            return Post<GetWarehousesResponse>("reestr/warehouses/filter", new
+            return Post<EntriesResponse<WarehouseEntry>>("reestr/warehouses/filter", new
             {
                 filter = filter ?? new WarehouseFilter(),
                 start_from = startFrom,
@@ -113,9 +113,9 @@
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
         /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinsResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
+        public EntriesResponse<SgtinExtended> GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinsResponse>("reestr/sgtin/filter", new
+            return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/filter", new
             {
                 filter = filter ?? new SgtinFilter(),
                 start_from = startFrom,
@@ -128,9 +128,9 @@
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinsResponse GetSgtins(string[] sgtins)
+        public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(string[] sgtins)
         {
-            return Post<GetSgtinsResponse>("reestr/sgtin/sgtins-by-list", new
+            return Post<EntriesFailedResponse<SgtinExtended, SgtinFailed>>("reestr/sgtin/sgtins-by-list", new
             {
                 filter = new
                 {
@@ -171,9 +171,9 @@
         /// <summary>
         /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
         /// </summary>
-        public GetSgtinsResponse GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
+        public EntriesResponse<SgtinExtended> GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinsResponse>("reestr/sgtin/on_hold", new
+            return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/on_hold", new
             {
                 filter = filter ?? new SgtinOnHoldFilter(),
                 start_from = startFrom,
@@ -185,11 +185,24 @@
         /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих вывода 
         /// из оборота по чеку от контрольно-кассовой техники (ККТ)
         /// </summary>
-        public GetSgtinsKktAwaitingWithdrawalResponse GetSgtinsKktAwaitingWithdrawal(SgtinKktAwaitingWithdrawalFilter filter, int startFrom, int count)
+        public EntriesResponse<SgtinKktAwaitingWithdrawal> GetSgtinsKktAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinsKktAwaitingWithdrawalResponse>("reestr/sgtin/kkt/awaitingwithdrawal/filter", new
+            return Post<EntriesResponse<SgtinKktAwaitingWithdrawal>>("reestr/sgtin/kkt/awaiting-withdrawal/filter", new
             {
-                filter = filter ?? new SgtinKktAwaitingWithdrawalFilter(),
+                filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.3.7. Метод для поиска по реестру КИЗ записей, ожидающих вывода из оборота через РВ
+        /// </summary>
+        public EntriesResponse<SgtinDeviceAwaitingWithdrawal> GetSgtinsDeviceAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<SgtinDeviceAwaitingWithdrawal>>("reestr/sgtin/device/awaiting-withdrawal/filter", new
+            {
+                filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
                 start_from = startFrom,
                 count = count,
             });

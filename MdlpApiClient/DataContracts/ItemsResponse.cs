@@ -3,13 +3,15 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 5.14. Прослеживание документов по отчёту из СУЗ
+    /// Список элементов:
+    /// 5.14. Документов по отчёту из СУЗ.
     /// </summary>
+    /// <typeparam name="T">Тип поля Items</typeparam>
     [DataContract]
-    public class GetDocumentsSkzkmResponse
+    public class ItemsResponse<T>
     {
         [DataMember(Name = "items")]
-        public DocumentSkzkmMetadata[] Documents { get; set; }
+        public T[] Items { get; set; }
 
         [DataMember(Name = "total")]
         public int Total { get; set; }

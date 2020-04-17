@@ -182,8 +182,8 @@
                 startFrom: 0, count: 10);
 
             Assert.IsNotNull(docs);
-            Assert.IsNotNull(docs.Documents);
-            Assert.AreEqual(0, docs.Documents.Length);
+            Assert.IsNotNull(docs.Items);
+            Assert.AreEqual(0, docs.Items.Length);
             Assert.AreEqual(0, docs.Total);
         }
     }

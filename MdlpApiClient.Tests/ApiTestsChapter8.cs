@@ -312,9 +312,29 @@
         [Test]
         public void Chapter8_03_6_GetSgtinsKktAwaitingWithdrawal()
         {
-            // недостаточно прав
-            var ex = Assert.Throws<MdlpException>(() => Client.GetSgtinsKktAwaitingWithdrawal(null, 0, 1));
-            Assert.AreEqual(HttpStatusCode.MethodNotAllowed, ex.StatusCode); // 405
+            var sgtins = Client.GetSgtinsKktAwaitingWithdrawal(new SgtinAwaitingWithdrawalFilter
+            {
+                Sgtin = "061017000000000000000000006"
+            }, 0, 1);
+            Assert.NotNull(sgtins);
+
+            Assert.AreEqual(0, sgtins.Total);
+            Assert.NotNull(sgtins.Entries);
+            Assert.AreEqual(0, sgtins.Entries.Length);
+        }
+
+        [Test]
+        public void Chapter8_03_7_GetSgtinsDeviceAwaitingWithdrawal()
+        {
+            var sgtins = Client.GetSgtinsDeviceAwaitingWithdrawal(new SgtinAwaitingWithdrawalFilter
+            {
+                Sgtin = "061017000000000000000000006"
+            }, 0, 1);
+            Assert.NotNull(sgtins);
+
+            Assert.AreEqual(0, sgtins.Total);
+            Assert.NotNull(sgtins.Entries);
+            Assert.AreEqual(0, sgtins.Entries.Length);
         }
     }
 }

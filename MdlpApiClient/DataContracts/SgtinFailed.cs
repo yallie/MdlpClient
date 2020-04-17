@@ -2,8 +2,11 @@
 {
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// 8.3.2. Ошибка поиска КИЗ
+    /// </summary>
     [DataContract]
-    public class FailedSgtin
+    public class SgtinFailed
     {
         [DataMember(Name = "sgtin")]
         public string Sgtin { get; set; }

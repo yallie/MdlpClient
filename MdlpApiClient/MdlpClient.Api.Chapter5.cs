@@ -88,9 +88,9 @@
         /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public GetDocumentsResponse GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
+        public DocumentsResponse<DocumentMetadata> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            return Post<GetDocumentsResponse>("documents/outcome", new
+            return Post<DocumentsResponse<DocumentMetadata>>("documents/outcome", new
             {
                 filter = filter,
                 start_from = startFrom,
@@ -104,9 +104,9 @@
         /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public GetDocumentsResponse GetIncomeDocuments(DocFilter filter, int startFrom, int count)
+        public DocumentsResponse<DocumentMetadata> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            return Post<GetDocumentsResponse>("documents/income", new
+            return Post<DocumentsResponse<DocumentMetadata>>("documents/income", new
             {
                 filter = filter,
                 start_from = startFrom,
@@ -145,9 +145,9 @@
         /// 5.11. Получение списка документов по идентификатору запроса
         /// </summary>
         /// <param name="requestId">Идентификатор запроса</param>
-        public GetDocumentsResponse GetDocumentsByRequestID(string requestId)
+        public DocumentsResponse<DocumentMetadata> GetDocumentsByRequestID(string requestId)
         {
-            return Get<GetDocumentsResponse>("documents/request/{request_id}", new[]
+            return Get<DocumentsResponse<DocumentMetadata>>("documents/request/{request_id}", new[]
             {
                 new Parameter("request_id", requestId, ParameterType.UrlSegment),
             });
@@ -186,9 +186,9 @@
         /// <param name="reportId">Идентификатор отчета СУЗ</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public GetDocumentsSkzkmResponse GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
+        public ItemsResponse<DocumentSkzkmMetadata> GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
         {
-            return Post<GetDocumentsSkzkmResponse>("documents/skzkm-traces/filter", new
+            return Post<ItemsResponse<DocumentSkzkmMetadata>>("documents/skzkm-traces/filter", new
             {
                 filter = new
                 {
