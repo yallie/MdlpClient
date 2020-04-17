@@ -144,9 +144,9 @@
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetPublicSgtinResponse GetPublicSgtins(string[] sgtins)
+        public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
         {
-            return Post<GetPublicSgtinResponse>("reestr/sgtin/public/sgtins-by-list", new
+            return Post<EntriesFailedResponse<PublicSgtin, string>>("reestr/sgtin/public/sgtins-by-list", new
             {
                 filter = new
                 {

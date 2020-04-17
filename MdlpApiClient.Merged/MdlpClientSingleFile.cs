@@ -504,6 +504,28 @@ namespace MdlpApiClient.DataContracts
 {
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// Список документов:
+    /// 5.7. Исходящих документов.
+    /// 5.8. Входящих документов.
+    /// 5.11. Документов по идентификатору запроса.
+    /// </summary>
+    /// <typeparam name="T">Тип поля Documents</typeparam>
+    [DataContract]
+    public class DocumentsResponse<T>
+    {
+        [DataMember(Name = "documents")]
+        public T[] Documents { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
     [DataContract]
     public class EgripRegistryResponse
     {
@@ -572,6 +594,59 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// Список элементов и список ошибок.
+    /// 8.3.2. Список КИЗ и список ошибок поиска.
+    /// 8.3.3. Список КИЗ из общедоступного реестра КИЗ и список не найденных КИЗ.
+    /// </summary>
+    /// <typeparam name="T">Тип элемента поля Entries</typeparam>
+    /// <typeparam name="F">Тип элемента поля FailedEntries</typeparam>
+    [DataContract]
+    public class EntriesFailedResponse<T, F>
+    {
+        [DataMember(Name = "entries")]
+        public T[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+
+        [DataMember(Name = "failed_entries")]
+        public F[] FailedEntries { get; set; }
+
+        [DataMember(Name = "failed")]
+        public int Failed { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// Список записей:
+    /// 8.1.2. Мест осуществления деятельности.
+    /// 8.2.2. Список мест ответственного хранения.
+    /// 8.3.1. Список найденных КИЗ.
+    /// 8.3.5. Список КИЗ со статусом 'Оборот приостановлен'.
+    /// 8.3.6. Результат поиска по реестру КИЗ записей, ожидающих
+    /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ).
+    /// </summary>
+    /// <typeparam name="T">Тип поля Entries</typeparam>
+    [DataContract]
+    public class EntriesResponse<T>
+    {
+        [DataMember(Name = "entries")]
+        public T[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System;
     using System.Runtime.Serialization;
 
@@ -606,27 +681,6 @@ namespace MdlpApiClient.DataContracts
 {
     using System.Runtime.Serialization;
 
-    [DataContract]
-    public class FailedSgtin
-    {
-        [DataMember(Name = "sgtin")]
-        public string Sgtin { get; set; }
-
-        /// <summary>
-        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
-        /// </summary>
-        [DataMember(Name = "error_code")]
-        public int ErrorCode { get; set; }
-
-        [DataMember(Name = "error_desc")]
-        public string ErrorDescription { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// 8.2.5. Метод получения информации об адресах искомого участника.
     /// </summary>
@@ -635,24 +689,6 @@ namespace MdlpApiClient.DataContracts
     {
         [DataMember(Name = "entries")]
         public RegistrationAddress[] Entries { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
-    /// <summary>
-    /// 8.1.2. Список мест осуществления деятельности.
-    /// </summary>
-    [DataContract]
-    public class GetBranchesResponse
-    {
-        [DataMember(Name = "entries")]
-        public BranchEntry[] Entries { get; set; }
 
         [DataMember(Name = "total")]
         public int Total { get; set; }
@@ -700,44 +736,6 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    /// <summary>
-    /// 5.7. Получение списка исходящих документов
-    /// 5.8. Получение списка входящих документов
-    /// </summary>
-    [DataContract]
-    public class GetDocumentsResponse
-    {
-        [DataMember(Name = "documents")]
-        public DocumentMetadata[] Documents { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
-    /// <summary>
-    /// 5.14. Прослеживание документов по отчёту из СУЗ
-    /// </summary>
-    [DataContract]
-    public class GetDocumentsSkzkmResponse
-    {
-        [DataMember(Name = "items")]
-        public DocumentSkzkmMetadata[] Documents { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -748,30 +746,6 @@ namespace MdlpApiClient.DataContracts
     {
         [DataMember(Name = "doc_size")]
         public int DocSize { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
-    /// <summary>
-    /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
-    /// </summary>
-    [DataContract]
-    public class GetPublicSgtinResponse
-    {
-        [DataMember(Name = "entries")]
-        public PublicSgtin[] Entries { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-
-        [DataMember(Name = "failed")]
-        public int Failed { get; set; }
-
-        [DataMember(Name = "failed_entries")]
-        public string[] FailedEntries { get; set; }
     }
 }
 
@@ -798,45 +772,51 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.6. Результат поиска по реестру КИЗ записей, ожидающих
-    /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ).
+    /// 8.4.1. Информация об иерархии вложенности третичной упаковки
     /// </summary>
     [DataContract]
-    public class GetSgtinsKktAwaitingWithdrawalResponse
+    public class GetSsccHierarchyResponse
     {
-        [DataMember(Name = "entries")]
-        public SgtinKktAwaitingWithdrawal[] Entries { get; set; }
+        /// <summary>
+        /// Иерархия вложенности "вверх".
+        /// </summary>
+        /// <remarks>
+        /// Описывающий иерархию вложенности "вверх" массив упорядочен согласно уровням
+        /// вложенности упаковки и в качестве первого элемента содержит описание для
+        /// запрошенного идентификационного кода третичной упаковки, а в качестве последнего
+        /// элемента — описание для идентификационного кода третичной упаковки самого верхнего
+        /// уровня.
+        /// </remarks>
+        [DataMember(Name = "up")]
+        public SsccInfo[] Up { get; set; }
 
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-    }
-}
+        /// <summary>
+        /// Иерархия вложенности "вниз".
+        /// </summary>
+        /// <remarks>
+        /// Содержит информацию о вложенности третичной упаковки,
+        /// начиная с запрошенного идентификационного кода третичной упаковки.
+        /// </remarks>
+        [DataMember(Name = "down")]
+        public SsccInfo[] Down { get; set; }
 
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
+        /// <summary>
+        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
+        /// </summary>
+        /// <remarks>
+        /// В случае успешного поиска информация об ошибке отсутствует
+        /// </remarks>
+        [DataMember(Name = "error_code", IsRequired = false)]
+        public int? ErrorCode { get; set; }
 
-    /// <summary>
-    /// 8.3.1. Список найденных КИЗ
-    /// 8.3.2. Список КИЗ и список ошибок поиска
-    /// 8.3.5. Список КИЗ со статусом 'Оборот приостановлен'
-    /// </summary>
-    [DataContract]
-    public class GetSgtinsResponse
-    {
-        [DataMember(Name = "entries")]
-        public SgtinExtended[] Entries { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-
-        // следующие поля есть только в ответе метода 8.3.2
-
-        [DataMember(Name = "failed", IsRequired = false)]
-        public int Failed { get; set; }
-
-        [DataMember(Name = "failed_entries", IsRequired = false)]
-        public FailedSgtin[] FailedEntries { get; set; }
+        /// <summary>
+        /// Описание ошибки
+        /// </summary>
+        /// <remarks>
+        /// В случае успешного поиска информация об ошибке отсутствует
+        /// </remarks>
+        [DataMember(Name = "error_desc", IsRequired = false)]
+        public string ErrorDescription { get; set; }
     }
 }
 
@@ -861,24 +841,6 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "address", IsRequired = false)]
         public Address Address { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
-    /// <summary>
-    /// 8.2.2. Список мест ответственного хранения.
-    /// </summary>
-    [DataContract]
-    public class GetWarehousesResponse
-    {
-        [DataMember(Name = "entries")]
-        public WarehouseEntry[] Entries { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
     }
 }
 
@@ -1114,6 +1076,26 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// Список элементов:
+    /// 5.14. Документов по отчёту из СУЗ.
+    /// </summary>
+    /// <typeparam name="T">Тип поля Items</typeparam>
+    [DataContract]
+    public class ItemsResponse<T>
+    {
+        [DataMember(Name = "items")]
+        public T[] Items { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System;
     using System.Runtime.Serialization;
 
@@ -1155,6 +1137,7 @@ namespace MdlpApiClient.DataContracts
 
     /// <summary>
     /// 4.32. Формат объекта PublicSGTIN
+    /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
     /// </summary>
     [DataContract]
     public class PublicSgtin
@@ -1611,6 +1594,44 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.6. Фильтр для поиска по реестру КИЗ записей, ожидающих вывода из оборота по чеку от контрольно-кассовой техники (ККТ)
+    /// 8.3.7. Фильтр для поиска по реестру КИЗ записей, ожидающих вывода из оборота через РВ
+    /// </summary>
+    [DataContract]
+    public class SgtinAwaitingWithdrawalFilter
+    {
+        /// <summary>
+        /// Идентификатор места деятельности отправителя
+        /// </summary>
+        [DataMember(Name = "branch_id", IsRequired = false)]
+        public string BranchID { get; set; }
+
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin", IsRequired = false)]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Дата операции из чека, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "op_start_date", IsRequired = false)]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Дата операции из чека, конец периода фильтрации
+        /// </summary>
+        [DataMember(Name = "op_end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -1648,6 +1669,93 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "payments")]
         public SgtinPaymentInformation[] Payments { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.7. КИЗ, ожидающий вывода из оборота по чеку от РВ.
+    /// </summary>
+    [DataContract]
+    public class SgtinDeviceAwaitingWithdrawal
+    {
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Тип документа, по которому производится вывод через РВ.
+        /// 10521 — Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту (информация с СКЗКМ)
+        /// 10531 — Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи (информация с СКЗКМ)
+        /// </summary>
+        [DataMember(Name = "xml_document_type")]
+        public int XmlDocumentType { get; set; }
+
+        /// <summary>
+        /// Идентификатор организации-отправителя
+        /// </summary>
+        [DataMember(Name = "subject_id", IsRequired = false)]
+        public string SubjectID { get; set; }
+
+        /// <summary>
+        /// Дата операции из чека
+        /// </summary>
+        [DataMember(Name = "op_date")]
+        public DateTime OperationDate { get; set; }
+
+        /// <summary>
+        /// Номер льготного рецепта/документа, на основании которого осуществлена выдача
+        /// </summary>
+        [DataMember(Name = "doc_num", IsRequired = false)]
+        public string DocumentNumber { get; set; }
+
+        /// <summary>
+        /// Дата льготного рецепта/документа, на основании которого осуществлена выдача
+        /// </summary>
+        [DataMember(Name = "doc_date", IsRequired = false)]
+        public DateTime? DocumentDate { get; set; }
+
+        /// <summary>
+        /// Серия льготного рецепта/документа, на основании которого осуществлена выдача
+        /// </summary>
+        [DataMember(Name = "doc_series", IsRequired = false)]
+        public string DocumentSeries { get; set; }
+
+        /// <summary>
+        /// Дата  фиксации КИЗа в очереди
+        /// </summary>
+        [DataMember(Name = "insertion_date", IsRequired = false)]
+        public DateTime? InsertionDate { get; set; }
+
+        /// <summary>
+        /// Идентификатор XML-документа
+        /// </summary>
+        [DataMember(Name = "xml_document_id", IsRequired = false)]
+        public string XmlDocumentID { get; set; }
+
+        /// <summary>
+        /// Доля от вторичной упаковки (доля вида 1/2)
+        /// </summary>
+        [DataMember(Name = "sold_part", IsRequired = false)]
+        public string SoldPart { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор РЭ или РВ
+        /// </summary>
+        [DataMember(Name = "device_id", IsRequired = false)]
+        public string DeviceID { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор системы, сформировавшей сообщение
+        /// </summary>
+        [DataMember(Name = "skzkm_origin_msg_id", IsRequired = false)]
+        public string SkskmOriginMessageID { get; set; }
     }
 }
 
@@ -1691,6 +1799,30 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "control_name", IsRequired = false)]
         public string ControlName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.2. Ошибка поиска КИЗ
+    /// </summary>
+    [DataContract]
+    public class SgtinFailed
+    {
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
+        /// </summary>
+        [DataMember(Name = "error_code")]
+        public int ErrorCode { get; set; }
+
+        [DataMember(Name = "error_desc")]
+        public string ErrorDescription { get; set; }
     }
 }
 
@@ -1963,44 +2095,6 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих
-    /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ)
-    /// </summary>
-    [DataContract]
-    public class SgtinKktAwaitingWithdrawalFilter
-    {
-        /// <summary>
-        /// Идентификатор места деятельности отправителя
-        /// </summary>
-        [DataMember(Name = "branch_id", IsRequired = false)]
-        public string BranchID { get; set; }
-
-        /// <summary>
-        /// SGTIN (КИЗ)
-        /// </summary>
-        [DataMember(Name = "sgtin", IsRequired = false)]
-        public string Sgtin { get; set; }
-
-        /// <summary>
-        /// Дата операции из чека, начало периода фильтрации
-        /// </summary>
-        [DataMember(Name = "op_start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
-
-        /// <summary>
-        /// Дата операции из чека, конец периода фильтрации
-        /// </summary>
-        [DataMember(Name = "op_end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System;
-    using System.Runtime.Serialization;
-
-    /// <summary>
     /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
     /// </summary>
     [DataContract]
@@ -2152,6 +2246,40 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "tariff", IsRequired = false)]
         public decimal? Tariff { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.1. Информация об иерархии вложенности третичной упаковки
+    /// </summary>
+    [DataContract]
+    public class SsccInfo
+    {
+        /// <summary>
+        /// Идентификационный код третичной упаковки
+        /// </summary>
+        [DataMember(Name = "sscc")]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// Дата и время совершения операции упаковки
+        /// </summary>
+        [DataMember(Name = "release_date")]
+        public DateTime ReleaseDate { get; set; }
+
+        /// <summary>
+        /// Идентификатор субъекта обращения, осуществившего операцию упаковки
+        /// </summary>
+        /// <remarks>
+        /// Идентификационный код SysID или BranchID
+        /// </remarks>
+        [DataMember(Name = "system_subj_id")]
+        public string SystemSubjectID { get; set; }
     }
 }
 
@@ -2373,9 +2501,9 @@ namespace MdlpApiClient
         /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public GetDocumentsResponse GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
+        public DocumentsResponse<DocumentMetadata> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            return Post<GetDocumentsResponse>("documents/outcome", new
+            return Post<DocumentsResponse<DocumentMetadata>>("documents/outcome", new
             {
                 filter = filter,
                 start_from = startFrom,
@@ -2389,9 +2517,9 @@ namespace MdlpApiClient
         /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public GetDocumentsResponse GetIncomeDocuments(DocFilter filter, int startFrom, int count)
+        public DocumentsResponse<DocumentMetadata> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            return Post<GetDocumentsResponse>("documents/income", new
+            return Post<DocumentsResponse<DocumentMetadata>>("documents/income", new
             {
                 filter = filter,
                 start_from = startFrom,
@@ -2430,9 +2558,9 @@ namespace MdlpApiClient
         /// 5.11. Получение списка документов по идентификатору запроса
         /// </summary>
         /// <param name="requestId">Идентификатор запроса</param>
-        public GetDocumentsResponse GetDocumentsByRequestID(string requestId)
+        public DocumentsResponse<DocumentMetadata> GetDocumentsByRequestID(string requestId)
         {
-            return Get<GetDocumentsResponse>("documents/request/{request_id}", new[]
+            return Get<DocumentsResponse<DocumentMetadata>>("documents/request/{request_id}", new[]
             {
                 new Parameter("request_id", requestId, ParameterType.UrlSegment),
             });
@@ -2471,9 +2599,9 @@ namespace MdlpApiClient
         /// <param name="reportId">Идентификатор отчета СУЗ</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public GetDocumentsSkzkmResponse GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
+        public ItemsResponse<DocumentSkzkmMetadata> GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
         {
-            return Post<GetDocumentsSkzkmResponse>("documents/skzkm-traces/filter", new
+            return Post<ItemsResponse<DocumentSkzkmMetadata>>("documents/skzkm-traces/filter", new
             {
                 filter = new
                 {
@@ -2583,9 +2711,9 @@ namespace MdlpApiClient
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
         /// <param name="count">Количество записей в списке возвращаемых мест</param>
         /// <returns>Список мест осуществления деятельности</returns>
-        public GetBranchesResponse GetBranches(BranchFilter filter, int startFrom, int count)
+        public EntriesResponse<BranchEntry> GetBranches(BranchFilter filter, int startFrom, int count)
         {
-            return Post<GetBranchesResponse>("reestr/branches/filter", new
+            return Post<EntriesResponse<BranchEntry>>("reestr/branches/filter", new
             {
                 filter = filter ?? new BranchFilter(),
                 start_from = startFrom,
@@ -2624,9 +2752,9 @@ namespace MdlpApiClient
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
         /// <param name="count">Количество записей в списке возвращаемых мест</param>
         /// <returns>Список мест ответственного хранения</returns>
-        public GetWarehousesResponse GetWarehouses(WarehouseFilter filter, int startFrom, int count)
+        public EntriesResponse<WarehouseEntry> GetWarehouses(WarehouseFilter filter, int startFrom, int count)
         {
-            return Post<GetWarehousesResponse>("reestr/warehouses/filter", new
+            return Post<EntriesResponse<WarehouseEntry>>("reestr/warehouses/filter", new
             {
                 filter = filter ?? new WarehouseFilter(),
                 start_from = startFrom,
@@ -2681,9 +2809,9 @@ namespace MdlpApiClient
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
         /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinsResponse GetSgtins(SgtinFilter filter, int startFrom, int count)
+        public EntriesResponse<SgtinExtended> GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinsResponse>("reestr/sgtin/filter", new
+            return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/filter", new
             {
                 filter = filter ?? new SgtinFilter(),
                 start_from = startFrom,
@@ -2696,9 +2824,9 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetSgtinsResponse GetSgtins(string[] sgtins)
+        public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(string[] sgtins)
         {
-            return Post<GetSgtinsResponse>("reestr/sgtin/sgtins-by-list", new
+            return Post<EntriesFailedResponse<SgtinExtended, SgtinFailed>>("reestr/sgtin/sgtins-by-list", new
             {
                 filter = new
                 {
@@ -2712,9 +2840,9 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public GetPublicSgtinResponse GetPublicSgtins(string[] sgtins)
+        public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
         {
-            return Post<GetPublicSgtinResponse>("reestr/sgtin/public/sgtins-by-list", new
+            return Post<EntriesFailedResponse<PublicSgtin, string>>("reestr/sgtin/public/sgtins-by-list", new
             {
                 filter = new
                 {
@@ -2739,9 +2867,13 @@ namespace MdlpApiClient
         /// <summary>
         /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
         /// </summary>
-        public GetSgtinsResponse GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
+        public EntriesResponse<SgtinExtended> GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinsResponse>("reestr/sgtin/on_hold", new
+            return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/on_hold", new
             {
                 filter = filter ?? new SgtinOnHoldFilter(),
                 start_from = startFrom,
@@ -2750,16 +2882,51 @@ namespace MdlpApiClient
         }
 
         /// <summary>
-        /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих вывода 
-        /// из оборота по чеку от контрольно-кассовой техники (ККТ)
+        /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих
+        /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ)
         /// </summary>
-        public GetSgtinsKktAwaitingWithdrawalResponse GetSgtinsKktAwaitingWithdrawal(SgtinKktAwaitingWithdrawalFilter filter, int startFrom, int count)
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
+        public EntriesResponse<SgtinKktAwaitingWithdrawal> GetSgtinsKktAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
         {
-            return Post<GetSgtinsKktAwaitingWithdrawalResponse>("reestr/sgtin/kkt/awaitingwithdrawal/filter", new
+            return Post<EntriesResponse<SgtinKktAwaitingWithdrawal>>("reestr/sgtin/kkt/awaiting-withdrawal/filter", new
             {
-                filter = filter ?? new SgtinKktAwaitingWithdrawalFilter(),
+                filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
                 start_from = startFrom,
                 count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.3.7. Метод для поиска по реестру КИЗ записей,
+        /// ожидающих вывода из оборота через РВ
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
+        public EntriesResponse<SgtinDeviceAwaitingWithdrawal> GetSgtinsDeviceAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<SgtinDeviceAwaitingWithdrawal>>("reestr/sgtin/device/awaiting-withdrawal/filter", new
+            {
+                filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.4.1. Метод для получения информации об иерархии вложенности третичной упаковки
+        /// </summary>
+        /// <param name="sscc">Идентификационный код третичной упаковки</param>
+        /// <returns>Подробная информация КИЗ и ЛП</returns>
+        public GetSsccHierarchyResponse GetSsccHierarchy(string sscc)
+        {
+            return Get<GetSsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
+            {
+                new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
         }
     }

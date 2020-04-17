@@ -5,6 +5,7 @@
 
     /// <summary>
     /// 4.32. Формат объекта PublicSGTIN
+    /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
     /// </summary>
     [DataContract]
     public class PublicSgtin
