@@ -162,7 +162,7 @@
         /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name", IsRequired = false)]
-        public string ProdDosageName { get; set; }
+        public string ProductDosageName { get; set; }
 
         /// <summary>
         /// Идентификатор места нахождения товара в ЗТК (в формате SysID)

@@ -256,5 +256,22 @@
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска ЛП</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых ЛП</param>
+        /// <param name="count">Количество записей в списке возвращаемых ЛП</param>
+        /// <returns>Список ЛП</returns>
+        public EntriesResponse<MedProduct> GetCurrentMedProducts(MedProductsFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<MedProduct>>("reestr/med_products/current", new
+            {
+                filter = filter ?? new MedProductsFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

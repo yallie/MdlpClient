@@ -100,7 +100,7 @@
         /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name")]
-        public string ProdDosageName { get; set; }
+        public string ProductDosageName { get; set; }
 
         /// <summary>
         /// Первичная упаковка (строковое представление)

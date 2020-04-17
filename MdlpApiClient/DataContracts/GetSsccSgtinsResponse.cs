@@ -13,6 +13,8 @@
         /// </summary>
         /// <remarks>
         /// Присутствует только при ошибке
+        /// 2 — Запрашиваемые данные не найдены
+        /// 4 — Запрашиваемые данные доступны только текущему владельцу или контрагенту по операции
         /// </remarks>
         [DataMember(Name = "error_code", IsRequired = false)]
         public int? ErrorCode { get; set; }
