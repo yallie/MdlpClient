@@ -17,6 +17,9 @@
         [DataMember(Name = "error_code")]
         public int ErrorCode { get; set; }
 
+        /// <summary>
+        /// Текстовое описание ошибки
+        /// </summary>
         [DataMember(Name = "error_desc")]
         public string ErrorDescription { get; set; }
     }

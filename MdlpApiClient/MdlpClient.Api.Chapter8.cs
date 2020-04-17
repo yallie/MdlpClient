@@ -233,5 +233,28 @@
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.4.2. Метод для получения информации о КИЗ, вложенных в третичную упаковку
+        /// </summary>
+        /// <param name="sscc">Идентификационный код третичной упаковки</param>
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
+        public GetSsccSgtinsResponse GetSsccSgtins(string sscc, SsccSgtinsFilter filter, int startFrom, int count)
+        {
+            return Post<GetSsccSgtinsResponse>("reestr/sscc/{sscc}/sgtins", new
+            {
+                sscc = sscc,
+                filter = filter ?? new SsccSgtinsFilter(),
+                start_from = startFrom,
+                count = count,
+            },
+            new[]
+            {
+                new Parameter("sscc", sscc, ParameterType.UrlSegment),
+            });
+        }
     }
 }

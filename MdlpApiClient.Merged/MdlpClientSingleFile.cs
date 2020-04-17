@@ -338,17 +338,14 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Уникальный идентификатор отправителя.
         /// Идентификатор места осуществления деятельности, места ответственного 
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
-        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sender_id", IsRequired = false)]
         public string SenderID { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор получателя.
         /// Идентификатор места осуществления деятельности, места ответственного 
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
-        /// Применимо для входящих документов.
-        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// Применимо для входящих документов.        /// </summary>
         [DataMember(Name = "receiver_id", IsRequired = false)]
         public string ReceiverID { get; set; }
 
@@ -419,8 +416,7 @@ namespace MdlpApiClient.DataContracts
         /// Квитанция для документа с информацией о причине сбоя 
         /// сформирована и может быть получена по request_id
         /// </summary>
-        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";
-    }
+        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";    }
 }
 
 namespace MdlpApiClient.DataContracts
@@ -825,6 +821,36 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.4.2. Список КИЗ, вложенных в третичную упаковку
+    /// </summary>
+    [DataContract]
+    public class GetSsccSgtinsResponse : EntriesResponse<Sgtin>
+    {
+        /// <summary>
+        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
+        /// </summary>
+        /// <remarks>
+        /// Присутствует только при ошибке
+        /// </remarks>
+        [DataMember(Name = "error_code", IsRequired = false)]
+        public int? ErrorCode { get; set; }
+
+        /// <summary>
+        /// Текстовое описание ошибки
+        /// </summary>
+        /// <remarks>
+        /// Присутствует только при ошибке
+        /// </remarks>
+        [DataMember(Name = "error_desc", IsRequired = false)]
+        public string ErrorDescription { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.1.3. Получение информации о конкретном месте ответственного хранения
     /// </summary>
     [DataContract]
@@ -898,14 +924,12 @@ namespace MdlpApiClient.DataContracts
         public string TypeForm { get; set; }
 
         /// <summary>
-        /// Количество массы/объема в первичной упаковке
-        /// </summary>
+        /// Количество массы/объема в первичной упаковке        /// </summary>
         [DataMember(Name = "prod_pack_1_ed")]
         public string ProductPack1Amount { get; set; }
 
         /// <summary>
-        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке
-        /// </summary>
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке        /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
 
@@ -1060,15 +1084,12 @@ namespace MdlpApiClient.DataContracts
         public string FormProducerCountry { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
-        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
         /// <summary>
-        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП
-        /// 1 — устаревшие, 2 — актуальные данные
-        /// </summary>
+        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП        /// 1 — устаревшие, 2 — актуальные данные        /// </summary>
         [DataMember(Name = "drug_code_version", IsRequired = false)]
         public int? DrugCodeVersion { get; set; }
     }
@@ -1207,8 +1228,7 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
-        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
     }
@@ -1530,8 +1550,7 @@ namespace MdlpApiClient.DataContracts
         public int? SourceType { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
-        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
@@ -1556,14 +1575,12 @@ namespace MdlpApiClient.DataContracts
         public string CustomsPointID { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
-        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге
-        /// </summary>
+        /// Информация о биллинге        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -1659,14 +1676,12 @@ namespace MdlpApiClient.DataContracts
         public bool IsPaid { get; set; }
 
         /// <summary>
-        /// Признак вхождения в список высокозатратных нозологий
-        /// </summary>
+        /// Признак вхождения в список высокозатратных нозологий        /// </summary>
         [DataMember(Name = "contains_vzn")]
         public bool ContainsVzn { get; set; }
 
         /// <summary>
-        /// Список информации о платежах
-        /// </summary>
+        /// Список информации о платежах        /// </summary>
         [DataMember(Name = "payments")]
         public SgtinPaymentInformation[] Payments { get; set; }
     }
@@ -1770,33 +1785,27 @@ namespace MdlpApiClient.DataContracts
     public class SgtinExtended : Sgtin
     {
         // <summary>
-        // Идентификатор заказа системы управления заказами (СУЗ), Guid
-        // Он и так есть в классе Sgtin.
-        // </summary>
+        // Идентификатор заказа системы управления заказами (СУЗ), Guid        // Он и так есть в классе Sgtin.        // </summary>
         // [DataMember(Name = "oms_order_id", IsRequired = false)]
         // public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// ИНН/ИТИН производителя-упаковщика
-        /// </summary>
+        /// ИНН/ИТИН производителя-упаковщика        /// </summary>
         [DataMember(Name = "packing_inn", IsRequired = false)]
         public string PackingInn { get; set; }
 
         /// <summary>
-        /// Наименование производителя-упаковщика
-        /// </summary>
+        /// Наименование производителя-упаковщика        /// </summary>
         [DataMember(Name = "packing_name", IsRequired = false)]
         public string PackingName { get; set; }
 
         /// <summary>
-        /// ИНН/ИТИН производителя-выпускающего
-        /// </summary>
+        /// ИНН/ИТИН производителя-выпускающего        /// </summary>
         [DataMember(Name = "control_inn", IsRequired = false)]
         public string ControlInn { get; set; }
 
         /// <summary>
-        /// Наименование производителя-выпускающего
-        /// </summary>
+        /// Наименование производителя-выпускающего        /// </summary>
         [DataMember(Name = "control_name", IsRequired = false)]
         public string ControlName { get; set; }
     }
@@ -1821,6 +1830,9 @@ namespace MdlpApiClient.DataContracts
         [DataMember(Name = "error_code")]
         public int ErrorCode { get; set; }
 
+        /// <summary>
+        /// Текстовое описание ошибки
+        /// </summary>
         [DataMember(Name = "error_desc")]
         public string ErrorDescription { get; set; }
     }
@@ -1832,8 +1844,7 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter
-    /// </summary>
+    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter    /// </summary>
     [DataContract]
     public class SgtinFilter
     {
@@ -1888,8 +1899,7 @@ namespace MdlpApiClient.DataContracts
         public string BatchNumber { get; set; }
 
         /// <summary>
-        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
-        /// </summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
         public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
 
@@ -1937,14 +1947,12 @@ namespace MdlpApiClient.DataContracts
         public int[] SourceType { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
-        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге
-        /// </summary>
+        /// Информация о биллинге        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -2022,8 +2030,7 @@ namespace MdlpApiClient.DataContracts
         public decimal? Price { get; set; }
 
         /// <summary>
-        /// Сумма НДС (если сделка облагается НДС), в коп.
-        /// </summary>
+        /// Сумма НДС (если сделка облагается НДС), в коп.        /// </summary>
         [DataMember(Name = "vat_value", IsRequired = false)]
         public decimal? VatValue { get; set; }
 
@@ -2034,8 +2041,7 @@ namespace MdlpApiClient.DataContracts
         public string SoldPart { get; set; }
 
         /// <summary>
-        /// Сумма скидки, в коп.
-        /// </summary>
+        /// Сумма скидки, в коп.        /// </summary>
         [DataMember(Name = "discount", IsRequired = false)]
         public decimal? Discount { get; set; }
 
@@ -2151,8 +2157,7 @@ namespace MdlpApiClient.DataContracts
         public string BatchNumber { get; set; }
 
         /// <summary>
-        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
-        /// </summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
         public string SystemID { get; set; }
 
@@ -2193,14 +2198,12 @@ namespace MdlpApiClient.DataContracts
         public DateTime? LastTracingDateTo { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
-        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге
-        /// </summary>
+        /// Информация о биллинге        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -2280,6 +2283,30 @@ namespace MdlpApiClient.DataContracts
         /// </remarks>
         [DataMember(Name = "system_subj_id")]
         public string SystemSubjectID { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.2. Фильтр для получения информации о КИЗ, вложенных в третичную упаковку
+    /// </summary>
+    [DataContract]
+    public class SsccSgtinsFilter
+    {
+        /// <summary>
+        /// Признак, отображающий, относится ли ЛП к списку 7ВЗН
+        /// </summary>
+        [DataMember(Name = "vzn_drug", IsRequired = false)]
+        public bool? VznDrug { get; set; }
+
+        /// <summary>
+        /// Признак наличия в ЖНВЛП
+        /// </summary>
+        [DataMember(Name = "gnvlp", IsRequired = false)]
+        public bool? Gnvlp { get; set; }
     }
 }
 
@@ -2925,6 +2952,29 @@ namespace MdlpApiClient
         public GetSsccHierarchyResponse GetSsccHierarchy(string sscc)
         {
             return Get<GetSsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
+            {
+                new Parameter("sscc", sscc, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 8.4.2. Метод для получения информации о КИЗ, вложенных в третичную упаковку
+        /// </summary>
+        /// <param name="sscc">Идентификационный код третичной упаковки</param>
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
+        public GetSsccSgtinsResponse GetSsccSgtins(string sscc, SsccSgtinsFilter filter, int startFrom, int count)
+        {
+            return Post<GetSsccSgtinsResponse>("reestr/sscc/{sscc}/sgtins", new
+            {
+                sscc = sscc,
+                filter = filter ?? new SsccSgtinsFilter(),
+                start_from = startFrom,
+                count = count,
+            },
+            new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });

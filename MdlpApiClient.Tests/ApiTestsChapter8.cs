@@ -352,5 +352,19 @@
             Assert.AreEqual(2, ssccs.ErrorCode);
             Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
         }
+
+        [Test]
+        public void Chapter8_04_2_GetSsccSgtins()
+        {
+            // пример из документации не найден: 201902251235570000
+            // пример из документации вызывает ошибку: NUEMOESSCC00000001
+            var ssccs = Client.GetSsccSgtins("201902251235570000", null, 0, 1);
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Entries);
+
+            Assert.AreEqual(0, ssccs.Entries.Length);
+            Assert.AreEqual(2, ssccs.ErrorCode);
+            Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
+        }
     }
 }
