@@ -5,6 +5,7 @@
 
     /// <summary>
     /// 8.5.1. Информация из реестра производимых организацией ЛП
+    /// 8.5.2. Детальная информации о производимом организацией ЛП
     /// </summary>
     /// <remarks>
     /// Частично пересекается со структурой <see cref="GtinInfo"/>, но не совпадает с ней.
@@ -15,7 +16,7 @@
         /// <summary>
         /// Уникальный идентификатор
         /// </summary>
-        [DataMember(Name = "id")]
+        [DataMember(Name = "id", IsRequired = false)]
         public string ID { get; set; }
 
         /// <summary>

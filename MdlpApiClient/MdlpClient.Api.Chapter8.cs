@@ -273,5 +273,18 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.5.2. Метод для получения детальной информации о производимом организацией ЛП
+        /// </summary>
+        /// <param name="gtin">Код GTIN ЛП</param>
+        /// <returns>Описание ЛП</returns>
+        public MedProduct GetCurrentMedProduct(string gtin)
+        {
+            return Get<MedProduct>("reestr/med_products/{gtin}", new[]
+            {
+                new Parameter("gtin", gtin, ParameterType.UrlSegment),
+            });
+        }
     }
 }

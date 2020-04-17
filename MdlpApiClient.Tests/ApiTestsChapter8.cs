@@ -370,8 +370,6 @@
         [Test]
         public void Chapter8_05_1_GetCurrentMedProducts()
         {
-            // пример из документации не найден: 201902251235570000
-            // пример из документации вызывает ошибку: NUEMOESSCC00000001
             var medProducts = Client.GetCurrentMedProducts(new MedProductsFilter
             {
                 Gtin = "04607028394287"
@@ -383,6 +381,17 @@
 
             var prod = medProducts.Entries[0];
             Assert.NotNull(prod);
+            Assert.AreEqual("04607028394287", prod.Gtin);
+            Assert.AreEqual("Гертикад®", prod.SellingName);
+            Assert.AreEqual("ТРАСТУЗУМАБ", prod.ProductName);
+            Assert.AreEqual("ЗАО БИОКАД", prod.RegistrationHolder);
+            Assert.AreEqual("150 мг", prod.ProductDosageName);
+        }
+
+        [Test]
+        public void Chapter8_05_2_GetCurrentMedProduct()
+        {
+            var prod = Client.GetCurrentMedProduct("04607028394287");
             Assert.AreEqual("04607028394287", prod.Gtin);
             Assert.AreEqual("Гертикад®", prod.SellingName);
             Assert.AreEqual("ТРАСТУЗУМАБ", prod.ProductName);
