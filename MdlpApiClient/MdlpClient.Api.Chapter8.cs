@@ -180,5 +180,19 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих вывода 
+        /// из оборота по чеку от контрольно-кассовой техники (ККТ)
+        /// </summary>
+        public GetSgtinsKktAwaitingWithdrawalResponse GetSgtinsKktAwaitingWithdrawal(SgtinKktAwaitingWithdrawalFilter filter, int startFrom, int count)
+        {
+            return Post<GetSgtinsKktAwaitingWithdrawalResponse>("reestr/sgtin/kkt/awaitingwithdrawal/filter", new
+            {
+                filter = filter ?? new SgtinKktAwaitingWithdrawalFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

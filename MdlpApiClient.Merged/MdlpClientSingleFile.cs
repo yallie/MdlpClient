@@ -338,14 +338,17 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Уникальный идентификатор отправителя.
         /// Идентификатор места осуществления деятельности, места ответственного 
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sender_id", IsRequired = false)]
         public string SenderID { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор получателя.
         /// Идентификатор места осуществления деятельности, места ответственного 
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// Применимо для входящих документов.        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// Применимо для входящих документов.
+        /// </summary>
         [DataMember(Name = "receiver_id", IsRequired = false)]
         public string ReceiverID { get; set; }
 
@@ -416,7 +419,8 @@ namespace MdlpApiClient.DataContracts
         /// Квитанция для документа с информацией о причине сбоя 
         /// сформирована и может быть получена по request_id
         /// </summary>
-        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";    }
+        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";
+    }
 }
 
 namespace MdlpApiClient.DataContracts
@@ -794,8 +798,28 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.3.6. Результат поиска по реестру КИЗ записей, ожидающих
+    /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ).
+    /// </summary>
+    [DataContract]
+    public class GetSgtinsKktAwaitingWithdrawalResponse
+    {
+        [DataMember(Name = "entries")]
+        public SgtinKktAwaitingWithdrawal[] Entries { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.3.1. Список найденных КИЗ
     /// 8.3.2. Список КИЗ и список ошибок поиска
+    /// 8.3.5. Список КИЗ со статусом 'Оборот приостановлен'
     /// </summary>
     [DataContract]
     public class GetSgtinsResponse
@@ -808,10 +832,10 @@ namespace MdlpApiClient.DataContracts
 
         // следующие поля есть только в ответе метода 8.3.2
 
-        [DataMember(Name = "failed")]
+        [DataMember(Name = "failed", IsRequired = false)]
         public int Failed { get; set; }
 
-        [DataMember(Name = "failed_entries")]
+        [DataMember(Name = "failed_entries", IsRequired = false)]
         public FailedSgtin[] FailedEntries { get; set; }
     }
 }
@@ -912,12 +936,14 @@ namespace MdlpApiClient.DataContracts
         public string TypeForm { get; set; }
 
         /// <summary>
-        /// Количество массы/объема в первичной упаковке        /// </summary>
+        /// Количество массы/объема в первичной упаковке
+        /// </summary>
         [DataMember(Name = "prod_pack_1_ed")]
         public string ProductPack1Amount { get; set; }
 
         /// <summary>
-        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке        /// </summary>
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке
+        /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
 
@@ -1072,14 +1098,53 @@ namespace MdlpApiClient.DataContracts
         public string FormProducerCountry { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
         /// <summary>
-        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП        /// 1 — устаревшие, 2 — актуальные данные        /// </summary>
+        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП
+        /// 1 — устаревшие, 2 — актуальные данные
+        /// </summary>
         [DataMember(Name = "drug_code_version", IsRequired = false)]
         public int? DrugCodeVersion { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих
+    /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ).
+    /// Статус последней проверки.
+    /// </summary>
+    [DataContract]
+    public class LastCheckStatus
+    {
+        /// <summary>
+        /// Время последней проверки
+        /// </summary>
+        [DataMember(Name = "date")]
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Список нарушений при попытке обработки чека
+        /// 1 — нарушение лицензионных требований
+        /// 2 — повторный вывод из оборота
+        /// 3 — отсутствуют сведения о вводе в оборот
+        /// 4 — не подлежит розничной реализации
+        /// 5 — нарушение формата чека
+        /// 6 — нарушение порядка предоставления сведений
+        /// 7 — нарушение правовладения
+        /// 8 — истек срок годности
+        /// 9 — отсутствие информации о рецепте
+        /// </summary>
+        [DataMember(Name = "violation_reasons")]
+        public int[] ViolationReasons { get; set; }
     }
 }
 
@@ -1159,7 +1224,8 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
     }
@@ -1481,7 +1547,8 @@ namespace MdlpApiClient.DataContracts
         public int? SourceType { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
@@ -1506,12 +1573,14 @@ namespace MdlpApiClient.DataContracts
         public string CustomsPointID { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге        /// </summary>
+        /// Информация о биллинге
+        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -1569,12 +1638,14 @@ namespace MdlpApiClient.DataContracts
         public bool IsPaid { get; set; }
 
         /// <summary>
-        /// Признак вхождения в список высокозатратных нозологий        /// </summary>
+        /// Признак вхождения в список высокозатратных нозологий
+        /// </summary>
         [DataMember(Name = "contains_vzn")]
         public bool ContainsVzn { get; set; }
 
         /// <summary>
-        /// Список информации о платежах        /// </summary>
+        /// Список информации о платежах
+        /// </summary>
         [DataMember(Name = "payments")]
         public SgtinPaymentInformation[] Payments { get; set; }
     }
@@ -1591,27 +1662,33 @@ namespace MdlpApiClient.DataContracts
     public class SgtinExtended : Sgtin
     {
         // <summary>
-        // Идентификатор заказа системы управления заказами (СУЗ), Guid        // Он и так есть в классе Sgtin.        // </summary>
+        // Идентификатор заказа системы управления заказами (СУЗ), Guid
+        // Он и так есть в классе Sgtin.
+        // </summary>
         // [DataMember(Name = "oms_order_id", IsRequired = false)]
         // public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// ИНН/ИТИН производителя-упаковщика        /// </summary>
+        /// ИНН/ИТИН производителя-упаковщика
+        /// </summary>
         [DataMember(Name = "packing_inn", IsRequired = false)]
         public string PackingInn { get; set; }
 
         /// <summary>
-        /// Наименование производителя-упаковщика        /// </summary>
+        /// Наименование производителя-упаковщика
+        /// </summary>
         [DataMember(Name = "packing_name", IsRequired = false)]
         public string PackingName { get; set; }
 
         /// <summary>
-        /// ИНН/ИТИН производителя-выпускающего        /// </summary>
+        /// ИНН/ИТИН производителя-выпускающего
+        /// </summary>
         [DataMember(Name = "control_inn", IsRequired = false)]
         public string ControlInn { get; set; }
 
         /// <summary>
-        /// Наименование производителя-выпускающего        /// </summary>
+        /// Наименование производителя-выпускающего
+        /// </summary>
         [DataMember(Name = "control_name", IsRequired = false)]
         public string ControlName { get; set; }
     }
@@ -1623,7 +1700,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter    /// </summary>
+    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter
+    /// </summary>
     [DataContract]
     public class SgtinFilter
     {
@@ -1678,7 +1756,8 @@ namespace MdlpApiClient.DataContracts
         public string BatchNumber { get; set; }
 
         /// <summary>
-        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
         public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
 
@@ -1726,12 +1805,308 @@ namespace MdlpApiClient.DataContracts
         public int[] SourceType { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге        /// </summary>
+        /// Информация о биллинге
+        /// </summary>
+        [DataMember(Name = "billing_info", IsRequired = false)]
+        public SgtinBillingInformation BillingInfo { get; set; }
+
+        /// <summary>
+        /// Признак, отображающий, относится ли ЛП к списку 7ВЗН
+        /// </summary>
+        [DataMember(Name = "vzn_drug", IsRequired = false)]
+        public bool? VznDrug { get; set; }
+
+        /// <summary>
+        /// Признак наличия в ЖНВЛП
+        /// </summary>
+        [DataMember(Name = "gnvlp", IsRequired = false)]
+        public bool? Gnvlp { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.6. КИЗ, ожидающий вывода из оборота по чеку от контрольно-кассовой техники (ККТ).
+    /// </summary>
+    [DataContract]
+    public class SgtinKktAwaitingWithdrawal
+    {
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Тип реализации
+        /// 0 — розничная продажа
+        /// 1 — отпуск по льготному рецепту
+        /// </summary>
+        [DataMember(Name = "sold_type")]
+        public int SoldType { get; set; }
+
+        /// <summary>
+        /// Статус обработки
+        /// 0 — принято
+        /// 1 — в обработке
+        /// 2 — завершено
+        /// 3 — завершено с ошибкой
+        /// </summary>
+        [DataMember(Name = "status")]
+        public int Status { get; set; }
+
+        /// <summary>
+        /// Дата операции из чека
+        /// </summary>
+        [DataMember(Name = "op_date")]
+        public DateTime OperationDate { get; set; }
+
+        /// <summary>
+        /// ИНН из чека
+        /// </summary>
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Статус последней проверки
+        /// </summary>
+        [DataMember(Name = "last_check_status", IsRequired = false)]
+        public LastCheckStatus LastCheckStatus { get; set; }
+
+        /// <summary>
+        /// Розничная цена, в коп. (обязательно при SoldType = 0)
+        /// </summary>
+        [DataMember(Name = "price", IsRequired = false)]
+        public decimal? Price { get; set; }
+
+        /// <summary>
+        /// Сумма НДС (если сделка облагается НДС), в коп.
+        /// </summary>
+        [DataMember(Name = "vat_value", IsRequired = false)]
+        public decimal? VatValue { get; set; }
+
+        /// <summary>
+        /// Доля от вторичной упаковки (доля вида 1/2)
+        /// </summary>
+        [DataMember(Name = "sold_part", IsRequired = false)]
+        public string SoldPart { get; set; }
+
+        /// <summary>
+        /// Сумма скидки, в коп.
+        /// </summary>
+        [DataMember(Name = "discount", IsRequired = false)]
+        public decimal? Discount { get; set; }
+
+        /// <summary>
+        /// Номер льготного рецепта
+        /// </summary>
+        [DataMember(Name = "prescription_num", IsRequired = false)]
+        public string PrescriptionNumber { get; set; }
+
+        /// <summary>
+        /// Дата льготного рецепта
+        /// </summary>
+        [DataMember(Name = "prescription_num", IsRequired = false)]
+        public DateTime? PrescriptionDate { get; set; }
+
+        /// <summary>
+        /// Серия льготного рецепта
+        /// </summary>
+        [DataMember(Name = "prescription_series", IsRequired = false)]
+        public string PrescriptionSeries { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор РЭ или РВ
+        /// </summary>
+        [DataMember(Name = "device_id", IsRequired = false)]
+        public string DeviceID { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор системы, сформировавшей сообщение
+        /// </summary>
+        [DataMember(Name = "skzkm_origin_msg_id", IsRequired = false)]
+        public string SkskmOriginMessageID { get; set; }
+
+        /// <summary>
+        /// Идентификатор организации-отправителя
+        /// </summary>
+        [DataMember(Name = "subject_id", IsRequired = false)]
+        public string SubjectID { get; set; }
+
+        /// <summary>
+        /// Идентификатор XML-документа
+        /// </summary>
+        [DataMember(Name = "xml_document_id", IsRequired = false)]
+        public string XmlDocumentID { get; set; }
+
+        /// <summary>
+        /// Дата фактического получения чека в системе
+        /// </summary>
+        [DataMember(Name = "op_exec_date")]
+        public DateTime OperationExecutionDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих
+    /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ)
+    /// </summary>
+    [DataContract]
+    public class SgtinKktAwaitingWithdrawalFilter
+    {
+        /// <summary>
+        /// Идентификатор места деятельности отправителя
+        /// </summary>
+        [DataMember(Name = "branch_id", IsRequired = false)]
+        public string BranchID { get; set; }
+
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin", IsRequired = false)]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Дата операции из чека, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "op_start_date", IsRequired = false)]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Дата операции из чека, конец периода фильтрации
+        /// </summary>
+        [DataMember(Name = "op_end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
+    /// </summary>
+    [DataContract]
+    public class SgtinOnHoldFilter
+    {
+        /// <summary>
+        /// ИНН владельца
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// </summary>
+        [DataMember(Name = "emission_type", IsRequired = false)]
+        public int[] EmissionType { get; set; }
+
+        /// <summary>
+        /// Название препарата.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "sell_name", IsRequired = false)]
+        public string SellingName { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin", IsRequired = false)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin", IsRequired = false)]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// SSCC (Идентификатор третичной упаковки)
+        /// </summary>
+        [DataMember(Name = "pack3_id", IsRequired = false)]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "batch", IsRequired = false)]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "sys_id", IsRequired = false)]
+        public string SystemID { get; set; }
+
+        /// <summary>
+        /// Дата упаковки, начала временного диапазона — дата ввода в гражданский оборот
+        /// </summary>
+        [DataMember(Name = "release_date_from", IsRequired = false)]
+        public DateTime? ReleaseDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата упаковки, конец временного диапазона — дата окончания в гражданский оборот
+        /// </summary>
+        [DataMember(Name = "release_date_to", IsRequired = false)]
+        public DateTime? ReleaseDateTo { get; set; }
+
+        /// <summary>
+        /// Дата начала периода регистрации
+        /// </summary>
+        [DataMember(Name = "emission_operation_date_from", IsRequired = false)]
+        public DateTime? EmissionDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата окончания периода регистрации
+        /// </summary>
+        [DataMember(Name = "emission_operation_date_to", IsRequired = false)]
+        public DateTime? EmissionDateTo { get; set; }
+
+        /// <summary>
+        /// Дата начала периода выполнения последней операции
+        /// </summary>
+        [DataMember(Name = "last_tracing_op_date_from", IsRequired = false)]
+        public DateTime? LastTracingDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата окончания периода выполнения последней операции
+        /// </summary>
+        [DataMember(Name = "last_tracing_op_date_to", IsRequired = false)]
+        public DateTime? LastTracingDateTo { get; set; }
+
+        /// <summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
+        [DataMember(Name = "oms_order_id", IsRequired = false)]
+        public string OmsOrderID { get; set; }
+
+        /// <summary>
+        /// Информация о биллинге
+        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -2360,6 +2735,33 @@ namespace MdlpApiClient
                 new Parameter("sgtin", sgtin, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
+        /// </summary>
+        public GetSgtinsResponse GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
+        {
+            return Post<GetSgtinsResponse>("reestr/sgtin/on_hold", new
+            {
+                filter = filter ?? new SgtinOnHoldFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих вывода 
+        /// из оборота по чеку от контрольно-кассовой техники (ККТ)
+        /// </summary>
+        public GetSgtinsKktAwaitingWithdrawalResponse GetSgtinsKktAwaitingWithdrawal(SgtinKktAwaitingWithdrawalFilter filter, int startFrom, int count)
+        {
+            return Post<GetSgtinsKktAwaitingWithdrawalResponse>("reestr/sgtin/kkt/awaitingwithdrawal/filter", new
+            {
+                filter = filter ?? new SgtinKktAwaitingWithdrawalFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
 
@@ -2929,10 +3331,20 @@ namespace MdlpApiClient
     public class MdlpException : Exception
     {
         public MdlpException(HttpStatusCode code, string message, ErrorResponse errorResponse, Exception innerException)
-            : base(message, innerException)
+            : base(GetMessage(code, message), innerException)
         {
             StatusCode = code;
             ErrorResponse = errorResponse;
+        }
+
+        private static string GetMessage(HttpStatusCode code, string message)
+        {
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                return message;
+            }
+
+            return code.ToString();
         }
 
         protected MdlpException(SerializationInfo info, StreamingContext context)

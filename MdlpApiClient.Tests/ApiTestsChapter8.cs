@@ -308,5 +308,13 @@
             Assert.AreEqual("Калетра® таблетки покрытые пленочной оболочкой, 200 мг+50 мг", sgtin.FullProductName);
             Assert.AreEqual("ЭББВИ ДОЙЧЛАНД ГМБХ И КО. КГ", sgtin.RegistrationHolder);
         }
+
+        [Test]
+        public void Chapter8_03_6_GetSgtinsKktAwaitingWithdrawal()
+        {
+            // недостаточно прав
+            var ex = Assert.Throws<MdlpException>(() => Client.GetSgtinsKktAwaitingWithdrawal(null, 0, 1));
+            Assert.AreEqual(HttpStatusCode.MethodNotAllowed, ex.StatusCode); // 405
+        }
     }
 }

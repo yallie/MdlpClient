@@ -9,10 +9,20 @@
     public class MdlpException : Exception
     {
         public MdlpException(HttpStatusCode code, string message, ErrorResponse errorResponse, Exception innerException)
-            : base(message, innerException)
+            : base(GetMessage(code, message), innerException)
         {
             StatusCode = code;
             ErrorResponse = errorResponse;
+        }
+
+        private static string GetMessage(HttpStatusCode code, string message)
+        {
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                return message;
+            }
+
+            return code.ToString();
         }
 
         protected MdlpException(SerializationInfo info, StreamingContext context)
