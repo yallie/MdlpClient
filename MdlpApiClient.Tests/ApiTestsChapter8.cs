@@ -281,5 +281,32 @@
             Assert.AreEqual("КАРТОННАЯ ПАЧКА", info.GtinInfo.ProductPack2Name);
             Assert.AreEqual("1", info.GtinInfo.ProductPack1InPack2);
         }
+
+        [Test]
+        public void Chapter8_03_5_GetSgtinsOnHold()
+        {
+            // поискал с фильтром null, чтобы найти хоть какой-нибудь
+            var sgtins = Client.GetSgtinsOnHold(new SgtinOnHoldFilter
+            {
+                Sgtin = "061017000000000000000000006"
+            }, 0, 1);
+
+            Assert.IsNotNull(sgtins);
+            Assert.AreEqual(1, sgtins.Total);
+            Assert.AreEqual(1, sgtins.Entries.Length);
+
+            var sgtin = sgtins.Entries[0];
+            Assert.NotNull(sgtin);
+
+            Assert.AreEqual("061017000000000000000000006", sgtin.SgtinValue);
+            Assert.AreEqual("ООО \"СЕВАСТОПОЛЬСКАЯ ГЕО-ПАРТИЯ\"", sgtin.Owner);
+            Assert.AreEqual("78", sgtin.FederalSubjectCode);
+            Assert.AreEqual("Санкт-Петербург", sgtin.FederalSubjectName);
+
+            Assert.AreEqual("ЛОПИНАВИР+РИТОНАВИР", sgtin.ProductName);
+            Assert.AreEqual("Калетра", sgtin.SellingName);
+            Assert.AreEqual("Калетра® таблетки покрытые пленочной оболочкой, 200 мг+50 мг", sgtin.FullProductName);
+            Assert.AreEqual("ЭББВИ ДОЙЧЛАНД ГМБХ И КО. КГ", sgtin.RegistrationHolder);
+        }
     }
 }

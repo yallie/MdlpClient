@@ -167,5 +167,18 @@
                 new Parameter("sgtin", sgtin, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
+        /// </summary>
+        public GetSgtinsResponse GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
+        {
+            return Post<GetSgtinsResponse>("reestr/sgtin/on_hold", new
+            {
+                filter = filter ?? new SgtinOnHoldFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
