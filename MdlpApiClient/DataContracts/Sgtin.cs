@@ -155,7 +155,7 @@
         /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
         /// </summary>
         [DataMember(Name = "prod_form_name", IsRequired = false)]
-        public string ProdFormName { get; set; }
+        public string ProductFormName { get; set; }
 
         /// <summary>
         /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)

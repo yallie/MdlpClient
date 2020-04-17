@@ -286,5 +286,22 @@
                 new Parameter("gtin", gtin, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.5.3. Метод для поиска публичной информации в реестре производимых ЛП
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска ЛП</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых ЛП</param>
+        /// <param name="count">Количество записей в списке возвращаемых ЛП</param>
+        /// <returns>Список ЛП</returns>
+        public EntriesResponse<MedProductPublic> GetPublicMedProducts(MedProductsFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<MedProductPublic>>("reestr/med_products/public/filter", new
+            {
+                filter = filter ?? new MedProductsFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
