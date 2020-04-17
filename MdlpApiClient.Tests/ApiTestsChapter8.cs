@@ -336,5 +336,21 @@
             Assert.NotNull(sgtins.Entries);
             Assert.AreEqual(0, sgtins.Entries.Length);
         }
+
+        [Test]
+        public void Chapter8_04_1_GetSsccHierarchy()
+        {
+            // пример из документации не найден: 201902251235570000
+            // пример из документации вызывает ошибку: NUEMOESSCC00000001
+            var ssccs = Client.GetSsccHierarchy("201902251235570000");
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Up);
+            Assert.NotNull(ssccs.Down);
+
+            Assert.AreEqual(0, ssccs.Up.Length);
+            Assert.AreEqual(0, ssccs.Down.Length);
+            Assert.AreEqual(2, ssccs.ErrorCode);
+            Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
+        }
     }
 }

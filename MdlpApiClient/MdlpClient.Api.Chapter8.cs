@@ -171,6 +171,10 @@
         /// <summary>
         /// 8.3.5. Метод для поиска по реестру КИЗ всех записей со статусом 'Оборот приостановлен'
         /// </summary>
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinExtended> GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
         {
             return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/on_hold", new
@@ -182,9 +186,13 @@
         }
 
         /// <summary>
-        /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих вывода 
-        /// из оборота по чеку от контрольно-кассовой техники (ККТ)
+        /// 8.3.6. Метод для поиска по реестру КИЗ записей, ожидающих
+        /// вывода из оборота по чеку от контрольно-кассовой техники (ККТ)
         /// </summary>
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinKktAwaitingWithdrawal> GetSgtinsKktAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
         {
             return Post<EntriesResponse<SgtinKktAwaitingWithdrawal>>("reestr/sgtin/kkt/awaiting-withdrawal/filter", new
@@ -196,8 +204,13 @@
         }
 
         /// <summary>
-        /// 8.3.7. Метод для поиска по реестру КИЗ записей, ожидающих вывода из оборота через РВ
+        /// 8.3.7. Метод для поиска по реестру КИЗ записей,
+        /// ожидающих вывода из оборота через РВ
         /// </summary>
+        /// <param name="filter">Фильтр для поиска КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых КИЗ</param>
+        /// <param name="count">Количество записей в списке возвращаемых КИЗ</param>
+        /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinDeviceAwaitingWithdrawal> GetSgtinsDeviceAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
         {
             return Post<EntriesResponse<SgtinDeviceAwaitingWithdrawal>>("reestr/sgtin/device/awaiting-withdrawal/filter", new
@@ -205,6 +218,19 @@
                 filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
                 start_from = startFrom,
                 count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.4.1. Метод для получения информации об иерархии вложенности третичной упаковки
+        /// </summary>
+        /// <param name="sscc">Идентификационный код третичной упаковки</param>
+        /// <returns>Подробная информация КИЗ и ЛП</returns>
+        public GetSsccHierarchyResponse GetSsccHierarchy(string sscc)
+        {
+            return Get<GetSsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
+            {
+                new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
         }
     }
