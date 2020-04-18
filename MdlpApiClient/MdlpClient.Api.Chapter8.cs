@@ -303,5 +303,23 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.5.4. Метод для получения публичной информации о производимом ЛП
+        /// </summary>
+        /// <remarks>
+        /// По-моему, этот метод возвращает меньше данных, чем 8.5.3.
+        /// Например, регистрационный номер и статус не возвращает.
+        /// Зато метод 8.5.3 почему-то не возвращает владельца лицензии.
+        /// </remarks>
+        /// <param name="gtin">Код GTIN ЛП</param>
+        /// <returns>Описание ЛП</returns>
+        public MedProductPublic GetPublicMedProduct(string gtin)
+        {
+            return Get<MedProductPublic>("reestr/med_products/public/{gtin}", new[]
+            {
+                new Parameter("gtin", gtin, ParameterType.UrlSegment),
+            });
+        }
     }
 }

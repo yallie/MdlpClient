@@ -419,5 +419,16 @@
             Assert.AreEqual("ЛП-003403", prod.RegistrationNumber);
             Assert.AreEqual("150 мг", prod.ProductDosageName);
         }
+
+        [Test]
+        public void Chapter8_05_4_GetPublicMedProduct()
+        {
+            var prod = Client.GetPublicMedProduct("04607028394287");
+            Assert.AreEqual("04607028394287", prod.Gtin);
+            Assert.AreEqual("Гертикад®", prod.SellingName);
+            Assert.AreEqual("0", prod.ProductPack1Amount);
+            //Assert.AreEqual("ЛП-003403", prod.RegistrationNumber); // null почему-то
+            Assert.AreEqual("150 мг", prod.ProductDosageName);
+        }
     }
 }
