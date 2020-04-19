@@ -340,5 +340,22 @@
 
             return counterparty.CounterpartyID;
         }
+
+        /// <summary>
+        /// 8.6.2. Метод для просмотра заявок на регистрацию иностранных контрагентов
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска иностранных контрагентов</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых иностранных контрагентов</param>
+        /// <param name="count">Количество записей в списке возвращаемых иностранных контрагентов</param>
+        /// <returns>Список иностранных контрагентов</returns>
+        public EntriesResponse<ForeignCounterpartyEntry> GetForeignCounterparties(ForeignCounterpartyFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<ForeignCounterpartyEntry>>("reestr/foreign_counterparty/filter", new
+            {
+                filter = filter ?? new ForeignCounterpartyFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

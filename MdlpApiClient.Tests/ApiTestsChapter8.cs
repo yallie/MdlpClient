@@ -431,7 +431,7 @@
             Assert.AreEqual("150 мг", prod.ProductDosageName);
         }
 
-        [Test]
+        [Test, Explicit("Этот метод API всегда создает новые записи, даже когда возвращает ошибку")]
         public void Chapter8_06_1_RegisterForeignCounterparty()
         {
             var ex = Assert.Throws<MdlpException>(() =>
@@ -460,6 +460,27 @@
 
             // "Ошибка при выполнении операции: указанные данные уже зарегистрированы в системе"
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode); // 400
+        }
+
+        [Test]
+        public void Chapter8_06_2_GetForeignCounterparties()
+        {
+            var counterparties = Client.GetForeignCounterparties(new ForeignCounterpartyFilter
+            {
+                Inn = "56887455222583",
+            }, 0, 10);
+
+            // похоже, метод возвращает все регистрации: и успешные, и неуспешные
+            // и нет способа вернуть только успешные регистрации
+            Assert.NotNull(counterparties);
+            Assert.NotNull(counterparties.Entries);
+            Assert.IsTrue(counterparties.Total > 1);
+            Assert.IsTrue(counterparties.Entries.Length > 1);
+
+            var cp = counterparties.Entries[0];
+            Assert.AreEqual("56887455222583", cp.Inn);
+            Assert.AreEqual("93026c45-f63f-4a93-8b87-8aec5e56b292", cp.SystemSubjectID);
+            Assert.AreEqual("GE", cp.CountryCode);
         }
     }
 }
