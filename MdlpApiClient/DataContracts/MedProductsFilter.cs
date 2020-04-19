@@ -5,7 +5,9 @@
 
     /// <summary>
     /// 4.40. Формат объекта MedProductsFilter
-    /// Таблица 36. Формат объекта MedProductsFilter    /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП    /// </summary>
+    /// Таблица 36. Формат объекта MedProductsFilter
+    /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП
+    /// </summary>
     [DataContract]
     public class MedProductsFilter
     {
@@ -41,7 +43,8 @@
         public string ProductSellingName { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 

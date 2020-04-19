@@ -146,7 +146,8 @@
         public int? SourceType { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
@@ -171,12 +172,14 @@
         public string CustomsPointID { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге        /// </summary>
+        /// Информация о биллинге
+        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 

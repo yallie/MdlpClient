@@ -75,7 +75,8 @@
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
     }

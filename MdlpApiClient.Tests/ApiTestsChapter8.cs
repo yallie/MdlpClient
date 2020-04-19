@@ -430,5 +430,36 @@
             //Assert.AreEqual("ЛП-003403", prod.RegistrationNumber); // null почему-то
             Assert.AreEqual("150 мг", prod.ProductDosageName);
         }
+
+        [Test]
+        public void Chapter8_06_1_RegisterForeignCounterparty()
+        {
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                // этот тест можно выполнить только один раз с указанными данными
+                var partyId = Client.RegisterForeignCounterparty(
+                    "56887455222583",
+                    "ГМ ПХАРМАЦЕУТИЦАЛС",
+                    new ForeignAddress
+                    {
+                        City = "city",
+                        Region = "region",
+                        Locality = "locality",
+                        Street = "street",
+                        House = "house",
+                        Corpus = "corpus",
+                        Litera = "litera",
+                        Room = "room",
+                        CountryCode = "GE",
+                        PostalCode = "148000",
+                    });
+
+                // "56887455222583" зарегистрирован с кодом "93026c45-f63f-4a93-8b87-8aec5e56b292"
+                Assert.NotNull(partyId);
+            });
+
+            // "Ошибка при выполнении операции: указанные данные уже зарегистрированы в системе"
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode); // 400
+        }
     }
 }

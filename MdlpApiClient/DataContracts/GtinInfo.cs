@@ -52,12 +52,14 @@
         public string TypeForm { get; set; }
 
         /// <summary>
-        /// Количество массы/объема в первичной упаковке        /// </summary>
+        /// Количество массы/объема в первичной упаковке
+        /// </summary>
         [DataMember(Name = "prod_pack_1_ed")]
         public string ProductPack1Amount { get; set; }
 
         /// <summary>
-        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке        /// </summary>
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке
+        /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
 
@@ -212,12 +214,15 @@
         public string FormProducerCountry { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
         /// <summary>
-        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП        /// 1 — устаревшие, 2 — актуальные данные        /// </summary>
+        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП
+        /// 1 — устаревшие, 2 — актуальные данные
+        /// </summary>
         [DataMember(Name = "drug_code_version", IsRequired = false)]
         public int? DrugCodeVersion { get; set; }
     }

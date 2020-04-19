@@ -321,5 +321,24 @@
                 new Parameter("gtin", gtin, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.6.1. Метод для регистрации иностранного контрагента
+        /// </summary>
+        /// <param name="itin">ИТИН контрагента</param>
+        /// <param name="name">Наименование субъекта обращения</param>
+        /// <param name="address">Адрес субъекта обращения</param>
+        /// <returns>Идентификатор контрагента</returns>
+        public string RegisterForeignCounterparty(string itin, string name, ForeignAddress address)
+        {
+            var counterparty = Post<RegisterForeignCounterpartyResponse>("reestr/foreign_counterparty/register", new
+            {
+                counterparty_itin = itin,
+                counterparty_name = name,
+                counterparty_address = address,
+            });
+
+            return counterparty.CounterpartyID;
+        }
     }
 }
