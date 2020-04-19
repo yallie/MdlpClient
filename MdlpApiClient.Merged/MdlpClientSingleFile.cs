@@ -1,4 +1,6 @@
-﻿// This is an auto-generated file.
+﻿/// <remarks>
+/// This file contains the single-file version of the MdlpApiClient project, generated automatically.
+/// </remarks>
 namespace MdlpApiClient
 {
     using DataContracts;
@@ -1736,6 +1738,7 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -1748,14 +1751,84 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Идентификатор доверенного контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
         /// </summary>
-        [DataMember(Name = "trusted_sys_id", IsRequired = false)]
+        [DataMember(Name = "system_subj_id", IsRequired = false)]
         public string SystemSubjectID { get; set; }
 
         /// <summary>
-        /// ИНН/ITIN доверенного контрагента
+        /// Код ОКТМО субъекта Российской Федерации
         /// </summary>
-        [DataMember(Name = "trusted_inn", IsRequired = false)]
+        [DataMember(Name = "federal_subject_code", IsRequired = false)]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Код округа Российской Федерации
+        /// </summary>
+        [DataMember(Name = "federal_district_code", IsRequired = false)]
+        public string FederalDistrictCode { get; set; }
+
+        /// <summary>
+        /// Код страны
+        /// </summary>
+        [DataMember(Name = "country", IsRequired = false)]
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Наименование организации
+        /// </summary>
+        [DataMember(Name = "org_name", IsRequired = false)]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// ИНН
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
         public string Inn { get; set; }
+
+        /// <summary>
+        /// КПП
+        /// </summary>
+        [DataMember(Name = "kpp", IsRequired = false)]
+        public string Kpp { get; set; }
+
+        /// <summary>
+        /// ОГРН
+        /// </summary>
+        [DataMember(Name = "ogrn", IsRequired = false)]
+        public string Ogrn { get; set; }
+
+        /// <summary>
+        /// Дата заявки на регистрацию, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "start_date", IsRequired = false)]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Дата заявки на регистрацию, конец периода фильтрации
+        /// </summary>
+        [DataMember(Name = "end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// Тип участника:
+        /// 1 — резидент РФ
+        /// 2 — представительство иностранного держателя регистрационного удостоверения
+        /// 3 — иностранный держатель регистрационного удостоверения
+        /// 8 — иностранный контрагент
+        /// </summary>
+        [DataMember(Name = "reg_entity_type", IsRequired = false)]
+        public int? RegEntityType { get; set; }
+
+        /// <summary>
+        /// Дата фактической регистрации, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "op_exec_date_start", IsRequired = false)]
+        public DateTime? OperationStartDate { get; set; }
+
+        /// <summary>
+        /// Дата фактической регистрации, конец периода фильтрации
+        /// </summary>
+        [DataMember(Name = "op_exec_date_end", IsRequired = false)]
+        public DateTime? OperationEndDate { get; set; }
     }
 }
 
@@ -3807,6 +3880,23 @@ namespace MdlpApiClient
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.8.1. Метод фильтрации по субъектам обращения
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска субъектов обращения</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
+        /// <returns>Список субъектов обращения</returns>
+        public EntriesResponse<TrustedPartnerEntry> GetPartners(PartnerFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<TrustedPartnerEntry>>("reestr_partners/filter", new
+            {
+                filter = filter ?? new PartnerFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
 
@@ -4563,6 +4653,7 @@ namespace MdlpApiClient.Serialization
         {
             using (var scope = JsConfig.BeginScope())
             {
+                scope.IncludeTypeInfo = false;
                 scope.DateHandler = DateHandler.UnixTime;
                 return JsonSerializer.SerializeToString(obj);
             }
@@ -4579,7 +4670,7 @@ namespace MdlpApiClient.Toolbox
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
 
-    public class GostCryptoHelpers
+    internal class GostCryptoHelpers
     {
         /// <summary>
         /// For the unit tests, set this to the StoreLocation.CurrentUser.
@@ -4673,7 +4764,7 @@ namespace MdlpApiClient.Toolbox
     /// <summary>
     /// Helper class for working with hashes.
     /// </summary>
-    public static class HashUtilities
+    internal static class HashUtilities
     {
         /// <summary>
         /// Returns the hex representation for an array of bytes (for example, md5-hash).
@@ -4784,7 +4875,7 @@ namespace MdlpApiClient.Toolbox
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
-    public static class HtmlHelper
+    internal static class HtmlHelper
     {
         /// <summary>
         /// Try to extract readable text from HTML.
@@ -4824,7 +4915,7 @@ namespace MdlpApiClient.Toolbox
     /// <summary>
     /// Dependency-free JSON formatter.
     /// </summary>
-    public static class JsonFormatter
+    internal static class JsonFormatter
 	{
 		/// <summary>
 		/// Formats the given JSON code.

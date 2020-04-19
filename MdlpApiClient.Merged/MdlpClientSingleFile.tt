@@ -1,5 +1,4 @@
-﻿// This is an auto-generated file.
-<#@ template language="C#" hostSpecific="true" debug="True" #>
+﻿<#@ template language="C#" hostSpecific="true" debug="True" #>
 <#@ output extension="cs" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="EnvDte" #>
@@ -15,7 +14,11 @@
  ***************************************************************************************************/
 
   var projectName = "MdlpApiClient";
-
+#>
+/// <remarks>
+/// This file contains the single-file version of the <#= projectName #> project, generated automatically.
+/// </remarks>
+<#
   var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
   var project = visualStudio.Solution.Projects.OfType<EnvDTE.Project>().FirstOrDefault(p => p.Name == projectName);
   if (project == null)
