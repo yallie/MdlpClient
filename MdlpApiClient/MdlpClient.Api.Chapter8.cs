@@ -369,5 +369,17 @@
                 trusted_partners = partnerIds
             });
         }
+
+        /// <summary>
+        /// 8.7.2. Метод удаления доверенного контрагента или контрагентов
+        /// </summary>
+        /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
+        public void DeleteTrustedPartners(params string[] partnerIds)
+        {
+            Post("reestr/trusted_partners/delete", new
+            {
+                trusted_partners = partnerIds
+            });
+        }
     }
 }
