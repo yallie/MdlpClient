@@ -357,5 +357,17 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.7.1. Метод добавления доверенного контрагента или контрагентов
+        /// </summary>
+        /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
+        public void AddTrustedPartners(params string[] partnerIds)
+        {
+            Post("reestr/trusted_partners/add", new
+            {
+                trusted_partners = partnerIds
+            });
+        }
     }
 }

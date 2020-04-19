@@ -482,5 +482,16 @@
             Assert.AreEqual("93026c45-f63f-4a93-8b87-8aec5e56b292", cp.SystemSubjectID);
             Assert.AreEqual("GE", cp.CountryCode);
         }
+
+        [Test]
+        public void Chapter8_07_1_AddTrustedPartners()
+        {
+            // повторное добавление партнера к доверенным не приводит к ошибке
+            Assert.DoesNotThrow(() => Client.AddTrustedPartners("93026c45-f63f-4a93-8b87-8aec5e56b292"));
+
+            // поиск по ИТИН иностранного контрагента не работает
+            var ex = Assert.Throws<MdlpException>(() => Client.AddTrustedPartners("56887455222583"));
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+        }
     }
 }
