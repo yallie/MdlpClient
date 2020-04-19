@@ -60,9 +60,10 @@
         public string BatchNumber { get; set; }
 
         /// <summary>
-        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
-        public string SystemID { get; set; }
+        public string SystemSubjectID { get; set; }
 
         /// <summary>
         /// Дата упаковки, начала временного диапазона — дата ввода в гражданский оборот
@@ -101,12 +102,14 @@
         public DateTime? LastTracingDateTo { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге        /// </summary>
+        /// Информация о биллинге
+        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 

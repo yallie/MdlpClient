@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\AssemblyInfo.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="restsharp" Version="106.10.1" />
     <PackageReference Include="GostCryptography" Version="2.0.8" />
     <PackageReference Include="ServiceStack.Text" Version="4.0.62" />

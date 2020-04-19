@@ -10,7 +10,7 @@
     /// <summary>
     /// Helper class for working with hashes.
     /// </summary>
-    public static class HashUtilities
+    internal static class HashUtilities
     {
         /// <summary>
         /// Returns the hex representation for an array of bytes (for example, md5-hash).

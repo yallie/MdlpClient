@@ -27,7 +27,7 @@
         /// Идентификатор организации-отправителя
         /// </summary>
         [DataMember(Name = "subject_id", IsRequired = false)]
-        public string SubjectID { get; set; }
+        public string SystemSubjectID { get; set; }
 
         /// <summary>
         /// Дата операции из чека

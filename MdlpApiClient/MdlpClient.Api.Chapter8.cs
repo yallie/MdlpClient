@@ -398,5 +398,22 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.8.1. Метод фильтрации по субъектам обращения
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска субъектов обращения</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
+        /// <returns>Список субъектов обращения</returns>
+        public EntriesResponse<TrustedPartnerEntry> GetPartners(PartnerFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<TrustedPartnerEntry>>("reestr_partners/filter", new
+            {
+                filter = filter ?? new PartnerFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

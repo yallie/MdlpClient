@@ -61,7 +61,7 @@
         /// <summary>
         /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
-        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
+        public string SystemSubjectID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
 
         /// <summary>
         /// Дата упаковки, начала временного диапазона — дата ввода в гражданский оборот

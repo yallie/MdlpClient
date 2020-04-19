@@ -527,18 +527,12 @@
             // поиск по коду — запросим заведомо отсутствующего
             partners = Client.GetTrustedPartners(new TrustedPartnerFilter
             {
-                SystemID = "93026c45-f63f-4a93-8b87-8aec5e56b292".Replace("b292", "fade")
+                SystemSubjectID = "93026c45-f63f-4a93-8b87-8aec5e56b292".Replace("b292", "fade")
             }, 0, 1);
             Assert.NotNull(partners);
             Assert.NotNull(partners.Entries);
             Assert.AreEqual(0, partners.Total);
             Assert.AreEqual(0, partners.Entries.Length);
-
-
-            //var cp = partners.Entries[0];
-            //Assert.AreEqual("56887455222583", cp.Inn);
-            //Assert.AreEqual("93026c45-f63f-4a93-8b87-8aec5e56b292", cp.SystemSubjectID);
-            //Assert.AreEqual("GE", cp.CountryCode);
         }
     }
 }

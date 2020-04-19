@@ -443,7 +443,7 @@ namespace MdlpApiClient.DataContracts
         public string SenderID { get; set; } // "935ba7bc-b022-11e7-abc4-cec278b6b50a",
 
         [DataMember(Name = "sys_id")]
-        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
+        public string SystemSubjectID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
 
         [DataMember(Name = "doc_type")]
         public int DocType { get; set; } // 0,
@@ -670,6 +670,185 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "error_description")] // "Ошибка такая-то с подробностями",
         public string Description { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.27. Формат объекта ForeignAddress
+    /// Таблица 23. Формат объекта ForeignAddress
+    /// 8.6.1. Метод для регистрации иностранного контрагента
+    /// </summary>
+    [DataContract]
+    public class ForeignAddress
+    {
+        /// <summary>
+        /// Город
+        /// </summary>
+        [DataMember(Name = "city")]
+        public string City { get; set; }
+
+        /// <summary>
+        /// Код страны
+        /// </summary>
+        [DataMember(Name = "country_code")]
+        public string CountryCode { get; set; }
+
+        /// <summary>
+        /// Почтовый индекс
+        /// </summary>
+        [DataMember(Name = "postal_code")]
+        public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Регион
+        /// </summary>
+        [DataMember(Name = "region")]
+        public string Region { get; set; }
+
+        /// <summary>
+        /// Населённый пункт
+        /// </summary>
+        [DataMember(Name = "locality")]
+        public string Locality { get; set; }
+
+        /// <summary>
+        /// Улица
+        /// </summary>
+        [DataMember(Name = "street")]
+        public string Street { get; set; }
+
+        /// <summary>
+        /// Дом
+        /// </summary>
+        [DataMember(Name = "house")]
+        public string House { get; set; }
+
+        /// <summary>
+        /// Корпус
+        /// </summary>
+        [DataMember(Name = "corpus")]
+        public string Corpus { get; set; }
+
+        /// <summary>
+        /// Литера
+        /// </summary>
+        [DataMember(Name = "litera")]
+        public string Litera { get; set; }
+
+        /// <summary>
+        /// № помещения (квартиры)        /// </summary>
+        [DataMember(Name = "room")]
+        public string Room { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.6.2. Метод для просмотра заявок на регистрацию иностранных контрагентов
+    /// Формат объекта ForeignCounterpartyEntry
+    /// </summary>
+    [DataContract]
+    public class ForeignCounterpartyEntry
+    {
+        /// <summary>
+        /// Код страны
+        /// </summary>
+        [DataMember(Name = "country_code")]
+        public string CountryCode { get; set; }
+
+        /// <summary>
+        /// Идентификатор контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "system_subj_id", IsRequired = false)]
+        public string SystemSubjectID { get; set; }
+
+        /// <summary>
+        /// Время подачи заявки
+        /// </summary>
+        [DataMember(Name = "op_date")]
+        public DateTime OperationDate { get; set; }
+
+        /// <summary>
+        /// Описание результата операции
+        /// </summary>
+        [DataMember(Name = "detailed_code", IsRequired = false)]
+        public int? DetailedCode { get; set; }
+
+        /// <summary>
+        /// Результат операции
+        /// </summary>
+        [DataMember(Name = "code")]
+        public int Code { get; set; }
+
+        /// <summary>
+        /// ИНН/ITIN организации контрагента
+        /// </summary>
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Название организации
+        /// </summary>
+        [DataMember(Name = "org_name")]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Время выполнения заявки
+        /// </summary>
+        [DataMember(Name = "op_exec_date")]
+        public DateTime? OperationExecutionDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.6.2. Метод для просмотра заявок на регистрацию иностранных контрагентов
+    /// Структура данных ForeignCounterpartyFilter
+    /// </summary>
+    [DataContract]
+    public class ForeignCounterpartyFilter
+    {
+        /// <summary>
+        /// Дата регистрации, начало периода
+        /// </summary>
+        [DataMember(Name = "reg_date_from", IsRequired = false)]
+        public DateTime? RegistrationDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата регистрации, окончание периода
+        /// </summary>
+        [DataMember(Name = "reg_date_to", IsRequired = false)]
+        public DateTime? RegistrationDateTo { get; set; }
+
+        /// <summary>
+        /// ИНН/ITIN
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Название организации
+        /// </summary>
+        [DataMember(Name = "org_name", IsRequired = false)]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Страна регистрации
+        /// </summary>
+        [DataMember(Name = "country_code", IsRequired = false)]
+        public string CountryCode { get; set; }
     }
 }
 
@@ -926,12 +1105,14 @@ namespace MdlpApiClient.DataContracts
         public string TypeForm { get; set; }
 
         /// <summary>
-        /// Количество массы/объема в первичной упаковке        /// </summary>
+        /// Количество массы/объема в первичной упаковке
+        /// </summary>
         [DataMember(Name = "prod_pack_1_ed")]
         public string ProductPack1Amount { get; set; }
 
         /// <summary>
-        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке        /// </summary>
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке
+        /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
 
@@ -1086,12 +1267,15 @@ namespace MdlpApiClient.DataContracts
         public string FormProducerCountry { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
         /// <summary>
-        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП        /// 1 — устаревшие, 2 — актуальные данные        /// </summary>
+        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП
+        /// 1 — устаревшие, 2 — актуальные данные
+        /// </summary>
         [DataMember(Name = "drug_code_version", IsRequired = false)]
         public int? DrugCodeVersion { get; set; }
     }
@@ -1481,7 +1665,9 @@ namespace MdlpApiClient.DataContracts
 
     /// <summary>
     /// 4.40. Формат объекта MedProductsFilter
-    /// Таблица 36. Формат объекта MedProductsFilter    /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП    /// </summary>
+    /// Таблица 36. Формат объекта MedProductsFilter
+    /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП
+    /// </summary>
     [DataContract]
     public class MedProductsFilter
     {
@@ -1517,7 +1703,8 @@ namespace MdlpApiClient.DataContracts
         public string ProductSellingName { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
@@ -1544,6 +1731,31 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "gnvlp", IsRequired = false)]
         public bool? Gnvlp { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта PartnersFilter
+    /// </summary>
+    [DataContract]
+    public class PartnerFilter
+    {
+        /// <summary>
+        /// Идентификатор доверенного контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "trusted_sys_id", IsRequired = false)]
+        public string SystemSubjectID { get; set; }
+
+        /// <summary>
+        /// ИНН/ITIN доверенного контрагента
+        /// </summary>
+        [DataMember(Name = "trusted_inn", IsRequired = false)]
+        public string Inn { get; set; }
     }
 }
 
@@ -1624,7 +1836,8 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
     }
@@ -1654,6 +1867,21 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "KPP")]
         public string Kpp { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.6.1. Метод для регистрации иностранного контрагента
+    /// </summary>
+    [DataContract]
+    internal class RegisterForeignCounterpartyResponse
+    {
+        [DataMember(Name = "counterparty_id")]
+        public string CounterpartyID { get; set; }
     }
 }
 
@@ -1946,7 +2174,8 @@ namespace MdlpApiClient.DataContracts
         public int? SourceType { get; set; }
 
         /// <summary>
-        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП        /// </summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
         [DataMember(Name = "drug_code", IsRequired = false)]
         public string DrugCode { get; set; }
 
@@ -1971,12 +2200,14 @@ namespace MdlpApiClient.DataContracts
         public string CustomsPointID { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге        /// </summary>
+        /// Информация о биллинге
+        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -2112,7 +2343,7 @@ namespace MdlpApiClient.DataContracts
         /// Идентификатор организации-отправителя
         /// </summary>
         [DataMember(Name = "subject_id", IsRequired = false)]
-        public string SubjectID { get; set; }
+        public string SystemSubjectID { get; set; }
 
         /// <summary>
         /// Дата операции из чека
@@ -2297,7 +2528,7 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
-        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
+        public string SystemSubjectID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
 
         /// <summary>
         /// Дата упаковки, начала временного диапазона — дата ввода в гражданский оборот
@@ -2475,7 +2706,7 @@ namespace MdlpApiClient.DataContracts
         /// Идентификатор организации-отправителя
         /// </summary>
         [DataMember(Name = "subject_id", IsRequired = false)]
-        public string SubjectID { get; set; }
+        public string SystemSubjectID { get; set; }
 
         /// <summary>
         /// Идентификатор XML-документа
@@ -2553,9 +2784,10 @@ namespace MdlpApiClient.DataContracts
         public string BatchNumber { get; set; }
 
         /// <summary>
-        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sys_id", IsRequired = false)]
-        public string SystemID { get; set; }
+        public string SystemSubjectID { get; set; }
 
         /// <summary>
         /// Дата упаковки, начала временного диапазона — дата ввода в гражданский оборот
@@ -2594,12 +2826,14 @@ namespace MdlpApiClient.DataContracts
         public DateTime? LastTracingDateTo { get; set; }
 
         /// <summary>
-        /// Идентификатор заказа системы управления заказами (СУЗ), Guid        /// </summary>
+        /// Идентификатор заказа системы управления заказами (СУЗ), Guid
+        /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге        /// </summary>
+        /// Информация о биллинге
+        /// </summary>
         [DataMember(Name = "billing_info", IsRequired = false)]
         public SgtinBillingInformation BillingInfo { get; set; }
 
@@ -2703,6 +2937,62 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "gnvlp", IsRequired = false)]
         public bool? Gnvlp { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.7.3. Метод фильтрации доверенных контрагентов
+    /// Формат объекта TrustedPartnerEntry
+    /// </summary>
+    [DataContract]
+    public class TrustedPartnerEntry
+    {
+        /// <summary>
+        /// Идентификатор доверенного контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "system_subj_id")]
+        public string SystemSubjectID { get; set; }
+
+        /// <summary>
+        /// ИНН/ITIN доверенного контрагента
+        /// </summary>
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Наименование доверенного контрагента
+        /// </summary>
+        [DataMember(Name = "org_name")]
+        public string OrganizationName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.7.3. Метод фильтрации доверенных контрагентов
+    /// Формат объекта TrustedPartnerFilter
+    /// </summary>
+    [DataContract]
+    public class TrustedPartnerFilter
+    {
+        /// <summary>
+        /// Идентификатор доверенного контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "trusted_sys_id", IsRequired = false)]
+        public string SystemSubjectID { get; set; }
+
+        /// <summary>
+        /// ИНН/ITIN доверенного контрагента
+        /// </summary>
+        [DataMember(Name = "trusted_inn", IsRequired = false)]
+        public string Inn { get; set; }
     }
 }
 
@@ -3438,6 +3728,83 @@ namespace MdlpApiClient
             return Get<MedProductPublic>("reestr/med_products/public/{gtin}", new[]
             {
                 new Parameter("gtin", gtin, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 8.6.1. Метод для регистрации иностранного контрагента
+        /// </summary>
+        /// <param name="itin">ИТИН контрагента</param>
+        /// <param name="name">Наименование субъекта обращения</param>
+        /// <param name="address">Адрес субъекта обращения</param>
+        /// <returns>Идентификатор контрагента</returns>
+        public string RegisterForeignCounterparty(string itin, string name, ForeignAddress address)
+        {
+            var counterparty = Post<RegisterForeignCounterpartyResponse>("reestr/foreign_counterparty/register", new
+            {
+                counterparty_itin = itin,
+                counterparty_name = name,
+                counterparty_address = address,
+            });
+
+            return counterparty.CounterpartyID;
+        }
+
+        /// <summary>
+        /// 8.6.2. Метод для просмотра заявок на регистрацию иностранных контрагентов
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска иностранных контрагентов</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых иностранных контрагентов</param>
+        /// <param name="count">Количество записей в списке возвращаемых иностранных контрагентов</param>
+        /// <returns>Список иностранных контрагентов</returns>
+        public EntriesResponse<ForeignCounterpartyEntry> GetForeignCounterparties(ForeignCounterpartyFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<ForeignCounterpartyEntry>>("reestr/foreign_counterparty/filter", new
+            {
+                filter = filter ?? new ForeignCounterpartyFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.7.1. Метод добавления доверенного контрагента или контрагентов
+        /// </summary>
+        /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
+        public void AddTrustedPartners(params string[] partnerIds)
+        {
+            Post("reestr/trusted_partners/add", new
+            {
+                trusted_partners = partnerIds
+            });
+        }
+
+        /// <summary>
+        /// 8.7.2. Метод удаления доверенного контрагента или контрагентов
+        /// </summary>
+        /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
+        public void DeleteTrustedPartners(params string[] partnerIds)
+        {
+            Post("reestr/trusted_partners/delete", new
+            {
+                trusted_partners = partnerIds
+            });
+        }
+
+        /// <summary>
+        /// 8.7.3. Метод фильтрации доверенных контрагентов
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска доверенных контрагентов</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых доверенных контрагентов</param>
+        /// <param name="count">Количество записей в списке возвращаемых доверенных контрагентов</param>
+        /// <returns>Список доверенных контрагентов</returns>
+        public EntriesResponse<TrustedPartnerEntry> GetTrustedPartners(TrustedPartnerFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<TrustedPartnerEntry>>("/reestr/trusted_partners/filter", new
+            {
+                filter = filter ?? new TrustedPartnerFilter(),
+                start_from = startFrom,
+                count = count,
             });
         }
     }

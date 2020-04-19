@@ -22,7 +22,7 @@
         public string SenderID { get; set; } // "935ba7bc-b022-11e7-abc4-cec278b6b50a",
 
         [DataMember(Name = "sys_id")]
-        public string SystemID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
+        public string SystemSubjectID { get; set; } // "0c290e4a-aabb-40ae-8ef2-ce462561ce7f",
 
         [DataMember(Name = "doc_type")]
         public int DocType { get; set; } // 0,

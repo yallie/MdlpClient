@@ -6,7 +6,7 @@ namespace MdlpApiClient.Toolbox
     /// <summary>
     /// Dependency-free JSON formatter.
     /// </summary>
-    public static class JsonFormatter
+    internal static class JsonFormatter
 	{
 		/// <summary>
 		/// Formats the given JSON code.

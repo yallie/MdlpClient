@@ -13,7 +13,7 @@
         /// Идентификатор доверенного контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
         /// </summary>
         [DataMember(Name = "trusted_sys_id", IsRequired = false)]
-        public string SystemID { get; set; }
+        public string SystemSubjectID { get; set; }
 
         /// <summary>
         /// ИНН/ITIN доверенного контрагента

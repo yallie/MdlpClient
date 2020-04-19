@@ -53,6 +53,7 @@ namespace MdlpApiClient.Serialization
         {
             using (var scope = JsConfig.BeginScope())
             {
+                scope.IncludeTypeInfo = false;
                 scope.DateHandler = DateHandler.UnixTime;
                 return JsonSerializer.SerializeToString(obj);
             }

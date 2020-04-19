@@ -7,7 +7,7 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
-    public static class HtmlHelper
+    internal static class HtmlHelper
     {
         /// <summary>
         /// Try to extract readable text from HTML.
