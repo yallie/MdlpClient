@@ -381,5 +381,22 @@
                 trusted_partners = partnerIds
             });
         }
+
+        /// <summary>
+        /// 8.7.3. Метод фильтрации доверенных контрагентов
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска доверенных контрагентов</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых доверенных контрагентов</param>
+        /// <param name="count">Количество записей в списке возвращаемых доверенных контрагентов</param>
+        /// <returns>Список доверенных контрагентов</returns>
+        public EntriesResponse<TrustedPartnerEntry> GetTrustedPartners(TrustedPartnerFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<TrustedPartnerEntry>>("/reestr/trusted_partners/filter", new
+            {
+                filter = filter ?? new TrustedPartnerFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
