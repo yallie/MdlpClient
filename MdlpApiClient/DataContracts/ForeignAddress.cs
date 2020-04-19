@@ -6,6 +6,7 @@
     /// 4.27. Формат объекта ForeignAddress
     /// Таблица 23. Формат объекта ForeignAddress
     /// 8.6.1. Метод для регистрации иностранного контрагента
+    /// 8.8.1. Метод фильтрации по субъектам обращения
     /// </summary>
     [DataContract]
     public class ForeignAddress

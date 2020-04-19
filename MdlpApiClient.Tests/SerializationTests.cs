@@ -9,6 +9,7 @@
     [TestFixture]
     public class SerializationTests
     {
+        // нет, такое мы использовать не будем:
         [DataContract]
         public class Base
         {
