@@ -114,5 +114,11 @@
             Assert.AreEqual("ЛС-000613", license.LicenseNumber);
             AssertRequired(license);
         }
+
+        [Test]
+        public void Chapter7_06_3_ResyncProductionLicenses()
+        {
+            Assert.DoesNotThrow(() => Client.ResyncProductionLicenses());
+        }
     }
 }

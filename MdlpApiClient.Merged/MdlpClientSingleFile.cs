@@ -178,13 +178,13 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Адрес установки (код ФИАС)
         /// </summary>
-        [DataMember(Name = "houseguid")]
+        [DataMember(Name = "houseguid", IsRequired = true)]
         public string HouseGuid { get; set; }
 
         /// <summary>
         /// Текстовый адрес объекта
         /// </summary>
-        [DataMember(Name = "address")]
+        [DataMember(Name = "address", IsRequired = true)]
         public string Address { get; set; }
     }
 }
@@ -1081,64 +1081,64 @@ namespace MdlpApiClient.DataContracts
     [DataContract]
     public class FiasHouseObject
     {
-        [DataMember(Name = "IFNSUL")]
+        [DataMember(Name = "IFNSUL", IsRequired = true)]
         public string IfnsUl { get; set; } // "6225",
 
-        [DataMember(Name = "IFNSFL")]
+        [DataMember(Name = "IFNSFL", IsRequired = true)]
         public string IfnsFl { get; set; } // "6225",
 
-        [DataMember(Name = "TERRIFNSFL")]
+        [DataMember(Name = "TERRIFNSFL", IsRequired = true)]
         public string TerrIfnsFl { get; set; } // "6212",
 
-        [DataMember(Name = "TERRIFNSUL")]
+        [DataMember(Name = "TERRIFNSUL", IsRequired = true)]
         public string TerrIfnsUl { get; set; } // "6212",
 
-        [DataMember(Name = "STATSTATUS")]
+        [DataMember(Name = "STATSTATUS", IsRequired = true)]
         public string StatStatus { get; set; } // "0",
 
-        [DataMember(Name = "ESTSTATUS")]
+        [DataMember(Name = "ESTSTATUS", IsRequired = true)]
         public string EstStatus { get; set; } // "2",
 
-        [DataMember(Name = "STRSTATUS")]
+        [DataMember(Name = "STRSTATUS", IsRequired = true)]
         public string StrStatus { get; set; } // "0",
 
-        [DataMember(Name = "STARTDATE")]
+        [DataMember(Name = "STARTDATE", IsRequired = false)]
         public DateTime StartDate { get; set; } // "1900-01-01",
 
-        [DataMember(Name = "ENDDATE")]
+        [DataMember(Name = "ENDDATE", IsRequired = false)]
         public DateTime EndDate { get; set; } // "2014-01-04",
 
-        [DataMember(Name = "UPDATEDATE")]
+        [DataMember(Name = "UPDATEDATE", IsRequired = false)]
         public DateTime UpdateDate { get; set; } // "2012-03-15"",
 
-        [DataMember(Name = "OKATO")]
+        [DataMember(Name = "OKATO", IsRequired = true)]
         public string Okato { get; set; } // "61226824016",
 
-        [DataMember(Name = "OKTMO")]
+        [DataMember(Name = "OKTMO", IsRequired = true)]
         public string Oktmo { get; set; } // "61626424116",
 
-        [DataMember(Name = "_id")]
+        [DataMember(Name = "_id", IsRequired = true)]
         public string ID { get; set; } // "ba1c2f28-a455-47e2-95e5-000003a0023d",
 
-        [DataMember(Name = "COUNTER")]
+        [DataMember(Name = "COUNTER", IsRequired = true)]
         public string Counter { get; set; } // "2",
 
-        [DataMember(Name = "AOGUID")]
+        [DataMember(Name = "AOGUID", IsRequired = true)]
         public string AoGuid { get; set; } // "fce962f2-dff8-4eea-8413-5c94e0e69dec",
 
-        [DataMember(Name = "DIVTYPE")]
+        [DataMember(Name = "DIVTYPE", IsRequired = false)]
         public string DivType { get; set; } // "0",
 
-        [DataMember(Name = "POSTALCODE")]
+        [DataMember(Name = "POSTALCODE", IsRequired = true)]
         public string PostalCode { get; set; } // "391483",
 
-        [DataMember(Name = "HOUSEGUID")]
+        [DataMember(Name = "HOUSEGUID", IsRequired = true)]
         public string HouseGuid { get; set; } // "ba1c2f28-a455-47e2-95e5-000003a0023d",
 
-        [DataMember(Name = "HOUSENUM")]
+        [DataMember(Name = "HOUSENUM", IsRequired = false)]
         public string HouseNum { get; set; } // "2",
 
-        [DataMember(Name = "HOUSEID")]
+        [DataMember(Name = "HOUSEID", IsRequired = false)]
         public string HouseID { get; set; } // null
     }
 }
@@ -1848,6 +1848,130 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.39. Формат объекта LicenseApiFilter
+    // Таблица 35. Формат объекта LicenseApiFilter
+    /// 7.6.2. Метод фильтрации лицензий на производство
+    /// </summary>
+    [DataContract]
+    public class LicenseApiFilter
+    {
+        /// <summary>
+        /// Номер лицензии
+        /// </summary>
+        [DataMember(Name = "l_num", IsRequired = false)]
+        public string LicenseNumber { get; set; }
+
+        /// <summary>
+        /// Статус лицензии
+        /// </summary>
+        [DataMember(Name = "l_status", IsRequired = false)]
+        public string LicenseStatus { get; set; }
+
+        /// <summary>
+        /// Дата начала действия лицензии: начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "start_date_from", IsRequired = false)]
+        public DateTime? StartDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата начала действия лицензии: окончание периода фильтрации
+        /// </summary>
+        [DataMember(Name = "start_date_to", IsRequired = false)]
+        public DateTime? StartDateTo { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 4.38. Формат объекта LicenseEntry
+    /// Таблица 34. Формат объекта LicenseEntry
+    /// 7.6.2. Получение информации о лицензиях на производство по фильтру
+    /// </summary>
+    /// <remarks>
+    /// Похож по структуре на <see cref="ProductionLicenseInfo"/>, но содержит больше полей.
+    /// Имена полей в JSON не вполне совпадают.
+    /// </remarks>
+    [DataContract]
+    public class LicenseEntry
+    {
+        /// <summary>
+        /// Идентификатор записи в реестре
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = true)]
+        public string ID { get; set; } // "59f6fa41762afe8ac12021c9",
+
+        /// <summary>
+        /// ИНН юридического лица
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = true)]
+        public string Inn { get; set; } // "4025175206",
+
+        /// <summary>
+        /// Название организации, которой выдана лицензия
+        /// </summary>
+        [DataMember(Name = "org_name", IsRequired = true)]
+        public string OrganizationName { get; set; } // "ООО \"Медицина\"",
+
+        /// <summary>
+        /// Номер лицензии
+        /// </summary>
+        [DataMember(Name = "l_num", IsRequired = true)]
+        public string LicenseNumber { get; set; } // "00233-ЛС",
+
+        /// <summary>
+        /// Статус лицензии
+        /// </summary>
+        [DataMember(Name = "l_status", IsRequired = true)]
+        public string LicenseStatus { get; set; } // "действует",
+
+        /// <summary>
+        /// Дата начала действия лицензии
+        /// </summary>
+        [DataMember(Name = "start_date", IsRequired = true)]
+        public DateTime StartDate { get; set; } // "2016-09-13T00:00:00.000Z"
+
+        /// <summary>
+        /// Дата окончания действия лицензии
+        /// </summary>
+        [DataMember(Name = "end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; } // "2016-09-13T00:00:00.000Z"
+
+        /// <summary>
+        /// Адрес действия лицензии
+        /// </summary>
+        [DataMember(Name = "address", IsRequired = true)]
+        public AddressFias Address { get; set; } // aoguid, houseguid
+
+        /// <summary>
+        /// Перечень работ/услуг согласно лицензии
+        /// </summary>
+        [DataMember(Name = "work_list", IsRequired = true)]
+        public string[] WorkList { get; set; } // ["производство и хранение ЛП"]
+
+        /// <summary>
+        /// Признак невалидности кода ФИАС
+        /// </summary>
+        [DataMember(Name = "invalid_fias_code")]
+        public bool InvalidFiasCode { get; set; } // false
+
+        /// <summary>
+        /// Адрес СМЭВ (адрес в текстовом виде)
+        /// </summary>
+        [DataMember(Name = "objects")]
+        public string AddressDescription { get; set; } // "г Москва, ул Щипок, д. 9/26 стр. 3"
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.5.1. Информация из реестра производимых организацией ЛП
     /// 8.5.2. Детальная информации о производимом организацией ЛП
     /// </summary>
@@ -2548,6 +2672,76 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "op_exec_date_end", IsRequired = false)]
         public DateTime? OperationEndDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.6.1. Получение информации о лицензиях на производство
+    /// </summary>
+    /// <remarks>
+    /// Похоже по структуре на <see cref="LicenseEntry"/>.
+    /// </remarks>
+    [DataContract]
+    public class ProductionLicenseInfo
+    {
+        /// <summary>
+        /// Идентификатор записи в реестре
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = true)]
+        public string ID { get; set; } // "59f6fa41762afe8ac12021c9",
+
+        /// <summary>
+        /// ИНН юридического лица
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = true)]
+        public string Inn { get; set; } // "4025175206",
+
+        /// <summary>
+        /// Название организации, которой выдана лицензия
+        /// </summary>
+        [DataMember(Name = "ORG_NAME", IsRequired = true)]
+        public string OrganizationName { get; set; } // "ООО \"Медицина\"",
+
+        /// <summary>
+        /// Номер лицензии
+        /// </summary>
+        [DataMember(Name = "L_NUM", IsRequired = true)]
+        public string LicenseNumber { get; set; } // "00233-ЛС",
+
+        /// <summary>
+        /// Статус лицензии
+        /// </summary>
+        [DataMember(Name = "L_STATUS", IsRequired = true)]
+        public string LicenseStatus { get; set; } // "действует",
+
+        /// <summary>
+        /// Дата начала действия лицензии
+        /// </summary>
+        [DataMember(Name = "START_DATE", IsRequired = true)]
+        public DateTime StartDate { get; set; } // "2016-09-13T00:00:00.000Z"
+
+        /// <summary>
+        /// Дата окончания действия лицензии
+        /// </summary>
+        [DataMember(Name = "END_DATE", IsRequired = false)]
+        public DateTime? EndDate { get; set; } // "2016-09-13T00:00:00.000Z"
+
+        /// <summary>
+        /// Адрес действия лицензии
+        /// </summary>
+        [DataMember(Name = "ADDRESS", IsRequired = true)]
+        public AddressFias Address { get; set; } // aoguid, houseguid
+
+        /// <summary>
+        /// Перечень работ/услуг согласно лицензии
+        /// </summary>
+        [DataMember(Name = "WORK_LIST", IsRequired = true)]
+        public string[] WorkList { get; set; } // ["производство и хранение ЛП"]
     }
 }
 
@@ -4535,6 +4729,8 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using System;
+    using System.Collections.Generic;
     using DataContracts;
     using RestSharp;
 
@@ -4599,21 +4795,57 @@ namespace MdlpApiClient
         /// <summary>
         /// 7.5.3. Получение текстового адреса по идентификаторам ФИАС
         /// </summary>
-        /// <param name="aoGuid">Идентификатор адреса</param>
         /// <param name="houseGuid">Идентификатор дома</param>
+        /// <param name="aoGuid">Идентификатор адреса</param>
         /// <param name="room">Комната (необязательно)</param>
         /// <returns>Данные из реестра ФИАС</returns>
-        public AddressResolved GetFiasAddress(string aoGuid, string houseGuid, string room = null)
+        public AddressResolved GetFiasAddress(string houseGuid, string aoGuid = null, string room = null)
         {
             var address = Post<AddressResolved>("reestr/fias/resolve", new
             {
-                aoguid = aoGuid,
+                // похоже, параметр aoGuid игнорируется, если указан дом, но наличие его все равно требуется
+                aoguid = aoGuid ?? Guid.Empty.ToString(),
                 houseguid = houseGuid,
                 room = room,
             });
 
+            // в ответе нет houseGuid, добавим для верности
             address.HouseGuid = houseGuid;
             return address;
+        }
+
+        /// <summary>
+        /// 7.6.1. Получение информации о лицензиях на производство
+        /// </summary>
+        /// <returns>Список лицензий</returns>
+        public ProductionLicenseInfo[] GetProductionLicenses()
+        {
+            return Get<List<ProductionLicenseInfo>>("reestr/prod_licenses").ToArray();
+        }
+
+        /// <summary>
+        /// 7.6.2. Метод фильтрации лицензий на производство
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру лицензий на производство</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых лицензий на производство</param>
+        /// <param name="count">Количество записей в списке возвращаемых лицензий на производство</param>
+        /// <returns>Список лицензий</returns>
+        public EntriesResponse<LicenseEntry> GetProductionLicenses(LicenseApiFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<LicenseEntry>>("reestr/prod_licenses", new
+            {
+                filter = filter ?? new LicenseApiFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 7.6.3. Метод для актуализации данных текущего участника из реестра лицензий на производство
+        /// </summary>
+        public void ResyncProductionLicenses()
+        {
+            Post<EmptyResponse>("reestr/prod_licenses/resync", new { });
         }
     }
 }

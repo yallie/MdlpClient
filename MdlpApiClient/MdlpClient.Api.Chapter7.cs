@@ -110,5 +110,13 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 7.6.3. Метод для актуализации данных текущего участника из реестра лицензий на производство
+        /// </summary>
+        public void ResyncProductionLicenses()
+        {
+            Post<EmptyResponse>("reestr/prod_licenses/resync", new { });
+        }
     }
 }
