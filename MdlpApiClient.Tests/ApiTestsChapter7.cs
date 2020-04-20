@@ -49,7 +49,19 @@
         {
             var addr = Client.GetFiasAddressObject("353b7aed-0f1b-4f44-8ce3-245083e17526");
             Assert.IsNotNull(addr);
-            Assert.IsNotNull(addr.FormalName);
+            Assert.AreEqual("385336", addr.PostalCode);
+            Assert.AreEqual("Широкая", addr.FormalName);
+        }
+
+        [Test]
+        public void Chapter7_05_2_GetFiasHouseObject()
+        {
+            var house = Client.GetFiasHouseObject("ba1c2f28-a455-47e2-95e5-000003a0023d");
+            Assert.IsNotNull(house);
+            Assert.AreEqual("391483", house.PostalCode);
+            Assert.AreEqual("61226824016", house.Okato);
+            Assert.AreEqual("61626424116", house.Oktmo);
+            Assert.AreEqual("fce962f2-dff8-4eea-8413-5c94e0e69dec", house.AoGuid);
         }
     }
 }

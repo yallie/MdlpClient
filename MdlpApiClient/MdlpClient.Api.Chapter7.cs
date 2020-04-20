@@ -38,12 +38,26 @@
         /// <summary>
         /// 7.5.1. Получение объекта ФИАС по идентификатору адресного объекта
         /// </summary>
+        /// <param name="addressId">Идентификатор адресного объекта</param>
         /// <returns>Данные из реестра ФИАС</returns>
-        public FiasAddressObject GetFiasAddressObject(string addressObjectId)
+        public FiasAddressObject GetFiasAddressObject(string addressId)
         {
             return Get<FiasAddressObject>("reestr/fias/addrobj/{addrobj}", new[]
             {
-                new Parameter("addrobj", addressObjectId, ParameterType.UrlSegment)
+                new Parameter("addrobj", addressId, ParameterType.UrlSegment)
+            });
+        }
+
+        /// <summary>
+        /// 7.5.2. Получение объекта ФИАС по идентификатору дома
+        /// </summary>
+        /// <param name="addressId">Идентификатор дома</param>
+        /// <returns>Данные из реестра ФИАС</returns>
+        public FiasHouseObject GetFiasHouseObject(string houseId)
+        {
+            return Get<FiasHouseObject>("reestr/fias/house/{houseobj}", new[]
+            {
+                new Parameter("houseobj", houseId, ParameterType.UrlSegment)
             });
         }
     }
