@@ -106,14 +106,86 @@ namespace MdlpApiClient.DataContracts
     [DataContract]
     public class Address
     {
+        /// <summary>
+        /// Уникальный идентификатор адресного объекта (ФИАС)
+        /// </summary>
         [DataMember(Name = "aoguid")]
         public string AoGuid { get; set; }
 
+        /// <summary>
+        /// Адрес установки (код ФИАС)
+        /// </summary>
         [DataMember(Name = "houseguid")]
         public string HouseGuid { get; set; }
 
+        /// <summary>
+        /// Текстовый адрес объекта
+        /// </summary>
         [DataMember(Name = "address_description")]
         public string AddressDescription { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта AddressFias
+    /// </summary>
+    [DataContract]
+    public class AddressFias
+    {
+        /// <summary>
+        /// Уникальный идентификатор адресного объекта (ФИАС)
+        /// </summary>
+        [DataMember(Name = "aoguid")]
+        public string AoGuid { get; set; }
+
+        /// <summary>
+        /// Адрес установки (код ФИАС)
+        /// </summary>
+        [DataMember(Name = "houseguid")]
+        public string HouseGuid { get; set; }
+
+        /// <summary>
+        /// Комната, 1-50 символов
+        /// </summary>
+        [DataMember(Name = "room")]
+        public string Room { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта AddressResolved
+    /// </summary>
+    [DataContract]
+    public class AddressResolved
+    {
+        /// <summary>
+        /// Код выполнения операции:
+        /// 0 — операция выполнена успешно, адрес найден
+        /// 1 — адрес не может быть идентифицирован в БД ФИАС        /// </summary>
+        [DataMember(Name = "code")]
+        public int Code { get; set; }
+
+        /// <summary>
+        /// Адрес установки (код ФИАС)
+        /// </summary>
+        [DataMember(Name = "houseguid")]
+        public string HouseGuid { get; set; }
+
+        /// <summary>
+        /// Текстовый адрес объекта
+        /// </summary>
+        [DataMember(Name = "address")]
+        public string Address { get; set; }
     }
 }
 
@@ -339,14 +411,14 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Уникальный идентификатор отправителя.
-        /// Идентификатор места осуществления деятельности, места ответственного 
+        /// Идентификатор места осуществления деятельности, места ответственного
         /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sender_id", IsRequired = false)]
         public string SenderID { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор получателя.
-        /// Идентификатор места осуществления деятельности, места ответственного 
+        /// Идентификатор места осуществления деятельности, места ответственного
         /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// Применимо для входящих документов.        /// </summary>
         [DataMember(Name = "receiver_id", IsRequired = false)]
         public string ReceiverID { get; set; }
@@ -365,11 +437,11 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Тип загрузки в систему:
-        /// 0 — УСО
+        /// 0 — УСО
         /// 1 — ЛК (личный кабинет)
-        /// 2 — API
-        /// 3 — ОФД (Оператор фискальных данных)
-        /// 4 — СКЗКМ/ИС МП
+        /// 2 — API
+        /// 3 — ОФД (Оператор фискальных данных)
+        /// 4 — СКЗКМ/ИС МП
         /// </summary>
         [DataMember(Name = "file_uploadtype", IsRequired = false)]
         public int? FileUploadType { get; set; } // 1 УСО, 2 ЛК, 3 API, 4 ОФД, 5 СКЗКМ
@@ -602,14 +674,8 @@ namespace MdlpApiClient.DataContracts
     /// <typeparam name="T">Тип элемента поля Entries</typeparam>
     /// <typeparam name="F">Тип элемента поля FailedEntries</typeparam>
     [DataContract]
-    public class EntriesFailedResponse<T, F>
+    public class EntriesFailedResponse<T, F> : EntriesResponse<T>
     {
-        [DataMember(Name = "entries")]
-        public T[] Entries { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-
         [DataMember(Name = "failed_entries")]
         public F[] FailedEntries { get; set; }
 
@@ -624,8 +690,41 @@ namespace MdlpApiClient.DataContracts
 
     /// <summary>
     /// Список записей:
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// </summary>
+    /// <typeparam name="T">Тип поля Entries</typeparam>
+    [DataContract]
+    public class EntriesFilteredResponse<T>
+    {
+        /// <summary>
+        /// Записи из реестра
+        /// </summary>
+        [DataMember(Name = "filtered_records")]
+        public T[] Entries { get; set; }
+
+        /// <summary>
+        /// Общее количество записей по запросу
+        /// </summary>
+        [DataMember(Name = "filtered_records_count")]
+        public int Total { get; set; }
+
+        /// <summary>
+        /// Код ошибки? Недокументированное поле
+        /// </summary>
+        [DataMember(Name = "code")]
+        internal int Code { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// Список записей:
     /// 8.1.2. Мест осуществления деятельности.
     /// 8.2.2. Список мест ответственного хранения.
+    /// 8.2.5. Метод получения информации об адресах искомого участника.
     /// 8.3.1. Список найденных КИЗ.
     /// 8.3.5. Список КИЗ со статусом 'Оборот приостановлен'.
     /// 8.3.6. Результат поиска по реестру КИЗ записей, ожидающих
@@ -683,6 +782,7 @@ namespace MdlpApiClient.DataContracts
     /// 4.27. Формат объекта ForeignAddress
     /// Таблица 23. Формат объекта ForeignAddress
     /// 8.6.1. Метод для регистрации иностранного контрагента
+    /// 8.8.1. Метод фильтрации по субъектам обращения
     /// </summary>
     [DataContract]
     public class ForeignAddress
@@ -745,6 +845,58 @@ namespace MdlpApiClient.DataContracts
         /// № помещения (квартиры)        /// </summary>
         [DataMember(Name = "room")]
         public string Room { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта ForeignCounterparty
+    /// </summary>
+    /// <remarks>
+    /// Похож на <see cref="ForeignCounterpartyEntry"/>, но увы, не идентичен.
+    /// </remarks>
+    [DataContract]
+    public class ForeignCounterparty
+    {
+        /// <summary>
+        /// Уникальный идентификатор
+        /// </summary>
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Идентификатор контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "system_subj_id")]
+        public string SystemSubjectID { get; set; }
+
+        /// <summary>
+        /// ITIN организации контрагента
+        /// </summary>
+        [DataMember(Name = "counterparty_itin")]
+        public string Itin { get; set; }
+
+        /// <summary>
+        /// Наименование субъекта обращения
+        /// </summary>
+        [DataMember(Name = "counterparty_name")]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Адрес субъекта обращения
+        /// </summary>
+        [DataMember(Name = "counterparty_address")]
+        public ForeignAddress Address { get; set; }
+
+        /// <summary>
+        /// Дата регистрации
+        /// </summary>
+        [DataMember(Name = "op_date")]
+        public OperationDate OperationDate { get; set; }
     }
 }
 
@@ -859,24 +1011,6 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.2.5. Метод получения информации об адресах искомого участника.
-    /// </summary>
-    [DataContract]
-    public class GetAvailableAddressesResponse
-    {
-        [DataMember(Name = "entries")]
-        public RegistrationAddress[] Entries { get; set; }
-
-        [DataMember(Name = "total")]
-        public int Total { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
-    /// <summary>
     /// 8.1.3. Получение информации о конкретном месте осуществления деятельности
     /// </summary>
     [DataContract]
@@ -961,7 +1095,7 @@ namespace MdlpApiClient.DataContracts
         /// Описывающий иерархию вложенности "вверх" массив упорядочен согласно уровням
         /// вложенности упаковки и в качестве первого элемента содержит описание для
         /// запрошенного идентификационного кода третичной упаковки, а в качестве последнего
-        /// элемента — описание для идентификационного кода третичной упаковки самого верхнего
+        /// элемента — описание для идентификационного кода третичной упаковки самого верхнего
         /// уровня.
         /// </remarks>
         [DataMember(Name = "up")]
@@ -1324,15 +1458,15 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Список нарушений при попытке обработки чека
-        /// 1 — нарушение лицензионных требований
-        /// 2 — повторный вывод из оборота
-        /// 3 — отсутствуют сведения о вводе в оборот
-        /// 4 — не подлежит розничной реализации
-        /// 5 — нарушение формата чека
-        /// 6 — нарушение порядка предоставления сведений
-        /// 7 — нарушение правовладения
-        /// 8 — истек срок годности
-        /// 9 — отсутствие информации о рецепте
+        /// 1 — нарушение лицензионных требований
+        /// 2 — повторный вывод из оборота
+        /// 3 — отсутствуют сведения о вводе в оборот
+        /// 4 — не подлежит розничной реализации
+        /// 5 — нарушение формата чека
+        /// 6 — нарушение порядка предоставления сведений
+        /// 7 — нарушение правовладения
+        /// 8 — истек срок годности
+        /// 9 — отсутствие информации о рецепте
         /// </summary>
         [DataMember(Name = "violation_reasons")]
         public int[] ViolationReasons { get; set; }
@@ -1743,6 +1877,23 @@ namespace MdlpApiClient.DataContracts
 
     /// <summary>
     /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта OperationDate
+    /// </summary>
+    [DataContract]
+    public class OperationDate
+    {
+        [DataMember(Name = "$date")]
+        public DateTime Date { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
     /// Формат объекта PartnersFilter
     /// </summary>
     [DataContract]
@@ -1809,14 +1960,14 @@ namespace MdlpApiClient.DataContracts
         public DateTime? EndDate { get; set; }
 
         /// <summary>
-        /// Тип участника:
-        /// 1 — резидент РФ
-        /// 2 — представительство иностранного держателя регистрационного удостоверения
-        /// 3 — иностранный держатель регистрационного удостоверения
-        /// 8 — иностранный контрагент
+        /// Тип участника, см. <see cref="RegEntityTypeEnum"/>:
+        /// 1 — резидент РФ
+        /// 2 — представительство иностранного держателя регистрационного удостоверения
+        /// 3 — иностранный держатель регистрационного удостоверения
+        /// 8 — иностранный контрагент
         /// </summary>
         [DataMember(Name = "reg_entity_type", IsRequired = false)]
-        public int? RegEntityType { get; set; }
+        public int RegEntityType { get; set; }
 
         /// <summary>
         /// Дата фактической регистрации, начало периода фильтрации
@@ -1945,6 +2096,35 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Типы зарегистрированных участников
+    /// </summary>
+    public class RegEntityTypeEnum
+    {
+        /// <summary>
+        /// Тип участника: 1 — резидент РФ
+        /// </summary>
+        public const int RESIDENT = 1;
+
+        /// <summary>
+        /// Тип участника: 2 — представительство иностранного держателя регистрационного удостоверения
+        /// <summary>
+        public const int FOREIGN_REGHOLDER_BRANCH = 2;
+
+        /// <summary>
+        /// Тип участника: 3 — иностранный держатель регистрационного удостоверения
+        /// <summary>
+        public const int FOREIGN_REGHOLDER = 3;
+
+        /// <summary>
+        /// Тип участника: 8 — иностранный контрагент
+        /// <summary>
+        public const int FOREIGN_COUNTERPARTY = 8;    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -2017,48 +2197,379 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта RegistrationEntry
+    /// </summary>
+    [DataContract]
+    public class RegistrationEntry
+    {
+        /// <summary>
+        /// Идентификатор контрагента как субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "system_subj_id")]
+        public string SystemSubjectID { get; set; }
+
+        /// <summary>
+        /// Список мест осуществления деятельности
+        /// </summary>
+        [DataMember(Name = "branches")]
+        public ResolvedFiasAddress[] Branches { get; set; }
+
+        /// <summary>
+        /// Список мест ответственного хранения
+        /// </summary>
+        [DataMember(Name = "safe_warehouses")]
+        public ResolvedFiasAddress[] Warehouses { get; set; }
+
+        /// <summary>
+        /// ИНН субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "inn")]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// ИТИН
+        /// </summary>
+        [DataMember(Name = "itin")]
+        public string Itin { get; set; }
+
+        /// <summary>
+        /// КПП
+        /// </summary>
+        [DataMember(Name = "KPP")]
+        public string Kpp { get; set; }
+
+        /// <summary>
+        /// ОГРН
+        /// </summary>
+        [DataMember(Name = "OGRN")]
+        public string Ogrn { get; set; }
+
+        /// <summary>
+        /// Наименование субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "ORG_NAME")]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Имя руководителя организации
+        /// </summary>
+        [DataMember(Name = "FIRST_NAME")]
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Отчество руководителя организации
+        /// </summary>
+        [DataMember(Name = "MIDDLE_NAME")]
+        public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Фамилия руководителя организации
+        /// </summary>
+        [DataMember(Name = "LAST_NAME")]
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Тип участника:
+        /// 1 — резидент РФ
+        /// 2 — представительство иностранного держателя регистрационного удостоверения
+        /// 3 — иностранный держатель регистрационного удостоверения
+        /// 8 — иностранный контрагент
+        /// </summary>
+        [DataMember(Name = "reg_entity_type", IsRequired = false)]
+        public int? RegEntityType { get; set; }
+
+        /// <summary>
+        /// Дата заявки на регистрацию
+        /// </summary>
+        [DataMember(Name = "op_date")]
+        public OperationDate OperationDate { get; set; }
+
+        /// <summary>
+        /// Дата фактической регистрации в системе
+        /// </summary>
+        [DataMember(Name = "op_exec_date")]
+        public DateTime OperationExecutionDate { get; set; }
+
+        /// <summary>
+        /// Код страны
+        /// </summary>
+        [DataMember(Name = "country_code")]
+        public string CountryCode { get; set; }
+
+        /// <summary>
+        /// Код субъекта РФ
+        /// </summary>
+        [DataMember(Name = "federal_subject_code")]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Регистрационный номер
+        /// </summary>
+        [DataMember(Name = "regNum")]
+        public string RegistrationNumber { get; set; }
+
+        /// <summary>
+        /// Дата регистрации
+        /// </summary>
+        [DataMember(Name = "regDate", IsRequired = false)]
+        public DateTime? RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Адрес организации
+        /// </summary>
+        [DataMember(Name = "org_address")]
+        public ForeignAddress Address { get; set; }
+
+        /// <summary>
+        /// КПП (дубликат реквизита, косяк проектирования API)
+        /// </summary>
+        [DataMember(Name = "kpp")]
+        public string kpp { get; set; }
+
+        /// <summary>
+        /// ОГРН (дубликат реквизита, косяк проектирования API)
+        /// </summary>
+        [DataMember(Name = "ogrn")]
+        public string ogrn { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта ResolvedFiasAddress
+    /// </summary>
+    [DataContract]
+    public class ResolvedFiasAddress
+    {
+        /// <summary>
+        /// Идентификатор
+        /// </summary>
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Адрес ФИАС
+        /// </summary>
+        [DataMember(Name = "address_fias")]
+        public AddressFias AddressFias { get; set; }
+
+        /// <summary>
+        /// Адрес
+        /// </summary>
+        [DataMember(Name = "address_resolved")]
+        public AddressResolved AddressResolved { get; set; }
+
+        /// <summary>
+        /// Статус:
+        /// 0 — не действует
+        /// 1 — действует
+        /// 2 — в процессе приостановления
+        /// </summary>
+        [DataMember(Name = "Status")]
+        public int Status { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     /// <summary>
     /// 4.11. Список прав пользователей учетной системы
     /// </summary>
     public class RightsEnum
     {
-        public const string MANAGE_ACCOUNTS = "MANAGE_ACCOUNTS"; // Управление учетками
-        public const string VIEW_ACCOUNTS = "VIEW_ACCOUNTS"; // Просмотр учетных записей
-        public const string UPLOAD_DOCUMENT = "UPLOAD_DOCUMENT"; // Загрузка документа
-        public const string OUTCOME_LIST = "OUTCOME_LIST"; // Информация об исходящем документе
-        public const string INCOME_LIST = "INCOME_LIST"; // Информация о входящих документах
-        public const string DOWNLOAD_DOCUMENT = "DOWNLOAD_DOCUMENT"; // Получение ссылки на документ по идентификатору
-        public const string REESTR_ALL = "REESTR_ALL"; // Доступ к реестрам (ко всем справочникам)
-        public const string REESTR_FEDERAL_SUBJECT = "REESTR_FEDERAL_SUBJECT"; // Реестр субъектов РФ
-        public const string REESTR_EGRUL = "REESTR_EGRUL"; // Реестр ЕГРЮЛ
-        public const string REESTR_EGRIP = "REESTR_EGRIP"; // Реестр ЕГРИП
-        public const string REESTR_REFP = "REESTR_REFP"; // Реестр аккредитованных филиалов и представительств
-        internal const string REESTR_DUES = "REESTR_DUES"; // Реестр налоговой задолженности
-        public const string REESTR_PROD_LICENSES = "REESTR_PROD_LICENSES"; // Реестр лицензий на производство
-        public const string REESTR_PHARM_LICENSES = "REESTR_PHARM_LICENSES"; // Реестр лицензий на фарм. деятельность
-        public const string REESTR_ESKLP = "REESTR_ESKLP"; // Реестр ЕСКЛП
-        internal const string REESTR_GS1 = "REESTR_GS1"; // Реестр ГС1 (GS1)
-        public const string REESTR_FIAS = "REESTR_FIAS"; // Реестр ФИАС
-        public const string VIEW_BILLING_PRIORITY_RULES = "VIEW_BILLING_PRIORITY_RULES"; // Просмотр реестра приоритетной оплаты
-        public const string MANAGE_BILLING_PRIORITY_RULES = "MANAGE_BILLING_PRIORITY_RULES"; // Редактирование реестра приоритетной оплаты
-        public const string REESTR_SGTIN = "REESTR_SGTIN"; // Реестр КИЗ
-        public const string REESTR_SGTIN_BILLING = "REESTR_SGTIN_BILLING"; // Реестр КИЗ для биллинга
-        internal const string REESTR_OWNED_SSCC_SGTIN = "REESTR_OWNED_SSCC_SGTIN"; // Реестр КИЗ и реестр третичных упаковок с учетом текущего владельца
-        public const string REESTR_MED_PRODUCTS = "REESTR_MED_PRODUCTS"; // Реестр производимых ЛП
-        public const string MANAGE_TRUSTED_PARTNERS = "MANAGE_TRUSTED_PARTNERS"; // Редактирование реестра доверенных контрагентов
-        public const string VIEW_TRUSTED_PARTNERS = "VIEW_TRUSTED_PARTNERS"; // Просмотр реестра доверенных контрагентов
-        public const string MANAGE_BRANCH = "MANAGE_BRANCH"; // Редактирование реестра мест деятельности (МД)
-        public const string MANAGE_SAFE_WAREHOUSE = "MANAGE_SAFE_WAREHOUSE"; // Редактирование реестра складов/мест ответственного хранения СОХ/МОХ
-        public const string VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG = "VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG"; // Реестр заявок на регистрацию иностранных контрагентов
-        public const string MANAGE_FOREIGN_COUNTERPARTY = "MANAGE_FOREIGN_COUNTERPARTY"; // Управление иностранными контрагентами
-        internal const string MANAGE_MEMBER = "MANAGE_MEMBER"; // Управление организацией
-        public const string REESTR_COUNTERPARTY = "REESTR_COUNTERPARTY"; // Реестр контрагентов
-        public const string REESTR_REGISTRATION_DEVICES = "REESTR_REGISTRATION_DEVICES"; // Реестра регистраторов эмиссии/выбытия
-        public const string REESTR_VIRTUAL_STORAGE = "REESTR_VIRTUAL_STORAGE"; // Реестр виртуального склада
-        public const string MEMBER_PAYMENT_INFO = "MEMBER_PAYMENT_INFO"; // Финансовая информация
-        public const string REESTR_PAUSED_CIRCULATION_DECISION = "REESTR_PAUSED_CIRCULATION_DECISION"; // Реестр решений о приостановке КИЗ
-        public const string VIEW_SKZKM_REPORT = "VIEW_SKZKM_REPORT"; // Прослеживание документов по отчёту из СУЗ
-        internal const string VIEW_BATCH_GRAF = "VIEW_BATCH_GRAF"; // Просмотр дерева по производственной серии для производителя
+        /// <summary>
+        /// Управление учетками
+        /// </summary>
+        public const string MANAGE_ACCOUNTS = "MANAGE_ACCOUNTS";
+
+        /// <summary>
+        /// Просмотр учетных записей
+        /// </summary>
+        public const string VIEW_ACCOUNTS = "VIEW_ACCOUNTS";
+
+        /// <summary>
+        /// Загрузка документа
+        /// </summary>
+        public const string UPLOAD_DOCUMENT = "UPLOAD_DOCUMENT";
+
+        /// <summary>
+        /// Информация об исходящем документе
+        /// </summary>
+        public const string OUTCOME_LIST = "OUTCOME_LIST";
+
+        /// <summary>
+        /// Информация о входящих документах
+        /// </summary>
+        public const string INCOME_LIST = "INCOME_LIST";
+
+        /// <summary>
+        /// Получение ссылки на документ по идентификатору
+        /// </summary>
+        public const string DOWNLOAD_DOCUMENT = "DOWNLOAD_DOCUMENT";
+
+        /// <summary>
+        /// Доступ к реестрам (ко всем справочникам)
+        /// </summary>
+        public const string REESTR_ALL = "REESTR_ALL";
+
+        /// <summary>
+        /// Реестр субъектов РФ
+        /// </summary>
+        public const string REESTR_FEDERAL_SUBJECT = "REESTR_FEDERAL_SUBJECT";
+
+        /// <summary>
+        /// Реестр ЕГРЮЛ
+        /// </summary>
+        public const string REESTR_EGRUL = "REESTR_EGRUL";
+
+        /// <summary>
+        /// Реестр ЕГРИП
+        /// </summary>
+        public const string REESTR_EGRIP = "REESTR_EGRIP";
+
+        /// <summary>
+        /// Реестр аккредитованных филиалов и представительств
+        /// </summary>
+        public const string REESTR_REFP = "REESTR_REFP";
+
+        /// <summary>
+        /// Реестр налоговой задолженности
+        /// </summary>
+        internal const string REESTR_DUES = "REESTR_DUES";
+
+        /// <summary>
+        /// Реестр лицензий на производство
+        /// </summary>
+        public const string REESTR_PROD_LICENSES = "REESTR_PROD_LICENSES";
+
+        /// <summary>
+        /// Реестр лицензий на фарм. деятельность
+        /// </summary>
+        public const string REESTR_PHARM_LICENSES = "REESTR_PHARM_LICENSES";
+
+        /// <summary>
+        /// Реестр ЕСКЛП
+        /// </summary>
+        public const string REESTR_ESKLP = "REESTR_ESKLP";
+
+        /// <summary>
+        /// Реестр ГС1 (GS1)
+        /// </summary>
+        internal const string REESTR_GS1 = "REESTR_GS1";
+
+        /// <summary>
+        /// Реестр ФИАС
+        /// </summary>
+        public const string REESTR_FIAS = "REESTR_FIAS";
+
+        /// <summary>
+        /// Просмотр реестра приоритетной оплаты
+        /// </summary>
+        public const string VIEW_BILLING_PRIORITY_RULES = "VIEW_BILLING_PRIORITY_RULES";
+
+        /// <summary>
+        /// Редактирование реестра приоритетной оплаты
+        /// </summary>
+        public const string MANAGE_BILLING_PRIORITY_RULES = "MANAGE_BILLING_PRIORITY_RULES";
+
+        /// <summary>
+        /// Реестр КИЗ
+        /// </summary>
+        public const string REESTR_SGTIN = "REESTR_SGTIN";
+
+        /// <summary>
+        /// Реестр КИЗ для биллинга
+        /// </summary>
+        public const string REESTR_SGTIN_BILLING = "REESTR_SGTIN_BILLING";
+
+        /// <summary>
+        /// Реестр КИЗ и реестр третичных упаковок с учетом текущего владельца
+        /// </summary>
+        internal const string REESTR_OWNED_SSCC_SGTIN = "REESTR_OWNED_SSCC_SGTIN";
+
+        /// <summary>
+        /// Реестр производимых ЛП
+        /// </summary>
+        public const string REESTR_MED_PRODUCTS = "REESTR_MED_PRODUCTS";
+
+        /// <summary>
+        /// Редактирование реестра доверенных контрагентов
+        /// </summary>
+        public const string MANAGE_TRUSTED_PARTNERS = "MANAGE_TRUSTED_PARTNERS";
+
+        /// <summary>
+        /// Просмотр реестра доверенных контрагентов
+        /// </summary>
+        public const string VIEW_TRUSTED_PARTNERS = "VIEW_TRUSTED_PARTNERS";
+
+        /// <summary>
+        /// Редактирование реестра мест деятельности (МД)
+        /// </summary>
+        public const string MANAGE_BRANCH = "MANAGE_BRANCH";
+
+        /// <summary>
+        /// Редактирование реестра складов/мест ответственного хранения СОХ/МОХ
+        /// </summary>
+        public const string MANAGE_SAFE_WAREHOUSE = "MANAGE_SAFE_WAREHOUSE";
+
+        /// <summary>
+        /// Реестр заявок на регистрацию иностранных контрагентов
+        /// </summary>
+        public const string VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG = "VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG";
+
+        /// <summary>
+        /// Управление иностранными контрагентами
+        /// </summary>
+        public const string MANAGE_FOREIGN_COUNTERPARTY = "MANAGE_FOREIGN_COUNTERPARTY";
+
+        /// <summary>
+        /// Управление организацией
+        /// </summary>
+        internal const string MANAGE_MEMBER = "MANAGE_MEMBER";
+
+        /// <summary>
+        /// Реестр контрагентов
+        /// </summary>
+        public const string REESTR_COUNTERPARTY = "REESTR_COUNTERPARTY";
+
+        /// <summary>
+        /// Реестра регистраторов эмиссии/выбытия
+        /// </summary>
+        public const string REESTR_REGISTRATION_DEVICES = "REESTR_REGISTRATION_DEVICES";
+
+        /// <summary>
+        /// Реестр виртуального склада
+        /// </summary>
+        public const string REESTR_VIRTUAL_STORAGE = "REESTR_VIRTUAL_STORAGE";
+
+        /// <summary>
+        /// Финансовая информация
+        /// </summary>
+        public const string MEMBER_PAYMENT_INFO = "MEMBER_PAYMENT_INFO";
+
+        /// <summary>
+        /// Реестр решений о приостановке КИЗ
+        /// </summary>
+        public const string REESTR_PAUSED_CIRCULATION_DECISION = "REESTR_PAUSED_CIRCULATION_DECISION";
+
+        /// <summary>
+        /// Прослеживание документов по отчёту из СУЗ
+        /// </summary>
+        public const string VIEW_SKZKM_REPORT = "VIEW_SKZKM_REPORT";
+
+        /// <summary>
+        /// Просмотр дерева по производственной серии для производителя
+        /// </summary>
+        internal const string VIEW_BATCH_GRAF = "VIEW_BATCH_GRAF";
     }
 }
 
@@ -2129,7 +2640,7 @@ namespace MdlpApiClient.DataContracts
         public string Gtin { get; set; }
 
         /// <summary>
-        /// SGTIN (КИЗ) 
+        /// SGTIN (КИЗ)
         /// </summary>
         [DataMember(Name = "sgtin")]
         public string SgtinValue { get; set; }
@@ -2159,7 +2670,10 @@ namespace MdlpApiClient.DataContracts
         public string Owner { get; set; }
 
         /// <summary>
-        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// Тип эмиссии:
+        /// 1 — собственное,
+        /// 2 — контрактное,
+        /// 3 — иностранное производство
         /// </summary>
         [DataMember(Name = "emission_type")]
         public int EmissionType { get; set; }
@@ -2406,8 +2920,8 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Тип документа, по которому производится вывод через РВ.
-        /// 10521 — Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту (информация с СКЗКМ)
-        /// 10531 — Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи (информация с СКЗКМ)
+        /// 10521 — Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту (информация с СКЗКМ)
+        /// 10531 — Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи (информация с СКЗКМ)
         /// </summary>
         [DataMember(Name = "xml_document_type")]
         public int XmlDocumentType { get; set; }
@@ -2555,7 +3069,10 @@ namespace MdlpApiClient.DataContracts
         public string[] Status { get; set; }
 
         /// <summary>
-        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// Тип эмиссии:
+        /// 1 — собственное,
+        /// 2 — контрактное,
+        /// 3 — иностранное производство
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }
@@ -2689,16 +3206,16 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Тип реализации
-        /// 0 — розничная продажа
-        /// 1 — отпуск по льготному рецепту
+        /// 0 — розничная продажа
+        /// 1 — отпуск по льготному рецепту
         /// </summary>
         [DataMember(Name = "sold_type")]
         public int SoldType { get; set; }
 
         /// <summary>
         /// Статус обработки
-        /// 0 — принято
-        /// 1 — в обработке
+        /// 0 — принято
+        /// 1 — в обработке
         /// 2 — завершено
         /// 3 — завершено с ошибкой
         /// </summary>
@@ -2813,7 +3330,10 @@ namespace MdlpApiClient.DataContracts
         public string Inn { get; set; }
 
         /// <summary>
-        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// Тип эмиссии:
+        /// 1 — собственное,
+        /// 2 — контрактное,
+        /// 3 — иностранное производство
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }
@@ -3482,6 +4002,7 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using System.Net;
     using DataContracts;
     using RestSharp;
 
@@ -3579,9 +4100,9 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="inn">ИНН (необязательно)</param>
         /// <param name="licenseNumber">Номер лицензии (необязательно)</param>
-        public GetAvailableAddressesResponse GetAvailableAddresses(string inn = null, string licenseNumber = null)
+        public EntriesResponse<RegistrationAddress> GetAvailableAddresses(string inn = null, string licenseNumber = null)
         {
-            return Post<GetAvailableAddressesResponse>("reestr/warehouses/available_safe_warehouses_addresses", new
+            return Post<EntriesResponse<RegistrationAddress>>("reestr/warehouses/available_safe_warehouses_addresses", new
             {
                 inn = inn,
                 licence_number = licenseNumber,
@@ -3884,18 +4405,58 @@ namespace MdlpApiClient
         /// <summary>
         /// 8.8.1. Метод фильтрации по субъектам обращения
         /// </summary>
+        /// <typeparam name="T">Тип субъекта обращения</typeparam>
         /// <param name="filter">Фильтр для поиска субъектов обращения</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
         /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
         /// <returns>Список субъектов обращения</returns>
-        public EntriesResponse<TrustedPartnerEntry> GetPartners(PartnerFilter filter, int startFrom, int count)
+        private EntriesFilteredResponse<T> GetPartners<T>(PartnerFilter filter, int startFrom, int count)
         {
-            return Post<EntriesResponse<TrustedPartnerEntry>>("reestr_partners/filter", new
+            return Post<EntriesFilteredResponse<T>>("reestr_partners/filter", new
             {
                 filter = filter ?? new PartnerFilter(),
                 start_from = startFrom,
                 count = count,
             });
+        }
+
+        /// <summary>
+        /// 8.8.1. Метод фильтрации по иностранным субъектам обращения
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска субъектов обращения</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
+        /// <returns>Список субъектов обращения</returns>
+        public EntriesFilteredResponse<ForeignCounterparty> GetForeignPartners(PartnerFilter filter, int startFrom, int count)
+        {
+            // запрос иностранных контрагентов
+            filter = filter ?? new PartnerFilter();
+            filter.RegEntityType = RegEntityTypeEnum.FOREIGN_COUNTERPARTY;
+
+            return GetPartners<ForeignCounterparty>(filter, startFrom, count);
+        }
+
+        /// <summary>
+        /// 8.8.1. Метод фильтрации по местным субъектам обращения
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска субъектов обращения</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
+        /// <returns>Список субъектов обращения</returns>
+        public EntriesFilteredResponse<RegistrationEntry> GetLocalPartners(PartnerFilter filter, int startFrom, int count)
+        {
+            // запрос местных контрагентов
+            filter = filter ?? new PartnerFilter();
+            if (filter.RegEntityType == RegEntityTypeEnum.FOREIGN_COUNTERPARTY)
+            {
+                throw new MdlpException(HttpStatusCode.BadRequest, "Use GetForeignPartners method to return foreign counterparties", null, null);
+            }
+            else if (filter.RegEntityType == 0)
+            {
+                filter.RegEntityType = RegEntityTypeEnum.RESIDENT;
+            }
+
+            return GetPartners<RegistrationEntry>(filter, startFrom, count);
         }
     }
 }
