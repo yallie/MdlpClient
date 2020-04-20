@@ -19,13 +19,13 @@
         /// <summary>
         /// Адрес установки (код ФИАС)
         /// </summary>
-        [DataMember(Name = "houseguid")]
+        [DataMember(Name = "houseguid", IsRequired = true)]
         public string HouseGuid { get; set; }
 
         /// <summary>
         /// Текстовый адрес объекта
         /// </summary>
-        [DataMember(Name = "address")]
+        [DataMember(Name = "address", IsRequired = true)]
         public string Address { get; set; }
     }
 }

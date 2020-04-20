@@ -3,6 +3,9 @@
     using System.Security.Cryptography.X509Certificates;
     using NUnit.Framework;
     using MdlpApiClient.Toolbox;
+    using System.Linq;
+    using System.Runtime.Serialization;
+    using System;
 
     [TestFixture]
     public class UnitTestsBase
@@ -40,6 +43,37 @@
         public void SetupBeforeEachTest()
         {
             TestContext.Progress.WriteLine("------> {0} <------", TestContext.CurrentContext.Test.MethodName);
+        }
+
+        /// <summary>
+        /// Asserts that all required data members are not empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the data contract.</typeparam>
+        /// <param name="dataContract">The instance of the data contract.</param>
+        protected void AssertRequired<T>(T dataContract)
+        {
+            Assert.NotNull(dataContract);
+
+            var requiredMembers =
+                from p in typeof(T).GetProperties()
+                let dm = p.GetCustomAttributes(typeof(DataMemberAttribute), false)
+                    .OfType<DataMemberAttribute>()
+                    .FirstOrDefault()
+                where dm != null && dm.IsRequired == true
+                select p;
+
+            var required = requiredMembers.ToArray();
+            if (!required.Any())
+            {
+                return;
+            }
+
+            foreach (var p in required)
+            {
+                var value = p.GetValue(dataContract);
+                var defaultValue = p.PropertyType.IsClass ? null : Activator.CreateInstance(p.PropertyType);
+                Assert.AreNotEqual(value, defaultValue);
+            }
         }
     }
 }

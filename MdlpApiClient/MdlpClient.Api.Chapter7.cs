@@ -1,5 +1,7 @@
 ﻿namespace MdlpApiClient
 {
+    using System;
+    using System.Collections.Generic;
     using DataContracts;
     using RestSharp;
 
@@ -72,13 +74,41 @@
         {
             var address = Post<AddressResolved>("reestr/fias/resolve", new
             {
-                aoguid = aoGuid ?? houseGuid, // похоже, этот параметр игнорируется, но наличие его требуется
+                // похоже, параметр aoGuid игнорируется, если указан дом, но наличие его все равно требуется
+                aoguid = aoGuid ?? Guid.Empty.ToString(),
                 houseguid = houseGuid,
                 room = room,
             });
 
+            // в ответе нет houseGuid, добавим для верности
             address.HouseGuid = houseGuid;
             return address;
+        }
+
+        /// <summary>
+        /// 7.6.1. Получение информации о лицензиях на производство
+        /// </summary>
+        /// <returns>Список лицензий</returns>
+        public ProductionLicenseInfo[] GetProductionLicenses()
+        {
+            return Get<List<ProductionLicenseInfo>>("reestr/prod_licenses").ToArray();
+        }
+
+        /// <summary>
+        /// 7.6.2. Метод фильтрации лицензий на производство
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру лицензий на производство</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых лицензий на производство</param>
+        /// <param name="count">Количество записей в списке возвращаемых лицензий на производство</param>
+        /// <returns>Список лицензий</returns>
+        public EntriesResponse<LicenseEntry> GetProductionLicenses(LicenseApiFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<LicenseEntry>>("reestr/prod_licenses", new
+            {
+                filter = filter ?? new LicenseApiFilter(),
+                start_from = startFrom,
+                count = count,
+            });
         }
     }
 }
