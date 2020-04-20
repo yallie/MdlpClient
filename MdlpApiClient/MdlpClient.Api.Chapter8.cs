@@ -456,5 +456,15 @@
 
             return GetPartners<RegistrationEntry>(filter, startFrom, count);
         }
+
+        /// <summary>
+        /// 8.9.1. Метод для получения информации об организации, в которой зарегистрирован текущий пользователь
+        /// </summary>
+        /// <returns>Описание организации</returns>
+        public Member GetCurrentMember()
+        {
+            var member = Get<MemberResponse>("members/current");
+            return member != null ? member.Member : null;
+        }
     }
 }

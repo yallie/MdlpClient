@@ -125,7 +125,7 @@
         /// <summary>
         /// Информация о договорах и заявлениях участника
         /// </summary>
-        [DataMember(Name = "agreements_info")]
+        [DataMember(Name = "agreement_info")] // в документации ошибка: там указано agreements_info
         public AgreementsInfo AgreementsInfo { get; set; }
 
         /// <summary>
