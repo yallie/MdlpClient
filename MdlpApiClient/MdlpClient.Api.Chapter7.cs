@@ -64,15 +64,15 @@
         /// <summary>
         /// 7.5.3. Получение текстового адреса по идентификаторам ФИАС
         /// </summary>
-        /// <param name="aoGuid">Идентификатор адреса</param>
         /// <param name="houseGuid">Идентификатор дома</param>
+        /// <param name="aoGuid">Идентификатор адреса</param>
         /// <param name="room">Комната (необязательно)</param>
         /// <returns>Данные из реестра ФИАС</returns>
-        public AddressResolved GetFiasAddress(string aoGuid, string houseGuid, string room = null)
+        public AddressResolved GetFiasAddress(string houseGuid, string aoGuid = null, string room = null)
         {
             var address = Post<AddressResolved>("reestr/fias/resolve", new
             {
-                aoguid = aoGuid,
+                aoguid = aoGuid ?? houseGuid, // похоже, этот параметр игнорируется, но наличие его требуется
                 houseguid = houseGuid,
                 room = room,
             });

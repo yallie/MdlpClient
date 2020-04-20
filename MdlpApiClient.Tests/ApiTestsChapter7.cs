@@ -67,9 +67,20 @@
         [Test]
         public void Chapter7_05_3_GetFiasAddress()
         {
-            var addr = Client.GetFiasAddress("fce962f2-dff8-4eea-8413-5c94e0e69dec", "ba1c2f28-a455-47e2-95e5-000003a0023d");
+            // дом и адрес
+            var addr = Client.GetFiasAddress("ba1c2f28-a455-47e2-95e5-000003a0023d", "fce962f2-dff8-4eea-8413-5c94e0e69dec");
             Assert.IsNotNull(addr);
             Assert.AreEqual("обл Рязанская, р-н Путятинский, с Унгор, ул Молодежная, Дом 2", addr.Address);
+
+            // только дом
+            addr = Client.GetFiasAddress("5be4355e-e19e-4752-b436-d2efa4af46ec");
+            Assert.IsNotNull(addr);
+            Assert.AreEqual("Респ Адыгея, р-н Красногвардейский, х Чумаков, ул Широкая, Домовладение 2", addr.Address);
+
+            // комната, похоже, игнорируется
+            addr = Client.GetFiasAddress("abc31736-35c1-4443-a061-b67c183b590a", room: "1");
+            Assert.IsNotNull(addr);
+            Assert.AreEqual("г Москва, ул Сухонская, Дом 11А", addr.Address);
         }
     }
 }
