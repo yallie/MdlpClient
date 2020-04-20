@@ -41,7 +41,13 @@ namespace MdlpApiClient.Serialization
 
         public T Deserialize<T>(IRestResponse response)
         {
-            return JsonSerializer.DeserializeFromString<T>(response.Content);
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.AlwaysUseUtc = false;
+                scope.AssumeUtc = false;
+                scope.AppendUtcOffset = false;
+                return JsonSerializer.DeserializeFromString<T>(response.Content);
+            }
         }
 
         public string Serialize(Parameter bodyParameter)

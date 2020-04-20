@@ -43,5 +43,13 @@
             var ex = Assert.Throws<MdlpException>(() => Client.GetRafpRegistryEntry());
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
         }
+
+        [Test]
+        public void Chapter7_05_1_GetFiasAddressObject()
+        {
+            var addr = Client.GetFiasAddressObject("353b7aed-0f1b-4f44-8ce3-245083e17526");
+            Assert.IsNotNull(addr);
+            Assert.IsNotNull(addr.FormalName);
+        }
     }
 }

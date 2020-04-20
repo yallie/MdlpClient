@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using DataContracts;
+    using RestSharp;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 7: registries.
@@ -32,6 +33,18 @@
         public RafpRegistryResponse GetRafpRegistryEntry()
         {
             return Get<RafpRegistryResponse>("reestr/rafp");
+        }
+
+        /// <summary>
+        /// 7.5.1. Получение объекта ФИАС по идентификатору адресного объекта
+        /// </summary>
+        /// <returns>Данные из реестра ФИАС</returns>
+        public FiasAddressObject GetFiasAddressObject(string addressObjectId)
+        {
+            return Get<FiasAddressObject>("reestr/fias/addrobj/{addrobj}", new[]
+            {
+                new Parameter("addrobj", addressObjectId, ParameterType.UrlSegment)
+            });
         }
     }
 }
