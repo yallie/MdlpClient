@@ -83,6 +83,9 @@
         /// 3 — иностранный держатель регистрационного удостоверения
         /// 8 — иностранный контрагент
         /// </summary>
+        /// <remarks>
+        /// См. <see cref="RegEntityTypeEnum"/>.
+        /// </remarks>
         [DataMember(Name = "reg_entity_type", IsRequired = false)]
         public int? RegEntityType { get; set; }
 
