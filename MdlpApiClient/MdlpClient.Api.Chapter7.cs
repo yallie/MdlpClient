@@ -53,12 +53,32 @@
         /// </summary>
         /// <param name="addressId">Идентификатор дома</param>
         /// <returns>Данные из реестра ФИАС</returns>
-        public FiasHouseObject GetFiasHouseObject(string houseId)
+        public FiasHouseObject GetFiasHouseObject(string houseGuid)
         {
             return Get<FiasHouseObject>("reestr/fias/house/{houseobj}", new[]
             {
-                new Parameter("houseobj", houseId, ParameterType.UrlSegment)
+                new Parameter("houseobj", houseGuid, ParameterType.UrlSegment)
             });
+        }
+
+        /// <summary>
+        /// 7.5.3. Получение текстового адреса по идентификаторам ФИАС
+        /// </summary>
+        /// <param name="aoGuid">Идентификатор адреса</param>
+        /// <param name="houseGuid">Идентификатор дома</param>
+        /// <param name="room">Комната (необязательно)</param>
+        /// <returns>Данные из реестра ФИАС</returns>
+        public AddressResolved GetFiasAddress(string aoGuid, string houseGuid, string room = null)
+        {
+            var address = Post<AddressResolved>("reestr/fias/resolve", new
+            {
+                aoguid = aoGuid,
+                houseguid = houseGuid,
+                room = room,
+            });
+
+            address.HouseGuid = houseGuid;
+            return address;
         }
     }
 }

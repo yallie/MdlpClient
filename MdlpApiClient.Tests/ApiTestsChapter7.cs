@@ -63,5 +63,13 @@
             Assert.AreEqual("61626424116", house.Oktmo);
             Assert.AreEqual("fce962f2-dff8-4eea-8413-5c94e0e69dec", house.AoGuid);
         }
+
+        [Test]
+        public void Chapter7_05_3_GetFiasAddress()
+        {
+            var addr = Client.GetFiasAddress("fce962f2-dff8-4eea-8413-5c94e0e69dec", "ba1c2f28-a455-47e2-95e5-000003a0023d");
+            Assert.IsNotNull(addr);
+            Assert.AreEqual("обл Рязанская, р-н Путятинский, с Унгор, ул Молодежная, Дом 2", addr.Address);
+        }
     }
 }
