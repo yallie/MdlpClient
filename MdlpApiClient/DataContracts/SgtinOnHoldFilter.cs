@@ -16,7 +16,10 @@
         public string Inn { get; set; }
 
         /// <summary>
-        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// Тип эмиссии:
+        /// 1 — собственное,
+        /// 2 — контрактное,
+        /// 3 — иностранное производство
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }

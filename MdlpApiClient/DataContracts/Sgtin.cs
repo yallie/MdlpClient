@@ -28,7 +28,7 @@
         public string Gtin { get; set; }
 
         /// <summary>
-        /// SGTIN (КИЗ) 
+        /// SGTIN (КИЗ)
         /// </summary>
         [DataMember(Name = "sgtin")]
         public string SgtinValue { get; set; }
@@ -58,7 +58,10 @@
         public string Owner { get; set; }
 
         /// <summary>
-        /// Тип эмиссии: 1 — собственное, 2 — контрактное, 3 — иностранное производство
+        /// Тип эмиссии:
+        /// 1 — собственное,
+        /// 2 — контрактное,
+        /// 3 — иностранное производство
         /// </summary>
         [DataMember(Name = "emission_type")]
         public int EmissionType { get; set; }
