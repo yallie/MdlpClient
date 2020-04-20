@@ -6,12 +6,9 @@
     /// <summary>
     /// 4.38. Формат объекта LicenseEntry
     /// Таблица 34. Формат объекта LicenseEntry
+    /// 7.6.1. Получение информации о лицензиях на производство
     /// 7.6.2. Получение информации о лицензиях на производство по фильтру
     /// </summary>
-    /// <remarks>
-    /// Похож по структуре на <see cref="ProductionLicenseInfo"/>, но содержит больше полей.
-    /// Имена полей в JSON не вполне совпадают.
-    /// </remarks>
     [DataContract]
     public class LicenseEntry
     {
@@ -78,7 +75,7 @@
         /// <summary>
         /// Адрес СМЭВ (адрес в текстовом виде)
         /// </summary>
-        [DataMember(Name = "objects")]
+        [DataMember(Name = "objects", IsRequired = false)]
         public string AddressDescription { get; set; } // "г Москва, ул Щипок, д. 9/26 стр. 3"
     }
 }

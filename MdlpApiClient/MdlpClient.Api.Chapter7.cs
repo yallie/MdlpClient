@@ -89,9 +89,9 @@
         /// 7.6.1. Получение информации о лицензиях на производство
         /// </summary>
         /// <returns>Список лицензий</returns>
-        public ProductionLicenseInfo[] GetProductionLicenses()
+        public LicenseEntry[] GetProductionLicenses()
         {
-            return Get<List<ProductionLicenseInfo>>("reestr/prod_licenses").ToArray();
+            return Get<List<LicenseEntry>>("reestr/prod_licenses").ToArray();
         }
 
         /// <summary>
@@ -117,6 +117,40 @@
         public void ResyncProductionLicenses()
         {
             Post<EmptyResponse>("reestr/prod_licenses/resync", new { });
+        }
+
+        /// <summary>
+        /// 7.7.1. Получение информации о лицензиях на фарм. деятельность
+        /// </summary>
+        /// <returns>Список лицензий</returns>
+        public LicenseEntry[] GetPharmacyLicenses()
+        {
+            return Get<List<LicenseEntry>>("reestr/pharm_licenses").ToArray();
+        }
+
+        /// <summary>
+        /// 7.7.2. Метод фильтрации лицензий на фарм. деятельность
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру лицензий на фарм. деятельность</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых лицензий на фарм. деятельность</param>
+        /// <param name="count">Количество записей в списке возвращаемых лицензий на фарм. деятельность</param>
+        /// <returns>Список лицензий</returns>
+        public EntriesResponse<LicenseEntry> GetPharmacyLicenses(LicenseApiFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<LicenseEntry>>("reestr/pharm_licenses", new
+            {
+                filter = filter ?? new LicenseApiFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 7.7.3. Метод для актуализации данных текущего участника из реестра лицензий на фарм.деятельность
+        /// </summary>
+        public void ResyncPharmacyLicenses()
+        {
+            Post<EmptyResponse>("reestr/pharm_licenses/resync", new { });
         }
     }
 }

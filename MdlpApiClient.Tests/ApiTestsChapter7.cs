@@ -108,6 +108,7 @@
             }, 0, 10);
             Assert.NotNull(licenses);
             Assert.NotNull(licenses.Entries);
+            Assert.AreEqual(1, licenses.Total);
             Assert.AreEqual(1, licenses.Entries.Length);
 
             var license = licenses.Entries[0];
@@ -119,6 +120,30 @@
         public void Chapter7_06_3_ResyncProductionLicenses()
         {
             Assert.DoesNotThrow(() => Client.ResyncProductionLicenses());
+        }
+
+        [Test]
+        public void Chapter7_07_1_GetPharmacyLicenses()
+        {
+            var licenses = Client.GetPharmacyLicenses();
+            Assert.NotNull(licenses);
+            Assert.AreEqual(0, licenses.Length);
+        }
+
+        [Test]
+        public void Chapter7_07_2_GetPharmacyLicenses()
+        {
+            var licenses = Client.GetPharmacyLicenses(null, 0, 10);
+            Assert.NotNull(licenses);
+            Assert.NotNull(licenses.Entries);
+            Assert.AreEqual(0, licenses.Total);
+            Assert.AreEqual(0, licenses.Entries.Length);
+        }
+
+        [Test]
+        public void Chapter7_07_3_ResyncPharmacyLicenses()
+        {
+            Assert.DoesNotThrow(() => Client.ResyncPharmacyLicenses());
         }
     }
 }
