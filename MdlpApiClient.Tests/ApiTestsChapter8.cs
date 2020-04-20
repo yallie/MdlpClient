@@ -534,5 +534,85 @@
             Assert.AreEqual(0, partners.Total);
             Assert.AreEqual(0, partners.Entries.Length);
         }
+
+        [Test]
+        public void Chapter8_08_1_GetForeignPartners()
+        {
+            // вернуть первые 10 зарегистрированных иностранных контрагентов
+            var partners = Client.GetForeignPartners(null, 0, 10);
+            Assert.NotNull(partners);
+            Assert.NotNull(partners.Entries);
+            Assert.IsTrue(partners.Total > 1);
+            Assert.IsTrue(partners.Entries.Length > 1);
+
+            // поиск по ИНН — запросим известного
+            partners = Client.GetForeignPartners(new PartnerFilter
+            {
+                Inn = "123456789012345678911234567890123456789",
+
+                // а по коду субъекта почему-то не находится:
+                //SystemSubjectID = "1a7c2739-57d9-46da-9363-6272f8b6b55b"
+            }, 0, 1);
+            Assert.NotNull(partners);
+            Assert.NotNull(partners.Entries);
+            Assert.AreEqual(1, partners.Total);
+            Assert.AreEqual(1, partners.Entries.Length);
+
+            var partner = partners.Entries[0];
+            Assert.NotNull(partner);
+            Assert.AreEqual("ООО Бритиш Петрол Нашионал Фарма Интертеймент", partner.OrganizationName);
+            Assert.AreEqual("1a7c2739-57d9-46da-9363-6272f8b6b55b", partner.SystemSubjectID);
+            Assert.AreEqual("fd87213c-f51f-420f-8567-e2cc36213043", partner.ID);
+            Assert.AreEqual(new DateTime(2017, 10, 26), partner.OperationDate.Date.Date);
+
+            // поиск по коду — запросим заведомо отсутствующего
+            partners = Client.GetForeignPartners(new PartnerFilter
+            {
+                SystemSubjectID = "1a7c2739-57d9-46da-9363-6272f8b6b55b".Replace("9363", "6393")
+            }, 0, 1);
+            Assert.NotNull(partners);
+            Assert.NotNull(partners.Entries);
+            Assert.AreEqual(0, partners.Total);
+            Assert.AreEqual(0, partners.Entries.Length);
+        }
+
+        [Test]
+        public void Chapter8_08_1_GetLocalPartners()
+        {
+            // вернуть первые 10 зарегистрированных местных контрагентов
+            var partners = Client.GetLocalPartners(null, 0, 10);
+            Assert.NotNull(partners);
+            Assert.NotNull(partners.Entries);
+            Assert.IsTrue(partners.Total > 1);
+            Assert.IsTrue(partners.Entries.Length > 1);
+
+            // поиск по ИНН и/или по коду субъекта — запросим известного
+            partners = Client.GetLocalPartners(new PartnerFilter
+            {
+                Inn = "7735069192",
+                SystemSubjectID = "d2ee5250-3e28-4e5c-896a-00b902e22555" // по коду субъекта тоже находится
+            }, 0, 1);
+            Assert.NotNull(partners);
+            Assert.NotNull(partners.Entries);
+            Assert.AreEqual(1, partners.Total);
+            Assert.AreEqual(1, partners.Entries.Length);
+
+            var partner = partners.Entries[0];
+            Assert.NotNull(partner);
+            Assert.AreEqual("ГБУЗ \"ГКБ ИМ. М.П. КОНЧАЛОВСКОГО ДЗМ\"", partner.OrganizationName);
+            Assert.AreEqual("d2ee5250-3e28-4e5c-896a-00b902e22555", partner.SystemSubjectID);
+            Assert.AreEqual("7735069192", partner.Inn);
+            Assert.AreEqual(new DateTime(2017, 06, 02), partner.OperationDate.Date.Date);
+
+            // поиск по коду — запросим заведомо отсутствующего
+            partners = Client.GetLocalPartners(new PartnerFilter
+            {
+                SystemSubjectID = "d2ee5250-3e28-4e5c-896a-00b902e22555".Replace("22555", "55222")
+            }, 0, 1);
+            Assert.NotNull(partners);
+            Assert.NotNull(partners.Entries);
+            Assert.AreEqual(0, partners.Total);
+            Assert.AreEqual(0, partners.Entries.Length);
+        }
     }
 }

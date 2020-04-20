@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient
 {
+    using System.Net;
     using DataContracts;
     using RestSharp;
 
@@ -97,9 +98,9 @@
         /// </summary>
         /// <param name="inn">ИНН (необязательно)</param>
         /// <param name="licenseNumber">Номер лицензии (необязательно)</param>
-        public GetAvailableAddressesResponse GetAvailableAddresses(string inn = null, string licenseNumber = null)
+        public EntriesResponse<RegistrationAddress> GetAvailableAddresses(string inn = null, string licenseNumber = null)
         {
-            return Post<GetAvailableAddressesResponse>("reestr/warehouses/available_safe_warehouses_addresses", new
+            return Post<EntriesResponse<RegistrationAddress>>("reestr/warehouses/available_safe_warehouses_addresses", new
             {
                 inn = inn,
                 licence_number = licenseNumber,
@@ -402,18 +403,58 @@
         /// <summary>
         /// 8.8.1. Метод фильтрации по субъектам обращения
         /// </summary>
+        /// <typeparam name="T">Тип субъекта обращения</typeparam>
         /// <param name="filter">Фильтр для поиска субъектов обращения</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
         /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
         /// <returns>Список субъектов обращения</returns>
-        public EntriesResponse<TrustedPartnerEntry> GetPartners(PartnerFilter filter, int startFrom, int count)
+        private EntriesFilteredResponse<T> GetPartners<T>(PartnerFilter filter, int startFrom, int count)
         {
-            return Post<EntriesResponse<TrustedPartnerEntry>>("reestr_partners/filter", new
+            return Post<EntriesFilteredResponse<T>>("reestr_partners/filter", new
             {
                 filter = filter ?? new PartnerFilter(),
                 start_from = startFrom,
                 count = count,
             });
+        }
+
+        /// <summary>
+        /// 8.8.1. Метод фильтрации по иностранным субъектам обращения
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска субъектов обращения</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
+        /// <returns>Список субъектов обращения</returns>
+        public EntriesFilteredResponse<ForeignCounterparty> GetForeignPartners(PartnerFilter filter, int startFrom, int count)
+        {
+            // запрос иностранных контрагентов
+            filter = filter ?? new PartnerFilter();
+            filter.RegEntityType = RegEntityTypeEnum.FOREIGN_COUNTERPARTY;
+
+            return GetPartners<ForeignCounterparty>(filter, startFrom, count);
+        }
+
+        /// <summary>
+        /// 8.8.1. Метод фильтрации по местным субъектам обращения
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска субъектов обращения</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов обращения</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов обращения</param>
+        /// <returns>Список субъектов обращения</returns>
+        public EntriesFilteredResponse<RegistrationEntry> GetLocalPartners(PartnerFilter filter, int startFrom, int count)
+        {
+            // запрос местных контрагентов
+            filter = filter ?? new PartnerFilter();
+            if (filter.RegEntityType == RegEntityTypeEnum.FOREIGN_COUNTERPARTY)
+            {
+                throw new MdlpException(HttpStatusCode.BadRequest, "Use GetForeignPartners method to return foreign counterparties", null, null);
+            }
+            else if (filter.RegEntityType == 0)
+            {
+                filter.RegEntityType = RegEntityTypeEnum.RESIDENT;
+            }
+
+            return GetPartners<RegistrationEntry>(filter, startFrom, count);
         }
     }
 }

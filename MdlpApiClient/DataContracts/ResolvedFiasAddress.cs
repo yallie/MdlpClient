@@ -10,7 +10,8 @@
     public class ResolvedFiasAddress
     {
         /// <summary>
-        /// Идентификатор        /// </summary>
+        /// Идентификатор
+        /// </summary>
         [DataMember(Name = "id")]
         public string ID { get; set; }
 
@@ -29,7 +30,9 @@
         /// <summary>
         /// Статус:
         /// 0 — не действует
-        /// 1 — действует        /// 2 — в процессе приостановления        /// </summary>
+        /// 1 — действует
+        /// 2 — в процессе приостановления
+        /// </summary>
         [DataMember(Name = "Status")]
         public int Status { get; set; }
     }

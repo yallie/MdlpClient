@@ -71,14 +71,14 @@
         public DateTime? EndDate { get; set; }
 
         /// <summary>
-        /// Тип участника:
+        /// Тип участника, см. <see cref="RegEntityTypeEnum"/>:
         /// 1 — резидент РФ
         /// 2 — представительство иностранного держателя регистрационного удостоверения
         /// 3 — иностранный держатель регистрационного удостоверения
         /// 8 — иностранный контрагент
         /// </summary>
         [DataMember(Name = "reg_entity_type", IsRequired = false)]
-        public int? RegEntityType { get; set; }
+        public int RegEntityType { get; set; }
 
         /// <summary>
         /// Дата фактической регистрации, начало периода фильтрации

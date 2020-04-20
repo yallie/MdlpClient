@@ -10,10 +10,22 @@
     [DataContract]
     public class EntriesFilteredResponse<T>
     {
+        /// <summary>
+        /// Записи из реестра
+        /// </summary>
         [DataMember(Name = "filtered_records")]
         public T[] Entries { get; set; }
 
+        /// <summary>
+        /// Общее количество записей по запросу
+        /// </summary>
         [DataMember(Name = "filtered_records_count")]
         public int Total { get; set; }
+
+        /// <summary>
+        /// Код ошибки? Недокументированное поле
+        /// </summary>
+        [DataMember(Name = "code")]
+        internal int Code { get; set; }
     }
 }
