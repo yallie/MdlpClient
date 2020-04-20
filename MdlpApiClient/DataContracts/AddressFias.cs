@@ -3,10 +3,11 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.1.2. Адрес места осуществления деятельности.
+    /// 8.8.1. Метод фильтрации по субъектам обращения
+    /// Формат объекта AddressFias
     /// </summary>
     [DataContract]
-    public class Address
+    public class AddressFias
     {
         /// <summary>
         /// Уникальный идентификатор адресного объекта (ФИАС)
@@ -21,9 +22,9 @@
         public string HouseGuid { get; set; }
 
         /// <summary>
-        /// Текстовый адрес объекта
+        /// Комната, 1-50 символов
         /// </summary>
-        [DataMember(Name = "address_description")]
-        public string AddressDescription { get; set; }
+        [DataMember(Name = "room")]
+        public string Room { get; set; }
     }
 }
