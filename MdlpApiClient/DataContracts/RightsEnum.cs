@@ -5,42 +5,189 @@
     /// </summary>
     public class RightsEnum
     {
-        public const string MANAGE_ACCOUNTS = "MANAGE_ACCOUNTS"; // Управление учетками
-        public const string VIEW_ACCOUNTS = "VIEW_ACCOUNTS"; // Просмотр учетных записей
-        public const string UPLOAD_DOCUMENT = "UPLOAD_DOCUMENT"; // Загрузка документа
-        public const string OUTCOME_LIST = "OUTCOME_LIST"; // Информация об исходящем документе
-        public const string INCOME_LIST = "INCOME_LIST"; // Информация о входящих документах
-        public const string DOWNLOAD_DOCUMENT = "DOWNLOAD_DOCUMENT"; // Получение ссылки на документ по идентификатору
-        public const string REESTR_ALL = "REESTR_ALL"; // Доступ к реестрам (ко всем справочникам)
-        public const string REESTR_FEDERAL_SUBJECT = "REESTR_FEDERAL_SUBJECT"; // Реестр субъектов РФ
-        public const string REESTR_EGRUL = "REESTR_EGRUL"; // Реестр ЕГРЮЛ
-        public const string REESTR_EGRIP = "REESTR_EGRIP"; // Реестр ЕГРИП
-        public const string REESTR_REFP = "REESTR_REFP"; // Реестр аккредитованных филиалов и представительств
-        internal const string REESTR_DUES = "REESTR_DUES"; // Реестр налоговой задолженности
-        public const string REESTR_PROD_LICENSES = "REESTR_PROD_LICENSES"; // Реестр лицензий на производство
-        public const string REESTR_PHARM_LICENSES = "REESTR_PHARM_LICENSES"; // Реестр лицензий на фарм. деятельность
-        public const string REESTR_ESKLP = "REESTR_ESKLP"; // Реестр ЕСКЛП
-        internal const string REESTR_GS1 = "REESTR_GS1"; // Реестр ГС1 (GS1)
-        public const string REESTR_FIAS = "REESTR_FIAS"; // Реестр ФИАС
-        public const string VIEW_BILLING_PRIORITY_RULES = "VIEW_BILLING_PRIORITY_RULES"; // Просмотр реестра приоритетной оплаты
-        public const string MANAGE_BILLING_PRIORITY_RULES = "MANAGE_BILLING_PRIORITY_RULES"; // Редактирование реестра приоритетной оплаты
-        public const string REESTR_SGTIN = "REESTR_SGTIN"; // Реестр КИЗ
-        public const string REESTR_SGTIN_BILLING = "REESTR_SGTIN_BILLING"; // Реестр КИЗ для биллинга
-        internal const string REESTR_OWNED_SSCC_SGTIN = "REESTR_OWNED_SSCC_SGTIN"; // Реестр КИЗ и реестр третичных упаковок с учетом текущего владельца
-        public const string REESTR_MED_PRODUCTS = "REESTR_MED_PRODUCTS"; // Реестр производимых ЛП
-        public const string MANAGE_TRUSTED_PARTNERS = "MANAGE_TRUSTED_PARTNERS"; // Редактирование реестра доверенных контрагентов
-        public const string VIEW_TRUSTED_PARTNERS = "VIEW_TRUSTED_PARTNERS"; // Просмотр реестра доверенных контрагентов
-        public const string MANAGE_BRANCH = "MANAGE_BRANCH"; // Редактирование реестра мест деятельности (МД)
-        public const string MANAGE_SAFE_WAREHOUSE = "MANAGE_SAFE_WAREHOUSE"; // Редактирование реестра складов/мест ответственного хранения СОХ/МОХ
-        public const string VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG = "VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG"; // Реестр заявок на регистрацию иностранных контрагентов
-        public const string MANAGE_FOREIGN_COUNTERPARTY = "MANAGE_FOREIGN_COUNTERPARTY"; // Управление иностранными контрагентами
-        internal const string MANAGE_MEMBER = "MANAGE_MEMBER"; // Управление организацией
-        public const string REESTR_COUNTERPARTY = "REESTR_COUNTERPARTY"; // Реестр контрагентов
-        public const string REESTR_REGISTRATION_DEVICES = "REESTR_REGISTRATION_DEVICES"; // Реестра регистраторов эмиссии/выбытия
-        public const string REESTR_VIRTUAL_STORAGE = "REESTR_VIRTUAL_STORAGE"; // Реестр виртуального склада
-        public const string MEMBER_PAYMENT_INFO = "MEMBER_PAYMENT_INFO"; // Финансовая информация
-        public const string REESTR_PAUSED_CIRCULATION_DECISION = "REESTR_PAUSED_CIRCULATION_DECISION"; // Реестр решений о приостановке КИЗ
-        public const string VIEW_SKZKM_REPORT = "VIEW_SKZKM_REPORT"; // Прослеживание документов по отчёту из СУЗ
-        internal const string VIEW_BATCH_GRAF = "VIEW_BATCH_GRAF"; // Просмотр дерева по производственной серии для производителя
+        /// <summary>
+        /// Управление учетками
+        /// </summary>
+        public const string MANAGE_ACCOUNTS = "MANAGE_ACCOUNTS";
+
+        /// <summary>
+        /// Просмотр учетных записей
+        /// </summary>
+        public const string VIEW_ACCOUNTS = "VIEW_ACCOUNTS";
+
+        /// <summary>
+        /// Загрузка документа
+        /// </summary>
+        public const string UPLOAD_DOCUMENT = "UPLOAD_DOCUMENT";
+
+        /// <summary>
+        /// Информация об исходящем документе
+        /// </summary>
+        public const string OUTCOME_LIST = "OUTCOME_LIST";
+
+        /// <summary>
+        /// Информация о входящих документах
+        /// </summary>
+        public const string INCOME_LIST = "INCOME_LIST";
+
+        /// <summary>
+        /// Получение ссылки на документ по идентификатору
+        /// </summary>
+        public const string DOWNLOAD_DOCUMENT = "DOWNLOAD_DOCUMENT";
+
+        /// <summary>
+        /// Доступ к реестрам (ко всем справочникам)
+        /// </summary>
+        public const string REESTR_ALL = "REESTR_ALL";
+
+        /// <summary>
+        /// Реестр субъектов РФ
+        /// </summary>
+        public const string REESTR_FEDERAL_SUBJECT = "REESTR_FEDERAL_SUBJECT";
+
+        /// <summary>
+        /// Реестр ЕГРЮЛ
+        /// </summary>
+        public const string REESTR_EGRUL = "REESTR_EGRUL";
+
+        /// <summary>
+        /// Реестр ЕГРИП
+        /// </summary>
+        public const string REESTR_EGRIP = "REESTR_EGRIP";
+
+        /// <summary>
+        /// Реестр аккредитованных филиалов и представительств
+        /// </summary>
+        public const string REESTR_REFP = "REESTR_REFP";
+
+        /// <summary>
+        /// Реестр налоговой задолженности
+        /// </summary>
+        internal const string REESTR_DUES = "REESTR_DUES";
+
+        /// <summary>
+        /// Реестр лицензий на производство
+        /// </summary>
+        public const string REESTR_PROD_LICENSES = "REESTR_PROD_LICENSES";
+
+        /// <summary>
+        /// Реестр лицензий на фарм. деятельность
+        /// </summary>
+        public const string REESTR_PHARM_LICENSES = "REESTR_PHARM_LICENSES";
+
+        /// <summary>
+        /// Реестр ЕСКЛП
+        /// </summary>
+        public const string REESTR_ESKLP = "REESTR_ESKLP";
+
+        /// <summary>
+        /// Реестр ГС1 (GS1)
+        /// </summary>
+        internal const string REESTR_GS1 = "REESTR_GS1";
+
+        /// <summary>
+        /// Реестр ФИАС
+        /// </summary>
+        public const string REESTR_FIAS = "REESTR_FIAS";
+
+        /// <summary>
+        /// Просмотр реестра приоритетной оплаты
+        /// </summary>
+        public const string VIEW_BILLING_PRIORITY_RULES = "VIEW_BILLING_PRIORITY_RULES";
+
+        /// <summary>
+        /// Редактирование реестра приоритетной оплаты
+        /// </summary>
+        public const string MANAGE_BILLING_PRIORITY_RULES = "MANAGE_BILLING_PRIORITY_RULES";
+
+        /// <summary>
+        /// Реестр КИЗ
+        /// </summary>
+        public const string REESTR_SGTIN = "REESTR_SGTIN";
+
+        /// <summary>
+        /// Реестр КИЗ для биллинга
+        /// </summary>
+        public const string REESTR_SGTIN_BILLING = "REESTR_SGTIN_BILLING";
+
+        /// <summary>
+        /// Реестр КИЗ и реестр третичных упаковок с учетом текущего владельца
+        /// </summary>
+        internal const string REESTR_OWNED_SSCC_SGTIN = "REESTR_OWNED_SSCC_SGTIN";
+
+        /// <summary>
+        /// Реестр производимых ЛП
+        /// </summary>
+        public const string REESTR_MED_PRODUCTS = "REESTR_MED_PRODUCTS";
+
+        /// <summary>
+        /// Редактирование реестра доверенных контрагентов
+        /// </summary>
+        public const string MANAGE_TRUSTED_PARTNERS = "MANAGE_TRUSTED_PARTNERS";
+
+        /// <summary>
+        /// Просмотр реестра доверенных контрагентов
+        /// </summary>
+        public const string VIEW_TRUSTED_PARTNERS = "VIEW_TRUSTED_PARTNERS";
+
+        /// <summary>
+        /// Редактирование реестра мест деятельности (МД)
+        /// </summary>
+        public const string MANAGE_BRANCH = "MANAGE_BRANCH";
+
+        /// <summary>
+        /// Редактирование реестра складов/мест ответственного хранения СОХ/МОХ
+        /// </summary>
+        public const string MANAGE_SAFE_WAREHOUSE = "MANAGE_SAFE_WAREHOUSE";
+
+        /// <summary>
+        /// Реестр заявок на регистрацию иностранных контрагентов
+        /// </summary>
+        public const string VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG = "VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG";
+
+        /// <summary>
+        /// Управление иностранными контрагентами
+        /// </summary>
+        public const string MANAGE_FOREIGN_COUNTERPARTY = "MANAGE_FOREIGN_COUNTERPARTY";
+
+        /// <summary>
+        /// Управление организацией
+        /// </summary>
+        internal const string MANAGE_MEMBER = "MANAGE_MEMBER";
+
+        /// <summary>
+        /// Реестр контрагентов
+        /// </summary>
+        public const string REESTR_COUNTERPARTY = "REESTR_COUNTERPARTY";
+
+        /// <summary>
+        /// Реестра регистраторов эмиссии/выбытия
+        /// </summary>
+        public const string REESTR_REGISTRATION_DEVICES = "REESTR_REGISTRATION_DEVICES";
+
+        /// <summary>
+        /// Реестр виртуального склада
+        /// </summary>
+        public const string REESTR_VIRTUAL_STORAGE = "REESTR_VIRTUAL_STORAGE";
+
+        /// <summary>
+        /// Финансовая информация
+        /// </summary>
+        public const string MEMBER_PAYMENT_INFO = "MEMBER_PAYMENT_INFO";
+
+        /// <summary>
+        /// Реестр решений о приостановке КИЗ
+        /// </summary>
+        public const string REESTR_PAUSED_CIRCULATION_DECISION = "REESTR_PAUSED_CIRCULATION_DECISION";
+
+        /// <summary>
+        /// Прослеживание документов по отчёту из СУЗ
+        /// </summary>
+        public const string VIEW_SKZKM_REPORT = "VIEW_SKZKM_REPORT";
+
+        /// <summary>
+        /// Просмотр дерева по производственной серии для производителя
+        /// </summary>
+        internal const string VIEW_BATCH_GRAF = "VIEW_BATCH_GRAF";
     }
 }
