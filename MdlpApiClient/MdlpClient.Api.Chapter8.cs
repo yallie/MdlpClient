@@ -483,5 +483,39 @@
             var accounts = Get<BillingAccountResponse>("members/current/billing/info");
             return accounts != null ? accounts.Accounts : null;
         }
+
+        /// <summary>
+        /// 8.10.1. Фильтрация по реестру регистраторов эмиссии
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска регистраторов эмиссии</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых регистраторов эмиссии</param>
+        /// <param name="count">Количество записей в списке возвращаемых регистраторов эмиссии</param>
+        /// <returns>Список регистраторов эмиссии</returns>
+        public EntriesResponse<EmissionDeviceInfoEntry> GetEmissionDevices(EmissionDeviceFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<EmissionDeviceInfoEntry>>("reestr/registration-devices/emission/filter", new
+            {
+                filter = filter ?? new EmissionDeviceFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.10.2. Фильтрация по реестру регистраторов выбытия
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска регистраторов выбытия</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых регистраторов выбытия</param>
+        /// <param name="count">Количество записей в списке возвращаемых регистраторов выбытия</param>
+        /// <returns>Список регистраторов выбытия</returns>
+        public EntriesResponse<WithdrawalDeviceInfoEntry> GetWithdrawalDevices(WithdrawalDeviceFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<WithdrawalDeviceInfoEntry>>("reestr/registration-devices/withdrawal/filter", new
+            {
+                filter = filter ?? new WithdrawalDeviceFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

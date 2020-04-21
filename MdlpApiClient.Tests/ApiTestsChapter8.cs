@@ -647,5 +647,27 @@
             Assert.NotNull(accounts);
             Assert.AreEqual(0, accounts.Length);
         }
+
+        [Test]
+        public void Chapter8_10_1_GetEmissionDevices()
+        {
+            var devices = Client.GetEmissionDevices(null, 0, 10);
+            Assert.NotNull(devices);
+            Assert.NotNull(devices.Entries);
+            Assert.AreEqual(0, devices.Total);
+            Assert.AreEqual(0, devices.Entries.Length);
+            //Assert.IsTrue(devices.Total > 1);
+            //Assert.IsTrue(devices.Entries.Length > 1);
+        }
+
+        [Test]
+        public void Chapter8_10_2_GetWithdrawalDevices()
+        {
+            var devices = Client.GetWithdrawalDevices(null, 0, 10);
+            Assert.NotNull(devices);
+            Assert.NotNull(devices.Entries);
+            Assert.AreEqual(0, devices.Total);
+            Assert.AreEqual(0, devices.Entries.Length);
+        }
     }
 }
