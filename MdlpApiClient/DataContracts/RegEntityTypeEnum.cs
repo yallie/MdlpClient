@@ -24,5 +24,6 @@
         /// <summary>
         /// Тип участника: 8 — иностранный контрагент
         /// <summary>
-        public const int FOREIGN_COUNTERPARTY = 8;    }
+        public const int FOREIGN_COUNTERPARTY = 8;
+    }
 }
