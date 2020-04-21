@@ -11,9 +11,9 @@
     public class VirtualStorageFilter
     {
         /// <summary>
-        /// Идентификатор МД/МОХ
+        /// Идентификатор МД/МОХ (обязательно)
         /// </summary>
-        [DataMember(Name = "storage_id", IsRequired = false)]
+        [DataMember(Name = "storage_id", IsRequired = true)]
         public string StorageID { get; set; }
 
         /// <summary>

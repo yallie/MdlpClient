@@ -517,5 +517,22 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.11.1. Фильтрация по реестру виртуального склада
+        /// </summary>
+        /// <param name="filter">Фильтр реестра виртуального склада</param>
+        /// <param name="startFrom">Индекс первой записи</param>
+        /// <param name="count">Количество записей в реестре</param>
+        /// <returns>Список остатков</returns>
+        public EntriesResponse<VirtualStorageEntry> GetVirtualStorage(VirtualStorageFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<VirtualStorageEntry>>("reestr/virtual-storage/filter", new
+            {
+                filter = filter ?? new VirtualStorageFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient.Tests
 {
     using System;
+    using System.Linq;
     using System.Net;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
@@ -668,6 +669,23 @@
             Assert.NotNull(devices.Entries);
             Assert.AreEqual(0, devices.Total);
             Assert.AreEqual(0, devices.Entries.Length);
+        }
+
+        [Test]
+        public void Chapter8_11_1_GetVirtualStorage()
+        {
+            var balance = Client.GetVirtualStorage(new VirtualStorageFilter
+            {
+                // "00000000100930" returns error 500
+                // "00000000000551" returns 0 entries
+                // 00000000100946 00000000100964
+                StorageID = "00000000100931"
+            }, 0, 10);
+
+            Assert.NotNull(balance);
+            Assert.NotNull(balance.Entries);
+            Assert.IsTrue(balance.Total > 0);
+            Assert.IsTrue(balance.Entries.Length > 0);
         }
     }
 }
