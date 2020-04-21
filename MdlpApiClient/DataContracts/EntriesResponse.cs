@@ -16,7 +16,7 @@
     [DataContract]
     public class EntriesResponse<T>
     {
-        [DataMember(Name = "entries")]
+        [DataMember(Name = "entries", IsRequired = true)]
         public T[] Entries { get; set; }
 
         [DataMember(Name = "total")]

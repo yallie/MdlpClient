@@ -152,6 +152,13 @@
             var addresses = Client.GetCurrentAddresses();
             Assert.NotNull(addresses);
             Assert.AreEqual(4, addresses.Total);
+            AssertRequired(addresses);
+
+            // обязательные поля заполнены
+            foreach (var addr in addresses.Entries)
+            {
+                AssertRequired(addr);
+            }
 
             // одно место осуществления деятельности
             var branch = addresses.Entries.Single(a => a.EntityType == BranchEntry.EntityType);
@@ -160,6 +167,31 @@
             // три склада, один из них по тому же адресу, что и место осуществления деятельности
             var whouse = addresses.Entries.Single(a => a.EntityType == WarehouseEntry.EntityType && a.Address.HouseGuid == branch.Address.HouseGuid);
             Assert.AreEqual(branch.Address.AddressDescription, whouse.Address.AddressDescription);
+        }
+
+        [Test]
+        public void Chapter7_09_1_GetCountries()
+        {
+            var countries = Client.GetCountries(0, 10);
+            Assert.NotNull(countries);
+            Assert.NotNull(countries.Entries);
+            Assert.AreEqual(10, countries.Entries.Length);
+            Assert.IsTrue(countries.Total > 10);
+            AssertRequired(countries);
+
+            // обязательные поля заполнены
+            foreach (var country in countries.Entries)
+            {
+                AssertRequired(country);
+            }
+
+            // в первой десятке по алфавиту есть Австралия
+            var aus = countries.Entries.Single(c => c.Alpha3 == "AUS");
+            Assert.AreEqual("AU", aus.Alpha2);
+            Assert.AreEqual("Австралия", aus.Name);
+            Assert.AreEqual("Australia", aus.EnglishName);
+            Assert.AreEqual("Океания", aus.Location);
+            Assert.AreEqual("Австралия и Новая Зеландия", aus.LocationPrecise);
         }
     }
 }

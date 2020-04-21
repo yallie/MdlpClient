@@ -157,9 +157,28 @@
         /// 7.8.1. Метод для получения информации о всех местах осуществления
         /// деятельности и местах ответственного хранения участника
         /// </summary>
+        /// <returns>Список адресов</returns>
+        /// <remarks>
+        /// Ошибка в документации: сказано, что возвращается <see cref="AddressEntry"/>.
+        /// </remarks>
         public EntriesResponse<AddressEntry> GetCurrentAddresses()
         {
             return Get<EntriesResponse<AddressEntry>>("reestr/address/all");
+        }
+
+        /// <summary>
+        /// 7.9.1. Метод для получения списка стран
+        /// </summary>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых стран</param>
+        /// <param name="count">Количество записей в списке возвращаемых стран</param>
+        /// <returns>Список стран</returns>
+        public EntriesResponse<CountryInfo> GetCountries(int startFrom, int count)
+        {
+            return Post<EntriesResponse<CountryInfo>>("reestr/area/countries", new
+            {
+                start_from = startFrom,
+                count = count,
+            });
         }
     }
 }
