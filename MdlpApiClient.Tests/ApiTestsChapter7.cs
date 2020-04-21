@@ -216,5 +216,25 @@
             Assert.AreEqual("45000000", msk.Code);
             Assert.IsNull(msk.Children);
         }
+
+        [Test]
+        public void Chapter7_10_1_GetEsklpInfo()
+        {
+            var esklp = Client.GetEsklpInfo(new EsklpFilter
+            {
+                ProductName = "трастузумаб",
+                RegistrationID = "ЛП-003403",
+            }, 0, 1);
+            Assert.NotNull(esklp);
+            Assert.NotNull(esklp.Entries);
+            Assert.IsTrue(esklp.Total > 1);
+            Assert.AreEqual(1, esklp.Entries.Length);
+
+            var lp = esklp.Entries[0];
+            Assert.AreEqual("ТРАСТУЗУМАБ", lp.ProductName);
+            Assert.AreEqual("ЛП-003403", lp.RegistrationID);
+            AssertRequired(esklp);
+            AssertRequired(lp);
+        }
     }
 }

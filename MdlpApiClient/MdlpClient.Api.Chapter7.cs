@@ -195,5 +195,22 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 7.10.1. Фильтрация по реестру ЕСКЛП (Единый справочник-каталог лекарственных препаратов)
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру ЕСКЛП</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых записей реестра ЕСКЛП</param>
+        /// <param name="count">Количество записей в списке возвращаемых записей реестра ЕСКЛП</param>
+        /// <returns>Список записей реестра ЕСКЛП</returns>
+        public EntriesResponse<EsklpInfo> GetEsklpInfo(EsklpFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<EsklpInfo>>("reestr/esklp/filter", new
+            {
+                filter = filter ?? new EsklpFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

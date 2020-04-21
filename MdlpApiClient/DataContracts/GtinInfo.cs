@@ -58,7 +58,7 @@
         public string ProductPack1Amount { get; set; }
 
         /// <summary>
-        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке (строковое представление)
         /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }

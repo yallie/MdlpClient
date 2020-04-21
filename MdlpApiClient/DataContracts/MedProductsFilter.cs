@@ -55,7 +55,7 @@
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Наименование держателя РУ
+        /// Производитель готовой ЛФ
         /// </summary>
         [DataMember(Name = "glf_name", IsRequired = false)]
         public string FormProducerName { get; set; }
