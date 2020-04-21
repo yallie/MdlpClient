@@ -466,5 +466,13 @@
             var member = Get<MemberResponse>("members/current");
             return member != null ? member.Member : null;
         }
+
+        /// <summary>
+        /// 8.9.2. Метод для изменения данных организации, в которой зарегистрирован текущий пользователь
+        /// </summary>
+        public void UpdateCurrentMember(MemberOptions options)
+        {
+            Put("members/current", options);
+        }
     }
 }

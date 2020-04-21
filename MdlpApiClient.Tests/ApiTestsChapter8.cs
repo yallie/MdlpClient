@@ -623,10 +623,21 @@
             Assert.AreEqual("9dedee17-e43a-47f1-910e-3a88ff6bc81b", member.SystemSubjectID);
             Assert.AreEqual("Аптечный1", member.OrganizationName);
             Assert.AreEqual("ru", member.Language);
+            Assert.AreEqual("peresok+76@mail.ru", member.Email);
             Assert.IsTrue(member.IsResident);
             Assert.NotNull(member.Chiefs);
             Assert.NotNull(member.AgreementsInfo);
             Assert.AreEqual(RegEntityTypeEnum.RESIDENT, member.EntityType);
+        }
+
+        [Test]
+        public void Chapter8_09_2_UpdateCurrentMember()
+        {
+            Client.UpdateCurrentMember(new MemberOptions
+            {
+                Language = "ru",
+                Email = "peresok+76@mail.ru"
+            });
         }
     }
 }

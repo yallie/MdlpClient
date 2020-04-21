@@ -281,7 +281,6 @@
         /// <summary>
         /// Performs POST request.
         /// </summary>
-        /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
         /// <param name="parameters">IRestRequest parameters.</param>
@@ -289,6 +288,26 @@
         public void Post(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
+            request.AddJsonBody(body);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
+            Execute(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs PUT request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
+        /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public void Put(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.PUT, DataFormat.Json);
             request.AddJsonBody(body);
             if (!parameters.IsNullOrEmpty())
             {
