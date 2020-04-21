@@ -1,6 +1,7 @@
-# MdlpClient
+# ИС "Маркировка". МДЛП
 
 MDLP API REST Client.  
+Реализация протокола обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)  
 Список реализованных методов: [list_of_methods.txt](https://github.com/yallie/MdlpClient/blob/master/Docs/list_of_methods.txt)
 
 # Официальная инструкция по быстрому старту
