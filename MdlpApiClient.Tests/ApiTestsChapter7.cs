@@ -145,5 +145,21 @@
         {
             Assert.DoesNotThrow(() => Client.ResyncPharmacyLicenses());
         }
+
+        [Test]
+        public void Chapter7_08_1_GetCurrentAddresses()
+        {
+            var addresses = Client.GetCurrentAddresses();
+            Assert.NotNull(addresses);
+            Assert.AreEqual(4, addresses.Total);
+
+            // одно место осуществления деятельности
+            var branch = addresses.Entries.Single(a => a.EntityType == BranchEntry.EntityType);
+            Assert.AreEqual("г Москва, ул Щипок, Дом 9/26, Строение 3", branch.Address.AddressDescription);
+
+            // три склада, один из них по тому же адресу, что и место осуществления деятельности
+            var whouse = addresses.Entries.Single(a => a.EntityType == WarehouseEntry.EntityType && a.Address.HouseGuid == branch.Address.HouseGuid);
+            Assert.AreEqual(branch.Address.AddressDescription, whouse.Address.AddressDescription);
+        }
     }
 }

@@ -152,5 +152,14 @@
         {
             Post<EmptyResponse>("reestr/pharm_licenses/resync", new { });
         }
+
+        /// <summary>
+        /// 7.8.1. Метод для получения информации о всех местах осуществления
+        /// деятельности и местах ответственного хранения участника
+        /// </summary>
+        public EntriesResponse<AddressEntry> GetCurrentAddresses()
+        {
+            return Get<EntriesResponse<AddressEntry>>("reestr/address/all");
+        }
     }
 }

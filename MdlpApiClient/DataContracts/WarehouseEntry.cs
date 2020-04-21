@@ -10,6 +10,11 @@
     public class WarehouseEntry
     {
         /// <summary>
+        /// Код сущности (для методов, возвращающих места и склады в одном списке, например, 7.8.1).
+        /// </summary>
+        public const int EntityType = 1;
+
+        /// <summary>
         /// Уникальный идентификатор места ответственного хранения
         /// </summary>
         [DataMember(Name = "id")]
@@ -64,7 +69,10 @@
         public string WarehouseOrgInn { get; set; }
 
         /// <summary>
-        /// Статус: 0 — не действует, 1 — действует, 2 — в процессе приостановления
+        /// Статус:
+        /// 0 — не действует,
+        /// 1 — действует,
+        /// 2 — в процессе приостановления
         /// </summary>
         [DataMember(Name = "status", IsRequired = false)]
         public int? Status { get; set; }

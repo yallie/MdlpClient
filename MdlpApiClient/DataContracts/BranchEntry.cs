@@ -10,6 +10,11 @@
     public class BranchEntry
     {
         /// <summary>
+        /// Код сущности (для методов, возвращающих места и склады в одном списке, например, 7.8.1).
+        /// </summary>
+        public const int EntityType = 0;
+
+        /// <summary>
         /// Уникальный идентификатор места осуществления деятельности
         /// </summary>
         [DataMember(Name = "id")]
