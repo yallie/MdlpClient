@@ -18848,6 +18848,39 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 7.8.1. Метод для получения информации о всех местах осуществления
+    /// деятельности и местах ответственного хранения участника
+    /// </summary>
+    [DataContract]
+    public class AddressEntry
+    {
+        /// <summary>
+        /// Идентификатор места осуществления деятельности или идентификатор места ответственного хранения
+        /// </summary>
+        [DataMember(Name = "address_id")]
+        public string AddressID { get; set; }
+
+        /// <summary>
+        /// Адрес места осуществления деятельности или места ответственного хранения
+        /// </summary>
+        [DataMember(Name = "address")]
+        public Address Address { get; set; }
+
+        /// <summary>
+        /// Тип записи
+        /// 0 — место осуществления деятельности
+        /// 1 — место ответственного хранения
+        /// </summary>
+        [DataMember(Name = "entity_type")]
+        public int EntityType { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.8.1. Метод фильтрации по субъектам обращения
     /// Формат объекта AddressFias
     /// </summary>
@@ -18888,7 +18921,8 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Код выполнения операции:
         /// 0 — операция выполнена успешно, адрес найден
-        /// 1 — адрес не может быть идентифицирован в БД ФИАС        /// </summary>
+        /// 1 — адрес не может быть идентифицирован в БД ФИАС
+        /// </summary>
         [DataMember(Name = "code")]
         public int Code { get; set; }
 
@@ -19112,6 +19146,11 @@ namespace MdlpApiClient.DataContracts
     public class BranchEntry
     {
         /// <summary>
+        /// Код сущности (для методов, возвращающих места и склады в одном списке, например, 7.8.1).
+        /// </summary>
+        public const int EntityType = 0;
+
+        /// <summary>
         /// Уникальный идентификатор места осуществления деятельности
         /// </summary>
         [DataMember(Name = "id")]
@@ -19251,6 +19290,168 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "last_name")]
         public string LastName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.9.1. Метод для получения списка стран
+    /// Структура данных CountryInfo
+    /// </summary>
+    [DataContract]
+    public class CountryInfo
+    {
+        /// <summary>
+        /// Уникальный идентификатор, почти всегда пуст
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = false)]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Код ISO
+        /// </summary>
+        [DataMember(Name = "iso", IsRequired = true)]
+        public string Iso { get; set; }
+
+        /// <summary>
+        /// Двухзначное обозначение
+        /// </summary>
+        [DataMember(Name = "alpha2", IsRequired = true)]
+        public string Alpha2 { get; set; }
+
+        /// <summary>
+        /// Трехзначное обозначение
+        /// </summary>
+        [DataMember(Name = "alpha3", IsRequired = true)]
+        public string Alpha3 { get; set; }
+
+        /// <summary>
+        /// Расположение
+        /// </summary>
+        [DataMember(Name = "location", IsRequired = true)]
+        public string Location { get; set; }
+
+        /// <summary>
+        /// Наименование
+        /// </summary>
+        [DataMember(Name = "name", IsRequired = true)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Полное наименование, бывает не заполнено
+        /// </summary>
+        [DataMember(Name = "fullname", IsRequired = false)]
+        public string FullName { get; set; }
+
+        /// <summary>
+        /// Англоязычное наименование
+        /// </summary>
+        [DataMember(Name = "english", IsRequired = true)]
+        public string EnglishName { get; set; }
+
+        /// <summary>
+        /// Точное расположение
+        /// </summary>
+        [DataMember(Name = "location-precise", IsRequired = true)]
+        public string LocationPrecise { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.11.1. Фильтрация по реестру мест таможенного контроля
+    /// </summary>
+    [DataContract]
+    public class CustomsPointsFilter
+    {
+        /// <summary>
+        /// Уникальный идентификатор места нахождения товара в ЗТК
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = false)]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// ИНН владельца СВХ/ТС или УЭО        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Номер свидетельства о включении в реестр ФТС России        /// </summary>
+        [DataMember(Name = "regNum", IsRequired = false)]
+        public string RegistrationNumber { get; set; }
+
+        /// <summary>
+        /// Тип склада        /// </summary>
+        [DataMember(Name = "warehouseType", IsRequired = false)]
+        public string WarehouseType { get; set; }
+
+        /// <summary>
+        /// Код таможенного органа
+        /// </summary>
+        [DataMember(Name = "customCode", IsRequired = false)]
+        public string CustomsCode { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.11.1. Фильтрация по реестру мест таможенного контроля
+    /// Формат объекта CustomPointsInfoEntry
+    /// </summary>
+    [DataContract]
+    public class CustomsPointsInfoEntry
+    {
+        /// <summary>
+        /// Уникальный идентификатор места нахождения товара в ЗТК
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = true)]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// ИНН владельца СВХ/ТС или УЭО        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Наименовани владельца СВХ/ТС или УЭО        /// </summary>
+        [DataMember(Name = "orgName", IsRequired = false)]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Номер свидетельства о включении в реестр ФТС России        /// </summary>
+        [DataMember(Name = "regNum", IsRequired = false)]
+        public string RegistrationNumber { get; set; }
+
+        /// <summary>
+        /// Тип склада        /// </summary>
+        [DataMember(Name = "warehouseAddress", IsRequired = false)]
+        public string WarehouseAddress { get; set; }
+
+        /// <summary>
+        /// Тип склада        /// </summary>
+        [DataMember(Name = "warehouseType", IsRequired = false)]
+        public string WarehouseType { get; set; }
+
+        /// <summary>
+        /// Код таможенного органа
+        /// </summary>
+        [DataMember(Name = "customCode", IsRequired = false)]
+        public string CustomsCode { get; set; }
+
+        /// <summary>
+        /// Наименование таможенного органа
+        /// </summary>
+        [DataMember(Name = "customName", IsRequired = false)]
+        public string CustomsName { get; set; }
     }
 }
 
@@ -19627,7 +19828,7 @@ namespace MdlpApiClient.DataContracts
     [DataContract]
     public class EntriesResponse<T>
     {
-        [DataMember(Name = "entries")]
+        [DataMember(Name = "entries", IsRequired = true)]
         public T[] Entries { get; set; }
 
         [DataMember(Name = "total")]
@@ -19664,6 +19865,300 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "error_description")] // "Ошибка такая-то с подробностями",
         public string Description { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.10.1. Фильтрация по реестру ЕСКЛП (Единый справочник-каталог лекарственных препаратов)
+    /// Структура данных EsklpFilter, немного похоже на <see cref="MedProductsFilter"/>.
+    /// </summary>
+    [DataContract]
+    public class EsklpFilter
+    {
+        /// <summary>
+        /// Дата гос. регистрации, начальная дата
+        /// </summary>
+        [DataMember(Name = "REG_DATE", IsRequired = false)]
+        public DateTime? RegistrationDateFrom { get; set; }
+
+        /// <summary>
+        /// Дата гос. регистрации, конечная дата
+        /// </summary>
+        [DataMember(Name = "REG_END_DATE", IsRequired = false)]
+        public DateTime? RegistrationDateTo { get; set; }
+
+        /// <summary>
+        /// Номер регистрационного удостоверения
+        /// </summary>
+        /// <remarks>
+        /// Частичное вхождение, без учета регистра
+        /// </remarks>
+        [DataMember(Name = "reg_id", IsRequired = false)]
+        public string RegistrationID { get; set; }
+
+        /// <summary>
+        /// Наименование держателя регистрационного удостоверения
+        /// </summary>
+        /// <remarks>
+        /// Частичное вхождение, без учета регистра
+        /// </remarks>
+        [DataMember(Name = "REG_HOLDER", IsRequired = false)]
+        public string RegistrationHolder { get; set; }
+
+        /// <summary>
+        /// Код налогоплательщика держателя держателя регистрационного удостоверения для резидентов РФ
+        /// </summary>
+        /// <remarks>
+        /// Частичное вхождение, без учета регистра
+        /// </remarks>
+        [DataMember(Name = "REG_HOLDER_CODE", IsRequired = false)]
+        public string RegistrationHolderCode { get; set; }
+
+        /// <summary>
+        /// Статус действия регистрационного удостоверения
+        /// </summary>
+        /// <remarks>
+        /// Частичное вхождение, без учета регистра
+        /// </remarks>
+        [DataMember(Name = "REG_STATUS", IsRequired = false)]
+        public string RegistrationStatus { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe лекарственного препарата
+        /// Например: Гертикад®
+        /// </summary>
+        /// <remarks>
+        /// Частичное вхождение, без учета регистра
+        /// </remarks>
+        [DataMember(Name = "PROD_SELL_NAME", IsRequired = false)]
+        public string ProductSellingName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        /// <remarks>
+        /// Частичное вхождение, без учета регистра
+        /// </remarks>
+        [DataMember(Name = "PROD_NAME", IsRequired = false)]
+        public string ProductName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.10.1. Фильтрация по реестру ЕСКЛП (Единый справочник-каталог лекарственных препаратов)
+    /// Структура данных EsklpInfo, много пересечений с <see cref="MedProduct"/> и <see cref="GtinInfo"/>.
+    /// </summary>
+    [DataContract]
+    public class EsklpInfo
+    {
+        /// <summary>
+        /// Уникальный идентификатор
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = true)]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Номер регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "reg_id", IsRequired = true)]
+        public string RegistrationID { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "PROD_NAME", IsRequired = true)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Какой-то код продукта?
+        /// Например: "1379"
+        /// </summary>
+        /// <remarks>
+        /// Ошибка в документации. Там сказано, что это международное непатентованное наименование
+        /// </remarks>
+        [DataMember(Name = "PROD_ID", IsRequired = true)]
+        public string ProductID { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe лекарственного препарата
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "PROD_SELL_NAME", IsRequired = true)]
+        public string ProductSellingName { get; set; }
+
+        /// <summary>
+        /// Страна регистрации держателя регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "REG_COUNTRY", IsRequired = true)]
+        public string RegistrationCountry { get; set; }
+
+        /// <summary>
+        /// Дата гос. регистрации
+        /// </summary>
+        [DataMember(Name = "REG_DATE", IsRequired = true)]
+        public DateTime RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Наименование держателя регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "REG_HOLDER", IsRequired = true)]
+        public string RegistrationHolder { get; set; }
+
+        /// <summary>
+        /// Код налогоплательщика держателя держателя 
+        /// регистрационного удостоверения для резидентов РФ
+        /// </summary>
+        [DataMember(Name = "REG_HOLDER_CODE", IsRequired = false)]
+        public string RegistrationHolderCode { get; set; }
+
+        /// <summary>
+        /// Код налогоплательщика держателя держателя 
+        /// регистрационного удостоверения в стране регистрации или его аналог
+        /// </summary>
+        [DataMember(Name = "REG_HOLDER_CODE_F", IsRequired = false)]
+        public string RegistrationHolderForeignCode { get; set; }
+
+        /// <summary>
+        /// Наименование производителя стадии выпускающего контроля
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1", IsRequired = true)]
+        public string ProductPack1ProducerName { get; set; }
+
+        /// <summary>
+        /// Первичная упаковка
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1_ID", IsRequired = true)]
+        public string ProductPack1ID { get; set; }
+
+        /// <summary>
+        /// Первичная упаковка (строковое представление)
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1_NAME", IsRequired = true)]
+        public string ProductPack1Name { get; set; }
+
+        /// <summary>
+        /// Масса/объем в первичной упаковке
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1_SIZE")]
+        public string ProductPack1Size { get; set; }
+
+        /// <summary>
+        /// Количество массы/объема в первичной упаковке
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1_ED")]
+        public string ProductPack1Amount { get; set; }
+
+        /// <summary>
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке (строковое представление)
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1_ED_NAME")]
+        public string ProductPack1AmountName { get; set; }
+
+        /// <summary>
+        /// Вторичная (потребительская) упаковка
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_2_ID", IsRequired = true)]
+        public string ProductPack2ID { get; set; }
+
+        /// <summary>
+        /// Вторичная (потребительская) упаковка (строковое представление)
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_2_NAME", IsRequired = true)]
+        public string ProductPack2Name { get; set; }
+
+        /// <summary>
+        /// Количество первичной упаковки в потребительской упаковке
+        /// </summary>
+        [DataMember(Name = "PROD_PACK_1_2")]
+        public string ProductPack1InPack2 { get; set; }
+
+        /// <summary>
+        /// Код лекарственной формы
+        /// </summary>
+        [DataMember(Name = "PROD_D", IsRequired = false)]
+        public string ProductFormID { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "PROD_D_NAME", IsRequired = false)]
+        public string ProductDosageName { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма (строковое представление)
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "PROD_FORM_NAME")]
+        public string ProductFormName { get; set; }
+
+        /// <summary>
+        /// Код ТНВЭД ЕАЭС
+        /// </summary>
+        [DataMember(Name = "TN_VED")]
+        public string Tnved { get; set; }
+
+        /// <summary>
+        /// Признак наличия в ЖНВЛП
+        /// </summary>
+        [DataMember(Name = "GNVLP")]
+        public bool Gnvlp { get; set; }
+
+        /// <summary>
+        /// Предельная зарегистрированная цена (для ЖНВЛП) (руб)
+        /// </summary>
+        [DataMember(Name = "MAX_GNVLP", IsRequired = false)]
+        public string MaxGnvlpPrice { get; set; }
+
+        /// <summary>
+        /// Внутренний уникальный идентификатор лекарственного препарата в реестре ЕСКЛП
+        /// </summary>
+        [DataMember(Name = "DRUG_CODE", IsRequired = false)]
+        public string DrugCode { get; set; }
+
+        /// <summary>
+        /// Версия внутреннего уникального идентификатора лекарственного препарата в реестре ЕСКЛП
+        /// 1 — устаревшие,
+        /// 2 — актуальные данные
+        /// </summary>
+        [DataMember(Name = "DRUG_CODE_VERSION", IsRequired = false)]
+        public int? DrugCodeVersion { get; set; }
+
+        /// <summary>
+        /// Статус действия регистрационного удостоверения
+        /// </summary>
+        [DataMember(Name = "REG_STATUS", IsRequired = false)]
+        public string RegistrationStatus { get; set; }
+
+        /// <summary>
+        /// Комплектность
+        /// </summary>
+        [DataMember(Name = "COMPLETENESS", IsRequired = false)]
+        public string Сompleteness { get; set; }
+
+        /// <summary>
+        /// Производитель готовой ЛФ
+        /// </summary>
+        [DataMember(Name = "GLF_NAME", IsRequired = false)]
+        public string FormProducerName { get; set; }
+
+        /// <summary>
+        /// Страна регистрации производителя готовой ЛФ
+        /// </summary>
+        [DataMember(Name = "GLF_COUNTRY", IsRequired = false)]
+        public string FormProducerCountry { get; set; }
     }
 }
 
@@ -20333,7 +20828,7 @@ namespace MdlpApiClient.DataContracts
         public string ProductPack1Amount { get; set; }
 
         /// <summary>
-        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке
+        /// Количество (мера, ед.измерения) массы/объема в первичной упаковке (строковое представление)
         /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
@@ -21058,7 +21553,7 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Наименование держателя РУ
+        /// Производитель готовой ЛФ
         /// </summary>
         [DataMember(Name = "glf_name", IsRequired = false)]
         public string FormProducerName { get; set; }
@@ -21526,7 +22021,48 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Тип участника: 8 — иностранный контрагент
         /// <summary>
-        public const int FOREIGN_COUNTERPARTY = 8;    }
+        public const int FOREIGN_COUNTERPARTY = 8;
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 7.9.2. Метод для получения списка субъектов РФ
+    /// Структура данных Region
+    /// </summary>
+    [DataContract]
+    public class Region
+    {
+        /// <summary>
+        /// Название
+        /// </summary>
+        [DataMember(Name = "title", IsRequired = true)]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Код субъекта
+        /// </summary>
+        [DataMember(Name = "code", IsRequired = true)]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Идентификатор субъекта
+        /// </summary>
+        /// <remarks>
+        /// Имеется далеко не всегда
+        /// </remarks>
+        [DataMember(Name = "key", IsRequired = false)]
+        public string Key { get; set; }
+
+        /// <summary>
+        /// Список идентификаторов дочерних субъектов
+        /// </summary>
+        [DataMember(Name = "children", IsRequired = false)]
+        public string[] Children { get; set; }
+    }
 }
 
 namespace MdlpApiClient.DataContracts
@@ -23010,6 +23546,11 @@ namespace MdlpApiClient.DataContracts
     public class WarehouseEntry
     {
         /// <summary>
+        /// Код сущности (для методов, возвращающих места и склады в одном списке, например, 7.8.1).
+        /// </summary>
+        public const int EntityType = 1;
+
+        /// <summary>
         /// Уникальный идентификатор места ответственного хранения
         /// </summary>
         [DataMember(Name = "id")]
@@ -23064,7 +23605,10 @@ namespace MdlpApiClient.DataContracts
         public string WarehouseOrgInn { get; set; }
 
         /// <summary>
-        /// Статус: 0 — не действует, 1 — действует, 2 — в процессе приостановления
+        /// Статус:
+        /// 0 — не действует,
+        /// 1 — действует,
+        /// 2 — в процессе приостановления
         /// </summary>
         [DataMember(Name = "status", IsRequired = false)]
         public int? Status { get; set; }
@@ -23524,6 +24068,83 @@ namespace MdlpApiClient
         public void ResyncPharmacyLicenses()
         {
             Post<EmptyResponse>("reestr/pharm_licenses/resync", new { });
+        }
+
+        /// <summary>
+        /// 7.8.1. Метод для получения информации о всех местах осуществления
+        /// деятельности и местах ответственного хранения участника
+        /// </summary>
+        /// <returns>Список адресов</returns>
+        /// <remarks>
+        /// Ошибка в документации: сказано, что возвращается <see cref="AddressEntry"/>.
+        /// </remarks>
+        public EntriesResponse<AddressEntry> GetCurrentAddresses()
+        {
+            return Get<EntriesResponse<AddressEntry>>("reestr/address/all");
+        }
+
+        /// <summary>
+        /// 7.9.1. Метод для получения списка стран
+        /// </summary>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых стран</param>
+        /// <param name="count">Количество записей в списке возвращаемых стран</param>
+        /// <returns>Список стран</returns>
+        public EntriesResponse<CountryInfo> GetCountries(int startFrom, int count)
+        {
+            return Post<EntriesResponse<CountryInfo>>("reestr/area/countries", new
+            {
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 7.9.2. Метод для получения списка субъектов РФ
+        /// </summary>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов РФ</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов РФ</param>
+        /// <returns>Список субъектов РФ</returns>
+        public EntriesResponse<Region> GetRegions(int startFrom, int count)
+        {
+            return Post<EntriesResponse<Region>>("reestr/area/regions", new
+            {
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 7.10.1. Фильтрация по реестру ЕСКЛП (Единый справочник-каталог лекарственных препаратов)
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру ЕСКЛП</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых записей реестра ЕСКЛП</param>
+        /// <param name="count">Количество записей в списке возвращаемых записей реестра ЕСКЛП</param>
+        /// <returns>Список записей реестра ЕСКЛП</returns>
+        public EntriesResponse<EsklpInfo> GetEsklpInfo(EsklpFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<EsklpInfo>>("reestr/esklp/filter", new
+            {
+                filter = filter ?? new EsklpFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 7.11.1. Фильтрация по реестру мест таможенного контроля
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру мест таможенного контроля</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест таможенного контроля</param>
+        /// <param name="count">Количество записей в списке возвращаемых мест таможенного контроля</param>
+        /// <returns>Список мест таможенного контроля</returns>
+        public EntriesResponse<CustomsPointsInfoEntry> GetCustomsPoints(CustomsPointsFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<CustomsPointsInfoEntry>>("reestr/customs_points/filter", new
+            {
+                filter = filter ?? new CustomsPointsFilter(),
+                start_from = startFrom,
+                count = count,
+            });
         }
     }
 }

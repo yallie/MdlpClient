@@ -212,5 +212,22 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 7.11.1. Фильтрация по реестру мест таможенного контроля
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска по реестру мест таможенного контроля</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест таможенного контроля</param>
+        /// <param name="count">Количество записей в списке возвращаемых мест таможенного контроля</param>
+        /// <returns>Список мест таможенного контроля</returns>
+        public EntriesResponse<CustomsPointsInfoEntry> GetCustomsPoints(CustomsPointsFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<CustomsPointsInfoEntry>>("reestr/customs_points/filter", new
+            {
+                filter = filter ?? new CustomsPointsFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

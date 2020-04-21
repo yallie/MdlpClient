@@ -236,5 +236,26 @@
             AssertRequired(esklp);
             AssertRequired(lp);
         }
+
+        [Test]
+        public void Chapter7_11_1_GetCustomsPoints()
+        {
+            var customsPoints = Client.GetCustomsPoints(new CustomsPointsFilter
+            {
+                CustomsCode = "10311000"
+            }, 0, 1);
+            Assert.NotNull(customsPoints);
+            Assert.NotNull(customsPoints.Entries);
+            Assert.IsTrue(customsPoints.Total > 1);
+            Assert.AreEqual(1, customsPoints.Entries.Length);
+
+            var point = customsPoints.Entries[0];
+            Assert.AreEqual("62db1403-327e-4990-3ccd-4629ab7e7562", point.ID);
+            Assert.AreEqual("ТС", point.WarehouseType);
+            Assert.AreEqual("ООО \"АГРО-ДЕПАРТАМЕНТ\"", point.OrganizationName);
+            Assert.AreEqual("АСТРАХАНСКАЯ ТАМОЖНЯ", point.CustomsName);
+            AssertRequired(customsPoints);
+            AssertRequired(point);
+        }
     }
 }
