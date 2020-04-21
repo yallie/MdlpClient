@@ -1,4 +1,4 @@
-# ИС "Маркировка". МДЛП
+# Честный знак. ИС «Маркировка». МДЛП
 
 MDLP API REST Client.  
 Реализация протокола обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)  
