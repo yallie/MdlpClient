@@ -72,7 +72,7 @@
             {
                 var value = p.GetValue(dataContract);
                 var defaultValue = p.PropertyType.IsClass ? null : Activator.CreateInstance(p.PropertyType);
-                Assert.AreNotEqual(value, defaultValue);
+                Assert.AreNotEqual(value, defaultValue, "Property " + p.DeclaringType.Name + "." + p.Name + " is not set");
             }
         }
     }

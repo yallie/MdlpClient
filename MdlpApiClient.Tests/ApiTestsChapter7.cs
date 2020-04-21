@@ -152,9 +152,9 @@
             var addresses = Client.GetCurrentAddresses();
             Assert.NotNull(addresses);
             Assert.AreEqual(4, addresses.Total);
-            AssertRequired(addresses);
 
             // обязательные поля заполнены
+            AssertRequired(addresses);
             foreach (var addr in addresses.Entries)
             {
                 AssertRequired(addr);
@@ -177,9 +177,9 @@
             Assert.NotNull(countries.Entries);
             Assert.AreEqual(10, countries.Entries.Length);
             Assert.IsTrue(countries.Total > 10);
-            AssertRequired(countries);
 
             // обязательные поля заполнены
+            AssertRequired(countries);
             foreach (var country in countries.Entries)
             {
                 AssertRequired(country);
@@ -192,6 +192,29 @@
             Assert.AreEqual("Australia", aus.EnglishName);
             Assert.AreEqual("Океания", aus.Location);
             Assert.AreEqual("Австралия и Новая Зеландия", aus.LocationPrecise);
+        }
+
+        [Test]
+        public void Chapter7_09_2_GetRegions()
+        {
+            var regions = Client.GetRegions(0, 20);
+            Assert.NotNull(regions);
+            Assert.NotNull(regions.Entries);
+            Assert.AreEqual(20, regions.Entries.Length);
+            Assert.IsTrue(regions.Total > 20);
+
+            // обязательные поля заполнены
+            AssertRequired(regions);
+            foreach (var region in regions.Entries)
+            {
+                AssertRequired(region);
+            }
+
+            // в первой десятке регионов должна найтись Москва
+            var msk = regions.Entries.Single(c => c.Key == "77");
+            Assert.AreEqual("Город Москва", msk.Title);
+            Assert.AreEqual("45000000", msk.Code);
+            Assert.IsNull(msk.Children);
         }
     }
 }

@@ -180,5 +180,20 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 7.9.2. Метод для получения списка субъектов РФ
+        /// </summary>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых субъектов РФ</param>
+        /// <param name="count">Количество записей в списке возвращаемых субъектов РФ</param>
+        /// <returns>Список субъектов РФ</returns>
+        public EntriesResponse<Region> GetRegions(int startFrom, int count)
+        {
+            return Post<EntriesResponse<Region>>("reestr/area/regions", new
+            {
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
