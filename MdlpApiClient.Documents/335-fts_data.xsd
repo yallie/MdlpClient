@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="fts_data">
+		<xs:annotation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений о результатах таможенного оформления</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="system_subject_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operation_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата совершения операции</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fts_info" type="fts_gtd_info_type">
+				<xs:annotation>
+					<xs:documentation>Состав сведений, передаваемых при подаче таможенной декларации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="custom_procedure_code" type="custom_procedure_code_enum">
+				<xs:annotation>
+					<xs:documentation>Код таможенной процедуры</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="order_details">
+				<xs:annotation>
+					<xs:documentation>Список продукции</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="union" maxOccurs="25000">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice>
+										<xs:element name="sgtin" type="sign_sgtin_type">
+											<xs:annotation>
+												<xs:documentation>Номер SGTIN</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="sscc_detail">
+											<xs:annotation>
+												<xs:documentation>Сведения о транспортной упаковке</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="sscc" type="sscc_type">
+														<xs:annotation>
+															<xs:documentation>Номер транспортной упаковки</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="detail" minOccurs="0" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Сведения о цене содержимого транспортной упаковки</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="gtin" type="gs1_gtin_type">
+																	<xs:annotation>
+																		<xs:documentation>Идентификатор товара в GS1 (GTIN)</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="series_number" type="series_number_type">
+																	<xs:annotation>
+																		<xs:documentation>Номер производственной серии</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="customs_value" type="price_type">
+																	<xs:annotation>
+																		<xs:documentation>Стоимость единицы продукции</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="confnum_info" type="confnum_info_type" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Документы подтверждающие соответствие </xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:element name="customs_value" type="price_type">
+										<xs:annotation>
+											<xs:documentation>Таможенная стоимость</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="confnum_info" type="confnum_info_type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Документы подтверждающие соответствие </xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:unique name="ux_fts_data_sgtin">
+					<xs:selector xpath="union"/>
+					<xs:field xpath="sgtin"/>
+				</xs:unique>
+				<xs:unique name="ux_fts_data_sscc">
+					<xs:selector xpath="union/sscc_detail"/>
+					<xs:field xpath="sscc"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="335"/>
+	</xs:complexType>
+</xs:schema>

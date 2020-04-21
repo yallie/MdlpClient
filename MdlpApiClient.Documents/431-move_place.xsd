@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="move_place">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о перемещении лекарственных препаратов между различными адресами осуществления деятельности</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_id_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="receiver_id" type="subject_id_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-получателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_num" type="document_number_200_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа перемещения: номер документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_date" type="date_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа перемещения: дата документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список перемещаемой продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="25000">
+                        <xs:element name="sgtin" type="sign_sgtin_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sscc" type="sscc_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_move_place_sgtin">
+                    <xs:selector xpath="sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="ux_move_place_sscc">
+                    <xs:selector xpath="sscc"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="431"/>
+    </xs:complexType>
+</xs:schema>

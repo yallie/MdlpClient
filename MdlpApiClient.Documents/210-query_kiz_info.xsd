@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="query_kiz_info">
+        <xs:annotation>
+            <xs:documentation>Запрос информации по номеру SGTIN/SSCC</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="sgtin" type="sign_sgtin_type">
+                    <xs:annotation>
+                        <xs:documentation>Запрос информации об SGTIN</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="sscc_down" type="sscc_type">
+                    <xs:annotation>
+                        <xs:documentation>Запрос информации по SSCC (что находится в данной упаковке)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="sscc_up" type="sscc_type">
+                    <xs:annotation>
+                        <xs:documentation>Запрос информации по SSCC (где находится данная упаковка)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="210"/>
+    </xs:complexType>
+</xs:schema>

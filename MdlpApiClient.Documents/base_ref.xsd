@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="short_org_info_type">
+		<xs:annotation>
+			<xs:documentation>Описание организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="organisation_name" type="string500_type">
+				<xs:annotation>
+					<xs:documentation>Наименование организации / ИП</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ul">
+					<xs:annotation>
+						<xs:documentation>Организация - юр. лицо</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="inn" type="inn_ul_type">
+								<xs:annotation>
+									<xs:documentation>ИНН ЮЛ</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="kpp" type="kpp_type">
+								<xs:annotation>
+									<xs:documentation>КПП</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="fl">
+					<xs:annotation>
+						<xs:documentation>Организация - физическое лицо</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="inn" type="inn_fl_type">
+								<xs:annotation>
+									<xs:documentation>ИНН ФЛ</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="sign_ids_type">
+		<xs:annotation>
+			<xs:documentation>Идентификаторы знака</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="2">
+			<xs:choice>
+				<xs:element name="sgtin" type="sign_sgtin_type">
+					<xs:annotation>
+						<xs:documentation>Номер КиЗ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sscc" type="sscc_type">
+					<xs:annotation>
+						<xs:documentation>Номер третичной/транспортной упаковки</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fts_gtd_info_type">
+		<xs:annotation>
+			<xs:documentation>Состав сведений, передаваемых при подаче таможенной декларации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="customs_code" type="fts_customs_code_type">
+				<xs:annotation>
+					<xs:documentation>Код таможенного органа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="registration_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Дата регистрации декларации на товары</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gtd_number">
+				<xs:annotation>
+					<xs:documentation>Регистрационный номер декларации на товары</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="7"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="org_address_type">
+		<xs:annotation>
+			<xs:documentation>Адрес и реквизиты (ИНН/КПП) организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="fias_addr" type="guid_type">
+				<xs:annotation>
+					<xs:documentation>Адрес организации (по ФИАС)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ul">
+					<xs:annotation>
+						<xs:documentation>Организация – юридическое лицо</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="inn" type="inn_ul_type"/>
+							<xs:element name="kpp" type="kpp_type"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="fl">
+					<xs:annotation>
+						<xs:documentation>Организация-физическое лицо</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="inn" type="inn_fl_type"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="info_org_eeu_type">
+		<xs:annotation>
+			<xs:documentation>Реквизиты (ИТИН/Код страны) организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="itin" type="string64_type">
+				<xs:annotation>
+					<xs:documentation>Аналог идентификационного номера налогоплательщика</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code_country" type="code_country_type">
+				<xs:annotation>
+					<xs:documentation>Код страны</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="confnum_info_type">
+		<xs:annotation>
+			<xs:documentation>Документы подтверждающие соответствие</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="confirm_doc" type="confirm_doc_type_enum">
+				<xs:annotation>
+					<xs:documentation>Вид документа подтверждающий соответствие</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Дата регистрации документа подтверждения соответствия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_num" type="document_number_200_type">
+				<xs:annotation>
+					<xs:documentation>Регистрационный номер документа подтверждения соответствия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="skzkm_info_type">
+		<xs:annotation>
+			<xs:documentation>Информация СКЗКМ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="device_id" type="skzkm_device_id_type">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор РЭ или РВ строка, 16 символов</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="skzkm_origin_msg_id" type="skzkm_message_id_type">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор системы сформировавшей сообщение, формат строка до 255 символов</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="skzkm_report_id" type="skzkm_report_id_type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор отчета об изменении статусов кодов маркировки, формат строка до 255 символов</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="release_info_type">
+		<xs:annotation>
+			<xs:documentation>Реквизиты сведений о вводе в оборот</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="doc_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Дата записи в АИС РЗН о вводе в оборот</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_num" type="document_number_200_type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер разрешения на ввод в оборот (обязателен для иммунобиологических ЛП)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="confirmation_num" type="document_number_200_type">
+				<xs:annotation>
+					<xs:documentation>Номер подтверждения соответствия требованиям гос. регистрации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

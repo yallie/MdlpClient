@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="destruction">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о факте уничтожения лекарственных препаратов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_id_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="destruction_method" type="destruction_method_enum">
+                <xs:annotation>
+                    <xs:documentation>Способ уничтожения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="destruction_org">
+                <xs:annotation>
+                    <xs:documentation>ИНН/КПП организации, осуществляющей уничтожение</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="ul">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="inn" type="inn_ul_type"/>
+                                    <xs:element name="kpp" type="kpp_type"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="fl">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="inn" type="inn_fl_type"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="doc_num" type="document_number_200_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты акта об уничтожении: номер документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_date" type="date_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты акта об уничтожении: дата документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="25000">
+                        <xs:element name="sgtin" type="sign_sgtin_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sscc" type="sscc_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_destruction_sgtin">
+                    <xs:selector xpath="sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="ux_destruction_sscc">
+                    <xs:selector xpath="sscc"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="542"/>
+    </xs:complexType>
+</xs:schema>

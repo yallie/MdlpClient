@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>MdlpApiClient.Documents</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="XmlSchemaClassGenerator.Console" Version="2.0.349" />
+  </ItemGroup>
+
+  <!-- Generate classes from root XSD schema -->
+  <Target Name="GenerateDocumentClassesFromXsdSchemas" BeforeTargets="Build">
+  	<Exec Command="$(NuGetPackageRoot)\XmlSchemaClassGenerator.Console\2.0.349\tools\net461\XmlSchemaClassGenerator.Console.exe $(ProjectDir)\documents.xsd -n &quot;&quot;=MdlpApiClient.Documents" />
+  </Target>
+
+</Project>

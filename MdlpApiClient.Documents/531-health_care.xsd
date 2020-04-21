@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="health_care">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_id_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_date" type="date_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа, на основании которого осуществлена выдача - дата</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_num" type="document_number_200_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа, на основании которого осуществлена выдача - номер</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="union" maxOccurs="25000">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="sgtin" type="sign_sgtin_type"/>
+                                    <xs:element name="sold_part" type="part_type" minOccurs="0">
+                                        <xs:annotation>
+                                            <xs:documentation>Доля от вторичной упаковки</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="ux_health_care_sgtin">
+                    <xs:selector xpath="union/sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="531"/>
+    </xs:complexType>
+</xs:schema>

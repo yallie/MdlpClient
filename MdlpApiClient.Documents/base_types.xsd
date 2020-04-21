@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:simpleType name="datetimeoffset">
+		<xs:annotation>
+			<xs:documentation>Тип "Дата со временем" (с временной зоной)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime">
+			<xs:minInclusive value="0001-01-01T00:00:00Z"/>
+			<xs:pattern value="((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="contract_type_enum">
+		<xs:annotation>
+			<xs:documentation>Тип договора при реализации
+                1 - купли продажи
+                2 - комиссия
+                3 - агентский
+                4 – передача на безвозмездной основе
+                5 – возврат контрактному производителю
+                6 – государственное лекарственное обеспечение
+                7 - договор консигнации
+                8 - собственные стредства
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="custom_procedure_code_enum">
+		<xs:annotation>
+			<xs:documentation>Код таможенной процедуры
+                40 - выпуск для внутреннего потребления
+                93 - уничтожение
+                94 - отказ в пользу государства
+                31 - реэкспорт
+                10 - экспорт
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="40"/>
+			<xs:enumeration value="93"/>
+			<xs:enumeration value="94"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="code_country_type">
+		<xs:annotation>
+			<xs:documentation>Код страны</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="subject_id_type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="14"/>
+			<xs:pattern value="[0-9]{14}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="subject_any_type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор субъекта обращения в ИС МДЛП (14 или 36 знаков)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="14"/>
+			<xs:maxLength value="36"/>
+			<xs:pattern value="[0-9]{14}|([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="source_type">
+		<xs:annotation>
+			<xs:documentation>Виды источников финансирования
+                1 - собственные средства
+                2 - средства федерального бюджета
+                3 - средства регионального бюджета
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="order_type_enum">
+		<xs:annotation>
+			<xs:documentation>Типы производственного заказа
+                1 - собственное производство
+                2 - контрактное производство
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="operation_result_type_enum">
+		<xs:annotation>
+			<xs:documentation>Результат операции фиксации</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Accepted"/>
+			<xs:enumeration value="Rejected"/>
+			<xs:enumeration value="Partial"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="receive_type_enum">
+		<xs:annotation>
+			<xs:documentation>Виды операций приемки
+                1 - поступление
+                2 - возврат от покупателя
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sale_doc_type_enum">
+		<xs:annotation>
+			<xs:documentation>Виды документов
+                1 - чек
+                2 - бланк строгой отчетности (БСО)
+                3 - договор
+                4 - прочее
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="series_number_type">
+		<xs:annotation>
+			<xs:documentation>Номер производственной серии</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="date_type">
+		<xs:annotation>
+			<xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="10"/>
+			<xs:pattern value="((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="inn_fl_type">
+		<xs:annotation>
+			<xs:documentation>Идентификационный номер налогоплательщика - физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="12"/>
+			<xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="inn_ul_type">
+		<xs:annotation>
+			<xs:documentation>Идентификационный номер налогоплательщика - юридического лица</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="10"/>
+			<xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="kpp_type">
+		<xs:annotation>
+			<xs:documentation>Код причины постановки на учет (КПП)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="9"/>
+			<xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{7}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sign_sgtin_type">
+		<xs:annotation>
+			<xs:documentation>Индивидуальный серийный номер вторичной упаковки</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="27"/>
+			<xs:pattern value="[0-9]{14}[&#x21;-&#x22;&#x25;-&#x2F;&#x30;-&#x39;&#x41;-&#x5A;&#x5F;&#x61;-&#x7A;]{13}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sscc_type">
+		<xs:annotation>
+			<xs:documentation>Индивидуальный серийный номер третичной/транспортной упаковки</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{18}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="recall_type_enum">
+		<xs:annotation>
+			<xs:documentation>Перечень операций, для которых применим отзыв / отмена
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="313"/>
+			<xs:enumeration value="333"/>
+			<xs:enumeration value="334"/>
+			<xs:enumeration value="335"/>
+			<xs:enumeration value="341"/>
+			<xs:enumeration value="342"/>
+			<xs:enumeration value="360"/>
+			<xs:enumeration value="363"/>
+			<xs:enumeration value="431"/>
+			<xs:enumeration value="470"/>
+			<xs:enumeration value="541"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="confirm_doc_type_enum">
+		<xs:annotation>
+			<xs:documentation>Виды документов подтверждения соответствия
+                1 - сертификат соответствия
+                2 - декларация о соответствии
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="destruction_method_enum">
+		<xs:annotation>
+			<xs:documentation>Способы уничтожения
+                1 – раздавливание ампулы, разведением содержимого и слив в промышленную канализацию
+                2 – дробление, разведение и слив в промышленную канализацию
+                3 – сжигание
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="destruction_type_enum">
+		<xs:annotation>
+			<xs:documentation>Причины (основания) передачи на уничтожение
+                1 – по решению владельца
+                2 – по решению Росздравнадзора
+                3 – по решению суда
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="withdrawal_reason_enum">
+		<xs:annotation>
+			<xs:documentation>Причины вывода из оборота
+                1 – выведен из оборота по причине списания
+                2 – выведен из оборота в результате реэкспорта
+                3 – выведен из оборота в результате отбора образцов
+                4 - выведен из оборота в результате отпуска по льготному рецепту
+                5 - выведен из оборота в результате выдачи для оказания мед. помощи
+                6 - выведен из оборота в результате отгрузки незарегистрированному участнику
+                7 - выведен из оборота в результате выборочного контроля
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="reason_return_type_enum">
+		<xs:annotation>
+			<xs:documentation>Причины возврата
+                1 – возврат надлежащего качества
+                2 – возврат ненадлежащего качества
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="withdrawal_type_enum">
+		<xs:annotation>
+			<xs:documentation>Типы вывода из оборота
+                6 – выборочный контроль
+                7 – таможенный контроль
+                8 – федеральный надзор
+                9 – в целях клинических исследований
+                10 – в целях фармацевтической экспертизы
+                11 – недостача
+                12 – отбор демонстрационных образцов
+                13 – списание без передачи на уничтожение
+                14 – вывод из оборота КИЗ, накопленных в рамках эксперимента
+                15 - производственный брак
+                16 - списание разукомплектованной потребительской упаковки
+                17 - производство медицинских изделий
+                18 - производство медицинских препаратов
+                19 - отбор контрольных образцов в рамках процесса контроля качества
+                20 - отбор архивных образцов
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="gs1_gtin_type">
+		<xs:annotation>
+			<xs:documentation>Идентификационный номер GS1 для идентификации товаров (допускаются только цифры общей длины 14 символов)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="14"/>
+			<xs:pattern value="[0-9]{14}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="document_number_200_type">
+		<xs:annotation>
+			<xs:documentation>Номер документа, но не более 200 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string64_type">
+		<xs:annotation>
+			<xs:documentation>Строка произвольной длины, но не более 64 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string128_type">
+		<xs:annotation>
+			<xs:documentation>Строка произвольной длины, но не более 128 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="128"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string200_type">
+		<xs:annotation>
+			<xs:documentation>Строка произвольной длины, но не более 200 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string500_type">
+		<xs:annotation>
+			<xs:documentation>Строка произвольной длины, но не более 500 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string1000_type">
+		<xs:annotation>
+			<xs:documentation>Строка произвольной длины, но не более 1000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string4000_type">
+		<xs:annotation>
+			<xs:documentation>Строка произвольной длины, но не более 4000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="price_type">
+		<xs:annotation>
+			<xs:documentation>Стоимость</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="16"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="price_kkt_type">
+		<xs:annotation>
+			<xs:documentation>Стоимость для ККТ, в копейках</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="16"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string_clear_at_begin_type">
+		<xs:annotation>
+			<xs:documentation>Строка (не пустая в начале)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:pattern value="\S.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string_clear_type">
+		<xs:annotation>
+			<xs:documentation>Строка (без спецсимволов с обеих сторон)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_at_begin_type">
+			<xs:minLength value="1"/>
+			<xs:pattern value=".*\S"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="turnover_type_enum">
+		<xs:annotation>
+			<xs:documentation>Виды операции отгрузки
+                1 – продажа
+                2 – возврат
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fts_customs_code_type">
+		<xs:annotation>
+			<xs:documentation>Код таможенного органа. 2, 5 или 8 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[0-9]{2}|[0-9]{5}|[0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="system_subject_type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор субъекта обращения (GUID)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="36"/>
+			<xs:pattern value="([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="guid_type">
+		<xs:annotation>
+			<xs:documentation>GUID</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="36"/>
+			<xs:pattern value="([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="edit_type_enum">
+		<xs:annotation>
+			<xs:documentation>Виды операции редактирования
+                1 – добавление/бронирование
+                2 – удаление/отмена бронирования
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="skzkm_report_id_type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор отчета об изменении статусов кодов маркировки, не более 255 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="skzkm_message_id_type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор системы сформировавшей сообщение (СКЗКМ), не более 255 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="string_clear_type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="skzkm_device_id_type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор устройства СКЗКМ, 16 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="part_type">
+		<xs:annotation>
+			<xs:documentation>Доля первичной упаковки</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([1-9][0-9]*/[1-9][0-9]*)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="inn_type">
+		<xs:annotation>
+			<xs:documentation>ИНН</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="10"/>
+			<xs:maxLength value="12"/>
+			<xs:pattern value="([0-9]{10}|[0-9]{12})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="receipt_type_enum">
+		<xs:annotation>
+			<xs:documentation>Код формы фискального документа
+                3 - чек
+                31 - чек коррекции
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="31"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

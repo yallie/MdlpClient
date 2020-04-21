@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:complexType name="unit_unpack">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о расформировании третичной (заводской, транспортной) упаковки лекарственных препаратов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата расформирования</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sscc" type="sscc_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор SSCC</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="is_recursive" type="xs:boolean" fixed="true" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип расформирования. При отсутствии элемента расформирование на один уровень (по умолчанию). При включении элемента рекурсивно до вторичной упаковки</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="912"/>
+    </xs:complexType>
+</xs:schema>

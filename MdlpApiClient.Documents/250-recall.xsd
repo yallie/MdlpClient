@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="recall">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственной операции</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_id" type="string200_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор запроса, подлежащего отмене</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="recall_action_id" type="recall_type_enum">
+                <xs:annotation>
+                    <xs:documentation>Тип исходной операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reason" type="string500_type" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Описание причины отзыва</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="250"/>
+    </xs:complexType>
+</xs:schema>

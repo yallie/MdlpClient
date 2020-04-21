@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<!-- XSD v.1.34 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="200-result.xsd"/>
+	<xs:include schemaLocation="201-result_service.xsd"/>
+	<xs:include schemaLocation="210-query_kiz_info.xsd"/>
+	<xs:include schemaLocation="211-kiz_info.xsd"/>
+	<xs:include schemaLocation="212-edit_counterparty_list.xsd"/>
+	<xs:include schemaLocation="213-booking_sscc.xsd"/>
+	<xs:include schemaLocation="250-recall.xsd"/>
+	<xs:include schemaLocation="251-refusal_sender.xsd"/>
+	<xs:include schemaLocation="252-refusal_receiver.xsd"/>
+	<xs:include schemaLocation="253-change_information.xsd"/>
+	<xs:include schemaLocation="311-register_end_packing.xsd"/>
+	<xs:include schemaLocation="313-register_product_emission.xsd"/>
+	<xs:include schemaLocation="314-move_to_release.xsd"/>
+	<xs:include schemaLocation="321-foreign_emission.xsd"/>
+	<xs:include schemaLocation="331-foreign_shipment.xsd"/>
+	<xs:include schemaLocation="332-foreign_import.xsd"/>
+	<xs:include schemaLocation="333-foreign_import_owner.xsd"/>
+	<xs:include schemaLocation="334-custom_move.xsd"/>
+	<xs:include schemaLocation="335-fts_data.xsd"/>
+	<xs:include schemaLocation="341-receive_importer.xsd"/>
+	<xs:include schemaLocation="342-release_in_circulation.xsd"/>
+	<xs:include schemaLocation="351-change_owner.xsd"/>
+	<xs:include schemaLocation="360-eeu_owner.xsd"/>
+	<xs:include schemaLocation="361-eeu_shipment.xsd"/>
+	<xs:include schemaLocation="362-eeu_import.xsd"/>
+	<xs:include schemaLocation="363-eeu_release.xsd"/>
+	<xs:include schemaLocation="381-move_owner.xsd"/>
+	<xs:include schemaLocation="391-return_to_circulation.xsd"/>
+	<xs:include schemaLocation="415-move_order.xsd"/>
+	<xs:include schemaLocation="416-receive_order.xsd"/>
+	<xs:include schemaLocation="417-move_return.xsd"/>
+	<xs:include schemaLocation="431-move_place.xsd"/>
+	<xs:include schemaLocation="441-move_unregistered_order.xsd"/>
+	<xs:include schemaLocation="442-receive_unregistered_order.xsd"/>
+	<xs:include schemaLocation="461-move_eeu.xsd"/>
+	<xs:include schemaLocation="470-move_state_dispatch.xsd"/>
+	<xs:include schemaLocation="471-state_dispatch.xsd"/>
+	<xs:include schemaLocation="472-agent_dispatch.xsd"/>
+	<xs:include schemaLocation="511-retail_sale.xsd"/>
+	<xs:include schemaLocation="521-recipe.xsd"/>
+	<xs:include schemaLocation="531-health_care.xsd"/>
+	<xs:include schemaLocation="541-move_destruction.xsd"/>
+	<xs:include schemaLocation="542-destruction.xsd"/>
+	<xs:include schemaLocation="552-withdrawal.xsd"/>
+	<xs:include schemaLocation="601-move_order_notification.xsd"/>
+	<xs:include schemaLocation="602-receive_order_notification.xsd"/>
+	<xs:include schemaLocation="603-move_owner_notification.xsd"/>
+	<xs:include schemaLocation="605-refusal_sender_notification.xsd"/>
+	<xs:include schemaLocation="606-refusal_receiver_notification.xsd"/>
+	<xs:include schemaLocation="607-accept_notification.xsd"/>
+	<xs:include schemaLocation="609-change_owner_notification.xsd"/>
+	<xs:include schemaLocation="610-move_return_notification.xsd"/>
+	<xs:include schemaLocation="611-receive_unregistered_notification.xsd"/>
+	<xs:include schemaLocation="612-state_dispatch_notification.xsd"/>
+	<xs:include schemaLocation="613-foreign_shipment_notification.xsd"/>
+	<xs:include schemaLocation="614-foreign_import_notification.xsd"/>
+	<xs:include schemaLocation="615-eeu_shipment_notification.xsd"/>
+	<xs:include schemaLocation="616-eeu_import_notification.xsd"/>
+	<xs:include schemaLocation="617-receive_order_errors_notification.xsd"/>
+	<xs:include schemaLocation="618-move_to_release_notification.xsd"/>
+	<xs:include schemaLocation="619-agent_dispatch_notification.xsd"/>
+	<xs:include schemaLocation="701-accept.xsd"/>
+	<xs:include schemaLocation="811-relabeling.xsd"/>
+	<xs:include schemaLocation="911-unit_pack.xsd"/>
+	<xs:include schemaLocation="912-unit_unpack.xsd"/>
+	<xs:include schemaLocation="913-unit_extract.xsd"/>
+	<xs:include schemaLocation="914-unit_append.xsd"/>
+	<xs:include schemaLocation="915-multi_pack.xsd"/>
+	<xs:include schemaLocation="10300-code_emission.xsd"/>
+	<xs:include schemaLocation="10311-skzkm_register_end_packing.xsd"/>
+	<xs:include schemaLocation="10511-retail_sell_kkt.xsd"/>
+	<xs:include schemaLocation="10521-skzkm_recipe.xsd"/>
+	<xs:include schemaLocation="10522-recipe_kkt.xsd"/>
+	<xs:include schemaLocation="10531-skzkm_health_care.xsd"/>
+	<xs:include schemaLocation="10319-skzkm_foreign_emission.xsd"/>
+	<xs:include schemaLocation="20521-service_disposal_registrar.xsd"/>
+	<xs:element name="documents">
+		<xs:annotation>
+			<xs:documentation>Перечень документов ИС МДЛП</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="result" type="result">
+					<xs:annotation>
+						<xs:documentation>200 - Результат фиксации сведений в ИС МДЛП</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="result_service" type="result_service">
+					<xs:annotation>
+						<xs:documentation>201 - Результат фиксации сведений о внесении изменений в ИС МДЛП</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="query_kiz_info" type="query_kiz_info">
+					<xs:annotation>
+						<xs:documentation>210 - Запрос информации по номеру SGTIN/SSCC</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="kiz_info" type="kiz_info">
+					<xs:annotation>
+						<xs:documentation>211 - Результат обработки сведений по номеру SGTIN/SSCC</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="edit_counterparty_list" type="edit_counterparty_list">
+					<xs:annotation>
+						<xs:documentation>212 - Изменение списка доверенных контрагентов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="booking_sscc" type="booking_sscc">
+					<xs:annotation>
+						<xs:documentation>213 - Бронирование (отмена бронирования) номеров транспортной упаковки</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="recall" type="recall">
+					<xs:annotation>
+						<xs:documentation>250 - Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственной операции</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="refusal_sender" type="refusal_sender">
+					<xs:annotation>
+						<xs:documentation>251 - Регистрация в ИС МДЛП сведений об отзыве отправителем переданных получателю лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="refusal_receiver" type="refusal_receiver">
+					<xs:annotation>
+						<xs:documentation>252 - Регистрация в ИС МДЛП сведений об отказе получателя от приемки лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="change_information" type="change_information">
+					<xs:annotation>
+						<xs:documentation>253 - Регистрация в ИС МДЛП сведений о корректировке ранее направленных реквизитов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="register_end_packing" type="register_end_packing">
+					<xs:annotation>
+						<xs:documentation>311 - Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="register_product_emission" type="register_product_emission">
+					<xs:annotation>
+						<xs:documentation>313 - Регистрация в ИС МДЛП сведений о выпуске готовой продукции</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_to_release" type="move_to_release">
+					<xs:annotation>
+						<xs:documentation>314 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов для выпуска готовой продукции</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="foreign_emission" type="foreign_emission">
+					<xs:annotation>
+						<xs:documentation>321 - Регистрация в ИС МДЛП сведений о выпуске готовой продукции за пределами территории Российской Федерации</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="foreign_shipment" type="foreign_shipment">
+					<xs:annotation>
+						<xs:documentation>331 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов в Российскую Федерацию</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="foreign_import" type="foreign_import">
+					<xs:annotation>
+						<xs:documentation>332 - Регистрация в ИС МДЛП сведений о ввозе лекарственных препаратов в Российскую Федерацию</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="foreign_import_owner" type="foreign_import_owner">
+					<xs:annotation>
+						<xs:documentation>333 - Регистрация в ИС МДЛП сведений о ввозе лекарственных препаратов в Российскую Федерацию без импортера</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="custom_move" type="custom_move">
+					<xs:annotation>
+						<xs:documentation>334 - Регистрация в ИС МДЛП сведений о перемещении лекарственных препаратов между зонами таможенного контроля</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="fts_data" type="fts_data">
+					<xs:annotation>
+						<xs:documentation>335 - Регистрация в ИС МДЛП сведений о результатах таможенного оформления</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="receive_importer" type="receive_importer">
+					<xs:annotation>
+						<xs:documentation>341 - Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад импортера</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="release_in_circulation" type="release_in_circulation">
+					<xs:annotation>
+						<xs:documentation>342 - Регистрация  в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="change_owner" type="change_owner">
+					<xs:annotation>
+						<xs:documentation>351 - Регистрация в ИС МДЛП сведений о смене собственника лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eeu_owner" type="eeu_owner">
+					<xs:annotation>
+						<xs:documentation>360 - Регистрация в ИС МДЛП сведений о ввозе собственных лекарственных препаратов в Российскую Федерацию из стран ЕАЭС</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eeu_shipment" type="eeu_shipment">
+					<xs:annotation>
+						<xs:documentation>361 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов в Российскую Федерацию из стран ЕАЭС</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eeu_import" type="eeu_import">
+					<xs:annotation>
+						<xs:documentation>362 - Регистрация в ИС МДЛП сведений о ввозе из ЕАЭС и приемке лекарственных препаратов на склад покупателя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eeu_release" type="eeu_release">
+					<xs:annotation>
+						<xs:documentation>363 - Регистрация в ИС МДЛП сведений о вводе лекарственных препаратов в оборот на территории Российской Федерации</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_owner" type="move_owner">
+					<xs:annotation>
+						<xs:documentation>381 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов собственнику</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="return_to_circulation" type="return_to_circulation">
+					<xs:annotation>
+						<xs:documentation>391 - Регистрация в ИС МДЛП сведений о повторном вводе лекарственного препарата в оборот</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_order" type="move_order">
+					<xs:annotation>
+						<xs:documentation>415 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов со склада отправителя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="receive_order" type="receive_order">
+					<xs:annotation>
+						<xs:documentation>416 - Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад получателя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_return" type="move_return">
+					<xs:annotation>
+						<xs:documentation>417 - Регистрация в ИС МДЛП сведений о возврате приостановленных лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_place" type="move_place">
+					<xs:annotation>
+						<xs:documentation>431 - Регистрация в ИС МДЛП сведений о перемещении лекарственных препаратов между различными адресами осуществления деятельности</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_unregistered_order" type="move_unregistered_order">
+					<xs:annotation>
+						<xs:documentation>441 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов незарегистрированному участнику</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="receive_unregistered_order" type="receive_unregistered_order">
+					<xs:annotation>
+						<xs:documentation>442 - Регистрация в ИС МДЛП сведений о приемке на склад лекарственных препаратов, ранее отгруженных на незарегистрированное место деятельности</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_eeu" type="move_eeu">
+					<xs:annotation>
+						<xs:documentation>461 - Регистрация в ИС МДЛП сведений о вывозе лекарственных препаратов с территории Российской Федерации на территорию государства-члена ЕАЭС</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_state_dispatch" type="move_state_dispatch">
+					<xs:annotation>
+						<xs:documentation>470 - Регистрация в ИС МДЛП сведений о смене владельца лекарственных препаратов в рамках государственного лекарственного обеспечения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="state_dispatch" type="state_dispatch">
+					<xs:annotation>
+						<xs:documentation>471 - Регистрация в ИС МДЛП сведений о смене владельца лекарственных препаратов в рамках государственного лекарственного обеспечения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="agent_dispatch" type="agent_dispatch">
+					<xs:annotation>
+						<xs:documentation>472 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов со склада отправителя в рамках агентского договора</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="retail_sale" type="retail_sale">
+					<xs:annotation>
+						<xs:documentation>511 - Регистрация в ИС МДЛП сведений о продаже лекарственного препарата в рамках розничной торговли</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="recipe" type="recipe">
+					<xs:annotation>
+						<xs:documentation>521 - Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="health_care" type="health_care">
+					<xs:annotation>
+						<xs:documentation>531 - Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_destruction" type="move_destruction">
+					<xs:annotation>
+						<xs:documentation>541 - Регистрация в ИС МДЛП сведений о передаче лекарственных препаратов на уничтожение</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="destruction" type="destruction">
+					<xs:annotation>
+						<xs:documentation>542 - Регистрация в ИС МДЛП сведений о факте уничтожения лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="withdrawal" type="withdrawal">
+					<xs:annotation>
+						<xs:documentation>552 - Регистрация в ИС МДЛП сведений о выводе из оборота лекарственных препаратов по различным причинам</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_order_notification" type="move_order_notification">
+					<xs:annotation>
+						<xs:documentation>601 - Уведомление получателя об отгрузке лекарственных препаратов со склада отправителя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="receive_order_notification" type="receive_order_notification">
+					<xs:annotation>
+						<xs:documentation>602 - Уведомление отправителя о приемке лекарственных препаратов на склад получателя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_owner_notification" type="move_owner_notification">
+					<xs:annotation>
+						<xs:documentation>603 - Уведомление собственника об отгрузке лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="refusal_sender_notification" type="refusal_sender_notification">
+					<xs:annotation>
+						<xs:documentation>605 - Уведомление получателя об отзыве отправителем переданных лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="refusal_receiver_notification" type="refusal_receiver_notification">
+					<xs:annotation>
+						<xs:documentation>606 - Уведомление отправителя об отказе получателя от приемки лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="accept_notification" type="accept_notification">
+					<xs:annotation>
+						<xs:documentation>607 - Уведомление о подтверждении (акцептовании) сведений</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="change_owner_notification" type="change_owner_notification">
+					<xs:annotation>
+						<xs:documentation>609 - Уведомление нового собственника о смене собственника лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_return_notification" type="move_return_notification">
+					<xs:annotation>
+						<xs:documentation>610 - Уведомление получателя о возврате приостановленных лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="receive_unregistered_notification" type="receive_unregistered_notification">
+					<xs:annotation>
+						<xs:documentation>611 - Уведомление отправителя о регистрации получателя в ИС МДЛП и приемке на склад лекарственных препаратов, ранее отгруженных на незарегистрированное место деятельности</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="state_dispatch_notification" type="state_dispatch_notification">
+					<xs:annotation>
+						<xs:documentation>612 - Уведомление Получателя об отгрузке лекарственных препаратов со склада Отправителя в рамках смены владельца лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="foreign_shipment_notification" type="foreign_shipment_notification">
+					<xs:annotation>
+						<xs:documentation>613 - Уведомление об отгрузке лекарственных препаратов в Российскую Федерацию</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="foreign_import_notification" type="foreign_import_notification">
+					<xs:annotation>
+						<xs:documentation>614 - Уведомление о ввозе лекарственных препаратов в Российскую Федерацию</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eeu_shipment_notification" type="eeu_shipment_notification">
+					<xs:annotation>
+						<xs:documentation>615 - Уведомление об отгрузке лекарственных препаратов в Российскую Федерацию из стран ЕАЭС</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eeu_import_notification" type="eeu_import_notification">
+					<xs:annotation>
+						<xs:documentation>616 - Уведомление о ввозе из ЕАЭС и приемке лекарственных препаратов на склад покупателя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="receive_order_errors_notification" type="receive_order_errors_notification">
+					<xs:annotation>
+						<xs:documentation>617 - Уведомление отправителя об ошибках при приемке лекарственных препаратов на склад получателя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="move_to_release_notification" type="move_to_release_notification">
+					<xs:annotation>
+						<xs:documentation>618 - Уведомление собственника об отгрузке лекарственных препаратов для выпуска готовой продукции</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="agent_dispatch_notification" type="agent_dispatch_notification">
+					<xs:annotation>
+						<xs:documentation>619 - Уведомление получателя об отгрузке лекарственных препаратов со склада отправителя в рамках агентского договора</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="accept" type="accept">
+					<xs:annotation>
+						<xs:documentation>701 - Регистрация в ИС МДЛП подтверждения (акцептования) сведений</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="relabeling" type="relabeling">
+					<xs:annotation>
+						<xs:documentation>811 - Регистрация в ИС МДЛП сведений о переупаковке и перемаркировке лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="unit_pack" type="unit_pack">
+					<xs:annotation>
+						<xs:documentation>911 - Регистрация в ИС МДЛП сведений об агрегировании упаковок лекарственных препаратов в третичную (заводскую, транспортную) упаковку</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="unit_unpack" type="unit_unpack">
+					<xs:annotation>
+						<xs:documentation>912 - Регистрация в ИС МДЛП сведений о расформировании третичной (заводской, транспортной) упаковки лекарственных препаратов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="unit_extract" type="unit_extract">
+					<xs:annotation>
+						<xs:documentation>913 - Регистрация в ИС МДЛП сведений об изъятии упаковок лекарственных препаратов из третичной (заводской, транспортной) упаковки</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="unit_append" type="unit_append">
+					<xs:annotation>
+						<xs:documentation>914 - Регистрация в ИС МДЛП сведений о дополнительном вложении упаковок в третичную (заводскую, транспортную) упаковку</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="multi_pack" type="multi_pack">
+					<xs:annotation>
+						<xs:documentation>915 - Регистрация в ИС МДЛП сведений об агрегировании во множество третичных (заводских, транспортных) упаковок</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="code_emission" type="code_emission">
+					<xs:annotation>
+						<xs:documentation>10300 - Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="skzkm_register_end_packing" type="skzkm_register_end_packing">
+					<xs:annotation>
+						<xs:documentation>10311 - Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки (информация с СКЗКМ)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="skzkm_foreign_emission" type="skzkm_foreign_emission">
+					<xs:annotation>
+						<xs:documentation>10319 - Регистрация в ИС МДЛП сведений об упаковке лекарственного препарата и нанесении средств идентификации за пределами территории РФ (информация с СКЗКМ)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="retail_sell_kkt" type="retail_sell_kkt">
+					<xs:annotation>
+						<xs:documentation>10511 - Регистрация в ИС МДЛП сведений о продаже лекарственного препарата в рамках розничной торговли с использование ККТ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="skzkm_recipe" type="skzkm_recipe">
+					<xs:annotation>
+						<xs:documentation>10521 - Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту (информация с СКЗКМ)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="recipe_kkt" type="recipe_kkt">
+					<xs:annotation>
+						<xs:documentation>10522 - Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту c использование ККТ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="skzkm_health_care" type="skzkm_health_care">
+					<xs:annotation>
+						<xs:documentation>10531 - Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи (информация с СКЗКМ)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="service_disposal_registrar" type="service_disposal_registrar">
+					<xs:annotation>
+						<xs:documentation>20521 - Регистрация в ИС МДЛП сведений о подключении регистратора выбытия</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="version" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Версия формата</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="session_ui" type="string200_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор сессии информационного обмена</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="original_id" type="string200_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор исходной (родительской) сессии информационного обмена</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="client_identifier" type="string200_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор по учетной системе клиента</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

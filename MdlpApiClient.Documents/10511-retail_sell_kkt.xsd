@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="retail_sell_kkt">
+		<xs:annotation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений о продаже лекарственного препарата в рамках розничной торговли с использованием ККТ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_any_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="inn" type="inn_type">
+				<xs:annotation>
+					<xs:documentation>ИНН организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sell_details">
+				<xs:annotation>
+					<xs:documentation>Детализация продажи</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="receipt" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Перечень фискальных чеков, по которым была произведена продажа</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="type" type="receipt_type_enum">
+										<xs:annotation>
+											<xs:documentation>Тип фискального чека (3 - чек продажи, 31 - чек коррекции)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="operation_date" type="datetimeoffset">
+										<xs:annotation>
+											<xs:documentation>Дата совершения операции (тег 1012)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="prescription" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Льготный рецепт</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="doc_date" type="date_type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Реквизиты документа: дата регистрации льготного рецепта</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="doc_series" type="document_number_200_type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Реквизиты документа: номер серии льготного рецепта (опционален)</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="doc_num" type="document_number_200_type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Реквизиты документа: номер льготного рецепта</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="items">
+										<xs:annotation>
+											<xs:documentation>Список товарных позиций в фискальном чеке</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="item" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>Параметры товарной позиции</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="sgtin" type="sign_sgtin_type">
+																<xs:annotation>
+																	<xs:documentation>Номер SGTIN</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="cost" type="price_kkt_type">
+																<xs:annotation>
+																	<xs:documentation>Стоимость предмета расчета с учетом скидок и наценок (тег 1079)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="vat_value" type="price_kkt_type">
+																<xs:annotation>
+																	<xs:documentation>Сумма НДС (тег 1200)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="discount" type="price_kkt_type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Сумма льготной скидки</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="sold_part" type="part_type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Доля от вторичной упаковки</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="10511"/>
+	</xs:complexType>
+</xs:schema>

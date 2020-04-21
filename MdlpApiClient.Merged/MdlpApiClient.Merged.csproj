@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="MdlpClientSingleFile.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MdlpClientSingleFile.cs</LastGenOutput>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="custom_move">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о перемещении лекарственных препаратов между зонами таможенного контроля</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="custom_shipper_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор места отгрузки в зоне таможенного контроля</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="custom_receiver_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор места приемки в зоне таможенного контроля</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список перемещаемой продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="25000">
+                        <xs:element name="sgtin" type="sign_sgtin_type">
+                            <xs:annotation>
+                                <xs:documentation>Идентификатор SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sscc" type="sscc_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_custom_move_sgtin">
+                    <xs:selector xpath="sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="ux_custom_move_sscc">
+                    <xs:selector xpath="sscc"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="334"/>
+    </xs:complexType>
+</xs:schema>

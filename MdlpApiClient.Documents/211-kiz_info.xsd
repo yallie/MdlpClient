@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="kiz_info">
+        <xs:annotation>
+            <xs:documentation>Результат обработки сведений по номеру SGTIN/SSCC</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="result">
+                <xs:annotation>
+                    <xs:documentation>Информация о результате операции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="found" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Признак наличия информации</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:choice>
+                            <xs:annotation>
+                                <xs:documentation>Номер исходного идентификатора</xs:documentation>
+                            </xs:annotation>
+                            <xs:element name="sscc" type="sscc_type">
+                                <xs:annotation>
+                                    <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="sgtin" type="sign_sgtin_type">
+                                <xs:annotation>
+                                    <xs:documentation>Номер SGTIN</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:choice>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="operation_warnings" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Список предупреждений</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="operation_warning" type="string1000_type">
+                            <xs:annotation>
+                                <xs:documentation>Текст предупреждения</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:choice minOccurs="0">
+                <xs:element name="sgtin">
+                    <xs:annotation>
+                        <xs:documentation>Информация об SGTIN</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="info_sgtin">
+                                <xs:annotation>
+                                    <xs:documentation>Детальная информация по SGTIN</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="status" type="string200_type">
+                                            <xs:annotation>
+                                                <xs:documentation>статус SGTIN</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="sscc" type="sscc_type" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>Код третичной упаковки</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="gtin" type="gs1_gtin_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Идентификатор товара в GS1</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="series_number" type="series_number_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Номер производственной серии</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="expiration_date" type="date_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Срок годности препарата</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="info_decision" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Информация о решении</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="id_decision" type="guid_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Идентификатор решения</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="doc_num" type="document_number_200_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Номер решения</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="doc_date" type="date_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Дата решения</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="sscc_down">
+                    <xs:annotation>
+                        <xs:documentation>Информация по SSCC (что находится в данной упаковке)</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="tree" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>Информация о вложенных объектах</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:choice>
+                                            <xs:element name="sscc" type="sscc_type">
+                                                <xs:annotation>
+                                                    <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                                                </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="sgtin">
+                                                <xs:annotation>
+                                                    <xs:documentation>Информация об SGTIN</xs:documentation>
+                                                </xs:annotation>
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element name="info_sgtin">
+                                                            <xs:annotation>
+                                                                <xs:documentation>Детальная информация по SGTIN</xs:documentation>
+                                                            </xs:annotation>
+                                                            <xs:complexType>
+                                                                <xs:sequence>
+                                                                    <xs:element name="sgtin" type="sign_sgtin_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Номер SGTIN</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="status" type="string200_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>статус SGTIN</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="sscc"
+                                                                                type="sscc_type"
+                                                                                minOccurs="0">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Код третичной упаковки</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="gtin" type="gs1_gtin_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Идентификатор товара в GS1</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="series_number"
+                                                                                type="series_number_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Номер производственной серии</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="expiration_date" type="date_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Срок годности препарата</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                </xs:sequence>
+                                                            </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="info_decision" minOccurs="0">
+                                                            <xs:annotation>
+                                                                <xs:documentation>Информация о решении</xs:documentation>
+                                                            </xs:annotation>
+                                                            <xs:complexType>
+                                                                <xs:sequence>
+                                                                    <xs:element name="id_decision" type="guid_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Идентификатор решения</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="doc_num"
+                                                                                type="document_number_200_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Номер решения</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                    <xs:element name="doc_date" type="date_type">
+                                                                        <xs:annotation>
+                                                                            <xs:documentation>Дата решения</xs:documentation>
+                                                                        </xs:annotation>
+                                                                    </xs:element>
+                                                                </xs:sequence>
+                                                            </xs:complexType>
+                                                        </xs:element>
+                                                    </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:choice>
+                                        <xs:element name="parent_sscc" type="sscc_type" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>Номер родительской транспортной упаковки</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                    <xs:unique name="ux_kiz_info_down_sgtin">
+                        <xs:selector xpath="tree/sgtin/info_sgtin"/>
+                        <xs:field xpath="sgtin"/>
+                    </xs:unique>
+                    <xs:unique name="ux_kiz_info_down_sscc">
+                        <xs:selector xpath="tree"/>
+                        <xs:field xpath="sscc"/>
+                    </xs:unique>
+                </xs:element>
+                <xs:element name="sscc_up">
+                    <xs:annotation>
+                        <xs:documentation>Информация по SSCC (где находится данная упаковка)</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="info" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>Информация о вышестоящих упаковках</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="sscc" type="sscc_type">
+                                            <xs:annotation>
+                                                <xs:documentation>Номер вышестоящей транспортной упаковки</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="level" type="xs:int">
+                                            <xs:annotation>
+                                                <xs:documentation>Уровень вложенность</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                    <xs:unique name="ux_kiz_info_up_level">
+                        <xs:selector xpath="info"/>
+                        <xs:field xpath="level"/>
+                    </xs:unique>
+                    <xs:unique name="ux_kiz_info_up_sscc">
+                        <xs:selector xpath="info"/>
+                        <xs:field xpath="sscc"/>
+                    </xs:unique>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="211"/>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:complexType name="multi_pack">
+		<xs:annotation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений об агрегировании во множество третичных (заводских, транспортных) упаковок</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_any_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operation_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата упаковки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="by_sgtin">
+					<xs:annotation>
+						<xs:documentation>Вложены только SGTIN</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="detail" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Данные</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="sscc" type="sscc_type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор SSCC</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="content">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="sgtin" type="sign_sgtin_type" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>Вложенные идентификаторы SGTIN</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:unique name="ux_multi_pack_sscc_by_sgtin">
+						<xs:selector xpath="detail/sscc"/>
+						<xs:field xpath="."/>
+					</xs:unique>
+					<xs:unique name="ux_multi_pack_sgtin">
+						<xs:selector xpath="detail/content/sgtin"/>
+						<xs:field xpath="."/>
+					</xs:unique>
+				</xs:element>
+				<xs:element name="by_sscc">
+					<xs:annotation>
+						<xs:documentation>Вложены только SSCC</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="detail" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Данные</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="sscc" type="sscc_type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор SSCC</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="content">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="sscc" type="sscc_type" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>Вложенные идентификаторы SSCC</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:unique name="ux_multi_pack_sscc_by_sscc">
+						<xs:selector xpath="detail/sscc|detail/content/sscc"/>
+						<xs:field xpath="."/>
+					</xs:unique>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="915"/>
+	</xs:complexType>
+</xs:schema>

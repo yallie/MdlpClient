@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="move_destruction">
+		<xs:annotation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений о передаче лекарственных препаратов на уничтожение</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_id_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operation_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата совершения операции</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="destruction_org" type="org_address_type">
+				<xs:annotation>
+					<xs:documentation>ИНН/КПП организации, осуществляющей уничтожение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_num" type="document_number_200_type">
+				<xs:annotation>
+					<xs:documentation>Реквизиты договора передачи на уничтожение: номер документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Реквизиты договора передачи на уничтожение: дата документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="act_number" type="document_number_200_type">
+				<xs:annotation>
+					<xs:documentation>Реквизиты акта передачи на уничтожение: номер документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="act_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Реквизиты акта передачи на уничтожение: дата документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="order_details">
+				<xs:annotation>
+					<xs:documentation>Список продукции</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="detail" maxOccurs="25000">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice>
+										<xs:element name="sgtin" type="sign_sgtin_type">
+											<xs:annotation>
+												<xs:documentation>Номер SGTIN</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="sscc" type="sscc_type">
+											<xs:annotation>
+												<xs:documentation>Номер транспортной упаковки</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+									<xs:element name="decision" type="document_number_200_type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Реквизиты решения Росздравнадзора о выводе из оборота. Заполняется в случает решения Росздравнадзора.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="destruction_type" type="destruction_type_enum">
+										<xs:annotation>
+											<xs:documentation>Причина (основание) передачи на уничтожение</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:unique name="ux_move_destruction_sgtin">
+					<xs:selector xpath="detail/sgtin"/>
+					<xs:field xpath="."/>
+				</xs:unique>
+				<xs:unique name="ux_move_destruction_sscc">
+					<xs:selector xpath="detail/sscc"/>
+					<xs:field xpath="."/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="541"/>
+	</xs:complexType>
+</xs:schema>

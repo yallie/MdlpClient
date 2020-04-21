@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:complexType name="result_service">
+        <xs:annotation>
+            <xs:documentation>Результат фиксации сведений о внесении изменений в ИС МДЛП</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="operation" type="string1000_type">
+                <xs:annotation>
+                    <xs:documentation>Наименование операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_id" type="string200_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор, присвоенный запросу</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_result" type="operation_result_type_enum">
+                <xs:annotation>
+                    <xs:documentation>Результат фиксации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_comment" type="string1000_type" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Примечание к операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_warnings" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Список предупреждений</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="operation_warning" type="string1000_type">
+                            <xs:annotation>
+                                <xs:documentation>Текст предупреждения</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="errors" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Список ошибок</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="error_code" type="string200_type">
+                            <xs:annotation>
+                                <xs:documentation>Код ошибки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="error_desc" type="string4000_type">
+                            <xs:annotation>
+                                <xs:documentation>Текст ошибки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="object_id" type="string128_type" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>Идентификатор ошибочной записи</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="success" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Список зарегистрированных контрагентов</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="success_desc" type="string4000_type">
+                            <xs:annotation>
+                                <xs:documentation>Текст ответа</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="object_id" type="string128_type">
+                            <xs:annotation>
+                                <xs:documentation>Идентификатор добавленной записи</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="object_info">
+                            <xs:annotation>
+                                <xs:documentation>ИНН добавленного контрагента</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:choice>
+                                    <xs:element name="inn_ul" type="inn_ul_type"/>
+                                    <xs:element name="inn_fl" type="inn_fl_type"/>
+                                </xs:choice>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="201"/>
+        <xs:attribute name="accept_time" type="xs:dateTime" use="required">
+            <xs:annotation>
+                <xs:documentation>Дата и время проводки запроса</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>

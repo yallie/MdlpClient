@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:complexType name="code_emission">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата эмиссии</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="oms_id" type="guid_type" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор СУЗ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="oms_order_id" type="guid_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор заказа СУЗ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="gtin" type="gs1_gtin_type">
+                <xs:annotation>
+                    <xs:documentation>Код GTIN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="signs">
+                <xs:annotation>
+                    <xs:documentation>Перечень идентификационных кодов потребительских упаковок</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="sgtin" type="sign_sgtin_type" maxOccurs="150000">
+                            <xs:annotation>
+                                <xs:documentation>Идентификатор SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="ux_code_emission">
+                    <xs:selector xpath="sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="10300"/>
+    </xs:complexType>
+</xs:schema>

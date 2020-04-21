@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="release_in_circulation">
+		<xs:annotation>
+			<xs:documentation>Регистрация  в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_id_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operation_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата совершения операции</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="release_info" type="release_info_type">
+				<xs:annotation>
+					<xs:documentation>Реквизиты сведений о вводе в оборот</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="signs">
+				<xs:annotation>
+					<xs:documentation>Перечень идентификационных кодов потребительских упаковок</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice maxOccurs="25000">
+						<xs:element name="sgtin" type="sign_sgtin_type">
+							<xs:annotation>
+								<xs:documentation>Идентификатор SGTIN</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="sscc" type="sscc_type">
+							<xs:annotation>
+								<xs:documentation>Номер транспортной упаковки</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+				<xs:unique name="ux_release_in_circulation_sgtin">
+					<xs:selector xpath="sgtin"/>
+					<xs:field xpath="."/>
+				</xs:unique>
+				<xs:unique name="ux_release_in_circulation_sscc">
+					<xs:selector xpath="sscc"/>
+					<xs:field xpath="."/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="342"/>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="return_to_circulation">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о повторном вводе лекарственного препарата в оборот</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="withdrawal_reason" type="withdrawal_reason_enum">
+                <xs:annotation>
+                    <xs:documentation>Причина вывода из оборота</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reason_return" type="reason_return_type_enum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Причина возврата</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="25000">
+                        <xs:element name="sgtin" type="sign_sgtin_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_return_to_circulation_sgtin">
+                    <xs:selector xpath="sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="391"/>
+    </xs:complexType>
+</xs:schema>

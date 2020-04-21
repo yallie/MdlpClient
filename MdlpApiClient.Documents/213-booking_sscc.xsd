@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:complexType name="booking_sscc">
+        <xs:annotation>
+            <xs:documentation>Бронирование (отмена бронирования) номеров транспортной упаковки</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_type" type="edit_type_enum">
+                <xs:annotation>
+                    <xs:documentation>Тип операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="signs">
+                <xs:annotation>
+                    <xs:documentation>Перечень номеров транспортной упаковки</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="sscc" type="sscc_type" maxOccurs="300">
+                            <xs:annotation>
+                                <xs:documentation>Идентификатор SSCC</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_booking_sscc_sscc">
+                    <xs:selector xpath="sscc"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="213"/>
+    </xs:complexType>
+</xs:schema>

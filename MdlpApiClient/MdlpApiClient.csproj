@@ -10,12 +10,19 @@
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.txt" />
+    <Compile Include="..\MdlpApiClient.Documents\MdlpApiClient.Documents.cs">
+    	<Link>Documents\MdlpApiClient.Documents.cs</Link>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="restsharp" Version="106.10.1" />
     <PackageReference Include="GostCryptography" Version="2.0.8" />
     <PackageReference Include="ServiceStack.Text" Version="4.0.62" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
   <PropertyGroup>

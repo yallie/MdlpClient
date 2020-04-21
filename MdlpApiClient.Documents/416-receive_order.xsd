@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="receive_order">
+		<xs:annotation>
+			<xs:documentation>Регистрация ИС МДЛП сведений о приемке лекарственных препаратов на склад получателя</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_id_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shipper_id" type="subject_id_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор грузоотправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operation_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата приемки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_num" type="document_number_200_type">
+				<xs:annotation>
+					<xs:documentation>Документ подтверждающий получение: номер документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Документ подтверждающий получение: дата документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="receive_type" type="receive_type_enum">
+				<xs:annotation>
+					<xs:documentation>Тип операции приемки на склад</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="source" type="source_type">
+				<xs:annotation>
+					<xs:documentation>Источник финансирования</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contract_type" type="contract_type_enum">
+				<xs:annotation>
+					<xs:documentation>Тип договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contract_num" type="document_number_200_type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Реестровый номер контракта (договора) в Единой информационной системе в сфере закупок</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="order_details">
+				<xs:annotation>
+					<xs:documentation>Список принимаемой продукции</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="union" maxOccurs="25000">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice>
+										<xs:element name="sgtin" type="sign_sgtin_type">
+											<xs:annotation>
+												<xs:documentation>Номер SGTIN</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="sscc_detail">
+											<xs:annotation>
+												<xs:documentation>Сведения о транспортной упаковке</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="sscc" type="sscc_type">
+														<xs:annotation>
+															<xs:documentation>Номер транспортной упаковки</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="detail" minOccurs="0" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Сведения о цене содержимого транспортной упаковки</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="gtin" type="gs1_gtin_type">
+																	<xs:annotation>
+																		<xs:documentation>Идентификатор товара в GS1 (GTIN)</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="series_number" type="series_number_type">
+																	<xs:annotation>
+																		<xs:documentation>Номер производственной серии</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="cost" type="price_type">
+																	<xs:annotation>
+																		<xs:documentation>Стоимость единицы продукции (с учетом налога на добавленную стоимость)</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="vat_value" type="price_type">
+																	<xs:annotation>
+																		<xs:documentation>Cумма НДС, руб</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:element name="cost" type="price_type">
+										<xs:annotation>
+											<xs:documentation>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведенья посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="vat_value" type="price_type">
+										<xs:annotation>
+											<xs:documentation>Cумма НДС, руб</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:unique name="ux_receive_s_sgtin">
+					<xs:selector xpath="union"/>
+					<xs:field xpath="sgtin"/>
+				</xs:unique>
+				<xs:unique name="ux_receive_s_sscc">
+					<xs:selector xpath="union/sscc_detail"/>
+					<xs:field xpath="sscc"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="416"/>
+	</xs:complexType>
+</xs:schema>

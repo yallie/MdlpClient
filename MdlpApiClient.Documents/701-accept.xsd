@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:complexType name="accept">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП подтверждения (акцептования) сведений</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="counterparty_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор контрагента</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="confirm_paused" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Подтверждение приемки приостановленного товара</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список подтверждаемой продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="25000">
+                        <xs:element name="sgtin" type="sign_sgtin_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sscc" type="sscc_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_accept_sgtin">
+                    <xs:selector xpath="sgtin"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="ux_accept_sscc">
+                    <xs:selector xpath="sscc"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="701"/>
+    </xs:complexType>
+</xs:schema>

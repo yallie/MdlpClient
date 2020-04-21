@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="base_types.xsd"/>
+    <xs:include schemaLocation="base_ref.xsd"/>
+    <xs:complexType name="edit_counterparty_list">
+        <xs:annotation>
+            <xs:documentation>Изменение списка доверенных контрагентов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="edit_type" type="edit_type_enum">
+                <xs:annotation>
+                    <xs:documentation>Вид операции редактирования</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="counterparty">
+                <xs:annotation>
+                    <xs:documentation>Список добавляемых/удаляемых контрагентов</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="150">
+                        <xs:element name="counterparty_id" type="system_subject_type">
+                            <xs:annotation>
+                                <xs:documentation>Идентификатор контрагента в ИС МДЛП</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="counterparty_info">
+                            <xs:annotation>
+                                <xs:documentation>ИНН доверенных контрагентов</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:choice>
+                                    <xs:element name="inn_ul" type="inn_ul_type"/>
+                                    <xs:element name="inn_fl" type="inn_fl_type"/>
+                                </xs:choice>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_ecl_count_id">
+                    <xs:selector xpath="counterparty_id"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="ux_ecl_count_info_fl">
+                    <xs:selector xpath="counterparty_info/inn_fl"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="ux_ecl_count_info_ul">
+                    <xs:selector xpath="counterparty_info/inn_ul"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" use="required" fixed="212"/>
+    </xs:complexType>
+</xs:schema>
