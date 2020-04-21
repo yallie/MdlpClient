@@ -686,6 +686,21 @@
             Assert.NotNull(balance.Entries);
             Assert.IsTrue(balance.Total > 0);
             Assert.IsTrue(balance.Entries.Length > 0);
+            AssertRequiredItems(balance.Entries);
+        }
+
+        [Test]
+        public void Chapter8_12_1_GetPausedCirculationDecisions()
+        {
+            var decisions = Client.GetPausedCirculationDecisions(new PausedCirculationDecisionFilter
+            {
+                Gtin = "04610020540019"
+            }, 0, 10);
+            Assert.NotNull(decisions);
+            Assert.NotNull(decisions.Entries);
+            Assert.AreEqual(1, decisions.Total);
+            Assert.AreEqual(1, decisions.Entries.Length);
+            AssertRequiredItems(decisions.Entries);
         }
     }
 }

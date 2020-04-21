@@ -534,5 +534,22 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.12.1. Фильтрация по реестру решений о приостановке КИЗ
+        /// </summary>
+        /// <param name="filter">Фильтр реестра решений о приостановке КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи</param>
+        /// <param name="count">Количество записей в реестре</param>
+        /// <returns>Список решений о приостановке КИЗ</returns>
+        public EntriesResponse<PausedCirculationDecision> GetPausedCirculationDecisions(PausedCirculationDecisionFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<PausedCirculationDecision>>("reestr/paused-circulation-decisions/filter", new
+            {
+                filter = filter ?? new PausedCirculationDecisionFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

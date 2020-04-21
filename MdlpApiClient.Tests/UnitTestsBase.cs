@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Runtime.Serialization;
     using System;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class UnitTestsBase
@@ -45,6 +46,21 @@
             TestContext.Progress.WriteLine("------> {0} <------", TestContext.CurrentContext.Test.MethodName);
         }
 
+
+        /// <summary>
+        /// Asserts that all required data members are not empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the data contract.</typeparam>
+        /// <param name="dataContract">The instance of the data contract.</param>
+        protected void AssertRequiredItems<T>(IEnumerable<T> dataContract)
+        {
+            Assert.NotNull(dataContract);
+            foreach (var item in dataContract)
+            {
+                AssertRequired(item);
+            }
+        }
+
         /// <summary>
         /// Asserts that all required data members are not empty.
         /// </summary>
@@ -54,12 +70,15 @@
         {
             Assert.NotNull(dataContract);
 
+            // numeric properties can be 0, that's ok
+            var skipNumericTypes = new[] { typeof(int), typeof(long), typeof(short), typeof(decimal), typeof(float) };
             var requiredMembers =
                 from p in typeof(T).GetProperties()
                 let dm = p.GetCustomAttributes(typeof(DataMemberAttribute), false)
                     .OfType<DataMemberAttribute>()
                     .FirstOrDefault()
                 where dm != null && dm.IsRequired == true
+                where !skipNumericTypes.Contains(p.PropertyType)
                 select p;
 
             var required = requiredMembers.ToArray();
