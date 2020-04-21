@@ -639,5 +639,13 @@
                 Email = "peresok+76@mail.ru"
             });
         }
+
+        [Test]
+        public void Chapter8_09_3_GetCurrentBillingInfo()
+        {
+            var accounts = Client.GetCurrentBillingInfo();
+            Assert.NotNull(accounts);
+            Assert.AreEqual(0, accounts.Length);
+        }
     }
 }

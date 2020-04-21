@@ -4,7 +4,6 @@
 
     /// <summary>
     /// 8.9.1. Метод для получения информации об организации, в которой зарегистрирован текущий пользователь
-    /// Формат объекта MemberResponse
     /// </summary>
     [DataContract]
     internal class MemberResponse

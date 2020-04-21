@@ -474,5 +474,14 @@
         {
             Put("members/current", options);
         }
+
+        /// <summary>
+        /// 8.9.3. Метод для получения информации о лицевых счетах
+        /// </summary>
+        public BillingAccount[] GetCurrentBillingInfo()
+        {
+            var accounts = Get<BillingAccountResponse>("members/current/billing/info");
+            return accounts != null ? accounts.Accounts : null;
+        }
     }
 }
