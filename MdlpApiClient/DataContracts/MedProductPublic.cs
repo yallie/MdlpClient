@@ -36,7 +36,7 @@
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "prod_sell_name")]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// GTIN

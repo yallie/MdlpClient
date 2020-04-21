@@ -97,7 +97,7 @@
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
-        /// Название препарата.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
@@ -108,7 +108,7 @@
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// Полное наименование товара

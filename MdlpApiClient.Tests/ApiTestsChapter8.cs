@@ -189,7 +189,7 @@
             Assert.AreEqual("Москва", sgtin.FederalSubjectName);
 
             Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
-            Assert.AreEqual("Гертикад®", sgtin.SellingName);
+            Assert.AreEqual("Гертикад®", sgtin.ProductSellingName);
             Assert.AreEqual("лиофилизат для приготовления концентрата для приготовления раствора для инфузий \"гертикад®\" 150 мг, 440 мг", sgtin.FullProductName);
             Assert.AreEqual("ЗАО БИОКАД", sgtin.RegistrationHolder);
         }
@@ -217,7 +217,7 @@
             Assert.AreEqual("Москва", sgtin.FederalSubjectName);
 
             Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
-            Assert.AreEqual("Гертикад®", sgtin.SellingName);
+            Assert.AreEqual("Гертикад®", sgtin.ProductSellingName);
             Assert.AreEqual("лиофилизат для приготовления концентрата для приготовления раствора для инфузий \"гертикад®\" 150 мг, 440 мг", sgtin.FullProductName);
             Assert.AreEqual("ЗАО БИОКАД", sgtin.RegistrationHolder);
 
@@ -247,14 +247,14 @@
             Assert.NotNull(sgtin);
             Assert.AreEqual("04607028394287PQ28I2DHQDF1V", sgtin.Sgtin);
             Assert.AreEqual("ТРАСТУЗУМАБ", sgtin.ProductName);
-            Assert.AreEqual("Гертикад®", sgtin.SellingName);
+            Assert.AreEqual("Гертикад®", sgtin.ProductSellingName);
             Assert.AreEqual("ЗАО БИОКАД", sgtin.RegistrationHolder);
 
             sgtin = sgtins.Entries[1];
             Assert.NotNull(sgtin);
             Assert.AreEqual("611700126101510000000001311", sgtin.Sgtin);
             Assert.AreEqual("Сертикан", sgtin.ProductName);
-            Assert.AreEqual("Сертикан", sgtin.SellingName);
+            Assert.AreEqual("Сертикан", sgtin.ProductSellingName);
             Assert.AreEqual("ACG", sgtin.RegistrationHolder);
 
             var failed = sgtins.FailedEntries[0];
@@ -305,7 +305,7 @@
             Assert.AreEqual("Санкт-Петербург", sgtin.FederalSubjectName);
 
             Assert.AreEqual("ЛОПИНАВИР+РИТОНАВИР", sgtin.ProductName);
-            Assert.AreEqual("Калетра", sgtin.SellingName);
+            Assert.AreEqual("Калетра", sgtin.ProductSellingName);
             Assert.AreEqual("Калетра® таблетки покрытые пленочной оболочкой, 200 мг+50 мг", sgtin.FullProductName);
             Assert.AreEqual("ЭББВИ ДОЙЧЛАНД ГМБХ И КО. КГ", sgtin.RegistrationHolder);
         }
@@ -383,7 +383,7 @@
             var prod = medProducts.Entries[0];
             Assert.NotNull(prod);
             Assert.AreEqual("04607028394287", prod.Gtin);
-            Assert.AreEqual("Гертикад®", prod.SellingName);
+            Assert.AreEqual("Гертикад®", prod.ProductSellingName);
             Assert.AreEqual("ТРАСТУЗУМАБ", prod.ProductName);
             Assert.AreEqual("ЗАО БИОКАД", prod.RegistrationHolder);
             Assert.AreEqual("150 мг", prod.ProductDosageName);
@@ -394,7 +394,7 @@
         {
             var prod = Client.GetCurrentMedProduct("04607028394287");
             Assert.AreEqual("04607028394287", prod.Gtin);
-            Assert.AreEqual("Гертикад®", prod.SellingName);
+            Assert.AreEqual("Гертикад®", prod.ProductSellingName);
             Assert.AreEqual("ТРАСТУЗУМАБ", prod.ProductName);
             Assert.AreEqual("ЗАО БИОКАД", prod.RegistrationHolder);
             Assert.AreEqual("150 мг", prod.ProductDosageName);
@@ -415,7 +415,7 @@
             var prod = medProducts.Entries[0];
             Assert.NotNull(prod);
             Assert.AreEqual("04607028394287", prod.Gtin);
-            Assert.AreEqual("Гертикад®", prod.SellingName);
+            Assert.AreEqual("Гертикад®", prod.ProductSellingName);
             Assert.AreEqual("0", prod.ProductPack1Amount);
             Assert.AreEqual("ЛП-003403", prod.RegistrationNumber);
             Assert.AreEqual("150 мг", prod.ProductDosageName);
@@ -426,7 +426,7 @@
         {
             var prod = Client.GetPublicMedProduct("04607028394287");
             Assert.AreEqual("04607028394287", prod.Gtin);
-            Assert.AreEqual("Гертикад®", prod.SellingName);
+            Assert.AreEqual("Гертикад®", prod.ProductSellingName);
             Assert.AreEqual("0", prod.ProductPack1Amount);
             //Assert.AreEqual("ЛП-003403", prod.RegistrationNumber); // null почему-то
             Assert.AreEqual("150 мг", prod.ProductDosageName);
@@ -700,7 +700,25 @@
             Assert.NotNull(decisions.Entries);
             Assert.AreEqual(1, decisions.Total);
             Assert.AreEqual(1, decisions.Entries.Length);
+
             AssertRequiredItems(decisions.Entries);
+            var decision = decisions.Entries.Single();
+            Assert.AreEqual("04610020540019", decision.Gtin);
+            Assert.AreEqual("290734f1-9400-4a91-8a66-9e7f2dee55ab", decision.HaltID);
+        }
+
+        [Test]
+        public void Chapter8_12_2_GetPausedCirculationSgtins()
+        {
+            var sgtins = Client.GetPausedCirculationSgtins("290734f1-9400-4a91-8a66-9e7f2dee55ab", 0, 10);
+            Assert.NotNull(sgtins);
+            Assert.NotNull(sgtins.Entries);
+            Assert.AreEqual(2, sgtins.Total);
+            Assert.AreEqual(2, sgtins.Entries.Length);
+            AssertRequiredItems(sgtins.Entries);
+
+            var list = string.Join(",", sgtins.Entries.Select(e => e.Sgtin));
+            Assert.AreEqual("04610020540019SCHEME2600094,04610020540019SCHEME2600095", list);
         }
     }
 }

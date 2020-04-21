@@ -19140,6 +19140,59 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.9.3. Метод для получения информации о лицевых счетах
+    /// Формат объекта BillingAccount
+    /// </summary>
+    [DataContract]
+    public class BillingAccount
+    {
+        /// <summary>
+        /// Идентификатор лицевого счета
+        /// </summary>
+        [DataMember(Name = "account_number", IsRequired = true)]
+        public string AccountNumber { get; set; }
+
+        /// <summary>
+        /// Баланс лицевого счета
+        /// </summary>
+        /// <remarks>
+        /// Может быть не заполнен, если данной информации не поступало в ИС "МДЛП"
+        /// </remarks>
+        [DataMember(Name = "balance", IsRequired = false)]
+        public decimal? Balance { get; set; }
+
+        /// <summary>
+        /// Дата последнего обновления баланса лицевого счёта
+        /// </summary>
+        [DataMember(Name = "last_update", IsRequired = false)]
+        public DateTime? LastUpdate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.9.3. Метод для получения информации о лицевых счетах
+    /// </summary>
+    [DataContract]
+    internal class BillingAccountResponse
+    {
+        /// <summary>
+        /// Список лицевых счетов
+        /// </summary>
+        [DataMember(Name = "accounts", IsRequired = false)]
+        public BillingAccount[] Accounts { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.1.2. Место осуществления деятельности.
     /// </summary>
     [DataContract]
@@ -19461,6 +19514,32 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.36. Формат объекта DeviceContractInfoEntry
+    /// Таблица 32. Формат объекта DeviceContractInfoEntry
+    /// </summary>
+    [DataContract]
+    public class DeviceContractInfoEntry
+    {
+        /// <summary>
+        /// Номер договора
+        /// </summary>
+        [DataMember(Name = "doc_num", IsRequired = false)]
+        public string DocumentNumber { get; set; }
+
+        /// <summary>
+        /// Дата договора
+        /// </summary>
+        [DataMember(Name = "doc_date", IsRequired = false)]
+        public DateTime? DocumentDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 4.18. Формат объекта DocFilter
     /// Содержит информацию для фильтрации списка документов.
     /// </summary>
@@ -19743,6 +19822,167 @@ namespace MdlpApiClient.DataContracts
 
         [DataMember(Name = "ORG_NAME")]
         public string OrgName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.10.1. Фильтрация по реестру регистраторов эмиссии
+    /// </summary>
+    [DataContract]
+    public class EmissionDeviceFilter
+    {
+        /// <summary>
+        /// Уникальный идентификатор устройства
+        /// </summary>
+        [DataMember(Name = "device_id", IsRequired = false)]
+        public string DeviceID { get; set; }
+
+        /// <summary>
+        /// Дата предоставления, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "provision_start_date", IsRequired = false)]
+        public DateTime? ProvisionStartDate { get; set; }
+
+        /// <summary>
+        /// Дата предоставления, окончание периода фильтрации
+        /// </summary>
+        [DataMember(Name = "provision_end_date", IsRequired = false)]
+        public DateTime? ProvisionEndDate { get; set; }
+
+        /// <summary>
+        /// Тип размещения
+        /// 0 — по месту использования
+        /// 1 — ЦОД оператора
+        /// 2 — по адресу МД
+        /// </summary>
+        [DataMember(Name = "placement_type", IsRequired = false)]
+        public int? PlacementType { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// 0 — активный
+        /// 1 — неактивный
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public int? Status { get; set; }
+
+        /// <summary>
+        /// Производитель устройства
+        /// </summary>
+        [DataMember(Name = "device_vendor", IsRequired = false)]
+        public string DeviceVendor { get; set; }
+
+        /// <summary>
+        /// Модель устройства
+        /// </summary>
+        [DataMember(Name = "device_model", IsRequired = false)]
+        public string DeviceModel { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.10.1. Фильтрация по реестру регистраторов эмиссии
+    /// </summary>
+    [DataContract]
+    public class EmissionDeviceInfoEntry
+    {
+        /// <summary>
+        /// Уникальный идентификатор устройства
+        /// </summary>
+        [DataMember(Name = "device_id", IsRequired = true)]
+        public string DeviceID { get; set; }
+
+        /// <summary>
+        /// Серийный (индивидуальный) номер устройства
+        /// </summary>
+        [DataMember(Name = "serial_number", IsRequired = true)]
+        public string SerialNumber { get; set; }
+
+        /// <summary>
+        /// Наименование (модель) устройства
+        /// </summary>
+        [DataMember(Name = "device_name", IsRequired = true)]
+        public string DeviceName { get; set; }
+
+        /// <summary>
+        /// Тип размещения
+        /// 0 — по месту использования
+        /// 1 — ЦОД оператора
+        /// 2 — по адресу МД
+        /// </summary>
+        [DataMember(Name = "placement_type", IsRequired = true)]
+        public int PlacementType { get; set; }
+
+        /// <summary>
+        /// Адрес установки (код ФИАС)
+        /// </summary>
+        /// <remarks>
+        /// Отсуствует в случае размещения в ЦОД оператора
+        /// </remarks>
+        [DataMember(Name = "houseguid", IsRequired = false)]
+        public string HouseGuid { get; set; }
+
+        /// <summary>
+        /// Текстовое представление адреса установки
+        /// </summary>
+        /// <remarks>
+        /// Отсуствует в случае размещения в ЦОД оператора
+        /// </remarks>
+        [DataMember(Name = "device_address", IsRequired = false)]
+        public string DeviceAddress { get; set; }
+
+        /// <summary>
+        /// Тип использования
+        /// 0 — основной
+        /// 1 — резерв
+        /// </summary>
+        [DataMember(Name = "usage_type", IsRequired = true)]
+        public int UsageType { get; set; }
+
+        /// <summary>
+        /// Дата предоставления
+        /// </summary>
+        [DataMember(Name = "provision_date", IsRequired = true)]
+        public DateTime ProvisionDate { get; set; }
+
+        /// <summary>
+        /// Информация о договоре
+        /// </summary>
+        /// <remarks>
+        /// Отсуствует в случае размещения в ЦОД оператора
+        /// </remarks>
+        [DataMember(Name = "contract_info", IsRequired = false)]
+        public DeviceContractInfoEntry ContractInfo { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// 0 — активный
+        /// 1 — неактивный
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = true)]
+        public int Status { get; set; }
+
+        /// <summary>
+        /// Производитель устройства
+        /// </summary>
+        [DataMember(Name = "device_vendor", IsRequired = true)]
+        public string DeviceVendor { get; set; }
+
+        /// <summary>
+        /// Модель устройства
+        /// </summary>
+        [DataMember(Name = "device_model", IsRequired = true)]
+        public string DeviceModel { get; set; }
     }
 }
 
@@ -20851,7 +21091,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "prod_sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// Содержимое лекарственного препарата
@@ -21231,7 +21471,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "prod_sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// Лекарственная форма
@@ -21398,7 +21638,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "prod_sell_name")]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// GTIN
@@ -21757,8 +21997,53 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.9.2. Метод для изменения данных организации, в которой зарегистрирован текущий
+    /// Для изменения доступна часть полей объекта <see cref="Member"/>.
+    /// </summary>
+    [DataContract]
+    public class MemberOptions
+    {
+        /// <summary>
+        /// Код языка квитанций
+        /// </summary>
+        /// <remarks>
+        /// Ошибка в документации: похоже, это обязательный параметр.
+        /// Без указания этого параметра метод 8.9.2 выполняется с ошибкой BadRequest (400).
+        /// </remarks>
+        [DataMember(Name = "language", IsRequired = true)]
+        public string Language { get; set; }
+
+        /// <summary>
+        /// Код субъекта РФ (код места юридической регистрации участника)        /// </summary>
+        [DataMember(Name = "registration_federal_subject_code", IsRequired = false)]
+        public string RegistrationFederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// Номер контактного телефона
+        /// </summary>
+        [DataMember(Name = "phone", IsRequired = false)]
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// Адрес электронной почты
+        /// </summary>
+        [DataMember(Name = "email", IsRequired = false)]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Информация о банковских реквизитах участника
+        /// </summary>
+        [DataMember(Name = "banking_info", IsRequired = false)]
+        public BankingInfo BankingInfo { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.9.1. Метод для получения информации об организации, в которой зарегистрирован текущий пользователь
-    /// Формат объекта MemberResponse
     /// </summary>
     [DataContract]
     internal class MemberResponse
@@ -21890,6 +22175,282 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.12.1. Фильтрация по реестру решений о приостановке КИЗ
+    /// </summary>
+    [DataContract]
+    public class PausedCirculationDecision
+    {
+        /// <summary>
+        /// Количество SGTIN
+        /// </summary>
+        [DataMember(Name = "sgtin_count", IsRequired = false)]
+        public int SgtinCount { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin", IsRequired = false)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// ИНН участника
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Наименование организации
+        /// </summary>
+        [DataMember(Name = "org_name", IsRequired = false)]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Дата решения
+        /// </summary>
+        [DataMember(Name = "halt_doc_date", IsRequired = false)]
+        public DateTime? HaltDocDate { get; set; }
+
+        /// <summary>
+        /// Дата вступления в силу
+        /// </summary>
+        [DataMember(Name = "halt_date", IsRequired = false)]
+        public DateTime? HaltDate { get; set; }
+
+        /// <summary>
+        /// Дата приостановки/отмены приостановки SGTIN
+        /// </summary>
+        [DataMember(Name = "op_date", IsRequired = false)]
+        public DateTime? OperationDate { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "batch", IsRequired = false)]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Номер решения
+        /// </summary>
+        [DataMember(Name = "halt_doc_num", IsRequired = false)]
+        public string HaltDocNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор решения
+        /// </summary>
+        [DataMember(Name = "halt_id", IsRequired = true)]
+        public string HaltID { get; set; }
+
+        /// <summary>
+        /// Тип решения:
+        /// 0 — временный вывод из обращения
+        /// 1 — отмена временного вывода из обращения
+        /// </summary>
+        [DataMember(Name = "halt_type", IsRequired = false)]
+        public int HaltType { get; set; }
+
+        /// <summary>
+        /// Адрес места деятельности (код ФИАС)
+        /// </summary>
+        [DataMember(Name = "owner_address", IsRequired = false)]
+        public string OwnerAddressID { get; set; }
+
+        /// <summary>
+        /// Дата РУ
+        /// </summary>
+        [DataMember(Name = "reg_date", IsRequired = false)]
+        public DateTime? RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Номер РУ
+        /// </summary>
+        [DataMember(Name = "reg_num", IsRequired = false)]
+        public string RegistrationNumber { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.12.1. Фильтрация по реестру решений о приостановке КИЗ
+    /// </summary>
+    [DataContract]
+    public class PausedCirculationDecisionFilter
+    {
+        /// <summary>
+        /// ИНН участника
+        /// </summary>
+        [DataMember(Name = "inn", IsRequired = false)]
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Тип решения:
+        /// 0 — временный вывод из обращения
+        /// 1 — отмена временного вывода из обращения
+        /// </summary>
+        [DataMember(Name = "halt_type", IsRequired = false)]
+        public int HaltType { get; set; }
+
+        /// <summary>
+        /// Номер решения
+        /// </summary>
+        [DataMember(Name = "halt_doc_num", IsRequired = false)]
+        public string HaltDocNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор решения
+        /// </summary>
+        [DataMember(Name = "halt_id", IsRequired = false)]
+        public string HaltID { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "batch", IsRequired = false)]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin", IsRequired = false)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Дата решения, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "start_halt_doc_date", IsRequired = false)]
+        public DateTime? StartHaltDocDate { get; set; }
+
+        /// <summary>
+        /// Дата решения, конец периода фильтрации
+        /// </summary>
+        [DataMember(Name = "end_halt_doc_date", IsRequired = false)]
+        public DateTime? EndHaltDocDate { get; set; }
+
+        /// <summary>
+        /// Дата вступления в силу, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "start_halt_date", IsRequired = false)]
+        public DateTime? StartHaltDate { get; set; }
+
+        /// <summary>
+        /// ДДата вступления в силу, конец периода фильтрации
+        /// </summary>
+        [DataMember(Name = "end_halt_date", IsRequired = false)]
+        public DateTime? EndHaltDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.12.2. Получение перечня КИЗ по конкретному решению о приостановке
+    /// </summary>
+    [DataContract]
+    public class PausedCirculationSgtin
+    {
+        /// <summary>
+        /// SGTIN (КИЗ)
+        /// </summary>
+        [DataMember(Name = "sgtin", IsRequired = true)]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "gtin", IsRequired = false)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "batch", IsRequired = false)]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор текущего владельца
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "owner_id", IsRequired = false)]
+        public string OwnerID { get; set; }
+
+        /// <summary>
+        /// Местонахождение — адрес
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "address", IsRequired = false)]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Местонахождение — код субъекта РФ
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "federal_subject_code", IsRequired = false)]
+        public string FederalSubjectCode { get; set; }
+
+        /// <summary>
+        /// ИНН текущего владельца
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "owner_inn", IsRequired = false)]
+        public string OwnerInn { get; set; }
+
+        /// <summary>
+        /// Наименование текущего владельца
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "owner_name", IsRequired = false)]
+        public string OwnerName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe
+        /// Например: Гертикад®
+        /// </summary>
+        /// <remarks>
+        /// Поле бывает пусто, полагаться нельзя
+        /// </remarks>
+        [DataMember(Name = "product_sell_name", IsRequired = false)]
+        public string ProductSellingName { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 4.32. Формат объекта PublicSGTIN
     /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
     /// </summary>
@@ -21915,7 +22476,7 @@ namespace MdlpApiClient.DataContracts
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
-        /// Название препарата.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
@@ -21926,7 +22487,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// Лекарственная форма
@@ -22654,7 +23215,7 @@ namespace MdlpApiClient.DataContracts
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
-        /// Название препарата.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
@@ -22665,7 +23226,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// Полное наименование товара
@@ -23023,7 +23584,7 @@ namespace MdlpApiClient.DataContracts
         public int[] EmissionType { get; set; }
 
         /// <summary>
-        /// Название препарата.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
@@ -23034,7 +23595,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// GTIN
@@ -23284,7 +23845,7 @@ namespace MdlpApiClient.DataContracts
         public int[] EmissionType { get; set; }
 
         /// <summary>
-        /// Название препарата.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
@@ -23295,7 +23856,7 @@ namespace MdlpApiClient.DataContracts
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// GTIN
@@ -23540,6 +24101,182 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.11.1. Фильтрация по реестру виртуального склада
+    /// Структура данных VirtualStorageEntry
+    /// </summary>
+    [DataContract]
+    public class VirtualStorageEntry
+    {
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin", IsRequired = true)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Идентификатор МД/МОХ
+        /// </summary>
+        [DataMember(Name = "storage_id", IsRequired = true)]
+        public string StorageID { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe лекарственного препарата
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "prod_sell_name", IsRequired = true)]
+        public string ProductSellingName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = true)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Наименование держателя РУ
+        /// </summary>
+        [DataMember(Name = "reg_holder", IsRequired = true)]
+        public string RegistrationHolder { get; set; }
+
+        /// <summary>
+        /// Приход (всего), шт
+        /// </summary>
+        [DataMember(Name = "total_income", IsRequired = true)]
+        public long TotalIncome { get; set; }
+
+        /// <summary>
+        /// Выбытие (всего), шт
+        /// </summary>
+        [DataMember(Name = "total_outcome", IsRequired = true)]
+        public long TotalOutcome { get; set; }
+
+        /// <summary>
+        /// Розничные продажи (выбытие), шт
+        /// </summary>
+        [DataMember(Name = "retail_sale", IsRequired = true)]
+        public long RetailSale { get; set; }
+
+        /// <summary>
+        /// Отпуск по льготному рецепту (выбытие), шт
+        /// </summary>
+        [DataMember(Name = "discount_sale", IsRequired = true)]
+        public long DiscountSale { get; set; }
+
+        /// <summary>
+        /// Медицинское применение (выбытие), шт
+        /// </summary>
+        [DataMember(Name = "medical_use", IsRequired = true)]
+        public long MedicalUse { get; set; }
+
+        /// <summary>
+        /// Оптовые продажи (выбытие), шт
+        /// </summary>
+        [DataMember(Name = "wholesale", IsRequired = true)]
+        public long Wholesale { get; set; }
+
+        /// <summary>
+        /// Прочее (выбытие), шт
+        /// </summary>
+        [DataMember(Name = "other", IsRequired = true)]
+        public long OtherOutcome { get; set; }
+
+        /// <summary>
+        /// Производство (приход), шт
+        /// </summary>
+        [DataMember(Name = "production", IsRequired = true)]
+        public long Production { get; set; }
+
+        /// <summary>
+        /// Закупка в РФ (приход), шт
+        /// </summary>
+        [DataMember(Name = "purchase_in_russia", IsRequired = true)]
+        public long PurchaseInRussia { get; set; }
+
+        /// <summary>
+        /// Импорт (приход), шт
+        /// </summary>
+        [DataMember(Name = "import", IsRequired = true)]
+        public long Import { get; set; }
+
+        /// <summary>
+        /// Баланс на входе, шт
+        /// </summary>
+        [DataMember(Name = "opening_balance", IsRequired = true)]
+        public long OpeningBalance { get; set; }
+
+        /// <summary>
+        /// Баланс на выходе, шт
+        /// </summary>
+        [DataMember(Name = "ending_balance", IsRequired = true)]
+        public long EndingBalance { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.11.1. Фильтрация по реестру виртуального склада
+    /// Структура данных VirtualStorageFilter
+    /// </summary>
+    [DataContract]
+    public class VirtualStorageFilter
+    {
+        /// <summary>
+        /// Идентификатор МД/МОХ (обязательно)
+        /// </summary>
+        [DataMember(Name = "storage_id", IsRequired = true)]
+        public string StorageID { get; set; }
+
+        /// <summary>
+        /// Начало выбранного периода
+        /// </summary>
+        [DataMember(Name = "start_date", IsRequired = false)]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Конец выбранного периода
+        /// </summary>
+        [DataMember(Name = "end_date", IsRequired = false)]
+        public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// GTIN
+        /// </summary>
+        [DataMember(Name = "gtin", IsRequired = false)]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Торговое наименованиe лекарственного препарата
+        /// Например: Гертикад®
+        /// </summary>
+        [DataMember(Name = "prod_sell_name", IsRequired = false)]
+        public string ProductSellingName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Наименование держателя РУ
+        /// </summary>
+        [DataMember(Name = "reg_holder", IsRequired = false)]
+        public string RegistrationHolder { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.2.2. Место ответственного хранения
     /// </summary>
     [DataContract]
@@ -23667,6 +24404,153 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
         public DateTime? EndDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.10.2. Фильтрация по реестру регистраторов выбытия
+    /// </summary>
+    [DataContract]
+    public class WithdrawalDeviceFilter
+    {
+        /// <summary>
+        /// Уникальный идентификатор устройства
+        /// </summary>
+        [DataMember(Name = "device_id", IsRequired = false)]
+        public string DeviceID { get; set; }
+
+        /// <summary>
+        /// Дата предоставления, начало периода фильтрации
+        /// </summary>
+        [DataMember(Name = "provision_start_date", IsRequired = false)]
+        public DateTime? ProvisionStartDate { get; set; }
+
+        /// <summary>
+        /// Дата предоставления, окончание периода фильтрации
+        /// </summary>
+        [DataMember(Name = "provision_end_date", IsRequired = false)]
+        public DateTime? ProvisionEndDate { get; set; }
+
+        /// <summary>
+        /// Идентификатор места деятельности согласно лицензии
+        /// </summary>
+        [DataMember(Name = "branch_id", IsRequired = false)]
+        public string BranchID { get; set; }
+
+        /// <summary>
+        /// Тип размещения
+        /// 0 — по месту использования
+        /// 1 — ЦОД оператора
+        /// 2 — по адресу МД
+        /// </summary>
+        [DataMember(Name = "placement_type", IsRequired = false)]
+        public int? PlacementType { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// 0 — активный
+        /// 1 — неактивный
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public int? Status { get; set; }
+
+        /// <summary>
+        /// Производитель устройства
+        /// </summary>
+        [DataMember(Name = "device_vendor", IsRequired = false)]
+        public string DeviceVendor { get; set; }
+
+        /// <summary>
+        /// Модель устройства
+        /// </summary>
+        [DataMember(Name = "device_model", IsRequired = false)]
+        public string DeviceModel { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.10.2. Фильтрация по реестру регистраторов выбытия
+    /// </summary>
+    [DataContract]
+    public class WithdrawalDeviceInfoEntry
+    {
+        /// <summary>
+        /// Уникальный идентификатор устройства
+        /// </summary>
+        [DataMember(Name = "device_id", IsRequired = true)]
+        public string DeviceID { get; set; }
+
+        /// <summary>
+        /// Серийный (индивидуальный) номер устройства
+        /// </summary>
+        [DataMember(Name = "serial_number", IsRequired = true)]
+        public string SerialNumber { get; set; }
+
+        /// <summary>
+        /// Наименование (модель) устройства
+        /// </summary>
+        [DataMember(Name = "device_name", IsRequired = true)]
+        public string DeviceName { get; set; }
+
+        /// <summary>
+        /// Идентификатор места деятельности согласно лицензии
+        /// </summary>
+        [DataMember(Name = "branch_id", IsRequired = false)]
+        public string BranchID { get; set; }
+
+        /// <summary>
+        /// Дата предоставления
+        /// </summary>
+        [DataMember(Name = "provision_date", IsRequired = true)]
+        public DateTime ProvisionDate { get; set; }
+
+        /// <summary>
+        /// Информация о договоре
+        /// </summary>
+        /// <remarks>
+        /// Отсуствует в случае размещения в ЦОД оператора
+        /// </remarks>
+        [DataMember(Name = "contract_info", IsRequired = false)]
+        public DeviceContractInfoEntry ContractInfo { get; set; }
+
+        /// <summary>
+        /// Тип размещения
+        /// 0 — по месту использования
+        /// 1 — ЦОД оператора
+        /// 2 — по адресу МД
+        /// </summary>
+        [DataMember(Name = "placement_type", IsRequired = true)]
+        public int PlacementType { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// 0 — активный
+        /// 1 — неактивный
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = true)]
+        public int Status { get; set; }
+
+        /// <summary>
+        /// Производитель устройства
+        /// </summary>
+        [DataMember(Name = "device_vendor", IsRequired = true)]
+        public string DeviceVendor { get; set; }
+
+        /// <summary>
+        /// Модель устройства
+        /// </summary>
+        [DataMember(Name = "device_model", IsRequired = true)]
+        public string DeviceModel { get; set; }
     }
 }
 
@@ -24617,6 +25501,111 @@ namespace MdlpApiClient
             var member = Get<MemberResponse>("members/current");
             return member != null ? member.Member : null;
         }
+
+        /// <summary>
+        /// 8.9.2. Метод для изменения данных организации, в которой зарегистрирован текущий пользователь
+        /// </summary>
+        public void UpdateCurrentMember(MemberOptions options)
+        {
+            Put("members/current", options);
+        }
+
+        /// <summary>
+        /// 8.9.3. Метод для получения информации о лицевых счетах
+        /// </summary>
+        public BillingAccount[] GetCurrentBillingInfo()
+        {
+            var accounts = Get<BillingAccountResponse>("members/current/billing/info");
+            return accounts != null ? accounts.Accounts : null;
+        }
+
+        /// <summary>
+        /// 8.10.1. Фильтрация по реестру регистраторов эмиссии
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска регистраторов эмиссии</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых регистраторов эмиссии</param>
+        /// <param name="count">Количество записей в списке возвращаемых регистраторов эмиссии</param>
+        /// <returns>Список регистраторов эмиссии</returns>
+        public EntriesResponse<EmissionDeviceInfoEntry> GetEmissionDevices(EmissionDeviceFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<EmissionDeviceInfoEntry>>("reestr/registration-devices/emission/filter", new
+            {
+                filter = filter ?? new EmissionDeviceFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.10.2. Фильтрация по реестру регистраторов выбытия
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска регистраторов выбытия</param>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых регистраторов выбытия</param>
+        /// <param name="count">Количество записей в списке возвращаемых регистраторов выбытия</param>
+        /// <returns>Список регистраторов выбытия</returns>
+        public EntriesResponse<WithdrawalDeviceInfoEntry> GetWithdrawalDevices(WithdrawalDeviceFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<WithdrawalDeviceInfoEntry>>("reestr/registration-devices/withdrawal/filter", new
+            {
+                filter = filter ?? new WithdrawalDeviceFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.11.1. Фильтрация по реестру виртуального склада
+        /// </summary>
+        /// <param name="filter">Фильтр реестра виртуального склада</param>
+        /// <param name="startFrom">Индекс первой записи</param>
+        /// <param name="count">Количество записей в реестре</param>
+        /// <returns>Список остатков</returns>
+        public EntriesResponse<VirtualStorageEntry> GetVirtualStorage(VirtualStorageFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<VirtualStorageEntry>>("reestr/virtual-storage/filter", new
+            {
+                filter = filter ?? new VirtualStorageFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.12.1. Фильтрация по реестру решений о приостановке КИЗ
+        /// </summary>
+        /// <param name="filter">Фильтр реестра решений о приостановке КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи</param>
+        /// <param name="count">Количество записей в реестре</param>
+        /// <returns>Список решений о приостановке КИЗ</returns>
+        public EntriesResponse<PausedCirculationDecision> GetPausedCirculationDecisions(PausedCirculationDecisionFilter filter, int startFrom, int count)
+        {
+            return Post<EntriesResponse<PausedCirculationDecision>>("reestr/paused-circulation-decisions/filter", new
+            {
+                filter = filter ?? new PausedCirculationDecisionFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 8.12.2. Получение перечня КИЗ по конкретному решению о приостановке
+        /// </summary>
+        /// <param name="haltId">Идентификатор решения о приостановке КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи</param>
+        /// <param name="count">Количество записей</param>
+        /// <returns>Список приостановленных КИЗ</returns>
+        public EntriesResponse<PausedCirculationSgtin> GetPausedCirculationSgtins(string haltId, int startFrom, int count)
+        {
+            return Post<EntriesResponse<PausedCirculationSgtin>>("reestr/paused-circulation-decisions/{halt_id}/sgtins/filter", new
+            {
+                start_from = startFrom,
+                count = count,
+            },
+            new[]
+            {
+                new Parameter("halt_id", haltId, ParameterType.UrlSegment),
+            });
+        }
     }
 }
 
@@ -24903,7 +25892,6 @@ namespace MdlpApiClient
         /// <summary>
         /// Performs POST request.
         /// </summary>
-        /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
         /// <param name="parameters">IRestRequest parameters.</param>
@@ -24911,6 +25899,26 @@ namespace MdlpApiClient
         public void Post(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
+            request.AddJsonBody(body);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
+            Execute(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs PUT request.
+        /// </summary>
+        /// <typeparam name="T">Response type.</typeparam>
+        /// <param name="url">Resource url.</param>
+        /// <param name="body">Request body, to be serialized as JSON.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public void Put(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.PUT, DataFormat.Json);
             request.AddJsonBody(body);
             if (!parameters.IsNullOrEmpty())
             {

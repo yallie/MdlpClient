@@ -551,5 +551,25 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 8.12.2. Получение перечня КИЗ по конкретному решению о приостановке
+        /// </summary>
+        /// <param name="haltId">Идентификатор решения о приостановке КИЗ</param>
+        /// <param name="startFrom">Индекс первой записи</param>
+        /// <param name="count">Количество записей</param>
+        /// <returns>Список приостановленных КИЗ</returns>
+        public EntriesResponse<PausedCirculationSgtin> GetPausedCirculationSgtins(string haltId, int startFrom, int count)
+        {
+            return Post<EntriesResponse<PausedCirculationSgtin>>("reestr/paused-circulation-decisions/{halt_id}/sgtins/filter", new
+            {
+                start_from = startFrom,
+                count = count,
+            },
+            new[]
+            {
+                new Parameter("halt_id", haltId, ParameterType.UrlSegment),
+            });
+        }
     }
 }

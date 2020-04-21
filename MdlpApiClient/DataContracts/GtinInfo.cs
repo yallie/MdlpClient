@@ -81,7 +81,7 @@
         /// Например: Гертикад®
         /// </summary>
         [DataMember(Name = "prod_sell_name", IsRequired = false)]
-        public string SellingName { get; set; }
+        public string ProductSellingName { get; set; }
 
         /// <summary>
         /// Содержимое лекарственного препарата
