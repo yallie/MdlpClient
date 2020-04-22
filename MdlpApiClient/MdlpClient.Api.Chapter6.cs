@@ -8,6 +8,21 @@
     partial class MdlpClient
     {
         /// <summary>
+        /// 6.1.1. Метод для регистрации учетной системы
+        /// </summary>
+        /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>
+        /// <param name="name">Название учетной системы</param>
+        /// <returns>Идентификатор учетной системы</returns>
+        public AccountingSystem RegisterAccountingSystem(string sysId, string name)
+        {
+            return Post<AccountingSystem>("registration/accounting_system", new
+            {
+                sys_id = sysId,
+                name = name,
+            });
+        }
+
+        /// <summary>
         /// 6.1.2. Метод для регистрации пользователей (для резидентов страны)
         /// </summary>
         /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>
