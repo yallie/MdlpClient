@@ -321,5 +321,13 @@
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 6.6.1. Метод для получения информации о существующих правах
+        /// </summary>
+        public RightsInfo[] GetRights()
+        {
+            return Get<GetRightsResponse>("rights/about").Rights;
+        }
     }
 }

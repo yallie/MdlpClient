@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient.Tests
 {
+    using System;
     using System.Linq;
     using System.Net;
     using MdlpApiClient.DataContracts;
@@ -272,6 +273,34 @@
             var ex = Assert.Throws<MdlpException>(() => Client.ChangeUserPassword(TestUserID, @"password"));
             Assert.AreEqual(HttpStatusCode.MethodNotAllowed, ex.StatusCode);
             Assert.AreEqual("MethodNotAllowed", ex.Message);
+        }
+
+        [Test]
+        public void Chapter6_06_01_GetRights()
+        {
+            var rights = Client.GetRights();
+            AssertRequiredItems(rights);
+
+            // generate RightsEnum.cs
+            var enumMemberQuery =
+                from r in rights
+                let name = r.Right
+                let words = r.Description.Split(' ').Select(r => r.Trim())
+                let descr = string.Join(" ", words.Where(w => w.Any()))
+                orderby name
+                let items = new[]
+                {
+                    "/// <summary>",
+                    "/// " + descr,
+                    "/// </summary>",
+                    "public const string " + name + " = \"" + name + "\";",
+                    string.Empty
+                }
+                let member = string.Join(Environment.NewLine, items)
+                select member;
+
+            // display the generated code:
+            // WriteLine(string.Join(Environment.NewLine, enumMemberQuery));
         }
     }
 }
