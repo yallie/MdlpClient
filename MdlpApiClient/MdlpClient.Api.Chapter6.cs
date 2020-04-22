@@ -130,5 +130,20 @@
                 language = language,
             });
         }
+
+        /// <summary>
+        /// 6.1.9. Метод для получения информации о зарегистрированных сертификатах текущего пользователя
+        /// </summary>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
+        /// <param name="count">Количество записей в списке возвращаемых мест</param>
+        /// <returns>Список мест осуществления деятельности</returns>
+        public CertificatesResponse<UserCertificate> GetCurrentCertificates(int startFrom, int count)
+        {
+            return Post<CertificatesResponse<UserCertificate>>("users/current/keys", new
+            {
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }

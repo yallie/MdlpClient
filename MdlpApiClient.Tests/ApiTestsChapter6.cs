@@ -178,5 +178,42 @@
                 Client.SetCurrentUserLanguage(lang);
             }
         }
+
+        [Test]
+        public void Chapter6_01_9_GetCurrentCertificates()
+        {
+            // non-resident user doesn't have certificates
+            var certs = Client.GetCurrentCertificates(0, 10);
+            Assert.IsNotNull(certs);
+            Assert.IsNotNull(certs.Certificates);
+            Assert.AreEqual(0, certs.Total);
+            Assert.AreEqual(0, certs.Certificates.Length);
+
+            // resident user does not have access rights?
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var client = new MdlpClient(credentials: new ResidentCredentials
+                {
+                    ClientID = ClientID1,
+                    ClientSecret = ClientSecret1,
+                    UserID = TestUserThumbprint,
+                })
+                {
+                    Tracer = TestContext.Progress.WriteLine
+                };
+
+                certs = client.GetCurrentCertificates(0, 10);
+                Assert.IsNotNull(certs);
+                Assert.IsNotNull(certs.Certificates);
+                Assert.AreEqual(1, certs.Total);
+                Assert.AreEqual(1, certs.Certificates.Length);
+
+                var cert = certs.Certificates[0];
+                Assert.AreEqual(TestCertificateThumbprint, cert.PublicCertificateThumbprint);
+                AssertRequired(cert);
+            });
+
+            Assert.AreEqual(HttpStatusCode.Forbidden, ex.StatusCode);
+        }
     }
 }
