@@ -1,8 +1,8 @@
 namespace MdlpApiClient.Tests
 {
-    using NUnit.Framework;
     using System.Net;
     using MdlpApiClient.DataContracts;
+    using NUnit.Framework;
 
     [TestFixture]
     public class AuthenticationTests : UnitTestsBase
