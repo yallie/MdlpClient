@@ -27,31 +27,46 @@
         /// 6.1.2. Метод для регистрации пользователей (для резидентов страны)
         /// </summary>
         /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>
-        /// <param name="publicCertificate">Публичный сертификат пользователя</param>
-        /// <param name="firstName">Имя пользователя</param>
-        /// <param name="lastName">Фамилия пользователя</param>
-        /// <param name="middleName">Отчество пользователя</param>
-        /// <param name="email">Электронная почта</param>
-        /// <param name="phone">Контактный телефон</param>
-        /// <param name="position">Должность</param>
+        /// <param name="user">Свойства пользователя-резидента</param>
         /// <returns>Идентификатор пользователя</returns>
-        public string RegisterResidentUser(string sysId, string publicCertificate,
-            string firstName, string lastName, string middleName,
-            string email, string phone, string position)
+        public string RegisterUser(string sysId, ResidentUser user)
         {
-            var user = Post<RegisterResidentUserResponse>("registration/user_resident", new
+            var response = Post<RegisterUserResponse>("registration/user_resident", new
             {
                 sys_id = sysId,
-                public_cert = publicCertificate,
-                first_name = firstName,
-                last_name = lastName,
-                middle_name = middleName,
-                email = email,
-                phone = phone,
-                position = position,
+                first_name = user.FirstName,
+                last_name = user.LastName,
+                middle_name = user.MiddleName,
+                public_cert = user.PublicCertificate,
+                email = user.Email,
+                phone = user.Phone,
+                position = user.Position,
             });
 
-            return user.UserID;
+            return response.UserID;
+        }
+
+        /// <summary>
+        /// 6.1.3. Метод для регистрации пользователей (для нерезидентов страны)
+        /// </summary>
+        /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>
+        /// <param name="user">Свойства пользователя-нерезидента</param>
+        /// <returns>Идентификатор пользователя</returns>
+        public string RegisterUser(string sysId, NonResidentUser user)
+        {
+            var response = Post<RegisterUserResponse>("registration/user_nonresident", new
+            {
+                sys_id = sysId,
+                first_name = user.FirstName,
+                last_name = user.LastName,
+                middle_name = user.MiddleName,
+                password = user.Password,
+                email = user.Email,
+                phone = user.Phone,
+                position = user.Position,
+            });
+
+            return response.UserID;
         }
 
         /// <summary>

@@ -8,7 +8,7 @@
     /// 6.1.4. Метод для получения информации о пользователе
     /// </summary>
     [DataContract]
-    public class GroupedUser
+    public class GroupedUser : UserBase
     {
         /// <summary>
         /// Уникальный идентификатор пользователя
@@ -17,34 +17,10 @@
         public string UserID { get; set; }
 
         /// <summary>
-        /// Имя пользователя
-        /// </summary>
-        [DataMember(Name = "first_name", IsRequired = true)]
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Фамилия пользователя
-        /// </summary>
-        [DataMember(Name = "last_name", IsRequired = true)]
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// Отчество пользователя
-        /// </summary>
-        [DataMember(Name = "middle_name", IsRequired = false)]
-        public string MiddleName { get; set; }
-
-        /// <summary>
         /// Группы прав, в которых состоит пользователь (строковые имена, а не коды)
         /// </summary>
         [DataMember(Name = "groups", IsRequired = true)]
         public string[] GroupNames { get; set; }
-
-        /// <summary>
-        /// Должность пользователя
-        /// </summary>
-        [DataMember(Name = "position", IsRequired = false)]
-        public string Position { get; set; }
 
         /// <summary>
         /// Признак администратора участника
@@ -53,13 +29,7 @@
         public bool IsAdmin { get; set; }
 
         /// <summary>
-        /// Контактный телефон пользователя
-        /// </summary>
-        [DataMember(Name = "phone", IsRequired = false)]
-        public string Phone { get; set; }
-
-        /// <summary>
-        /// Контактный телефон пользователя
+        /// Логин пользователя
         /// </summary>
         /// <remarks>
         /// Поле не описано в документации.

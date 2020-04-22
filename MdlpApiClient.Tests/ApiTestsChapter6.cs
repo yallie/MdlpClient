@@ -52,6 +52,56 @@
         }
 
         [Test]
+        public void Chapter6_01_2_RegisterUser()
+        {
+            // зарегистрировать можно только один раз
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                // Регистрация пользователя-резидента:
+                // 1. сертификат надо подготовить заранее
+                // 2. выпустить тестовый сертификат-УКЭП можно тут:
+                // https://www.cryptopro.ru/ui/Register/RegGetSubject.asp
+                // 3. в браузере должен быть установлен плагин КриптоПро ЭЦП
+                // 4. ФИО в сертификате и в пользователе должны совпадать
+                // 5. для нерезидентов (авторизация по паролю) работает только по http, 
+                // для резидентов (авторизация сертификатом) — только по https
+                var userId = Client.RegisterUser(SystemID, new ResidentUser
+                {
+                    PublicCertificate = "MIIIdTCCCCSgAwIBAgIKJ9/JVAAEAAN9cTAIBgYqhQMCAgMwggFIMRgwFgYFKoUDZAESDTEwMzc3MDAwODU0NDQxGjAYBggqhQMDgQMBARIMMDA3NzE3MTA3OTkxMTkwNwYDVQQJHjAEQwQ7AC4AIAQhBEMESQRRBDIEQQQ6BDgEOQAgBDIEMAQ7ACwAIAQ0AC4AIAAxADgxITAfBgNVBAgeGAA3ADcAIAQzAC4AIAQcBD4EQQQ6BDIEMDEVMBMGA1UEBx4MBBwEPgRBBDoEMgQwMSAwHgYJKoZIhvcNAQkBFhFpbmZvQGNyeXB0b3Byby5ydTELMAkGA1UEBhMCUlUxKTAnBgNVBAoeIAQeBB4EHgAgACIEGgQgBBgEHwQiBB4ALQQfBCAEHgAiMUEwPwYDVQQDHjgEIgQ1BEEEQgQ+BDIESwQ5ACAEIwQmACAEHgQeBB4AIAAiBBoEIAQYBB8EIgQeAC0EHwQgBB4AIjAeFw0yMDAzMzEyMjEwMDBaFw0yMDA2MzAyMjIwMDBaMIIBtDEYMBYGBSqFA2QBEg0xMjM0NTY3ODkwMTIzMRowGAYIKoUDA4EDAQESDDEyMzQ1Njc4OTAxMjEaMBgGCSqGSIb3DQEJARYLYXNkQGFzZC5jb20xCzAJBgNVBAYTAlJVMRcwFQYDVQQIDA7QntCx0LvQsNGB0YLRjDEVMBMGA1UEBwwM0JzQvtGB0LrQstCwMR8wHQYDVQQKDBbQntGA0LPQsNC90LjQt9Cw0YbQuNGPMSMwIQYDVQQLDBrQn9C+0LTRgNCw0LfQtNC10LvQtdC90LjQtTFCMEAGA1UEAww50KLQtdGB0YLQvtCy0YvQuSDQo9Ca0K3QnyDQuNC8LiDQrtGA0LjRjyDQk9Cw0LPQsNGA0LjQvdCwMRUwEwYDVQQJDAzQnNC+0YHQutCy0LAxOTA3BgkqhkiG9w0BCQIMKtCa0L7RgdC80L7QvdCw0LLRgiDQrtGA0LjQuSDQk9Cw0LPQsNGA0LjQvTEbMBkGA1UEDAwS0JrQvtGB0LzQvtC90LDQstGCMREwDwYDVQQqDAjQrtGA0LjQuTEXMBUGA1UEBAwO0JPQsNCz0LDRgNC40L0wZjAfBggqhQMHAQEBATATBgcqhQMCAiQABggqhQMHAQECAgNDAARAhX7GCDR2aDYD7tB0sHS2rvJ7egzdGD8+DebOnKJe7jXkxrcG26cINDUWLnn8wlns6Hx7rhn56LHK03qv2nvTJ6OCBHkwggR1MA4GA1UdDwEB/wQEAwIE8DAmBgNVHSUEHzAdBggrBgEFBQcDBAYHKoUDAgIiBgYIKwYBBQUHAwIwHQYDVR0OBBYEFHeK1wKTd2R6VBFvl9IB73SVlG46MIIBiQYDVR0jBIIBgDCCAXyAFHplou1Prm4wEO7EA8tb2lbE2uSxoYIBUKSCAUwwggFIMRgwFgYFKoUDZAESDTEwMzc3MDAwODU0NDQxGjAYBggqhQMDgQMBARIMMDA3NzE3MTA3OTkxMTkwNwYDVQQJHjAEQwQ7AC4AIAQhBEMESQRRBDIEQQQ6BDgEOQAgBDIEMAQ7ACwAIAQ0AC4AIAAxADgxITAfBgNVBAgeGAA3ADcAIAQzAC4AIAQcBD4EQQQ6BDIEMDEVMBMGA1UEBx4MBBwEPgRBBDoEMgQwMSAwHgYJKoZIhvcNAQkBFhFpbmZvQGNyeXB0b3Byby5ydTELMAkGA1UEBhMCUlUxKTAnBgNVBAoeIAQeBB4EHgAgACIEGgQgBBgEHwQiBB4ALQQfBCAEHgAiMUEwPwYDVQQDHjgEIgQ1BEEEQgQ+BDIESwQ5ACAEIwQmACAEHgQeBB4AIAAiBBoEIAQYBB8EIgQeAC0EHwQgBB4AIoIQTpjz80+VRJ1NixxSrES8JzBcBgNVHR8EVTBTMFGgT6BNhktodHRwOi8vd3d3LmNyeXB0b3Byby5ydS9yYS9jZHAvN2E2NWEyZWQ0ZmFlNmUzMDEwZWVjNDAzY2I1YmRhNTZjNGRhZTRiMS5jcmwweAYIKwYBBQUHAQEEbDBqMDQGCCsGAQUFBzABhihodHRwOi8vd3d3LmNyeXB0b3Byby5ydS9vY3NwbmMyL29jc3Auc3JmMDIGCCsGAQUFBzABhiZodHRwOi8vd3d3LmNyeXB0b3Byby5ydS9vY3NwMi9vY3NwLnNyZjArBgNVHRAEJDAigA8yMDIwMDMzMTIyMTAwMFqBDzIwMjAwNjMwMjIxMDAwWjAdBgNVHSAEFjAUMAgGBiqFA2RxATAIBgYqhQNkcQIwNAYFKoUDZG8EKwwp0JrRgNC40L/RgtC+0J/RgNC+IENTUCAo0LLQtdGA0YHQuNGPIDMuNikwggEzBgUqhQNkcASCASgwggEkDCsi0JrRgNC40L/RgtC+0J/RgNC+IENTUCIgKNCy0LXRgNGB0LjRjyAzLjYpDFMi0KPQtNC+0YHRgtC+0LLQtdGA0Y/RjtGJ0LjQuSDRhtC10L3RgtGAICLQmtGA0LjQv9GC0L7Qn9GA0L4g0KPQpiIg0LLQtdGA0YHQuNC4IDEuNQxP0KHQtdGA0YLQuNGE0LjQutCw0YIg0YHQvtC+0YLQstC10YLRgdGC0LLQuNGPIOKEliDQodCkLzEyNC0yNzM4INC+0YIgMDEuMDcuMjAxNQxP0KHQtdGA0YLQuNGE0LjQutCw0YIg0YHQvtC+0YLQstC10YLRgdGC0LLQuNGPIOKEliDQodCkLzEyOC0yNzY4INC+0YIgMzEuMTIuMjAxNTAIBgYqhQMCAgMDQQDyX5hVIdkCFKWT6hWPFJt1sDYU/pwcX6xjLPb2p5m7auOTH0rPqgovyoIt6wVs+bzFjC4WYDP+Ly3UUF2FC/zy",
+                    FirstName = "Юрий",
+                    LastName = "Гагарин",
+                    Email = "asd@asd.com",
+                });
+
+                Assert.IsNotNull(userId); // "31736b85-45d8-4fb0-8130-f0dabce5d491"
+            });
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+            Assert.AreEqual("Ошибка при выполнении операции: пользователь с данным email уже зарегистрирован", ex.Message);
+        }
+
+        [Test]
+        public void Chapter6_01_3_RegisterUser()
+        {
+            // зарегистрировать можно только один раз
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var userId = Client.RegisterUser(SystemID, new NonResidentUser
+                {
+                    FirstName = "Neil",
+                    LastName = "Armstrong",
+                    Email = "asd1@asd.com",
+                    Password = "password"
+                });
+
+                Assert.IsNotNull(userId);
+            });
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+            Assert.AreEqual("Ошибка при выполнении операции: попытка зарегистрировать резидента по идентификатору sys_id для нерезидента или наоборот", ex.Message);
+        }
+
+        [Test]
         public void Chapter6_01_4_GetUserInfo()
         {
             // пример из документации: "5b5540c4-fbb0-4ad7-a038-c8222affab3f" — запись не найдена (404) 
