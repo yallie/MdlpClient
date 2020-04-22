@@ -115,13 +115,10 @@
         }
 
         [Test]
-        public void Chapter6_01_5_GetUserPreferences()
+        public void Chapter6_01_5_GetCurrentUserLanguage()
         {
-            var preferences = Client.GetUserPreferences();
-            Assert.IsNotNull(preferences);
-
-            AssertRequired(preferences);
-            Assert.AreEqual("ru", preferences.Language);
+            var language = Client.GetCurrentUserLanguage();
+            Assert.AreEqual("ru", language);
         }
 
         [Test]
@@ -147,6 +144,39 @@
                 LastName = "Гагарин",
                 Position = "Космонавт"
             });
+        }
+
+        [Test]
+        public void Chapter6_01_7_GetCurrentUserInfo()
+        {
+            var user = Client.GetCurrentUserInfo();
+            Assert.IsNotNull(user);
+
+            AssertRequired(user);
+            Assert.AreEqual("Альберт", user.FirstName);
+            Assert.AreEqual("Данилов", user.LastName);
+            Assert.IsTrue(user.GroupNames.Contains("Системная группа"));
+        }
+
+        [Test]
+        public void Chapter6_01_8_SetCurrentUserLanguage()
+        {
+            var lang = Client.GetCurrentUserLanguage();
+            try
+            {
+                Client.SetCurrentUserLanguage("ru");
+                Client.SetCurrentUserLanguage("en");
+
+                // неизвестный язык
+                var ex = Assert.Throws<MdlpException>(() => Client.SetCurrentUserLanguage("bad"));
+                Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+                Assert.AreEqual("Error during operation: request is missing or incorrect", ex.Message);
+            }
+            finally
+            {
+                // вернем как было
+                Client.SetCurrentUserLanguage(lang);
+            }
         }
     }
 }

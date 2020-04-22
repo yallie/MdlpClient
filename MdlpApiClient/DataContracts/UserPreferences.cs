@@ -6,7 +6,7 @@
     /// Настройки профиля текущего пользователя
     /// </summary>
     [DataContract]
-    public class UserPreferences
+    internal class UserPreferences
     {
         /// <summary>
         /// Язык интерфейса пользователя (ru/en)

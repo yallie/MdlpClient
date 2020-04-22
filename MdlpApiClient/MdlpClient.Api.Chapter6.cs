@@ -84,12 +84,12 @@
         }
 
         /// <summary>
-        /// 6.1.5. Метод для получения информации о настройках профиля текущего пользователя
+        /// 6.1.5. Метод для получения информации о языке текущего пользователя
         /// </summary>
         /// <returns>Свойства пользователя</returns>
-        public UserPreferences GetUserPreferences()
+        public string GetCurrentUserLanguage()
         {
-            return Get<UserPreferences>("users/current/preferences");
+            return Get<UserPreferences>("users/current/preferences").Language;
         }
 
         /// <summary>
@@ -107,6 +107,27 @@
             new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.1.7. Метод для получения информации о текущем пользователе
+        /// </summary>
+        /// <returns>Свойства пользователя</returns>
+        public GroupedUser GetCurrentUserInfo()
+        {
+            return Get<GetUserResponse>("users/current").User;
+        }
+
+        /// <summary>
+        /// 6.1.8. Метод для изменения языка в профиле текущего пользователя
+        /// </summary>
+        /// <param name="language">Язык интерфейса пользователя (ru/en)</param>
+        public void SetCurrentUserLanguage(string language)
+        {
+            Put("users/current/preferences", new
+            {
+                language = language,
             });
         }
     }
