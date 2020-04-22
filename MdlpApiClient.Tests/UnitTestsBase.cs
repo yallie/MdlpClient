@@ -28,7 +28,8 @@
         // Custom test data, feel free to replace with your own certificate information
         public const string TestCertificateSubjectName = @"Тестовый УКЭП им. Юрия Гагарина";
         public const string TestCertificateThumbprint = "1F9CA1F4DA4BE1A78A260D45376A8F71F5FFBA90";
-        public const string TestUserID = TestCertificateThumbprint;
+        public const string TestUserThumbprint = TestCertificateThumbprint;
+        public const string TestUserID = "31736b85-45d8-4fb0-8130-f0dabce5d491"; // получен при регистрации
 
         static UnitTestsBase()
         {
@@ -62,24 +63,30 @@
             }
         }
 
-        /// <summary>
-        /// Asserts that all required data members are not empty.
-        /// </summary>
-        /// <typeparam name="T">The type of the data contract.</typeparam>
-        /// <param name="dataContract">The instance of the data contract.</param>
-        protected void AssertRequired<T>(T dataContract)
+        private Type[] SkipTypesWhenCheckingForRequiredProperties = new[]
+        {
+            typeof(int), typeof(long), typeof(short), typeof(sbyte),
+            typeof(uint), typeof(ulong), typeof(ushort), typeof(byte),
+            typeof(decimal), typeof(float),typeof(double), typeof(bool)
+        };
+
+    /// <summary>
+    /// Asserts that all required data members are not empty.
+    /// </summary>
+    /// <typeparam name="T">The type of the data contract.</typeparam>
+    /// <param name="dataContract">The instance of the data contract.</param>
+    protected void AssertRequired<T>(T dataContract)
         {
             Assert.NotNull(dataContract);
 
-            // numeric properties can be 0, that's ok
-            var skipNumericTypes = new[] { typeof(int), typeof(long), typeof(short), typeof(decimal), typeof(float) };
+            // numeric properties can be 0, and boolean can be false, that's ok
             var requiredMembers =
                 from p in typeof(T).GetProperties()
                 let dm = p.GetCustomAttributes(typeof(DataMemberAttribute), false)
                     .OfType<DataMemberAttribute>()
                     .FirstOrDefault()
                 where dm != null && dm.IsRequired == true
-                where !skipNumericTypes.Contains(p.PropertyType)
+                where !SkipTypesWhenCheckingForRequiredProperties.Contains(p.PropertyType)
                 select p;
 
             var required = requiredMembers.ToArray();

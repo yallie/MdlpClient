@@ -26,6 +26,8 @@
             // имена УС должны быть уникальными, повторное создание выдает ошибку BadRequest (400)
             var ex = Assert.Throws<MdlpException>(() =>
             {
+                // SystemID — это код субъекта обращения, которому 
+                // будут принадлежать все созданные учетные системы
                 var system = Client.RegisterAccountingSystem(SystemID, "TestSystem");
                 Assert.IsNotNull(system);
                 AssertRequired(system);
@@ -47,6 +49,19 @@
                 //   "account_system_id": "f01079ed-6516-41dd-b440-a95e19eed7a7"
                 // }
             });
+        }
+
+        [Test]
+        public void Chapter6_01_4_GetUserInfo()
+        {
+            // пример из документации: "5b5540c4-fbb0-4ad7-a038-c8222affab3f" — запись не найдена (404) 
+            var user = Client.GetUserInfo(TestUserID);
+            Assert.IsNotNull(user);
+
+            AssertRequired(user);
+            Assert.AreEqual("Юрий", user.FirstName);
+            Assert.AreEqual("Гагарин", user.LastName);
+            Assert.IsTrue(user.GroupNames.Contains("Test group 2f869fdc-2985-4730-a409-04dd73929df5"));
         }
     }
 }

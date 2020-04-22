@@ -13,7 +13,7 @@
         {
             ClientID = ClientID1,
             ClientSecret = ClientSecret1,
-            UserID = TestUserID,
+            UserID = TestUserThumbprint,
         })
         {
             Tracer = TestContext.Progress.WriteLine

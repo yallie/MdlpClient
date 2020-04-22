@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using DataContracts;
+    using RestSharp;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 6: users accounts.
@@ -51,6 +52,20 @@
             });
 
             return user.UserID;
+        }
+
+        /// <summary>
+        /// 6.1.4. Метод для получения информации о пользователе
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <returns>Свойства пользователя</returns>
+        public GroupedUser GetUserInfo(string userId)
+        {
+            return Get<GetUserResponse>("users/{user_id}", new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
+            })
+            .User;
         }
     }
 }
