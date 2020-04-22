@@ -110,24 +110,24 @@ namespace MdlpApiClient.Tests
                 Tracer = WriteLine
             };
 
-            // в теле ответа по неверному адресу branches/filter посылается HTML
+            // РІ С‚РµР»Рµ РѕС‚РІРµС‚Р° РїРѕ РЅРµРІРµСЂРЅРѕРјСѓ Р°РґСЂРµСЃСѓ branches/filter РїРѕСЃС‹Р»Р°РµС‚СЃСЏ HTML
             var ex = Assert.Throws<MdlpException>(() => client.Get("branches/filter"));
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
             Assert.IsTrue(ex.Message.Contains("404"));
             Assert.IsTrue(ex.Message.Contains("nginx"));
 
-            // а тут по умолчанию RestSharp сообщает ошибку десериализации XML
+            // Р° С‚СѓС‚ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ RestSharp СЃРѕРѕР±С‰Р°РµС‚ РѕС€РёР±РєСѓ РґРµСЃРµСЂРёР°Р»РёР·Р°С†РёРё XML
             ex = Assert.Throws<MdlpException>(() => client.Get<EmptyResponse>("branches/filter"));
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
             Assert.IsTrue(ex.Message.Contains("404"));
             Assert.IsTrue(ex.Message.Contains("nginx"));
 
-            // а здесь ресурс возвращает типизированный объект ErrorResponse
+            // Р° Р·РґРµСЃСЊ СЂРµСЃСѓСЂСЃ РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РёРїРёР·РёСЂРѕРІР°РЅРЅС‹Р№ РѕР±СЉРµРєС‚ ErrorResponse
             ex = Assert.Throws<MdlpException>(() => client.Get<EmptyResponse>("reestr/shtuchek/dryuchek"));
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
             Assert.AreEqual("Not Found", ex.Message);
 
-            // только в этом последнем случае у нас есть ErrorResponse
+            // С‚РѕР»СЊРєРѕ РІ СЌС‚РѕРј РїРѕСЃР»РµРґРЅРµРј СЃР»СѓС‡Р°Рµ Сѓ РЅР°СЃ РµСЃС‚СЊ ErrorResponse
             var error = ex.ErrorResponse;
             Assert.NotNull(error);
             Assert.AreEqual("Not Found", error.Message);
