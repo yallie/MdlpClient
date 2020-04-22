@@ -6,6 +6,7 @@
     using System.Xml.Serialization;
     using MdlpApiClient.Serialization;
     using MdlpApiClient.Toolbox;
+    using MdlpApiClient.Xsd;
     using NUnit.Framework;
     using RestSharp;
 
@@ -72,14 +73,14 @@
         [Test]
         public void XmlSerializationTest()
         {
-            var doc = new Documents.Documents();
-            doc.Register_End_Packing = new Documents.Register_End_Packing();
+            var doc = new Documents();
+            doc.Register_End_Packing = new Register_End_Packing();
             doc.Register_End_Packing.Gtin = "12345";
             doc.Register_End_Packing.Signs.Add("43232424");
             doc.Register_End_Packing.Signs.Add("654o6u45");
             doc.Register_End_Packing.Signs.Add("fstkjwtk");
 
-            var serializer = new XmlSerializer(typeof(Documents.Documents));
+            var serializer = new XmlSerializer(typeof(Documents));
             using (var stream = new StringWriter())
             {
                 serializer.Serialize(stream, doc);
@@ -110,10 +111,10 @@
   </register_end_packing>
 </documents>";
 
-            var serializer = new XmlSerializer(typeof(Documents.Documents));
+            var serializer = new XmlSerializer(typeof(Documents));
             using (var stream = new StringReader(docXml))
             {
-                var doc = serializer.Deserialize(stream) as Documents.Documents;
+                var doc = serializer.Deserialize(stream) as Documents;
                 Assert.NotNull(doc);
                 Assert.NotNull(doc.Register_End_Packing);
                 Assert.AreEqual("11170012610151", doc.Register_End_Packing.Gtin);

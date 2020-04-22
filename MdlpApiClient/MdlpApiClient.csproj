@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.txt" />
-    <Compile Include="..\MdlpApiClient.Documents\MdlpApiClient.Documents.cs">
-    	<Link>Documents\MdlpApiClient.Documents.cs</Link>
+    <Compile Include="..\MdlpApiClient.Xsd\MdlpApiClient.Xsd.cs">
+    	<Link>Xsd\MdlpApiClient.Xsd.cs</Link>
     </Compile>
   </ItemGroup>
 
