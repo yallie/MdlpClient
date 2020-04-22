@@ -14,13 +14,17 @@
         /// <param name="sysId">Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»</param>
         /// <param name="name">Название учетной системы</param>
         /// <returns>Идентификатор учетной системы</returns>
-        public AccountingSystem RegisterAccountingSystem(string sysId, string name)
+        public AccountSystem RegisterAccountSystem(string sysId, string name)
         {
-            return Post<AccountingSystem>("registration/accounting_system", new
+            var accSystem = Post<AccountSystem>("registration/accounting_system", new
             {
                 sys_id = sysId,
                 name = name,
             });
+
+            // при регистрации поле Name не возвращается
+            accSystem.Name = name;
+            return accSystem;
         }
 
         /// <summary>
@@ -163,6 +167,20 @@
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
             });
+        }
+
+        /// <summary>
+        /// 6.1.11. Метод для получения информации об УС
+        /// </summary>
+        /// <param name="accountSystemId">Уникальный идентификатор УС</param>
+        /// <returns>Свойства УС</returns>
+        public AccountSystem GetAccountSystem(string accountSystemId)
+        {
+            return Get<GetAccountSystemResponse>("account_systems/{account_system_id}", new[]
+            {
+                new Parameter("account_system_id", accountSystemId, ParameterType.UrlSegment),
+            })
+            .AccountSystem;
         }
     }
 }

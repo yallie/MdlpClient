@@ -28,8 +28,9 @@
             {
                 // SystemID — это код субъекта обращения, которому 
                 // будут принадлежать все созданные учетные системы
-                var system = Client.RegisterAccountingSystem(SystemID, "TestSystem");
+                var system = Client.RegisterAccountSystem(SystemID, "TestSystem");
                 Assert.IsNotNull(system);
+                Assert.IsNotNull(system.ClientSecret);
                 AssertRequired(system);
 
                 // создалось вот такое:
@@ -229,6 +230,19 @@
             var cert = certs.Certificates[0];
             Assert.AreEqual(TestCertificateThumbprint, cert.PublicCertificateThumbprint);
             AssertRequired(cert);
+        }
+
+        [Test]
+        public void Chapter6_01_11_GetAccountSystem()
+        {
+            var accSystem = Client.GetAccountSystem("eb8e4564-d1d7-4c00-8fc8-5e834a649c43");
+            Assert.IsNull(accSystem.ClientSecret);
+            AssertRequired(accSystem);
+            Assert.AreEqual("TestSystem", accSystem.Name);
+
+            // other known account systems
+            Assert.AreEqual("TestSystem1", Client.GetAccountSystem("b3963a8f-ce92-4f23-8c5c-585b013c4422").Name);
+            Assert.AreEqual("TestSystem2", Client.GetAccountSystem("f01079ed-6516-41dd-b440-a95e19eed7a7").Name);
         }
     }
 }
