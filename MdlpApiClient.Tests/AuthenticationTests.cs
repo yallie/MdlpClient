@@ -66,12 +66,15 @@ namespace MdlpApiClient.Tests
             };
 
             // the second user doesn't seem to have the DOWNLOAD_DOCUMENT permission => Forbidden, error 403
-            var ex = Assert.Throws<MdlpException>(() =>
-            {
-                client.GetDocumentMetadata(TestDocumentID);
-            });
-
+            var ex = Assert.Throws<MdlpException>(() => client.GetDocumentMetadata(TestDocumentID));
             Assert.AreEqual(HttpStatusCode.Forbidden, ex.StatusCode); // 403
+
+            // logged out
+            client.Logout();
+
+            // the next operation is not authorized
+            ex = Assert.Throws<MdlpException>(() => client.GetDocumentMetadata(TestDocumentID));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode); // 401
         }
 
         [Test]

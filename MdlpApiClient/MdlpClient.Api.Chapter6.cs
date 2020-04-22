@@ -228,5 +228,13 @@
                 password = password,
             });
         }
+
+        /// <summary>
+        /// 6.2.3. Метод для выхода из системы
+        /// </summary>
+        internal void Logout()
+        {
+            Get("auth/logout");
+        }
     }
 }

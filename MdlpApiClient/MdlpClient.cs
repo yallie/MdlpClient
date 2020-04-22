@@ -1,17 +1,17 @@
 ﻿namespace MdlpApiClient
 {
-    using System.Text;
-    using RestSharp;
-    using System.Security.Cryptography.X509Certificates;
-    using MdlpApiClient.Toolbox;
-    using System.Runtime.CompilerServices;
-    using MdlpApiClient.Serialization;
-    using System.Xml;
-    using RestSharp.Serialization;
-    using System.Linq;
-    using MdlpApiClient.DataContracts;
     using System;
     using System.Diagnostics;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Text;
+    using System.Xml;
+    using MdlpApiClient.DataContracts;
+    using MdlpApiClient.Serialization;
+    using MdlpApiClient.Toolbox;
+    using RestSharp;
+    using RestSharp.Serialization;
 
     /// <summary>
     /// MDLP REST API client.
@@ -111,9 +111,6 @@
         {
             if (!response.IsSuccessful)
             {
-                // already traced
-                //Trace(response);
-
                 // try to find the non-empty error message
                 var errorMessage = response.ErrorMessage;
                 var contentMessage = response.Content;
