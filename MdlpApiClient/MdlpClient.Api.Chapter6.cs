@@ -82,5 +82,32 @@
             })
             .User;
         }
+
+        /// <summary>
+        /// 6.1.5. Метод для получения информации о настройках профиля текущего пользователя
+        /// </summary>
+        /// <returns>Свойства пользователя</returns>
+        public UserPreferences GetUserPreferences()
+        {
+            return Get<UserPreferences>("users/current/preferences");
+        }
+
+        /// <summary>
+        /// 6.1.6. Метод для изменения данных профиля пользователя
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <param name="user">Свойства профиля пользователя</param>
+        public void UpdateUserProfile(string userId, UserEditProfileEntry user)
+        {
+            Put("users/{user_id}", new
+            {
+                user_id = userId,
+                user = user,
+            },
+            new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
+            });
+        }
     }
 }

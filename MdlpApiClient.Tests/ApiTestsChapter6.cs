@@ -113,5 +113,40 @@
             Assert.AreEqual("Гагарин", user.LastName);
             Assert.IsTrue(user.GroupNames.Contains("Test group 2f869fdc-2985-4730-a409-04dd73929df5"));
         }
+
+        [Test]
+        public void Chapter6_01_5_GetUserPreferences()
+        {
+            var preferences = Client.GetUserPreferences();
+            Assert.IsNotNull(preferences);
+
+            AssertRequired(preferences);
+            Assert.AreEqual("ru", preferences.Language);
+        }
+
+        [Test]
+        public void Chapter6_01_6_UpdateUserProfile()
+        {
+            // Хм, при регистрации ИС проверяет, чтобы ФИО совпадали с сертификатом,
+            // а после регистрации — уже не проверяет
+            Client.UpdateUserProfile(TestUserID, new UserEditProfileEntry
+            {
+                FirstName = "Юрий",
+                LastName = "Никулин",
+                Position = "Артист"
+            });
+
+            // действительно, обновляется
+            var user = Client.GetUserInfo(TestUserID);
+            Assert.AreEqual("Никулин", user.LastName);
+
+            // вернем все на место
+            Client.UpdateUserProfile(TestUserID, new UserEditProfileEntry
+            {
+                FirstName = "Юрий",
+                LastName = "Гагарин",
+                Position = "Космонавт"
+            });
+        }
     }
 }
