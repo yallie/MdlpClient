@@ -9,7 +9,7 @@
     public class ApiTestsChapter6 : UnitTestsClientBase
     {
         [Test]
-        public void Chapter6_01_1_RegisterAccountSystem()
+        public void Chapter6_01_01_RegisterAccountSystem()
         {
             // имена УС должны быть уникальными, повторное создание выдает ошибку BadRequest (400)
             var ex = Assert.Throws<MdlpException>(() =>
@@ -41,7 +41,7 @@
         }
 
         [Test]
-        public void Chapter6_01_2_RegisterUser()
+        public void Chapter6_01_02_RegisterUser()
         {
             // зарегистрировать можно только один раз
             var ex = Assert.Throws<MdlpException>(() =>
@@ -70,7 +70,7 @@
         }
 
         [Test]
-        public void Chapter6_01_3_RegisterUser()
+        public void Chapter6_01_03_RegisterUser()
         {
             // зарегистрировать можно только один раз
             var ex = Assert.Throws<MdlpException>(() =>
@@ -91,7 +91,7 @@
         }
 
         [Test]
-        public void Chapter6_01_4_GetUserInfo()
+        public void Chapter6_01_04_GetUserInfo()
         {
             // пример из документации: "5b5540c4-fbb0-4ad7-a038-c8222affab3f" — запись не найдена (404) 
             var user = Client.GetUserInfo(TestUserID);
@@ -104,14 +104,14 @@
         }
 
         [Test]
-        public void Chapter6_01_5_GetCurrentLanguage()
+        public void Chapter6_01_05_GetCurrentLanguage()
         {
             var language = Client.GetCurrentLanguage();
             Assert.AreEqual("ru", language);
         }
 
         [Test]
-        public void Chapter6_01_6_UpdateUserProfile()
+        public void Chapter6_01_06_UpdateUserProfile()
         {
             // Хм, при регистрации ИС проверяет, чтобы ФИО совпадали с сертификатом,
             // а после регистрации — уже не проверяет
@@ -136,7 +136,7 @@
         }
 
         [Test]
-        public void Chapter6_01_7_GetCurrentUserInfo()
+        public void Chapter6_01_07_GetCurrentUserInfo()
         {
             var user = Client.GetCurrentUserInfo();
             Assert.IsNotNull(user);
@@ -148,7 +148,7 @@
         }
 
         [Test]
-        public void Chapter6_01_8_SetCurrentLanguage()
+        public void Chapter6_01_08_SetCurrentLanguage()
         {
             var lang = Client.GetCurrentLanguage();
             try
@@ -169,7 +169,7 @@
         }
 
         [Test]
-        public void Chapter6_01_9_GetCurrentCertificates()
+        public void Chapter6_01_09_GetCurrentCertificates()
         {
             // non-resident user doesn't have certificates
             var certs = Client.GetCurrentCertificates(0, 10);
@@ -231,6 +231,47 @@
             // other known account systems
             Assert.AreEqual("TestSystem1", Client.GetAccountSystem("b3963a8f-ce92-4f23-8c5c-585b013c4422").Name);
             Assert.AreEqual("TestSystem2", Client.GetAccountSystem("f01079ed-6516-41dd-b440-a95e19eed7a7").Name);
+        }
+
+        [Test, Explicit]
+        public void Chapter6_03_01_DeleteUser()
+        {
+            // user not found
+            var ex = Assert.Throws<MdlpException>(() => Client.DeleteUser("5b5540c4-fbb0-4ad7-a038-c8222affab3f"));
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
+            Assert.AreEqual("Ошибка при выполнении операции: запись не найдена", ex.Message);
+        }
+
+        [Test, Explicit]
+        public void Chapter6_03_02_DeleteAccountSystem()
+        {
+            // register and then delete
+            var system = Client.RegisterAccountSystem(SystemID, "TestAccountSystem123");
+            Client.DeleteAccountSystem(system.AccountSystemID);
+        }
+
+        [Test]
+        public void Chapter6_04_01_AddUserCertificate()
+        {
+            var ex = Assert.Throws<MdlpException>(() => Client.AddUserCertificate(TestUserID, @"MIIBjjCCAT2gAwIBAgIEWWJzHzAIBgYqhQMCAgMwMTELMAkGA1UEBhMCUlUxEjAQBgNVBAoMCUNyeXB0b1BybzEOMAwGA1UEAwwFQWxpYXMwHhcNMTcxMTEzMTczMjI4WhcNMTgxMTEzMTczMjI4WjAxMQswCQYDVQQGEwJSVTESMBAGA1UECgwJQ3J5cHRvUHJvMQ4wDAYDVQQDDAVBbGlhczBjMBwGBiqFAwICEzASBgcqhQMCAiQABgcqhQMCAh4BA0MABEAIWARzAiI81k4i4Gz8EC7Ic01653JX5PCUfvgCBTpLduYtbTwLOwmGFcZzw9bwsxQpALqhcdRHxtx1UEeNKJuMozswOTAOBgNVHQ8BAf8EBAMCA+gwEwYDVR0lBAwwCgYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBBTAIBgYqhQMCAgMDQQBL9CrIk0EgnMVr1J5dKbfXVFrhJxGxztFkTdmGkGJ6gHywB5Y9KpP67pv7I2bP1m1ej9hu+C17GSJrWgMgq+UZ"));
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+            Assert.AreEqual("Ошибка при выполнении операции: срок действия сертификата истек", ex.Message);
+        }
+
+        [Test]
+        public void Chapter6_04_02_DeleteUserCertificate()
+        {
+            var ex = Assert.Throws<MdlpException>(() => Client.DeleteUserCertificate(TestUserID, @"MIIBjjCCAT2gAwIBAgIEWWJzHzAIBgYqhQMCAgMwMTELMAkGA1UEBhMCUlUxEjAQBgNVBAoMCUNyeXB0b1BybzEOMAwGA1UEAwwFQWxpYXMwHhcNMTcxMTEzMTczMjI4WhcNMTgxMTEzMTczMjI4WjAxMQswCQYDVQQGEwJSVTESMBAGA1UECgwJQ3J5cHRvUHJvMQ4wDAYDVQQDDAVBbGlhczBjMBwGBiqFAwICEzASBgcqhQMCAiQABgcqhQMCAh4BA0MABEAIWARzAiI81k4i4Gz8EC7Ic01653JX5PCUfvgCBTpLduYtbTwLOwmGFcZzw9bwsxQpALqhcdRHxtx1UEeNKJuMozswOTAOBgNVHQ8BAf8EBAMCA+gwEwYDVR0lBAwwCgYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBBTAIBgYqhQMCAgMDQQBL9CrIk0EgnMVr1J5dKbfXVFrhJxGxztFkTdmGkGJ6gHywB5Y9KpP67pv7I2bP1m1ej9hu+C17GSJrWgMgq+UZ"));
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+            Assert.AreEqual("Ошибка при выполнении операции: сертификат принадлежит другому пользователю", ex.Message);
+        }
+
+        [Test]
+        public void Chapter6_05_01_ChangeUserPassword()
+        {
+            var ex = Assert.Throws<MdlpException>(() => Client.ChangeUserPassword(TestUserID, @"password"));
+            Assert.AreEqual(HttpStatusCode.MethodNotAllowed, ex.StatusCode);
+            Assert.AreEqual("MethodNotAllowed", ex.Message);
         }
     }
 }

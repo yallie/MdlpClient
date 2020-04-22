@@ -342,9 +342,14 @@
         /// <param name="url">Resource url.</param>
         /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
-        public void Delete(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
+        public void Delete(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
         {
             var request = new RestRequest(url, Method.DELETE, DataFormat.Json);
+            if (body != null)
+            {
+                request.AddJsonBody(body);
+            }
+
             if (!parameters.IsNullOrEmpty())
             {
                 request.AddOrUpdateParameters(parameters);

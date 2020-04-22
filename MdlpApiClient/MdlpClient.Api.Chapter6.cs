@@ -240,5 +240,86 @@
         {
             Get("auth/logout");
         }
+
+        /// <summary>
+        /// 6.3.1. Метод для удаления пользователей учетной системы
+        /// </summary>
+        public void DeleteUser(string userId)
+        {
+            Delete("users/{user_id}", null, new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.3.2. Метод для удаления учетной системы
+        /// </summary>
+        public void DeleteAccountSystem(string accountSystemId)
+        {
+            Delete("account_systems/{account_system_id}", null, new[]
+            {
+                new Parameter("account_system_id", accountSystemId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.4.1. Метод для добавления ЭП пользователя (для резидентов)
+        /// </summary>
+        /// <remarks>
+        /// Необходимо использовать публичный сертификат, а не публичный ключ.
+        /// </remarks>
+        /// <param name="userId">Уникальный идентификатор пользователя</param>
+        /// <param name="certificate">Публичный сертификат пользователя</param>
+        public void AddUserCertificate(string userId, string certificate)
+        {
+            Post("users/{user_id}/add_key", new
+            {
+                public_cert = certificate
+            },
+            new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.4.2. Метод для удаления ЭП пользователя (для резидентов)
+        /// </summary>
+        /// <remarks>
+        /// Необходимо использовать публичный сертификат, а не публичный ключ.
+        /// Допускается также использование серийного номера сертификата 
+        /// в десятичной форме или отпечатка сертификата.
+        /// </remarks>
+        /// <param name="userId">Уникальный идентификатор пользователя</param>
+        /// <param name="certificate">Публичный сертификат пользователя</param>
+        public void DeleteUserCertificate(string userId, string certificate)
+        {
+            Delete("users/{user_id}/delete_key", new
+            {
+                public_cert = certificate
+            },
+            new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.5.1. Метод для изменения пароля пользователя (для нерезидентов)
+        /// </summary>
+        /// <param name="userId">Уникальный идентификатор пользователя</param>
+        /// <param name="password">Пароль пользователя</param>
+        public void ChangeUserPassword(string userId, string password)
+        {
+            Post("users/{user_id}/change_password", new
+            {
+                password = password
+            },
+            new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
+            });
+        }
     }
 }
