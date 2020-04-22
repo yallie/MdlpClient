@@ -25,26 +25,29 @@
         /// Initializes a new instance of the MDLP REST API client.
         /// </summary>
         /// <param name="credentials">Credentials used for authentication.</param>
+        /// <param name="client"><see cref="IRestClient"/> instance.</param>
+        public MdlpClient(CredentialsBase credentials, IRestClient client)
+        {
+            Credentials = credentials;
+            Serializer = new ServiceStackSerializer();
+            BaseUrl = client.BaseUrl.ToString();
+
+            // set up REST client
+            Client = client;
+            Client.Authenticator = new CredentialsAuthenticator(this, credentials);
+            Client.Encoding = Encoding.UTF8;
+            Client.ThrowOnDeserializationError = false;
+            Client.UseSerializer(() => Serializer);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the MDLP REST API client.
+        /// </summary>
+        /// <param name="credentials">Credentials used for authentication.</param>
         /// <param name="baseUrl">Base URL of the API endpoint.</param>
         public MdlpClient(CredentialsBase credentials, string baseUrl = StageApiHttp)
+            : this(credentials, new RestClient(baseUrl ?? StageApiHttp))
         {
-            // make sure BaseUrl ends with a slash
-            BaseUrl = baseUrl ?? string.Empty;
-            if (!baseUrl.EndsWith("/"))
-            {
-                BaseUrl += "/";
-            }
-
-            Credentials = credentials;
-            Client = new RestClient(BaseUrl)
-            {
-                Authenticator = new CredentialsAuthenticator(this, credentials),
-                Encoding = Encoding.UTF8,
-                ThrowOnDeserializationError = false
-            };
-
-            Serializer = new ServiceStackSerializer();
-            Client.UseSerializer(() => Serializer);
         }
 
         public string BaseUrl { get; private set; }

@@ -4,7 +4,7 @@
     using RestSharp;
 
     /// <remarks>
-    /// Strongly typed REST API methods. Chapter 6: users accounts.
+    /// Strongly typed REST API methods. Chapter 6: user accounts.
     /// </remarks>
     partial class MdlpClient
     {
