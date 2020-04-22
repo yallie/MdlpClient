@@ -78,8 +78,8 @@ body: {
 
 <- OK 200 (OK) http://api.stage.mdlp.crpt.ru/api/v1/auth
 timings: {
-  started: 2020-04-15 16:32:54
-  elapsed: 00:00:00.2112343
+  started: 2020-04-22 20:22:12
+  elapsed: 00:00:00.1971392
 }
 headers: {
   Connection = keep-alive
@@ -92,30 +92,30 @@ headers: {
   Content-Length = 47
   Cache-Control = no-cache, no-store, max-age=0, must-revalidate
   Content-Type = application/json;charset=UTF-8
-  Date = Wed, 15 Apr 2020 13:32:54 GMT
+  Date = Wed, 22 Apr 2020 17:22:12 GMT
   Expires = 0
   Server = nginx/1.14.0
 }
 body: {
-  "code": "e6127c99-91e7-44fc-9ed2-bf409be72c1a"
+  "code": "7c08d5f3-4a0c-4a71-b123-638533b4612c"
 }
 
-// Authenticate
+// GetToken
 -> POST http://api.stage.mdlp.crpt.ru/api/v1/token
 headers: {
-  X-ApiMethodName = Authenticate
+  X-ApiMethodName = GetToken
   Accept = application/json, text/json, text/x-json, text/javascript, application/xml, text/xml
   Content-type = application/json
 }
 body: {
-  "code": "e6127c99-91e7-44fc-9ed2-bf409be72c1a",
+  "code": "7c08d5f3-4a0c-4a71-b123-638533b4612c",
   "password": "password"
 }
 
 <- OK 200 (OK) http://api.stage.mdlp.crpt.ru/api/v1/token
 timings: {
-  started: 2020-04-15 16:32:54
-  elapsed: 00:00:00.2524283
+  started: 2020-04-22 20:22:12
+  elapsed: 00:00:00.2673376
 }
 headers: {
   Connection = keep-alive
@@ -128,12 +128,12 @@ headers: {
   Content-Length = 63
   Cache-Control = no-cache, no-store, max-age=0, must-revalidate
   Content-Type = application/json;charset=UTF-8
-  Date = Wed, 15 Apr 2020 13:32:54 GMT
+  Date = Wed, 22 Apr 2020 17:22:13 GMT
   Expires = 0
   Server = nginx/1.14.0
 }
 body: {
-  "token": "cdfb0eb2-e9fc-46d8-a57b-665b48a1dce7",
+  "token": "9189625f-2bea-4cf9-a36d-2c827b08d276",
   "life_time": 30
 }
 
@@ -141,14 +141,14 @@ body: {
 -> GET http://api.stage.mdlp.crpt.ru/api/v1/documents/60786bb4-fcb5-4587-b703-d0147e3f9d1c
 headers: {
   X-ApiMethodName = GetDocumentMetadata
-  Authorization = token cdfb0eb2-e9fc-46d8-a57b-665b48a1dce7
+  Authorization = token 9189625f-2bea-4cf9-a36d-2c827b08d276
   Accept = application/json, text/json, text/x-json, text/javascript, application/xml, text/xml
 }
 
 <- OK 200 (OK) http://api.stage.mdlp.crpt.ru/api/v1/documents/60786bb4-fcb5-4587-b703-d0147e3f9d1c
 timings: {
-  started: 2020-04-15 16:32:54
-  elapsed: 00:00:00.5707467
+  started: 2020-04-22 20:22:12
+  elapsed: 00:00:00.5673959
 }
 headers: {
   Transfer-Encoding = chunked
@@ -161,7 +161,7 @@ headers: {
   Strict-Transport-Security = max-age=15768000
   Cache-Control = no-cache, no-store, max-age=0, must-revalidate
   Content-Type = application/json;charset=UTF-8
-  Date = Wed, 15 Apr 2020 13:32:54 GMT
+  Date = Wed, 22 Apr 2020 17:22:13 GMT
   Expires = 0
   Server = nginx/1.14.0
 }
