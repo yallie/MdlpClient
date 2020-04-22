@@ -16,7 +16,7 @@
     /// <summary>
     /// MDLP REST API client.
     /// </summary>
-    public partial class MdlpClient
+    public partial class MdlpClient : IDisposable
     {
         public const string StageApiHttp = "http://api.stage.mdlp.crpt.ru/api/v1/";
         public const string StageApiHttps = "https://api.stage.mdlp.crpt.ru/api/v1/";
@@ -50,6 +50,15 @@
         {
         }
 
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (IsAuthenticated)
+            {
+                Logout();
+            }
+        }
+
         public string BaseUrl { get; private set; }
 
         private IRestSerializer Serializer { get; set; }
@@ -59,6 +68,8 @@
         private CredentialsBase Credentials { get; set; }
 
         private X509Certificate2 userCertificate;
+
+        public bool IsAuthenticated { get; private set; }
 
         /// <summary>
         /// X.509 certificate of the resident user (if applicable).
@@ -249,11 +260,6 @@
                 request.AddOrUpdateParameters(parameters);
             }
 
-            //if (!string.IsNullOrWhiteSpace(accept))
-            //{
-            //    request.AddOrUpdateParameter("Accept", accept, ParameterType.HttpHeader);
-            //}
-
             return ExecuteString(request, apiMethodName);
         }
 
@@ -320,7 +326,6 @@
         /// <summary>
         /// Performs PUT request.
         /// </summary>
-        /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, serialized as string.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
@@ -328,6 +333,23 @@
         {
             var request = new RestRequest(url, Method.PUT, DataFormat.None);
             request.AddParameter(string.Empty, body, ParameterType.RequestBody);
+            Execute(request, apiMethodName);
+        }
+
+        /// <summary>
+        /// Performs DELETE request.
+        /// </summary>
+        /// <param name="url">Resource url.</param>
+        /// <param name="parameters">IRestRequest parameters.</param>
+        /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
+        public void Delete(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
+        {
+            var request = new RestRequest(url, Method.DELETE, DataFormat.Json);
+            if (!parameters.IsNullOrEmpty())
+            {
+                request.AddOrUpdateParameters(parameters);
+            }
+
             Execute(request, apiMethodName);
         }
     }

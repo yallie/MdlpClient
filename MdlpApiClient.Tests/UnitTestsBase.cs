@@ -9,7 +9,7 @@
     using System.Collections.Generic;
 
     [TestFixture]
-    public class UnitTestsBase
+    public class UnitTestsBase : IDisposable
     {
         // MDLP test stage data
         public const string SystemID = "9dedee17-e43a-47f1-910e-3a88ff6bc81b"; // идентификатор субъекта обращения
@@ -39,15 +39,33 @@
 
         public UnitTestsBase()
         {
-            TestContext.Progress.WriteLine("====> {0} <====", GetType().Name);
+            WriteLine("====> {0} <====", GetType().Name);
+        }
+
+        public virtual void Dispose()
+        {
+            WriteLine("<==== {0}.Dispose() ====>", GetType().Name);
         }
 
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            TestContext.Progress.WriteLine("------> {0} <------", TestContext.CurrentContext.Test.MethodName);
+            WriteLine("------> {0} <------", TestContext.CurrentContext.Test.MethodName);
         }
 
+        protected void WriteLine(string format, params object[] args)
+        {
+        #if TRACE
+            if (args != null && args.Length == 0)
+            {
+                // avoid formatting curly braces if no arguments are given
+                TestContext.Progress.WriteLine(format);
+                return;
+            }
+
+            TestContext.Progress.WriteLine(format, args);
+        #endif
+        }
 
         /// <summary>
         /// Asserts that all required data members are not empty.
@@ -70,12 +88,12 @@
             typeof(decimal), typeof(float),typeof(double), typeof(bool)
         };
 
-    /// <summary>
-    /// Asserts that all required data members are not empty.
-    /// </summary>
-    /// <typeparam name="T">The type of the data contract.</typeparam>
-    /// <param name="dataContract">The instance of the data contract.</param>
-    protected void AssertRequired<T>(T dataContract)
+        /// <summary>
+        /// Asserts that all required data members are not empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the data contract.</typeparam>
+        /// <param name="dataContract">The instance of the data contract.</param>
+        protected void AssertRequired<T>(T dataContract)
         {
             Assert.NotNull(dataContract);
 

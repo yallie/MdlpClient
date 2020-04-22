@@ -11,7 +11,7 @@
     using RestSharp;
 
     [TestFixture]
-    public class SerializationTests
+    public class SerializationTests : UnitTestsBase
     {
         #region JSON иерархия — нет, такое мы использовать не будем:
 
@@ -62,7 +62,7 @@
             var s = new ServiceStackSerializer();
             var json = s.Serialize(r);
             Assert.NotNull(json);
-            TestContext.Progress.WriteLine(JsonFormatter.FormatJson(json));
+            WriteLine(JsonFormatter.FormatJson(json));
 
             var obj = s.Deserialize<Response>(new RestResponse() { Content = json });
             Assert.NotNull(obj);

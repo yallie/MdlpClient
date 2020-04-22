@@ -221,12 +221,16 @@
         /// <returns>Ключ сессии <see cref="AuthToken"/>.</returns>
         internal AuthToken GetToken(string authCode, string signature = null, string password = null)
         {
-            return Post<AuthToken>("token", new
+            var result = Post<AuthToken>("token", new
             {
                 code = authCode,
                 signature = signature,
                 password = password,
             });
+
+            // if Post didn't throw, then we're authenticated
+            IsAuthenticated = true;
+            return result;
         }
 
         /// <summary>

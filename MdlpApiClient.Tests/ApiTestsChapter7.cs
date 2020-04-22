@@ -2,24 +2,12 @@
 {
     using System.Linq;
     using System.Net;
-    using System.Xml.Linq;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
 
     [TestFixture]
-    public class ApiTestsChapter7 : UnitTestsBase
+    public class ApiTestsChapter7 : UnitTestsClientBase
     {
-        private MdlpClient Client = new MdlpClient(credentials: new NonResidentCredentials
-        {
-            ClientID = ClientID1,
-            ClientSecret = ClientSecret1,
-            UserID = UserStarter1,
-            Password = UserPassword1,
-        })
-        {
-            Tracer = TestContext.Progress.WriteLine
-        };
-
         [Test]
         public void Chapter7_01_1_GetEgrulRegistryEntry()
         {

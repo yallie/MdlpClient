@@ -19,7 +19,7 @@ namespace MdlpApiClient.Tests
                 Password = UserPassword1
             })
             {
-                Tracer = TestContext.Progress.WriteLine
+                Tracer = WriteLine
             };
 
             // the next line authenticates, then it requests a document
@@ -39,7 +39,7 @@ namespace MdlpApiClient.Tests
                 Password = UserPassword2
             })
             {
-                Tracer = TestContext.Progress.WriteLine
+                Tracer = WriteLine
             };
 
             // the second user's sysId mismatch => BadRequest, error 400
@@ -62,7 +62,7 @@ namespace MdlpApiClient.Tests
                 Password = UserPassword2
             })
             {
-                Tracer = TestContext.Progress.WriteLine
+                Tracer = WriteLine
             };
 
             // the second user doesn't seem to have the DOWNLOAD_DOCUMENT permission => Forbidden, error 403
@@ -87,7 +87,7 @@ namespace MdlpApiClient.Tests
                 UserID = TestUserThumbprint,
             })
             {
-                Tracer = TestContext.Progress.WriteLine
+                Tracer = WriteLine
             };
 
             // the document is available to the test user
@@ -107,7 +107,7 @@ namespace MdlpApiClient.Tests
                 Password = UserPassword2
             })
             {
-                Tracer = TestContext.Progress.WriteLine
+                Tracer = WriteLine
             };
 
             // в теле ответа по неверному адресу branches/filter посылается HTML

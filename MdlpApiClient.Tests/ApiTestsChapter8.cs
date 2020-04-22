@@ -7,29 +7,8 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ApiTestsChapter8 : UnitTestsBase
+    public class ApiTestsChapter8 : UnitTestsClientBase
     {
-        private MdlpClient Client = new MdlpClient(new NonResidentCredentials
-        {
-            ClientID = ClientID1,
-            ClientSecret = ClientSecret1,
-            UserID = UserStarter1,
-            Password = UserPassword1,
-        })
-        {
-            Tracer = TestContext.Progress.WriteLine
-        };
-
-        private MdlpClient TestClient = new MdlpClient(new ResidentCredentials
-        {
-            ClientID = ClientID1,
-            ClientSecret = ClientSecret1,
-            UserID = TestUserThumbprint,
-        })
-        {
-            Tracer = TestContext.Progress.WriteLine
-        };
-
         [Test]
         public void Chapter8_01_2_GetBranches()
         {

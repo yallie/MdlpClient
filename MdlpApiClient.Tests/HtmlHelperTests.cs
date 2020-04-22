@@ -13,7 +13,7 @@
             var text = HtmlHelper.ExtractText(html);
             Assert.NotNull(text);
             Assert.AreEqual("404 Not Found\r\nnginx/1.14.0", text);
-            TestContext.Progress.WriteLine(text);
+            WriteLine(text);
         }
     }
 }

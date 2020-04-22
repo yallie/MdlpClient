@@ -2,26 +2,14 @@
 {
     using System.Linq;
     using System.Net;
-    using System.Xml.Linq;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
 
     [TestFixture]
-    public class ApiTestsChapter6 : UnitTestsBase
+    public class ApiTestsChapter6 : UnitTestsClientBase
     {
-        private MdlpClient Client = new MdlpClient(credentials: new NonResidentCredentials
-        {
-            ClientID = ClientID1,
-            ClientSecret = ClientSecret1,
-            UserID = UserStarter1,
-            Password = UserPassword1,
-        })
-        {
-            Tracer = TestContext.Progress.WriteLine
-        };
-
         [Test]
-        public void Chapter6_01_1_RegisterAccountingSystem()
+        public void Chapter6_01_1_RegisterAccountSystem()
         {
             // имена УС должны быть уникальными, повторное создание выдает ошибку BadRequest (400)
             var ex = Assert.Throws<MdlpException>(() =>
@@ -200,7 +188,7 @@
                     UserID = TestUserThumbprint,
                 })
                 {
-                    Tracer = TestContext.Progress.WriteLine
+                    Tracer = WriteLine
                 };
 
                 certs = client.GetCurrentCertificates(0, 10);

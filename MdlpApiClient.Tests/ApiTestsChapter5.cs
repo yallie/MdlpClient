@@ -7,17 +7,21 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ApiTestsChapter5 : UnitTestsBase
+    public class ApiTestsChapter5 : UnitTestsClientBase
     {
-        private MdlpClient Client = new MdlpClient(credentials: new ResidentCredentials
+        protected override MdlpClient CreateClient()
         {
-            ClientID = ClientID1,
-            ClientSecret = ClientSecret1,
-            UserID = TestUserThumbprint,
-        })
-        {
-            Tracer = TestContext.Progress.WriteLine
-        };
+            return new MdlpClient(credentials: new ResidentCredentials
+            {
+                ClientID = ClientID1,
+                ClientSecret = ClientSecret1,
+                UserID = TestUserThumbprint,
+            },
+            baseUrl: MdlpClient.StageApiHttps)
+            {
+                Tracer = WriteLine
+            };
+        }
 
         [Test]
         public void Chapter5_01_SendDocumentTest()
@@ -130,8 +134,8 @@
             var doc = Client.GetDocument(TestDocumentID);
             Assert.IsNotNull(doc);
 
-            TestContext.Progress.WriteLine("Downloaded document: {0}", TestDocumentID);
-            TestContext.Progress.WriteLine("{0}", doc);
+            WriteLine("Downloaded document: {0}", TestDocumentID);
+            WriteLine("{0}", doc);
         }
 
         [Test]
@@ -153,8 +157,8 @@
             var ticket = Client.GetTicket(TestTicketID);
             Assert.IsNotNull(ticket);
 
-            TestContext.Progress.WriteLine("Downloaded TicketID: {0}", TestTicketID);
-            TestContext.Progress.WriteLine("{0}", XDocument.Parse(ticket).ToString());
+            WriteLine("Downloaded TicketID: {0}", TestTicketID);
+            WriteLine("{0}", XDocument.Parse(ticket).ToString());
         }
 
         [Test]
@@ -167,8 +171,8 @@
                 var signature = Client.GetSignature(outDocId);
                 Assert.IsNotNull(signature);
 
-                TestContext.Progress.WriteLine("Signature for DocumentID: {0}", outDocId);
-                TestContext.Progress.WriteLine("{0}", signature);
+                WriteLine("Signature for DocumentID: {0}", outDocId);
+                WriteLine("{0}", signature);
             });
 
             Assert.AreEqual(HttpStatusCode.NotAcceptable, ex.StatusCode); // 406
