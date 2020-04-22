@@ -115,9 +115,9 @@
         }
 
         [Test]
-        public void Chapter6_01_5_GetCurrentUserLanguage()
+        public void Chapter6_01_5_GetCurrentLanguage()
         {
-            var language = Client.GetCurrentUserLanguage();
+            var language = Client.GetCurrentLanguage();
             Assert.AreEqual("ru", language);
         }
 
@@ -159,23 +159,23 @@
         }
 
         [Test]
-        public void Chapter6_01_8_SetCurrentUserLanguage()
+        public void Chapter6_01_8_SetCurrentLanguage()
         {
-            var lang = Client.GetCurrentUserLanguage();
+            var lang = Client.GetCurrentLanguage();
             try
             {
-                Client.SetCurrentUserLanguage("ru");
-                Client.SetCurrentUserLanguage("en");
+                Client.SetCurrentLanguage("ru");
+                Client.SetCurrentLanguage("en");
 
                 // неизвестный язык
-                var ex = Assert.Throws<MdlpException>(() => Client.SetCurrentUserLanguage("bad"));
+                var ex = Assert.Throws<MdlpException>(() => Client.SetCurrentLanguage("bad"));
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
                 Assert.AreEqual("Error during operation: request is missing or incorrect", ex.Message);
             }
             finally
             {
                 // вернем как было
-                Client.SetCurrentUserLanguage(lang);
+                Client.SetCurrentLanguage(lang);
             }
         }
 
@@ -214,6 +214,21 @@
             });
 
             Assert.AreEqual(HttpStatusCode.Forbidden, ex.StatusCode);
+        }
+
+        [Test]
+        public void Chapter6_01_10_GetUserCertificates()
+        {
+            // non-resident user doesn't have certificates
+            var certs = Client.GetUserCertificates(TestUserID, 0, 10);
+            Assert.IsNotNull(certs);
+            Assert.IsNotNull(certs.Certificates);
+            Assert.AreEqual(1, certs.Total);
+            Assert.AreEqual(1, certs.Certificates.Length);
+
+            var cert = certs.Certificates[0];
+            Assert.AreEqual(TestCertificateThumbprint, cert.PublicCertificateThumbprint);
+            AssertRequired(cert);
         }
     }
 }

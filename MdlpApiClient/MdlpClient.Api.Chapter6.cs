@@ -87,7 +87,7 @@
         /// 6.1.5. Метод для получения информации о языке текущего пользователя
         /// </summary>
         /// <returns>Свойства пользователя</returns>
-        public string GetCurrentUserLanguage()
+        public string GetCurrentLanguage()
         {
             return Get<UserPreferences>("users/current/preferences").Language;
         }
@@ -123,7 +123,7 @@
         /// 6.1.8. Метод для изменения языка в профиле текущего пользователя
         /// </summary>
         /// <param name="language">Язык интерфейса пользователя (ru/en)</param>
-        public void SetCurrentUserLanguage(string language)
+        public void SetCurrentLanguage(string language)
         {
             Put("users/current/preferences", new
             {
@@ -134,15 +134,34 @@
         /// <summary>
         /// 6.1.9. Метод для получения информации о зарегистрированных сертификатах текущего пользователя
         /// </summary>
-        /// <param name="startFrom">Индекс первой записи в списке возвращаемых мест</param>
-        /// <param name="count">Количество записей в списке возвращаемых мест</param>
-        /// <returns>Список мест осуществления деятельности</returns>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых сертификатов</param>
+        /// <param name="count">Количество записей в списке возвращаемых сертификатов</param>
+        /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetCurrentCertificates(int startFrom, int count)
         {
             return Post<CertificatesResponse<UserCertificate>>("users/current/keys", new
             {
                 start_from = startFrom,
                 count = count,
+            });
+        }
+
+        /// <summary>
+        /// 6.1.10. Метод для получения информации о зарегистрированных сертификатах пользователя
+        /// </summary>
+        /// <param name="startFrom">Индекс первой записи в списке возвращаемых сертификатов</param>
+        /// <param name="count">Количество записей в списке возвращаемых сертификатов</param>
+        /// <returns>Список сертификатов</returns>
+        public CertificatesResponse<UserCertificate> GetUserCertificates(string userId, int startFrom, int count)
+        {
+            return Post<CertificatesResponse<UserCertificate>>("users/{user_id}/keys", new
+            {
+                start_from = startFrom,
+                count = count,
+            },
+            new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
             });
         }
     }
