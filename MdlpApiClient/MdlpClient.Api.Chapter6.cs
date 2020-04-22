@@ -182,5 +182,51 @@
             })
             .AccountSystem;
         }
+
+        /// <summary>
+        /// 6.2.1. Метод для получения кода аутентификации
+        /// </summary>
+        /// <remarks>
+        /// Это внутренний метод, он не является частью публичного API.
+        /// Он используется классами-наследниками <see cref="CredentialsBase"/>.
+        /// </remarks>
+        /// <param name="clientId">Идентификатор клиента</param>
+        /// <param name="clientSecret">Секретный ключ клиента</param>
+        /// <param name="userId">Уникальный идентификатор пользователя</param>
+        /// <param name="authType">Тип аутентификации: PASSWORD или SIGNED_CODE</param>
+        /// <returns>Код аутентификации для получения ключа сессии</returns>
+        internal string Authenticate(string clientId, string clientSecret, string userId, string authType)
+        {
+            var auth = Post<AuthResponse>("auth", new
+            {
+                client_id = clientId,
+                client_secret = clientSecret,
+                user_id = userId,
+                auth_type = authType,
+            });
+
+            return auth.Code;
+        }
+
+        /// <summary>
+        /// 6.2.2. Метод для получения ключа сессии
+        /// </summary>
+        /// <remarks>
+        /// Это внутренний метод, он не является частью публичного API.
+        /// Он используется классами-наследниками <see cref="CredentialsBase"/>.
+        /// </remarks>
+        /// <param name="authCode">Код аутентификации для получения ключа сессии</param>
+        /// <param name="signature">Открепленная подпись кода для аутентификации типа SIGNED_CODE</param>
+        /// <param name="password">Пароль пользователя для аутентификации типа PASSWORD</param>
+        /// <returns>Ключ сессии <see cref="AuthToken"/>.</returns>
+        internal AuthToken GetToken(string authCode, string signature = null, string password = null)
+        {
+            return Post<AuthToken>("token", new
+            {
+                code = authCode,
+                signature = signature,
+                password = password,
+            });
+        }
     }
 }

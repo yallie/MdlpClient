@@ -5,6 +5,7 @@
 
     /// <summary>
     /// MDLP REST API authentication token.
+    /// 6.2.2. Метод для получения ключа сессии
     /// </summary>
     [DataContract]
     public class AuthToken

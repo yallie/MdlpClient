@@ -16,20 +16,10 @@
         public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // get authentication code
-            var authResponse = apiClient.Post<AuthResponse>("auth", new
-            {
-                client_id = ClientID,
-                client_secret = ClientSecret,
-                user_id = UserID,
-                auth_type = "PASSWORD",
-            });
+            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "PASSWORD");
 
             // get authentication token
-            return apiClient.Post<AuthToken>("token", new
-            {
-                code = authResponse.Code,
-                password = Password,
-            });
+            return apiClient.GetToken(authCode, password: Password);
         }
     }
 }

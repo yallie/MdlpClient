@@ -22,20 +22,10 @@
             }
 
             // get authentication code
-            var authResponse = apiClient.Post<AuthResponse>("auth", new
-            {
-                client_id = ClientID,
-                client_secret = ClientSecret,
-                user_id = UserID,
-                auth_type = "SIGNED_CODE",
-            });
+            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "SIGNED_CODE");
 
             // get authentication token
-            return apiClient.Post<AuthToken>("token", new
-            {
-                code = authResponse.Code,
-                signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authResponse.Code),
-            });
+            return apiClient.GetToken(authCode, signature: GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode));
         }
     }
 }
