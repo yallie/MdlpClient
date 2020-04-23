@@ -402,5 +402,17 @@
             Assert.AreEqual(1, users.Users.Length);
             Assert.AreEqual("5f0b90ef-76fe-49cc-8c8a-1029928effcc", users.Users[0].UserID);
         }
+
+        [Test]
+        public void Chapter6_08_02_GetAccountSystems()
+        {
+            var accSystems = Client.GetAccountSystems("starter_resident_1", 0, 10);
+            AssertRequired(accSystems);
+            AssertRequiredItems(accSystems.AccountSystems);
+
+            Assert.AreEqual(1, accSystems.Total);
+            Assert.AreEqual(1, accSystems.AccountSystems.Length);
+            Assert.AreEqual("2f95f1cc-b337-4ff9-a62b-e67dbac21d43", accSystems.AccountSystems[0].AccountSystemID);
+        }
     }
 }

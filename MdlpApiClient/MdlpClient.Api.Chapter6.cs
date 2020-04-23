@@ -467,14 +467,34 @@
         /// 6.7.2. Метод для поиска зарегистрированных пользователей по фильтру
         /// </summary>
         /// <param name="filter">Фильтр для поиска списка зарегистрированных пользователей</param>
-        /// <param name="startFrom">Индекс первой записи в списке зарегистрированных пользователей </param>
-        /// <param name="count">Количество записей в списке зарегистрированных пользователей </param>
-        /// <returns>Список зарегистрированных пользователей </returns>
+        /// <param name="startFrom">Индекс первой записи в списке зарегистрированных пользователей</param>
+        /// <param name="count">Количество записей в списке зарегистрированных пользователей</param>
+        /// <returns>Список зарегистрированных пользователей</returns>
         public UsersResponse<GroupedUser> GetUsers(UserFilter filter, int startFrom, int count)
         {
             return Post<UsersResponse<GroupedUser>>("users/filter", new
             {
                 filter = filter ?? new UserFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
+
+        /// <summary>
+        /// 6.8.2. Метод для поиска учетных систем по фильтру
+        /// </summary>
+        /// <param name="name">Имя для поиска учетных систем</param>
+        /// <param name="startFrom">Индекс первой записи в списке учетных систем</param>
+        /// <param name="count">Количество записей в списке учетных систем</param>
+        /// <returns>Список учетных систем</returns>
+        public AccountSystemsResponse<AccountSystem> GetAccountSystems(string name, int startFrom, int count)
+        {
+            return Post<AccountSystemsResponse<AccountSystem>>("account_systems/filter", new
+            {
+                filter = new
+                {
+                    name = name
+                },
                 start_from = startFrom,
                 count = count,
             });
