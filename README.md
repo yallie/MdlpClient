@@ -1,9 +1,10 @@
-# Честный знак. ИС «Маркировка». МДЛП
-![MDLP REST API Client for .NET Framework 4.62](https://img.shields.io/badge/MDLP%20REST%20API-.NET%20v4.62-yellow)
-![Unit tests](https://img.shields.io/badge/build%20passing-102%20tests-green)
-[![NuGet](https://img.shields.io/nuget/v/MdlpApiClient.svg)](https://www.nuget.org/packages/MdlpApiClient)
+<img alt="MDLP API client logo" src="https://github.com/yallie/MdlpClient/blob/master/Docs/MdlpApiClientLogo.png" width="100" align="left" />
 
-<img alt="MDLP API client logo" src="https://github.com/yallie/MdlpClient/blob/master/Docs/MdlpApiClientLogo.png" width="200" />
+# Честный знак. ИС «Маркировка». МДЛП
+[![MDLP REST API Client v3.05](https://img.shields.io/badge/честный%20знак-v3.05-yellowgreen)](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)
+[![.NET Framework 4.62](https://img.shields.io/badge/.net-v4.62-yellow)](https://www.microsoft.com/ru-RU/download/details.aspx?id=53321)
+![Unit tests](https://img.shields.io/badge/build%20passing-102%20tests-brightgreen)
+[![NuGet](https://img.shields.io/nuget/v/MdlpApiClient.svg)](https://www.nuget.org/packages/MdlpApiClient)
 
 Реализация протокола обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)  
 Список реализованных методов: [list_of_methods.txt](https://github.com/yallie/MdlpClient/blob/master/Docs/list_of_methods.txt)
