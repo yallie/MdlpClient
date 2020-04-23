@@ -244,6 +244,7 @@
         /// <summary>
         /// 6.3.1. Метод для удаления пользователей учетной системы
         /// </summary>
+        /// <param name="userId">Уникальный идентификатор пользователя учетной системы</param>
         public void DeleteUser(string userId)
         {
             Delete("users/{user_id}", null, new[]
@@ -255,6 +256,7 @@
         /// <summary>
         /// 6.3.2. Метод для удаления учетной системы
         /// </summary>
+        /// <param name="accountSystemId">Уникальный идентификатор учетной системы</param>
         public void DeleteAccountSystem(string accountSystemId)
         {
             Delete("account_systems/{account_system_id}", null, new[]
@@ -327,7 +329,57 @@
         /// </summary>
         public RightsInfo[] GetRights()
         {
-            return Get<GetRightsResponse>("rights/about").Rights;
+            return Get<GetRightsResponse<RightsInfo>>("rights/about").Rights;
+        }
+
+        /// <summary>
+        /// 6.6.2. Метод для получения информации о правах текущего пользователя
+        /// </summary>
+        public string[] GetCurrentRights()
+        {
+            return Get<GetRightsResponse<string>>("rights/current").Rights;
+        }
+
+        /// <summary>
+        /// 6.6.3. Метод для создания группы прав пользователей
+        /// </summary>
+        /// <param name="groupName">Имя группы</param>
+        /// <param name="rights">Права пользователей, принадлежащих этой группе (см. <see cref="RightsEnum"/>)</param>
+        /// <returns>Уникальный идентификатор группы</returns>
+        public string CreateRightsGroup(string groupName, string[] rights)
+        {
+            return Post<CreateRightsGroupResponse>("rights/create_group", new
+            {
+                group_name = groupName,
+                rights = rights
+            })
+            .GroupID;
+        }
+
+        /// <summary>
+        /// 6.6.4. Метод для получения информации о группе прав пользователей
+        /// </summary>
+        /// <param name="groupId">Уникальный идентификатор группы</param>
+        /// <returns><see cref="Group"/></returns>
+        public Group GetRightsGroup(string group_id)
+        {
+            return Get<GetGroupResponse>("rights/{group_id}", new[]
+            {
+                new Parameter("group_id", group_id, ParameterType.UrlSegment),
+            })
+            .Group;
+        }
+
+        /// <summary>
+        /// 6.6.7. Метод для удаления группы прав пользователей
+        /// </summary>
+        /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
+        public void DeleteRightsGroup(string groupId)
+        {
+            Delete("rights/{group_id}", null, new[]
+            {
+                new Parameter("group_id", groupId, ParameterType.UrlSegment),
+            });
         }
     }
 }

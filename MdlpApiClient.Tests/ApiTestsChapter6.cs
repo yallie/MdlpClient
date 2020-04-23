@@ -302,5 +302,44 @@
             // display the generated code:
             // WriteLine(string.Join(Environment.NewLine, enumMemberQuery));
         }
+
+        [Test]
+        public void Chapter6_06_02_GetCurrentRights()
+        {
+            var rights = Client.GetCurrentRights();
+            AssertRequiredItems(rights);
+        }
+
+        [Test]
+        public void Chapter6_06_0347_CreateGetDeleteRightsGroup()
+        {
+            // extract all public constants from RightsEnum
+            var rightsQuery =
+                from constant in typeof(RightsEnum).GetFields()
+                let value = constant.GetValue(null) as string
+                where value != null
+                orderby value
+                select value;
+
+            // create group (unique name is required)
+            var rights = rightsQuery.ToArray();
+            var groupName = "TestGroup " + Guid.NewGuid();
+            var groupId = Client.CreateRightsGroup(groupName, rights);
+            Assert.NotNull(groupId);
+
+            // get group properties
+            var group = Client.GetRightsGroup(groupId);
+            AssertRequired(group);
+            Assert.AreEqual(groupId, group.GroupID);
+            Assert.AreEqual(groupName, group.GroupName);
+
+            // compare the list of rights
+            var actualRights = string.Join(":", group.Rights.OrderBy(r => r));
+            var expectedRights = string.Join(":", rights);
+            Assert.AreEqual(expectedRights, actualRights);
+
+            // delete created group
+            Client.DeleteRightsGroup(groupId);
+        }
     }
 }

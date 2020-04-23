@@ -88,7 +88,7 @@
         /// <summary>
         /// Управление атрибутами ЛП
         /// </summary>
-        public const string MANAGEMENT_ATTR_LP = "MANAGEMENT_ATTR_LP";
+        internal const string MANAGEMENT_ATTR_LP = "MANAGEMENT_ATTR_LP";
 
         /// <summary>
         /// Позволяет взаимодействовать с финансовыми данными участника
@@ -158,7 +158,7 @@
         /// <summary>
         /// Позволяет просматривать реестр субъектов обращения
         /// </summary>
-        public const string REESTR_PARTNERS = "REESTR_PARTNERS";
+        internal const string REESTR_PARTNERS = "REESTR_PARTNERS";
 
         /// <summary>
         /// Получение информации из реестра решений о приостановке ЛП
