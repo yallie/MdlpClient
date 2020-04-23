@@ -204,6 +204,17 @@
             }
         }
 
+        private Documents DeserializeDocument(string docXml)
+        {
+            var serializer = new XmlSerializer(typeof(Documents));
+            using (var stream = new StringReader(docXml))
+            {
+                var doc = serializer.Deserialize(stream) as Documents;
+                Assert.NotNull(doc);
+                return doc;
+            }
+        }
+
         public string ToXmlString(XDocument xdoc, SaveOptions options = SaveOptions.None)
         {
             var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
@@ -274,7 +285,7 @@
             sgtins.Add(gtin + "1234567895123");
 
             // В песочницу документ успешно загружен через ЛК и обработан,
-            // код документа a711f795-123b-486b-a2f9-590124733a5e
+            // код документа 68a653f5-fc90-4db5-a797-f261e108b083
             return doc;
         }
 
@@ -284,6 +295,68 @@
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument313();
             var xml = SerializeDocument(doc, " Типография вводит в оборот свежеупакованные ЛП ");
+            WriteLine(xml);
+        }
+
+        private Documents CreateDocument915()
+        {
+            // Создаем документ схемы 915 от имени организации Типография для типографий
+            // sessionUi оставляем прежним, чтобы связать с документами 
+            // завершения упаковки 311 и ввода ЛП в оборот 313
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Регистрация в ИС МДЛП сведений об агрегировании во множество
+                // третичных (заводских, транспортных) упаковок = схема 915
+                Multi_Pack = new Multi_Pack
+                {
+                    // Идентификатор места деятельности (14 знаков) — 
+                    // указывается идентификатор из ранее загруженной схемы 311:
+                    // где упаковали и ввели ЛП в оборот, там и пакуем в коробку
+                    Subject_Id = "00000000104494",
+
+                    // дата упаковки
+                    Operation_Date = DateTime.Now,
+
+                    // вложены только SGTIN
+                }
+            };
+
+            // в документе схемы 915 можно упаковать либо SGTIN, 
+            // либо SSCC (третичную упаковку), но не одновременно
+            var sgtinPack = new Multi_PackBy_SgtinDetail
+            {
+                // Идентификатор SSCC (откуда он берется?)
+                Sscc = "507540413987451234",
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN – указываем первые четыре номера
+            // номера из ранее загруженных схем 311 и 313
+            // Первые 4 упакуем, оставшиеся 2 оставим неупакованными
+            var gtin = "50754041398745";
+            sgtinPack.Content.Add(gtin + "1234567890123");
+            sgtinPack.Content.Add(gtin + "1234567891123");
+            sgtinPack.Content.Add(gtin + "1234567892123");
+            sgtinPack.Content.Add(gtin + "1234567893123");
+            doc.Multi_Pack.By_Sgtin.Add(sgtinPack);
+
+            // В песочницу документ успешно загружен через ЛК и обработан,
+            // код документа ae627fb0-f6f4-4967-9c22-26072f15e90c
+            return doc;
+        }
+
+        [Test]
+        public void XmlSerializeDocument915()
+        {
+            // формируем документ для загрузки в ЛК
+            var doc = CreateDocument915();
+            var xml = SerializeDocument(doc, " Упаковка товара в Типографии ");
             WriteLine(xml);
         }
 
@@ -341,8 +414,9 @@
             var order = doc.Move_Order.Order_Details;
             order.Add(new Move_OrderOrder_DetailsUnion
             {
-                // берем зарегистрированный КИЗ, который был в документе 311
-                Sgtin = "50754041398745" + "1234567890123",
+                // берем зарегистрированный КИЗ, который был в документе 311,
+                // введен в оборот документом 313, но не упаковам документом 915
+                Sgtin = "50754041398745" + "1234567894123",
 
                 // цена единицы продукции
                 Cost = 1000,
@@ -351,14 +425,40 @@
                 Vat_Value = 100,
             });
 
-            // и еще один такой же
-            order.Add(new Move_OrderOrder_DetailsUnion
+            // и еще один — упакованный ящик, полученный в документе схемы 915
+            var ssccItem = new Move_OrderOrder_DetailsUnion
             {
-                Sgtin = "50754041398745" + "1234567891123",
+                // Sgtin отсутствует, зато присутствует Sscc_Detail
+                Sscc_Detail = new Move_OrderOrder_DetailsUnionSscc_Detail
+                {
+                    // код третичной упаковки тот же, что был в документе схемы 915
+                    Sscc = "507540413987451234"
+                },
+
+                // а вот нужны ли здесь Cost и Vat_Value, непонятно,
+                // поскольку они есть в самом Sscc_Detail
+                Cost = 1000,
+                Vat_Value = 100,
+            };
+
+            ssccItem.Sscc_Detail.Detail.Add(new Move_OrderOrder_DetailsUnionSscc_DetailDetail
+            {
+                // GTIN и номер производственной серии — из документа 311
+                Gtin = "50754041398745",
+                Series_Number = "100000003",
+
+                // стоимость единицы продукции с учетом НДС и сумма НДС, руб
                 Cost = 1000,
                 Vat_Value = 100,
             });
 
+            // итого в документе перемещения схемы 415 у нас один SGTIN
+            // и один ящик SSCC с четырьмя SGTIN-ами,
+            // а еще один неупакованный SGTIN остался в типографии
+            order.Add(ssccItem);
+
+            // документ загружен в ЛК и обработан,
+            // получил код c78eb0bd-c70b-47b4-8f8e-535abcb4bd40
             return doc;
         }
 
@@ -367,8 +467,67 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument415();
-            var xml = SerializeDocument(doc, " Отправка товара из Типографии в Автомойку ");
+            var xml = SerializeDocument(doc, " Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат ");
             WriteLine(xml);
+        }
+
+        [Test]
+        public void XmlDeserializeDocument601()
+        {
+            // из ЛК загружен документ:
+            var docXml = @"<!-- Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат --><documents xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" version=""1.34"" session_ui=""ca9a64ee-cf25-42af-a939-94d98fa16ab6"">
+    <move_order_notification action_id=""601"">
+        <subject_id>00000000104494</subject_id>
+        <receiver_id>00000000104453</receiver_id>
+        <operation_date>2020-04-23T21:10:13.9733733+03:00</operation_date>
+        <doc_num>123а</doc_num>
+        <doc_date>23.04.2020</doc_date>
+        <turnover_type>1</turnover_type>
+        <source>1</source>
+        <contract_type>1</contract_type>
+        <order_details>
+            <union>
+                <sgtin>507540413987451234567894123</sgtin>
+                <cost>1000</cost>
+                <vat_value>100</vat_value>
+            </union>
+            <union>
+                <sscc_detail>
+                    <sscc>507540413987451234</sscc>
+                    <detail>
+                        <gtin>50754041398745</gtin>
+                        <series_number>100000003</series_number>
+                        <cost>1000</cost>
+                        <vat_value>100</vat_value>
+                    </detail>
+                </sscc_detail>
+                <cost>1000</cost>
+                <vat_value>100</vat_value>
+            </union>
+        </order_details>
+    </move_order_notification>
+</documents>
+";
+            var doc = DeserializeDocument(docXml);
+            var mo = doc.Move_Order_Notification;
+            Assert.NotNull(mo);
+            Assert.AreEqual("00000000104494", mo.Subject_Id); // типография в Могойтуй
+            Assert.AreEqual("00000000104453", mo.Receiver_Id); // автомойка в пгт Яблоновский
+            Assert.NotNull(mo.Order_Details);
+            Assert.AreEqual(2, mo.Order_Details.Count);
+
+            var sgtin = mo.Order_Details[0];
+            Assert.AreEqual("507540413987451234567894123", sgtin.Sgtin);
+            Assert.IsNull(sgtin.Sscc_Detail);
+
+            var sscc = mo.Order_Details[1];
+            Assert.IsNull(sscc.Sgtin);
+            Assert.IsNotNull(sscc.Sscc_Detail);
+            Assert.AreEqual(1, sscc.Sscc_Detail.Detail.Count);
+
+            var ssccSgtin = sscc.Sscc_Detail.Detail[0];
+            Assert.IsNotNull(ssccSgtin);
+            Assert.AreEqual("50754041398745", ssccSgtin.Gtin);
         }
     }
 }
