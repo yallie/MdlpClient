@@ -8,7 +8,7 @@
 Реализация протокола обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)  
 Список реализованных методов: [list_of_methods.txt](https://github.com/yallie/MdlpClient/blob/master/Docs/list_of_methods.txt)
 
-# Официальная инструкция по быстрому старту
+# Инструкция по быстрому старту
 
 Прочитайте эту инструкцию, чтобы настроить окружение для работы с API:
 
@@ -24,7 +24,7 @@ https://честныйзнак.рф/upload/iblock/25b/Kratkaya_instruktsiya_po_b
 185.196.171.27 api.stage.mdlp.crpt.ru
 ``` 
 
-4. Добавить в проект Nuget-пакер [MdlpApiClient](https://www.nuget.org/packages/MdlpApiClient)
+4. Добавить в проект Nuget-пакет: https://www.nuget.org/packages/MdlpApiClient
 5. Проверить вызовы API по документу «Быстрый старт».
 
 ## Авторизация тестовым участником
