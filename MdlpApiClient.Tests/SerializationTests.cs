@@ -80,7 +80,7 @@
             doc.Register_End_Packing.Signs.Add("654o6u45");
             doc.Register_End_Packing.Signs.Add("fstkjwtk");
 
-            var xml = XmlSerializationHelper.SerializeDocument(doc);
+            var xml = XmlSerializationHelper.Serialize(doc);
             Assert.NotNull(xml);
         }
 
@@ -102,7 +102,7 @@
   </register_end_packing>
 </documents>";
 
-            var doc = XmlSerializationHelper.DeserializeDocument(docXml);
+            var doc = XmlSerializationHelper.Deserialize(docXml);
             Assert.NotNull(doc);
             Assert.NotNull(doc.Register_End_Packing);
             Assert.AreEqual("11170012610151", doc.Register_End_Packing.Gtin);
@@ -172,7 +172,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument311();
-            var xml = XmlSerializationHelper.SerializeDocument(doc);
+            var xml = XmlSerializationHelper.Serialize(doc);
             WriteLine(xml);
         }
 
@@ -240,7 +240,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument313();
-            var xml = XmlSerializationHelper.SerializeDocument(doc, " Типография вводит в оборот свежеупакованные ЛП ");
+            var xml = XmlSerializationHelper.Serialize(doc, " Типография вводит в оборот свежеупакованные ЛП ");
             WriteLine(xml);
         }
 
@@ -302,7 +302,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument915();
-            var xml = XmlSerializationHelper.SerializeDocument(doc, " Упаковка товара в Типографии ");
+            var xml = XmlSerializationHelper.Serialize(doc, " Упаковка товара в Типографии ");
             WriteLine(xml);
         }
 
@@ -413,7 +413,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument415();
-            var xml = XmlSerializationHelper.SerializeDocument(doc, " Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат ");
+            var xml = XmlSerializationHelper.Serialize(doc, " Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат ");
             WriteLine(xml);
         }
 
@@ -456,7 +456,7 @@
         public void XmlDeserializeDocument601()
         {
             // из ЛК загружен документ схемы 601 с кодом 3ad8d361-0044-48fc-b0ee-aeed97df3f8e
-            var doc = XmlSerializationHelper.DeserializeDocument(Doc601xml);
+            var doc = XmlSerializationHelper.Deserialize(Doc601xml);
             var mo = doc.Move_Order_Notification;
             Assert.NotNull(mo);
             Assert.AreEqual("00000000104494", mo.Subject_Id); // типография в Могойтуй
@@ -527,9 +527,9 @@
         public void XmlSerializeDocument701()
         {
             // получили 601 => создали на его основе 701
-            var doc601 = XmlSerializationHelper.DeserializeDocument(Doc601xml);
+            var doc601 = XmlSerializationHelper.Deserialize(Doc601xml);
             var doc701 = CreateDocument701(doc601);
-            var xml = XmlSerializationHelper.SerializeDocument(doc701, " Подтверждение из Автомойки ");
+            var xml = XmlSerializationHelper.Serialize(doc701, " Подтверждение из Автомойки ");
             WriteLine(xml);
         }
     }

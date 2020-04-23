@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="docXml">XML document to deserialize.</param>
         /// <returns>The <see cref="Documents"/> instance.</returns>
-        public static Documents DeserializeDocument(string docXml)
+        public static Documents Deserialize(string docXml)
         {
             var serializer = new XmlSerializer(typeof(Documents));
             using (var reader = new StringReader(docXml))
@@ -33,7 +33,7 @@
         /// <param name="doc">Document to serialize.</param>
         /// <param name="comments">Optional comments such as application name and version.</param>
         /// <returns>Serialized XML document.</returns>
-        public static string SerializeDocument(Documents doc, string comments = null)
+        public static string Serialize(Documents doc, string comments = null)
         {
             var serializer = new XmlSerializer(typeof(Documents));
             using (var writer = new StringWriter())

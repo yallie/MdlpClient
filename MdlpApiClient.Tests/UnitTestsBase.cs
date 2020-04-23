@@ -53,7 +53,14 @@
             WriteLine("------> {0} <------", TestContext.CurrentContext.Test.MethodName);
         }
 
-        protected void WriteLine(string format, params object[] args)
+        protected void WriteLine()
+        {
+        #if TRACE
+            TestContext.Progress.WriteLine();
+        #endif
+        }
+
+        protected void WriteLine(string format = "", params object[] args)
         {
         #if TRACE
             if (args != null && args.Length == 0)

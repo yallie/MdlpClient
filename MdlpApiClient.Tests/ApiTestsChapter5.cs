@@ -24,7 +24,7 @@
         }
 
         [Test]
-        public void Chapter5_01_SendDocumentTest()
+        public void Chapter5_01_SendDocument()
         {
             var docXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
@@ -46,7 +46,7 @@
         }
 
         [Test]
-        public void Chapter5_0234_SendLargeDocumentTest()
+        public void Chapter5_0234_SendLargeDocument()
         {
             var docXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
@@ -68,14 +68,14 @@
         }
 
         [Test]
-        public void Chapter5_05_GetLargeDocumentSizeTest()
+        public void Chapter5_05_GetLargeDocumentSize()
         {
             var size = Client.GetLargeDocumentSize();
             Assert.NotZero(size);
         }
 
         [Test]
-        public void Chapter5_06_CancelSendDocumentTest()
+        public void Chapter5_06_CancelSendDocument()
         {
             var ex = Assert.Throws<MdlpException>(() =>
             {
