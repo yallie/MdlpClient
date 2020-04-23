@@ -368,5 +368,24 @@
             // delete created group
             Client.DeleteRightsGroup(groupId);
         }
+
+        [Test]
+        public void Chapter6_06_11_GetRightsGroups()
+        {
+            var rights = Client.GetRightsGroups(new GroupFilter
+            {
+                UserID = TestUserID,
+                Rights = new[]
+                {
+                    RightsEnum.VIEW_REGISTRATION_FOREIGN_COUNTERPARTY_LOG
+                },
+            }, 0, 10);
+            AssertRequired(rights);
+            AssertRequiredItems(rights.Groups);
+
+            Assert.AreEqual(1, rights.Total);
+            Assert.AreEqual(1, rights.Groups.Length);
+            Assert.AreEqual("8344bacd-c415-4694-a9a4-b75e741f4eed", rights.Groups[0].GroupID);
+        }
     }
 }

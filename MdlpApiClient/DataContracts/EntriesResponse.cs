@@ -19,7 +19,7 @@
         [DataMember(Name = "entries", IsRequired = true)]
         public T[] Entries { get; set; }
 
-        [DataMember(Name = "total")]
+        [DataMember(Name = "total", IsRequired = true)]
         public int Total { get; set; }
     }
 }

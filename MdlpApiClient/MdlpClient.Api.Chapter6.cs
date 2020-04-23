@@ -444,5 +444,22 @@
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 6.6.11. Метод для поиска списка групп прав пользователей по фильтру
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска списка групп прав пользователей</param>
+        /// <param name="startFrom">Индекс первой записи в списке групп прав пользователей </param>
+        /// <param name="count">Количество записей в списке групп прав пользователей </param>
+        /// <returns>Список групп прав пользователей </returns>
+        public GroupsResponse<Group> GetRightsGroups(GroupFilter filter, int startFrom, int count)
+        {
+            return Post<GroupsResponse<Group>>("rights/filter", new
+            {
+                filter = filter ?? new GroupFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
