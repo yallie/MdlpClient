@@ -125,8 +125,7 @@
             }
         }
 
-        [Test]
-        public void XmlSerializeDocument311()
+        private Documents CreateDocument311()
         {
             // Создаем документ схемы 311 от имени организации Типография для типографий
             // sessionUi — просто Guid, объединяющий документы в смысловую группу
@@ -137,6 +136,8 @@
                 // пишет, что тип документа не определен
                 Version = "1.34",
                 Session_Ui = sessionUi,
+
+                // Окончание упаковки = схема 311
                 Register_End_Packing = new Register_End_Packing
                 {
                     // из личного кабинета тестового участника-Типографии
@@ -176,7 +177,16 @@
             doc.Register_End_Packing.Signs.Add(gtin + "1234567894123");
             doc.Register_End_Packing.Signs.Add(gtin + "1234567895123");
 
+            // В песочницу документ успешно загружен через ЛК и обработан,
+            // код документа a711f795-123b-486b-a2f9-590124733a5e
+            return doc;
+        }
+
+        [Test]
+        public void XmlSerializeDocument311()
+        {
             // формируем документ для загрузки в ЛК
+            var doc = CreateDocument311();
             var serializer = new XmlSerializer(typeof(Documents));
             using (var stream = new StringWriter())
             {
@@ -189,6 +199,108 @@
                 var xdoc = XDocument.Parse(xml);
                 Assert.NotNull(xdoc);
             }
+        }
+
+        private Documents CreateDocument415()
+        {
+            // Создаем документ схемы 415 от имени организации Типография для типографий
+            // sessionUi — просто Guid, объединяющий документы в смысловую группу
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Перемещение на склад получателя = схема 415
+                Move_Order = new Move_Order
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    // здесь у нас пока хранятся упакованные ЛП, ждущие отправки
+                    Subject_Id = "00000000104494",
+
+                    // из ЛК тестового участника-Автомойки
+                    // берем код места деятельности, расположенного по адресу:
+                    // Респ Адыгея р-н Тахтамукайский пгт Яблоновский ул Гагарина
+                    // сюда мы будем отправлять упакованные ЛП
+                    Receiver_Id = "00000000104453",
+
+                    // сегодня отправляем препараты
+                    Operation_Date = DateTime.Now,
+
+                    // Реквизиты документа отгрузки: номер и дата документа
+                    Doc_Num = "123а",
+                    Doc_Date = DateTime.Today.ToString(@"dd\.MM\.yyyy"),
+
+                    // Тип операции отгрузки со склада: 1 - продажа, 2 - возврат
+                    Turnover_Type = Turnover_Type_Enum.Item1,
+
+                    // Источник финансирования: 1 - собственные средства, 2-3 - бюджет
+                    Source = Source_Type.Item1,
+
+                    // Тип договора: 1 - купля-продажа
+                    Contract_Type = Contract_Type_Enum.Item1,
+
+                    // Реестровый номер контракта (договора)
+                    // в Единой информационной системе в сфере закупок
+                    // нам в данном случае не требуется
+                    Contract_Num = null,
+                },
+            };
+
+            // Список отгружаемой продукции
+            var order = doc.Move_Order.Order_Details;
+            order.Add(new Move_OrderOrder_DetailsUnion
+            {
+                // берем зарегистрированный КИЗ, который был в документе 311
+                Sgtin = "50754041398745" + "1234567890123",
+
+                // цена единицы продукции
+                Cost = 1000,
+
+                // сумма НДС
+                Vat_Value = 100,
+            });
+
+            // и еще один такой же
+            order.Add(new Move_OrderOrder_DetailsUnion
+            {
+                Sgtin = "50754041398745" + "1234567891123",
+                Cost = 1000,
+                Vat_Value = 100,
+            });
+
+            return doc;
+        }
+
+        [Test]
+        public void XmlSerializeDocument415()
+        {
+            // формируем документ для загрузки в ЛК
+            var doc = CreateDocument415();
+            var serializer = new XmlSerializer(typeof(Documents));
+            using (var stream = new StringWriter())
+            {
+                serializer.Serialize(stream, doc);
+
+                var xml = stream.GetStringBuilder().ToString();
+                Assert.NotNull(xml);
+
+                // убедимся, что все отформатировано нормально и добавим комментарий
+                var xdoc = XDocument.Parse(xml);
+                Assert.NotNull(xdoc);
+                xdoc.FirstNode.AddBeforeSelf(new XComment(" Отправка товара из Типографии в Автомойку "));
+                WriteLine(ToXmlString(xdoc));
+            }
+        }
+
+        public string ToXmlString(XDocument xdoc, SaveOptions options = SaveOptions.None)
+        {
+            var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
+            return xdoc.Declaration == null ? xdoc.ToString(options) : xdoc.Declaration + newLine + xdoc.ToString(options);
         }
     }
 }
