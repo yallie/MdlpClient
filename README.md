@@ -1,7 +1,7 @@
 # Честный знак. ИС «Маркировка». МДЛП
 ![MDLP REST API Client for .NET Framework 4.62](https://img.shields.io/badge/MDLP%20REST%20API%20Client-.NET%20Framework%204.62-yellow)
 [![NuGet](https://img.shields.io/nuget/v/MdlpApiClient.svg)](https://www.nuget.org/packages/MdlpApiClient)
-![Unit tests](https://img.shields.io/badge/tests-103-green)
+![Unit tests](https://img.shields.io/badge/build%20passing-103%20tests-green)
 
 <img alt="MDLP API client logo" src="https://github.com/yallie/MdlpClient/blob/master/Docs/MdlpApiClientLogo.png" width="200" />
 
@@ -24,7 +24,7 @@ https://честныйзнак.рф/upload/iblock/25b/Kratkaya_instruktsiya_po_b
 185.196.171.27 api.stage.mdlp.crpt.ru
 ``` 
 
-4. Добавить в проект ссылку на MdlpApiClient.dll (TODO: опубликовать Nuget)
+4. Добавить в проект Nuget-пакер [MdlpApiClient](https://www.nuget.org/packages/MdlpApiClient)
 5. Проверить вызовы API по документу «Быстрый старт».
 
 ## Авторизация тестовым участником
