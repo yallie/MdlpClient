@@ -88,9 +88,9 @@
         /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public DocumentsResponse<DocumentMetadata> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
+        public DocumentsResponse<OutcomeDocument> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            return Post<DocumentsResponse<DocumentMetadata>>("documents/outcome", new
+            return Post<DocumentsResponse<OutcomeDocument>>("documents/outcome", new
             {
                 filter = filter,
                 start_from = startFrom,
@@ -104,9 +104,9 @@
         /// <param name="filter">Фильтр <see cref="DocFilter"/> списка документов.</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых документов</param>
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
-        public DocumentsResponse<DocumentMetadata> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
+        public DocumentsResponse<IncomeDocument> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            return Post<DocumentsResponse<DocumentMetadata>>("documents/income", new
+            return Post<DocumentsResponse<IncomeDocument>>("documents/income", new
             {
                 filter = filter,
                 start_from = startFrom,

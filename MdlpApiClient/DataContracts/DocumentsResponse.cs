@@ -12,9 +12,15 @@
     [DataContract]
     public class DocumentsResponse<T>
     {
+        /// <summary>
+        /// Список документов
+        /// </summary>
         [DataMember(Name = "documents")]
         public T[] Documents { get; set; }
 
+        /// <summary>
+        /// Общее количество документов
+        /// </summary>
         [DataMember(Name = "total")]
         public int Total { get; set; }
     }
