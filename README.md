@@ -1,7 +1,7 @@
 # Честный знак. ИС «Маркировка». МДЛП
-![MDLP REST API Client for .NET Framework 4.62](https://img.shields.io/badge/MDLP%20REST%20API%20Client-.NET%20Framework%204.62-yellow)
+![MDLP REST API Client for .NET Framework 4.62](https://img.shields.io/badge/MDLP%20REST%20API-.NET%20v4.62-yellow)
+![Unit tests](https://img.shields.io/badge/build%20passing-102%20tests-green)
 [![NuGet](https://img.shields.io/nuget/v/MdlpApiClient.svg)](https://www.nuget.org/packages/MdlpApiClient)
-![Unit tests](https://img.shields.io/badge/build%20passing-103%20tests-green)
 
 <img alt="MDLP API client logo" src="https://github.com/yallie/MdlpClient/blob/master/Docs/MdlpApiClientLogo.png" width="200" />
 
@@ -60,9 +60,9 @@ Console.WriteLine($"Код запроса: {doc.RequestID}");
 ```c#
 client.Tracer = Console.WriteLine;
 ```
-
-При выполнении вышеприведенного кода трассировка выглядит так:
-
+<details>
+  <summary>При выполнении вышеприведенного кода трассировка выглядит так:</summary>
+    
 ```c
 // Authenticate
 -> POST http://api.stage.mdlp.crpt.ru/api/v1/auth
@@ -182,3 +182,4 @@ body: {
   "version": "1.34"
 }
 ```
+</details>
