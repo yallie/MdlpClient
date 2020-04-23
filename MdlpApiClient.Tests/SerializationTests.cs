@@ -1,5 +1,7 @@
 ﻿namespace MdlpApiClient.Tests
 {
+    using System;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Runtime.Serialization;
     using System.Xml.Linq;
@@ -120,6 +122,72 @@
                 Assert.AreEqual("11170012610151", doc.Register_End_Packing.Gtin);
                 Assert.AreEqual(1, doc.Register_End_Packing.Signs.Count);
                 Assert.AreEqual("07091900400001TRANSF2000021", doc.Register_End_Packing.Signs[0]);
+            }
+        }
+
+        [Test]
+        public void XmlSerializeDocument311()
+        {
+            // Создаем документ схемы 311 от имени организации Типография для типографий
+            // sessionUi — просто Guid, объединяющий документы в смысловую группу
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+                Register_End_Packing = new Register_End_Packing
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    Subject_Id = "00000000104494",
+
+                    // в этом месте мы сегодня заканчиваем упаковку препаратов
+                    Operation_Date = DateTime.Now,
+
+                    // Тип производственного заказа — собственное производство = 1
+                    // В сгенерированных XML-классах для числовых кодов
+                    // созданы элементы Item: 1 = Item1, 40 = Item40, и т.д.
+                    Order_Type = Order_Type_Enum.Item1,
+
+                    // Номер производственной серии, 1-20 символов
+                    Series_Number = "100000003",
+
+                    // срок годности выдается в строковом виде, в формате ДД.ММ.ГГГГ
+                    Expiration_Date = "30.03.2025",
+
+                    // Код препарата. GTIN – указывается из реестра ЛП тестового участника
+                    // из личного кабинета тестового участника-Типографии берем ЛП: Найзин
+                    Gtin = "50754041398745"
+                }
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
+            // 13-значного серийного номера. Для каждой отгрузки 
+            // необходимо генерировать уникальный серийный номер
+            var gtin = doc.Register_End_Packing.Gtin;
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567890123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567891123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567892123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567893123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567894123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567895123");
+
+            // формируем документ для загрузки в ЛК
+            var serializer = new XmlSerializer(typeof(Documents));
+            using (var stream = new StringWriter())
+            {
+                serializer.Serialize(stream, doc);
+
+                var xml = stream.GetStringBuilder().ToString();
+                Assert.NotNull(xml);
+                WriteLine(xml);
+
+                var xdoc = XDocument.Parse(xml);
+                Assert.NotNull(xdoc);
             }
         }
     }
