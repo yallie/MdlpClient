@@ -13,17 +13,17 @@
 
         /// <summary>
         /// Тип участника: 2 — представительство иностранного держателя регистрационного удостоверения
-        /// <summary>
+        /// </summary>
         public const int FOREIGN_REGHOLDER_BRANCH = 2;
 
         /// <summary>
         /// Тип участника: 3 — иностранный держатель регистрационного удостоверения
-        /// <summary>
+        /// </summary>
         public const int FOREIGN_REGHOLDER = 3;
 
         /// <summary>
         /// Тип участника: 8 — иностранный контрагент
-        /// <summary>
+        /// </summary>
         public const int FOREIGN_COUNTERPARTY = 8;
     }
 }

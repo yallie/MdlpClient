@@ -18,7 +18,14 @@
     /// </summary>
     public partial class MdlpClient : IDisposable
     {
+        /// <summary>
+        /// Stage API HTTP URL.
+        /// </summary>
         public const string StageApiHttp = "http://api.stage.mdlp.crpt.ru/api/v1/";
+
+        /// <summary>
+        /// Stage API HTTPS URL.
+        /// </summary>
         public const string StageApiHttps = "https://api.stage.mdlp.crpt.ru/api/v1/";
 
         /// <summary>
@@ -59,17 +66,23 @@
             }
         }
 
+        /// <summary>
+        /// Gets base API URL.
+        /// </summary>
         public string BaseUrl { get; private set; }
 
         private IRestSerializer Serializer { get; set; }
 
+        /// <summary>
+        /// Gets the <see cref="IRestClient"/> instance.
+        /// </summary>
         public IRestClient Client { get; private set; }
 
         private CredentialsBase Credentials { get; set; }
 
         private X509Certificate2 userCertificate;
 
-        public bool IsAuthenticated { get; private set; }
+        internal bool IsAuthenticated { get; private set; }
 
         /// <summary>
         /// X.509 certificate of the resident user (if applicable).
@@ -306,7 +319,6 @@
         /// <summary>
         /// Performs PUT request.
         /// </summary>
-        /// <typeparam name="T">Response type.</typeparam>
         /// <param name="url">Resource url.</param>
         /// <param name="body">Request body, to be serialized as JSON.</param>
         /// <param name="parameters">IRestRequest parameters.</param>
@@ -340,6 +352,7 @@
         /// Performs DELETE request.
         /// </summary>
         /// <param name="url">Resource url.</param>
+        /// <param name="body">Request body, serialized as string.</param>
         /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         public void Delete(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)

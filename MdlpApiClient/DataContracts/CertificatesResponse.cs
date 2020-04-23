@@ -11,9 +11,15 @@
     [DataContract]
     public class CertificatesResponse<T>
     {
+        /// <summary>
+        /// Список записей
+        /// </summary>
         [DataMember(Name = "certs")]
         public T[] Certificates { get; set; }
 
+        /// <summary>
+        /// Общее количество записей
+        /// </summary>
         [DataMember(Name = "total")]
         public int Total { get; set; }
     }

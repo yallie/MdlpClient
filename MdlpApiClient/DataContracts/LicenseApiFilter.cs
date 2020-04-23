@@ -5,7 +5,7 @@
 
     /// <summary>
     /// 4.39. Формат объекта LicenseApiFilter
-    // Таблица 35. Формат объекта LicenseApiFilter
+    /// Таблица 35. Формат объекта LicenseApiFilter
     /// 7.6.2. Метод фильтрации лицензий на производство
     /// </summary>
     [DataContract]

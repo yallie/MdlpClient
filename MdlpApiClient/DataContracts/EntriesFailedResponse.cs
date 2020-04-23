@@ -12,9 +12,15 @@
     [DataContract]
     public class EntriesFailedResponse<T, F> : EntriesResponse<T>
     {
+        /// <summary>
+        /// Список ошибочных записей
+        /// </summary>
         [DataMember(Name = "failed_entries")]
         public F[] FailedEntries { get; set; }
 
+        /// <summary>
+        /// Общее количество ошибочных записей
+        /// </summary>
         [DataMember(Name = "failed")]
         public int Failed { get; set; }
     }

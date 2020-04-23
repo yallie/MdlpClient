@@ -16,9 +16,15 @@
     [DataContract]
     public class EntriesResponse<T>
     {
+        /// <summary>
+        /// Список записей
+        /// </summary>
         [DataMember(Name = "entries", IsRequired = true)]
         public T[] Entries { get; set; }
 
+        /// <summary>
+        /// Общее количество записей
+        /// </summary>
         [DataMember(Name = "total", IsRequired = true)]
         public int Total { get; set; }
     }

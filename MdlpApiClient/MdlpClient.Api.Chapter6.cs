@@ -153,6 +153,7 @@
         /// <summary>
         /// 6.1.10. Метод для получения информации о зарегистрированных сертификатах пользователя
         /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
         /// <param name="startFrom">Индекс первой записи в списке возвращаемых сертификатов</param>
         /// <param name="count">Количество записей в списке возвращаемых сертификатов</param>
         /// <returns>Список сертификатов</returns>
@@ -290,7 +291,7 @@
         /// </summary>
         /// <remarks>
         /// Необходимо использовать публичный сертификат, а не публичный ключ.
-        /// Допускается также использование серийного номера сертификата 
+        /// Допускается также использование серийного номера сертификата
         /// в десятичной форме или отпечатка сертификата.
         /// </remarks>
         /// <param name="userId">Уникальный идентификатор пользователя</param>
@@ -361,11 +362,11 @@
         /// </summary>
         /// <param name="groupId">Уникальный идентификатор группы</param>
         /// <returns><see cref="Group"/></returns>
-        public Group GetRightsGroup(string group_id)
+        public Group GetRightsGroup(string groupId)
         {
             return Get<GetGroupResponse>("rights/{group_id}", new[]
             {
-                new Parameter("group_id", group_id, ParameterType.UrlSegment),
+                new Parameter("group_id", groupId, ParameterType.UrlSegment),
             })
             .Group;
         }
@@ -375,11 +376,11 @@
         /// </summary>
         /// <param name="groupId">Уникальный идентификатор группы</param>
         /// <returns>Список объектов <see cref="User"/></returns>
-        public User[] GetGroupUsers(string group_id)
+        public User[] GetGroupUsers(string groupId)
         {
             return Get<GetGroupUsersResponse>("rights/{group_id}/users", new[]
             {
-                new Parameter("group_id", group_id, ParameterType.UrlSegment),
+                new Parameter("group_id", groupId, ParameterType.UrlSegment),
             })
             .Users;
         }
@@ -425,7 +426,7 @@
             {
                 user_id = userId
             },
-            new[] 
+            new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
             });

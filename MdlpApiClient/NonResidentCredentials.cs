@@ -12,7 +12,7 @@
         /// </summary>
         public string Password { get; set; }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // get authentication code

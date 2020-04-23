@@ -156,7 +156,7 @@
         /// <summary>
         /// 5.12. Получение квитанции по номеру исходящего документа
         /// </summary>
-        /// <param name="requestId">Идентификатор документа</param>
+        /// <param name="documentId">Идентификатор документа</param>
         public string GetTicket(string documentId)
         {
             var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
@@ -170,7 +170,7 @@
         /// <summary>
         /// 5.13. Получение электронной подписи исходящего документа
         /// </summary>
-        /// <param name="requestId">Идентификатор документа</param>
+        /// <param name="documentId">Идентификатор документа</param>
         public string GetSignature(string documentId)
         {
             return Get("documents/{document_id}/signature", new[]

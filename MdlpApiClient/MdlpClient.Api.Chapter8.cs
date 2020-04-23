@@ -127,7 +127,7 @@
         /// <summary>
         /// 8.3.2. Метод поиска по реестру КИЗ по списку значений
         /// </summary>
-        /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
+        /// <param name="sgtins">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
         public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(string[] sgtins)
         {
@@ -143,7 +143,7 @@
         /// <summary>
         /// 8.3.3. Метод поиска по общедоступному реестру КИЗ по списку значений
         /// </summary>
-        /// <param name="filters">Список КИЗ для поиска (не более 500 значений)</param>
+        /// <param name="sgtins">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
         public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
         {

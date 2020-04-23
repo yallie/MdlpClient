@@ -30,6 +30,6 @@
         /// </summary>
         /// <param name="apiClient">MDLP client to perform API calls.</param>
         /// <returns><see cref="AuthToken"/> instance.</returns>
-        public abstract AuthToken Authenticate(MdlpClient restClient);
+        public abstract AuthToken Authenticate(MdlpClient apiClient);
     }
 }

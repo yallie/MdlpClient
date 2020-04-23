@@ -53,7 +53,7 @@
         /// <summary>
         /// 7.5.2. Получение объекта ФИАС по идентификатору дома
         /// </summary>
-        /// <param name="addressId">Идентификатор дома</param>
+        /// <param name="houseGuid">Идентификатор дома</param>
         /// <returns>Данные из реестра ФИАС</returns>
         public FiasHouseObject GetFiasHouseObject(string houseGuid)
         {

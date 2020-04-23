@@ -10,6 +10,9 @@
     [DataContract]
     public class OperationDate
     {
+        /// <summary>
+        /// Дата операции
+        /// </summary>
         [DataMember(Name = "$date")]
         public DateTime Date { get; set; }
     }

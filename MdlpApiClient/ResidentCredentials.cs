@@ -9,7 +9,7 @@
     /// </summary>
     public class ResidentCredentials : CredentialsBase
     {
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // load the certificate with a private key by userId
