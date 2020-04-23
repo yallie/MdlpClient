@@ -182,11 +182,8 @@
             return doc;
         }
 
-        [Test]
-        public void XmlSerializeDocument311()
+        private string SerializeDocument(Documents doc, string comments = null)
         {
-            // формируем документ для загрузки в ЛК
-            var doc = CreateDocument311();
             var serializer = new XmlSerializer(typeof(Documents));
             using (var stream = new StringWriter())
             {
@@ -194,11 +191,100 @@
 
                 var xml = stream.GetStringBuilder().ToString();
                 Assert.NotNull(xml);
-                WriteLine(xml);
 
+                // убедимся, что все отформатировано нормально и добавим комментарий
                 var xdoc = XDocument.Parse(xml);
                 Assert.NotNull(xdoc);
+                if (!string.IsNullOrWhiteSpace(comments))
+                {
+                    xdoc.FirstNode.AddBeforeSelf(new XComment(comments));
+                }
+
+                return ToXmlString(xdoc);
             }
+        }
+
+        public string ToXmlString(XDocument xdoc, SaveOptions options = SaveOptions.None)
+        {
+            var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
+            return xdoc.Declaration == null ? xdoc.ToString(options) : xdoc.Declaration + newLine + xdoc.ToString(options);
+        }
+
+        [Test]
+        public void XmlSerializeDocument311()
+        {
+            // формируем документ для загрузки в ЛК
+            var doc = CreateDocument311();
+            var xml = SerializeDocument(doc);
+            WriteLine(xml);
+        }
+
+        private Documents CreateDocument313()
+        {
+            // Создаем документ схемы 313 от имени организации Типография для типографий
+            // sessionUi — просто Guid, объединяющий документы в смысловую группу
+            // оставляем его прежним, чтобы связать с документом завершения упаковки 311
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Регистрация сведений о вводе ЛП в оборот (выпуск продукции) = схема 313
+                Register_Product_Emission= new Register_Product_Emission
+                {
+                    // Идентификатор места деятельности (14 знаков) — 
+                    // указывается идентификатор из ранее загруженной схемы 311:
+                    // где упаковали, там и вводим ЛП в оборот
+                    Subject_Id = "00000000104494",
+
+                    // выпускаем препараты сегодня
+                    Operation_Date = DateTime.Now,
+
+                    // Реквизиты сведений о вводе ЛП в оборот
+                    Release_Info = new Release_Info_Type
+                    {
+                        // Регистрационный номер документа подтверждения соответствия
+                        Doc_Num = "123а",
+
+                        // Дата регистрации документа подтверждения соответствия
+                        Doc_Date = DateTime.Today.ToString(@"dd\.MM\.yyyy"),
+
+                        // Номер документа подтверждения соответствия
+                        Confirmation_Num = "123b",
+                    },
+
+                    // тут надо создать вложенный пустой объект
+                    Signs = new Register_Product_EmissionSigns()
+                }
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN – указываются
+            // номера из ранее загруженной 311 схемы
+            var gtin = "50754041398745";
+            var sgtins = doc.Register_Product_Emission.Signs.Sgtin;
+            sgtins.Add(gtin + "1234567890123");
+            sgtins.Add(gtin + "1234567891123");
+            sgtins.Add(gtin + "1234567892123");
+            sgtins.Add(gtin + "1234567893123");
+            sgtins.Add(gtin + "1234567894123");
+            sgtins.Add(gtin + "1234567895123");
+
+            // В песочницу документ успешно загружен через ЛК и обработан,
+            // код документа a711f795-123b-486b-a2f9-590124733a5e
+            return doc;
+        }
+
+        [Test]
+        public void XmlSerializeDocument313()
+        {
+            // формируем документ для загрузки в ЛК
+            var doc = CreateDocument313();
+            var xml = SerializeDocument(doc, " Типография вводит в оборот свежеупакованные ЛП ");
+            WriteLine(xml);
         }
 
         private Documents CreateDocument415()
@@ -281,26 +367,8 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument415();
-            var serializer = new XmlSerializer(typeof(Documents));
-            using (var stream = new StringWriter())
-            {
-                serializer.Serialize(stream, doc);
-
-                var xml = stream.GetStringBuilder().ToString();
-                Assert.NotNull(xml);
-
-                // убедимся, что все отформатировано нормально и добавим комментарий
-                var xdoc = XDocument.Parse(xml);
-                Assert.NotNull(xdoc);
-                xdoc.FirstNode.AddBeforeSelf(new XComment(" Отправка товара из Типографии в Автомойку "));
-                WriteLine(ToXmlString(xdoc));
-            }
-        }
-
-        public string ToXmlString(XDocument xdoc, SaveOptions options = SaveOptions.None)
-        {
-            var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
-            return xdoc.Declaration == null ? xdoc.ToString(options) : xdoc.Declaration + newLine + xdoc.ToString(options);
+            var xml = SerializeDocument(doc, " Отправка товара из Типографии в Автомойку ");
+            WriteLine(xml);
         }
     }
 }
