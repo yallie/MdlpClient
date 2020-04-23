@@ -371,6 +371,37 @@
         }
 
         /// <summary>
+        /// 6.6.5. Метод для получения информации о пользователях группы
+        /// </summary>
+        /// <param name="groupId">Уникальный идентификатор группы</param>
+        /// <returns>Список объектов <see cref="User"/></returns>
+        public User[] GetGroupUsers(string group_id)
+        {
+            return Get<GetGroupUsersResponse>("rights/{group_id}/users", new[]
+            {
+                new Parameter("group_id", group_id, ParameterType.UrlSegment),
+            })
+            .Users;
+        }
+
+        /// <summary>
+        /// 6.6.6. Метод для изменения группы прав пользователей
+        /// </summary>
+        /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
+        /// <param name="groupChange">Объект <see cref="Group"/></param>
+        public void UpdateRightsGroup(string groupId, Group groupChange)
+        {
+            Put("rights/{group_id}", new
+            {
+                group_change = groupChange
+            },
+            new[]
+            {
+                new Parameter("group_id", groupId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
         /// 6.6.7. Метод для удаления группы прав пользователей
         /// </summary>
         /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
@@ -378,6 +409,38 @@
         {
             Delete("rights/{group_id}", null, new[]
             {
+                new Parameter("group_id", groupId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.6.8. Метод для добавления пользователя в группу прав пользователей
+        /// </summary>
+        /// <param name="userId">Уникальный идентификатор пользователя</param>
+        /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
+        /// <returns>Уникальный идентификатор группы</returns>
+        public void AddUserToRightsGroup(string userId, string groupId)
+        {
+            Post("rights/{group_id}/user_add", new
+            {
+                user_id = userId
+            },
+            new[] 
+            {
+                new Parameter("group_id", groupId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 6.6.9. Метод для удаления пользователя из группы прав пользователей
+        /// </summary>
+        /// <param name="userId">Уникальный идентификатор пользователя</param>
+        /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
+        public void DeleteUserFromRightsGroup(string userId, string groupId)
+        {
+            Delete("rights/{group_id}/{user_id}", null, new[]
+            {
+                new Parameter("user_id", userId, ParameterType.UrlSegment),
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
             });
         }

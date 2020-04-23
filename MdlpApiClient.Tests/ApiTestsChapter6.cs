@@ -234,7 +234,7 @@
             Assert.AreEqual("TestSystem2", Client.GetAccountSystem("f01079ed-6516-41dd-b440-a95e19eed7a7").Name);
         }
 
-        [Test, Explicit]
+        [Test]
         public void Chapter6_03_01_DeleteUser()
         {
             // user not found
@@ -243,7 +243,7 @@
             Assert.AreEqual("Ошибка при выполнении операции: запись не найдена", ex.Message);
         }
 
-        [Test, Explicit]
+        [Test]
         public void Chapter6_03_02_DeleteAccountSystem()
         {
             // register and then delete
@@ -311,7 +311,7 @@
         }
 
         [Test]
-        public void Chapter6_06_0347_CreateGetDeleteRightsGroup()
+        public void Chapter6_06_03456789_CreateUpdateDeleteRightsGroup()
         {
             // extract all public constants from RightsEnum
             var rightsQuery =
@@ -337,6 +337,33 @@
             var actualRights = string.Join(":", group.Rights.OrderBy(r => r));
             var expectedRights = string.Join(":", rights);
             Assert.AreEqual(expectedRights, actualRights);
+
+            // update group (note: GroupID property is ignored)
+            group.GroupName += " Updated";
+            group.Rights = group.Rights.Take(10).ToArray();
+            Client.UpdateRightsGroup(groupId, group);
+
+            // make sure the group is empty
+            var users = Client.GetGroupUsers(groupId);
+            Assert.NotNull(users);
+            Assert.IsFalse(users.Any());
+
+            // add user to the rights group
+            Client.AddUserToRightsGroup(TestUserID, groupId);
+
+            // make sure the group is not empty
+            users = Client.GetGroupUsers(groupId);
+            Assert.NotNull(users);
+            Assert.AreEqual(1, users.Length);
+            Assert.AreEqual(TestUserID, users[0].UserID);
+
+            // delete user from the rights group
+            Client.DeleteUserFromRightsGroup(TestUserID, groupId);
+
+            // make sure the group is empty again
+            users = Client.GetGroupUsers(groupId);
+            Assert.NotNull(users);
+            Assert.IsFalse(users.Any());
 
             // delete created group
             Client.DeleteRightsGroup(groupId);
