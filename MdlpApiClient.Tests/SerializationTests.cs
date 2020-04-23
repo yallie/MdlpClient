@@ -195,9 +195,18 @@
                 // убедимся, что все отформатировано нормально и добавим комментарий
                 var xdoc = XDocument.Parse(xml);
                 Assert.NotNull(xdoc);
+
+                // add namespace prefix
+                var by = new XAttribute(XNamespace.Xmlns + "by", "https://www.nuget.org/packages/MdlpApiClient/1.0.0");
+                xdoc.Root.ReplaceAttributes(new object[] { by, xdoc.Root.Attributes() });
+
                 if (!string.IsNullOrWhiteSpace(comments))
                 {
-                    xdoc.FirstNode.AddBeforeSelf(new XComment(comments));
+                    var element = xdoc.FirstNode as XElement;
+                    if (element != null && element.FirstNode != null)
+                    {
+                        element.FirstNode.AddBeforeSelf(new XComment(comments));
+                    }
                 }
 
                 return ToXmlString(xdoc);
@@ -471,11 +480,8 @@
             WriteLine(xml);
         }
 
-        [Test]
-        public void XmlDeserializeDocument601()
-        {
-            // из ЛК загружен документ:
-            var docXml = @"<!-- Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат --><documents xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" version=""1.34"" session_ui=""ca9a64ee-cf25-42af-a939-94d98fa16ab6"">
+        // из ЛК загружен документ: 3ad8d361-0044-48fc-b0ee-aeed97df3f8e
+        private const string Doc601xml = @"<!-- Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат --><documents xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" version=""1.34"" session_ui=""ca9a64ee-cf25-42af-a939-94d98fa16ab6"">
     <move_order_notification action_id=""601"">
         <subject_id>00000000104494</subject_id>
         <receiver_id>00000000104453</receiver_id>
@@ -508,7 +514,12 @@
     </move_order_notification>
 </documents>
 ";
-            var doc = DeserializeDocument(docXml);
+
+        [Test]
+        public void XmlDeserializeDocument601()
+        {
+            // из ЛК загружен документ схемы 601 с кодом 3ad8d361-0044-48fc-b0ee-aeed97df3f8e
+            var doc = DeserializeDocument(Doc601xml);
             var mo = doc.Move_Order_Notification;
             Assert.NotNull(mo);
             Assert.AreEqual("00000000104494", mo.Subject_Id); // типография в Могойтуй
@@ -528,6 +539,61 @@
             var ssccSgtin = sscc.Sscc_Detail.Detail[0];
             Assert.IsNotNull(ssccSgtin);
             Assert.AreEqual("50754041398745", ssccSgtin.Gtin);
+        }
+
+        private Documents CreateDocument701(Documents doc601)
+        {
+            var mo = doc601.Move_Order_Notification;
+            var doc = new Documents
+            {
+                Version = doc601.Version,
+                Session_Ui = doc601.Session_Ui,
+                Accept = new Accept
+                {
+                    // Отправитель и получатель меняются местами
+                    Subject_Id = mo.Receiver_Id,
+                    Counterparty_Id = mo.Subject_Id,
+
+                    // Дата и время текущие
+                    Operation_Date = DateTime.Now,
+                    Order_Details = new AcceptOrder_Details(),
+                }
+            };
+
+            // Список подтверждаемой продукции:
+            // не знаю, можно ли подтвердить не все, что в документе 601?
+            var od = doc.Accept.Order_Details;
+            foreach (var unit in mo.Order_Details)
+            {
+                // подтверждаем прием упаковки с несколькими ЛП
+                if (unit.Sscc_Detail != null && unit.Sscc_Detail.Sscc != null)
+                {
+                    // Номер транспортной упаковки
+                    od.Sscc.Add(unit.Sscc_Detail.Sscc);
+                    continue;
+                }
+
+                // подтверждаем прием экземпляра ЛП
+                if (unit.Sgtin != null)
+                {
+                    // Номер SGTIN указывается номер из ранее загруженной 415 схемы
+                    od.Sgtin.Add(unit.Sgtin);
+                    continue;
+                }
+            }
+
+            // загружен через ЛК, обработан, код 20b0f54b-0528-4081-b815-38f376c6ab3c
+            return doc;
+        }
+
+        [Test]
+        public void XmlSerializeDocument701()
+        {
+            // получили 601 => создали на его основе 701
+            var doc601 = DeserializeDocument(Doc601xml);
+            var doc701 = CreateDocument701(doc601);
+            var xml = SerializeDocument(doc701, " Подтверждение из Автомойки ");
+            WriteLine(xml);
         }
     }
 }
