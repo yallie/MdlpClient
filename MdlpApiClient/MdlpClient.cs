@@ -67,6 +67,11 @@
         }
 
         /// <summary>
+        /// Gets or sets the application name.
+        /// </summary>
+        public string ApplicationName { get; set; }
+
+        /// <summary>
         /// Gets base API URL.
         /// </summary>
         public string BaseUrl { get; private set; }

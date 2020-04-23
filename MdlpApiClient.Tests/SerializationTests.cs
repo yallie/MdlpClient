@@ -1,8 +1,6 @@
 ﻿namespace MdlpApiClient.Tests
 {
     using System;
-    using System.Collections.ObjectModel;
-    using System.IO;
     using System.Runtime.Serialization;
     using System.Xml.Linq;
     using System.Xml.Serialization;
@@ -82,17 +80,8 @@
             doc.Register_End_Packing.Signs.Add("654o6u45");
             doc.Register_End_Packing.Signs.Add("fstkjwtk");
 
-            var serializer = new XmlSerializer(typeof(Documents));
-            using (var stream = new StringWriter())
-            {
-                serializer.Serialize(stream, doc);
-
-                var xml = stream.GetStringBuilder().ToString();
-                Assert.NotNull(xml);
-
-                var xdoc = XDocument.Parse(xml);
-                Assert.NotNull(xdoc);
-            }
+            var xml = XmlSerializationHelper.SerializeDocument(doc);
+            Assert.NotNull(xml);
         }
 
         [Test]
@@ -113,16 +102,12 @@
   </register_end_packing>
 </documents>";
 
-            var serializer = new XmlSerializer(typeof(Documents));
-            using (var stream = new StringReader(docXml))
-            {
-                var doc = serializer.Deserialize(stream) as Documents;
-                Assert.NotNull(doc);
-                Assert.NotNull(doc.Register_End_Packing);
-                Assert.AreEqual("11170012610151", doc.Register_End_Packing.Gtin);
-                Assert.AreEqual(1, doc.Register_End_Packing.Signs.Count);
-                Assert.AreEqual("07091900400001TRANSF2000021", doc.Register_End_Packing.Signs[0]);
-            }
+            var doc = XmlSerializationHelper.DeserializeDocument(docXml);
+            Assert.NotNull(doc);
+            Assert.NotNull(doc.Register_End_Packing);
+            Assert.AreEqual("11170012610151", doc.Register_End_Packing.Gtin);
+            Assert.AreEqual(1, doc.Register_End_Packing.Signs.Count);
+            Assert.AreEqual("07091900400001TRANSF2000021", doc.Register_End_Packing.Signs[0]);
         }
 
         private Documents CreateDocument311()
@@ -182,60 +167,12 @@
             return doc;
         }
 
-        private string SerializeDocument(Documents doc, string comments = null)
-        {
-            var serializer = new XmlSerializer(typeof(Documents));
-            using (var stream = new StringWriter())
-            {
-                serializer.Serialize(stream, doc);
-
-                var xml = stream.GetStringBuilder().ToString();
-                Assert.NotNull(xml);
-
-                // убедимся, что все отформатировано нормально и добавим комментарий
-                var xdoc = XDocument.Parse(xml);
-                Assert.NotNull(xdoc);
-
-                // add namespace prefix
-                var by = new XAttribute(XNamespace.Xmlns + "by", "https://www.nuget.org/packages/MdlpApiClient/1.0.0");
-                xdoc.Root.ReplaceAttributes(new object[] { by, xdoc.Root.Attributes() });
-
-                if (!string.IsNullOrWhiteSpace(comments))
-                {
-                    var element = xdoc.FirstNode as XElement;
-                    if (element != null && element.FirstNode != null)
-                    {
-                        element.FirstNode.AddBeforeSelf(new XComment(comments));
-                    }
-                }
-
-                return ToXmlString(xdoc);
-            }
-        }
-
-        private Documents DeserializeDocument(string docXml)
-        {
-            var serializer = new XmlSerializer(typeof(Documents));
-            using (var stream = new StringReader(docXml))
-            {
-                var doc = serializer.Deserialize(stream) as Documents;
-                Assert.NotNull(doc);
-                return doc;
-            }
-        }
-
-        public string ToXmlString(XDocument xdoc, SaveOptions options = SaveOptions.None)
-        {
-            var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
-            return xdoc.Declaration == null ? xdoc.ToString(options) : xdoc.Declaration + newLine + xdoc.ToString(options);
-        }
-
         [Test]
         public void XmlSerializeDocument311()
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument311();
-            var xml = SerializeDocument(doc);
+            var xml = XmlSerializationHelper.SerializeDocument(doc);
             WriteLine(xml);
         }
 
@@ -303,7 +240,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument313();
-            var xml = SerializeDocument(doc, " Типография вводит в оборот свежеупакованные ЛП ");
+            var xml = XmlSerializationHelper.SerializeDocument(doc, " Типография вводит в оборот свежеупакованные ЛП ");
             WriteLine(xml);
         }
 
@@ -365,7 +302,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument915();
-            var xml = SerializeDocument(doc, " Упаковка товара в Типографии ");
+            var xml = XmlSerializationHelper.SerializeDocument(doc, " Упаковка товара в Типографии ");
             WriteLine(xml);
         }
 
@@ -476,7 +413,7 @@
         {
             // формируем документ для загрузки в ЛК
             var doc = CreateDocument415();
-            var xml = SerializeDocument(doc, " Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат ");
+            var xml = XmlSerializationHelper.SerializeDocument(doc, " Отправка товара из Типографии в Автомойку: один ящик с 4 препаратами и 1 препарат ");
             WriteLine(xml);
         }
 
@@ -519,7 +456,7 @@
         public void XmlDeserializeDocument601()
         {
             // из ЛК загружен документ схемы 601 с кодом 3ad8d361-0044-48fc-b0ee-aeed97df3f8e
-            var doc = DeserializeDocument(Doc601xml);
+            var doc = XmlSerializationHelper.DeserializeDocument(Doc601xml);
             var mo = doc.Move_Order_Notification;
             Assert.NotNull(mo);
             Assert.AreEqual("00000000104494", mo.Subject_Id); // типография в Могойтуй
@@ -590,9 +527,9 @@
         public void XmlSerializeDocument701()
         {
             // получили 601 => создали на его основе 701
-            var doc601 = DeserializeDocument(Doc601xml);
+            var doc601 = XmlSerializationHelper.DeserializeDocument(Doc601xml);
             var doc701 = CreateDocument701(doc601);
-            var xml = SerializeDocument(doc701, " Подтверждение из Автомойки ");
+            var xml = XmlSerializationHelper.SerializeDocument(doc701, " Подтверждение из Автомойки ");
             WriteLine(xml);
         }
     }

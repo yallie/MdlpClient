@@ -240,6 +240,7 @@
         internal void Logout()
         {
             Get("auth/logout");
+            IsAuthenticated = false;
         }
 
         /// <summary>
