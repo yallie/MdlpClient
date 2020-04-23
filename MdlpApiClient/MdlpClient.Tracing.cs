@@ -14,6 +14,9 @@
         private const string ApiTimestampParameterName = "X-ApiTimestamp";
         private const string ApiStopwatchParameterName = "X-ApiStopwatch";
 
+        /// <summary>
+        /// Tracer function, such as <see cref="Console.WriteLine(string, object[])"/>.
+        /// </summary>
         public Action<string, object[]> Tracer { get; set; }
 
         private void Trace(string format, params object[] arguments)
@@ -29,7 +32,7 @@
 
         private static string CR = Environment.NewLine;
 
-        public static string FormatHeaders(IEnumerable<Tuple<string, object>> headers)
+        internal static string FormatHeaders(IEnumerable<Tuple<string, object>> headers)
         {
             if (headers == null || !headers.Any())
             {
@@ -41,7 +44,7 @@
             CR + "}" + CR;
         }
 
-        public static string FormatBody(string content)
+        internal static string FormatBody(string content)
         {
             if (string.IsNullOrWhiteSpace(content))
             {
@@ -51,7 +54,7 @@
             return "body: " + JsonFormatter.FormatJson(content) + CR;
         }
 
-        public static string FormatBody(RequestBody body)
+        internal static string FormatBody(RequestBody body)
         {
             if (IsEmpty(body))
             {
@@ -153,7 +156,7 @@
             }
         }
 
-        public static string FormatTimings(DateTime? startTime, Stopwatch stopwatch)
+        internal static string FormatTimings(DateTime? startTime, Stopwatch stopwatch)
         {
             if (startTime == null && stopwatch == null)
             {

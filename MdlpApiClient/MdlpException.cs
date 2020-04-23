@@ -5,9 +5,19 @@
     using System.Runtime.Serialization;
     using MdlpApiClient.DataContracts;
 
+    /// <summary>
+    /// MDLP REST API Exception.
+    /// </summary>
     [Serializable]
     public class MdlpException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MdlpException"/> class.
+        /// </summary>
+        /// <param name="code">HTTP status code.</param>
+        /// <param name="message">Error message.</param>
+        /// <param name="errorResponse"><see cref="ErrorResponse"/> instance, if available.</param>
+        /// <param name="innerException">Inner <see cref="Exception"/> instance.</param>
         public MdlpException(HttpStatusCode code, string message, ErrorResponse errorResponse, Exception innerException)
             : base(GetMessage(code, message), innerException)
         {
@@ -25,6 +35,7 @@
             return code.ToString();
         }
 
+        /// <inheritdoc/>
         protected MdlpException(SerializationInfo info, StreamingContext context)
         {
             StatusCode = (HttpStatusCode)info.GetInt32("Code");
@@ -42,10 +53,17 @@
             }
         }
 
+        /// <summary>
+        /// HTTP status code.
+        /// </summary>
         public HttpStatusCode StatusCode { get; set; }
 
+        /// <summary>
+        /// <see cref="ErrorResponse"/> instance returned by server.
+        /// </summary>
         public ErrorResponse ErrorResponse { get; set; }
 
+        /// <inheritdoc/>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
