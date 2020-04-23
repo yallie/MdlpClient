@@ -1,2 +1,3 @@
 ﻿// saved as .txt file to make sure it's not included in merged single-file version
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MdlpApiClient.Tests")]
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("MdlpApiClient.Tests")]

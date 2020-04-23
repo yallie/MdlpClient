@@ -33,6 +33,9 @@
 
   <PropertyGroup>
     <RootNamespace>MdlpApiClient</RootNamespace>
+    <Description>MDLP REST API client for .NET Framework.</Description>
+    <Company>Alexey Yakovlev</Company>
+    <Copyright>Alexey Yakovlev</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
