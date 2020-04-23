@@ -128,10 +128,10 @@
         }
 
         /// <summary>
-        /// 5.10. Получение документа по идентификатору
+        /// 5.10. Получение текста документа по идентификатору
         /// </summary>
         /// <param name="documentId">Идентификатор документа</param>
-        public string GetDocument(string documentId)
+        public string GetDocumentText(string documentId)
         {
             var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
             {
@@ -154,10 +154,10 @@
         }
 
         /// <summary>
-        /// 5.12. Получение квитанции по номеру исходящего документа
+        /// 5.12. Получение текста квитанции по номеру исходящего документа
         /// </summary>
         /// <param name="documentId">Идентификатор документа</param>
-        public string GetTicket(string documentId)
+        public string GetTicketText(string documentId)
         {
             var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
             {

@@ -29,6 +29,16 @@
         public const string StageApiHttps = "https://api.stage.mdlp.crpt.ru/api/v1/";
 
         /// <summary>
+        /// Sandbox API HTTP URL.
+        /// </summary>
+        public const string SandboxApiHttp = "http://api.sb.mdlp.crpt.ru/api/v1/";
+
+        /// <summary>
+        /// Sandbox API HTTPS URL.
+        /// </summary>
+        public const string SandboxApiHttps = "https://api.sb.mdlp.crpt.ru/api/v1/";
+
+        /// <summary>
         /// Initializes a new instance of the MDLP REST API client.
         /// </summary>
         /// <param name="credentials">Credentials used for authentication.</param>

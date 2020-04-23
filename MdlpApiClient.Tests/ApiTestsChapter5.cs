@@ -129,9 +129,9 @@
         }
 
         [Test]
-        public void Chapter5_10_GetDocument()
+        public void Chapter5_10_GetDocumentText()
         {
-            var doc = Client.GetDocument(TestDocumentID);
+            var doc = Client.GetDocumentText(TestDocumentID);
             Assert.IsNotNull(doc);
 
             WriteLine("Downloaded document: {0}", TestDocumentID);
@@ -152,9 +152,9 @@
         }
 
         [Test]
-        public void Chapter5_12_GetTicket()
+        public void Chapter5_12_GetTicketText()
         {
-            var ticket = Client.GetTicket(TestTicketID);
+            var ticket = Client.GetTicketText(TestTicketID);
             Assert.IsNotNull(ticket);
 
             WriteLine("Downloaded TicketID: {0}", TestTicketID);
