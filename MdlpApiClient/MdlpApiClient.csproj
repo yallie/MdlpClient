@@ -50,14 +50,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
-    <LangVersion>5</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <!-- always include debug info, regardless of the target Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" -->
+  <PropertyGroup>
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <NoWarn>1701;1702;1591</NoWarn>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
 
 </Project>
