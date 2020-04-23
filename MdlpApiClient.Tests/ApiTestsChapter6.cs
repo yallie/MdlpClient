@@ -387,5 +387,20 @@
             Assert.AreEqual(1, rights.Groups.Length);
             Assert.AreEqual("8344bacd-c415-4694-a9a4-b75e741f4eed", rights.Groups[0].GroupID);
         }
+
+        [Test]
+        public void Chapter6_07_02_GetUsers()
+        {
+            var users = Client.GetUsers(new UserFilter
+            {
+                Login = UserStarter1
+            }, 0, 10);
+            AssertRequired(users);
+            AssertRequiredItems(users.Users);
+
+            Assert.AreEqual(1, users.Total);
+            Assert.AreEqual(1, users.Users.Length);
+            Assert.AreEqual("5f0b90ef-76fe-49cc-8c8a-1029928effcc", users.Users[0].UserID);
+        }
     }
 }

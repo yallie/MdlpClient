@@ -462,5 +462,22 @@
                 count = count,
             });
         }
+
+        /// <summary>
+        /// 6.7.2. Метод для поиска зарегистрированных пользователей по фильтру
+        /// </summary>
+        /// <param name="filter">Фильтр для поиска списка зарегистрированных пользователей</param>
+        /// <param name="startFrom">Индекс первой записи в списке зарегистрированных пользователей </param>
+        /// <param name="count">Количество записей в списке зарегистрированных пользователей </param>
+        /// <returns>Список зарегистрированных пользователей </returns>
+        public UsersResponse<GroupedUser> GetUsers(UserFilter filter, int startFrom, int count)
+        {
+            return Post<UsersResponse<GroupedUser>>("users/filter", new
+            {
+                filter = filter ?? new UserFilter(),
+                start_from = startFrom,
+                count = count,
+            });
+        }
     }
 }
