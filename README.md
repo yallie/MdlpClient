@@ -1,7 +1,9 @@
 # Честный знак. ИС «Маркировка». МДЛП
-MDLP API REST Client for .NET Framework.  
+![MDLP REST API Client for .NET Framework 4.62](https://img.shields.io/badge/MDLP%20REST%20API%20Client-.NET%20Framework%204.62-yellow)
+[![NuGet](https://img.shields.io/nuget/v/MdlpApiClient.svg)](https://www.nuget.org/packages/MdlpApiClient)
+![Unit tests](https://img.shields.io/badge/tests-103-green)
 
-<img alt="MDLP API client logo" src="https://github.com/yallie/MdlpClient/blob/master/Docs/MdlpApiClientLogo.png" width=200 />
+<img alt="MDLP API client logo" src="https://github.com/yallie/MdlpClient/blob/master/Docs/MdlpApiClientLogo.png" width="200" />
 
 Реализация протокола обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)  
 Список реализованных методов: [list_of_methods.txt](https://github.com/yallie/MdlpClient/blob/master/Docs/list_of_methods.txt)
