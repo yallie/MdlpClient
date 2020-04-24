@@ -1,0 +1,570 @@
+﻿namespace MdlpApiClient.Tests
+{
+    using System;
+    using MdlpApiClient.DataContracts;
+    using MdlpApiClient.Xsd;
+    using NUnit.Framework;
+
+    [TestFixture, Ignore("Sandbox is offline")]
+    public class SandboxTests : UnitTestsClientBase
+    {
+        protected override MdlpClient CreateClient()
+        {
+            // Типография для типографий
+            var cred = new ResidentCredentials
+            {
+                ClientID = "22d12250-6cf3-4a87-b439-f698cfddc498",
+                ClientSecret = "3deb0ba1-26f2-4516-b652-931fe832e3ff",
+                UserID = "10E4921908D24A0D1AD94A29BD0EF51696C6D8DA"
+            };
+
+            // подключаемся на этот раз к песочнице
+            return new MdlpClient(cred, MdlpClient.SandboxApiHttps)
+            {
+                ApplicationName = "SandboxTests v1.0",
+                Tracer = WriteLine,
+            };
+        }
+
+        private MdlpClient CreateSecondClient()
+        {
+            // Автомойка-Чисто
+            var cred = new ResidentCredentials
+            {
+                ClientID = "2cabd9b7-6042-40d8-97c2-8627f5704aa1",
+                ClientSecret = "1713da9a-2042-465c-80ba-4da4dca3323d",
+                UserID = "CC5D2B6C6457DED657D7EB7C388585D03ADDCBC8"
+            };
+
+            // подключаемся на этот раз к песочнице
+            return new MdlpClient(cred, MdlpClient.SandboxApiHttps)
+            {
+                ApplicationName = "SandboxTests v2.0",
+                Tracer = WriteLine,
+            };
+        }
+
+        [Test]
+        public void SandboxAuthorizationWorks()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                var size = Client.GetLargeDocumentSize();
+                Assert.IsTrue(size > 100);
+                WriteLine("Large doc size = {0} bytes", size);
+
+                Assert.IsTrue(Client.SignatureSize > 0);
+                WriteLine("Signature size = {0} bytes", Client.SignatureSize);
+            });
+        }
+
+        private Documents CreateDocument311()
+        {
+            // Создаем документ схемы 311 от имени организации Типография для типографий
+            // sessionUi — просто Guid, объединяющий документы в смысловую группу
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Окончание упаковки = схема 311
+                Register_End_Packing = new Register_End_Packing
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    Subject_Id = "00000000104494",
+
+                    // в этом месте мы сегодня заканчиваем упаковку препаратов
+                    Operation_Date = DateTime.Now,
+
+                    // Тип производственного заказа — собственное производство = 1
+                    // В сгенерированных XML-классах для числовых кодов
+                    // созданы элементы Item: 1 = Item1, 40 = Item40, и т.д.
+                    Order_Type = Order_Type_Enum.Item1,
+
+                    // Номер производственной серии, 1-20 символов
+                    Series_Number = "100000003",
+
+                    // срок годности выдается в строковом виде, в формате ДД.ММ.ГГГГ
+                    Expiration_Date = "30.03.2025",
+
+                    // Код препарата. GTIN – указывается из реестра ЛП тестового участника
+                    // из личного кабинета тестового участника-Типографии берем ЛП: Найзин
+                    Gtin = "50754041398745"
+                }
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
+            // 13-значного серийного номера. Для каждой отгрузки 
+            // необходимо генерировать уникальный серийный номер
+            var gtin = doc.Register_End_Packing.Gtin;
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567896123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567897123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567898123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567899123");
+            doc.Register_End_Packing.Signs.Add(gtin + "123456789A123");
+            doc.Register_End_Packing.Signs.Add(gtin + "123456789B123");
+
+            // Документ загружен, но не обработан: fe4120a9-0485-4b0d-a878-fba3d7a644bd.
+            // Похоже, серверу-таки не нравится XML-декларация: <?xml version="1.0" encoding="..." ?>
+            // Документ загружен и обработан: 72c55992-83de-4101-919b-20d985f06bb0
+            return doc;
+        }
+
+        [Test, Explicit("Can't upload the same document more than once")]
+        public void SendDocument311ToSandbox()
+        {
+            // формируем документ для загрузки в ЛК
+            var doc = CreateDocument311();
+            var docId = Client.SendDocument(doc);
+            WriteLine("Uploaded document #311: {0}", docId);
+        }
+
+        [Test]
+        public void GetDocument311FromSandbox()
+        {
+            var document = Client.GetDocument("72c55992-83de-4101-919b-20d985f06bb0");
+            Assert.NotNull(document);
+            Assert.NotNull(document.Register_End_Packing);
+            Assert.NotNull(document.Register_End_Packing.Signs);
+            Assert.AreEqual(6, document.Register_End_Packing.Signs.Count);
+            Assert.AreEqual("00000000104494", document.Register_End_Packing.Subject_Id);
+        }
+
+        [Test]
+        public void GetTicketForDocument311FromSandbox()
+        {
+            // квитанция об обработке документа появляется через какое-то время после загрузки
+            var ticket = Client.GetTicket("72c55992-83de-4101-919b-20d985f06bb0");
+            Assert.NotNull(ticket);
+            Assert.NotNull(ticket.Result);
+            Assert.AreEqual("311", ticket.Result.Operation);
+            Assert.AreEqual("Успешное завершение операции", ticket.Result.Operation_Comment);
+        }
+
+        private Documents CreateDocument313()
+        {
+            // Создаем документ схемы 313 от имени организации Типография для типографий
+            // sessionUi — просто Guid, объединяющий документы в смысловую группу
+            // оставляем его прежним, чтобы связать с документом завершения упаковки 311
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Регистрация сведений о вводе ЛП в оборот (выпуск продукции) = схема 313
+                Register_Product_Emission= new Register_Product_Emission
+                {
+                    // Идентификатор места деятельности (14 знаков) — 
+                    // указывается идентификатор из ранее загруженной схемы 311:
+                    // где упаковали, там и вводим ЛП в оборот
+                    Subject_Id = "00000000104494",
+
+                    // выпускаем препараты сегодня
+                    Operation_Date = DateTime.Now,
+
+                    // Реквизиты сведений о вводе ЛП в оборот
+                    Release_Info = new Release_Info_Type
+                    {
+                        // Регистрационный номер документа подтверждения соответствия
+                        Doc_Num = "123а",
+
+                        // Дата регистрации документа подтверждения соответствия
+                        Doc_Date = DateTime.Today.ToString(@"dd\.MM\.yyyy"),
+
+                        // Номер документа подтверждения соответствия
+                        Confirmation_Num = "123b",
+                    },
+
+                    // тут надо создать вложенный пустой объект
+                    Signs = new Register_Product_EmissionSigns()
+                }
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN – указываются
+            // номера из ранее загруженной 311 схемы
+            var gtin = "50754041398745";
+            var sgtins = doc.Register_Product_Emission.Signs.Sgtin;
+            sgtins.Add(gtin + "1234567896123");
+            sgtins.Add(gtin + "1234567897123");
+            sgtins.Add(gtin + "1234567898123");
+            sgtins.Add(gtin + "1234567899123");
+            sgtins.Add(gtin + "123456789A123");
+            sgtins.Add(gtin + "123456789B123");
+
+            // В песочницу документ загружен через API и обработан,
+            // получил код ecff5436-9a5d-408f-8d3b-0dd2eb6cad54
+            return doc;
+        }
+
+        [Test, Explicit("Can't upload the same document more than once")]
+        public void SendDocument313ToSandbox()
+        {
+            var doc = CreateDocument313();
+            var docId = Client.SendDocument(doc);
+            WriteLine("Uploaded document #313: {0}", docId);
+        }
+
+        [Test]
+        public void GetDocument313FromSandbox()
+        {
+            var document = Client.GetDocument("ecff5436-9a5d-408f-8d3b-0dd2eb6cad54");
+            Assert.NotNull(document);
+            Assert.NotNull(document.Register_Product_Emission);
+            Assert.NotNull(document.Register_Product_Emission.Signs);
+            Assert.AreEqual(6, document.Register_Product_Emission.Signs.Sgtin.Count);
+            Assert.AreEqual("00000000104494", document.Register_Product_Emission.Subject_Id);
+        }
+
+        [Test]
+        public void GetTicketForDocument313FromSandbox()
+        {
+            var ticket = Client.GetTicket("ecff5436-9a5d-408f-8d3b-0dd2eb6cad54");
+            Assert.NotNull(ticket);
+            Assert.NotNull(ticket.Result);
+            Assert.AreEqual("313", ticket.Result.Operation);
+            Assert.AreEqual("Успешное завершение операции", ticket.Result.Operation_Comment);
+        }
+
+        private Documents CreateDocument915()
+        {
+            // Создаем документ схемы 915 от имени организации Типография для типографий
+            // sessionUi оставляем прежним, чтобы связать с документами 
+            // завершения упаковки 311 и ввода ЛП в оборот 313
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Регистрация в ИС МДЛП сведений об агрегировании во множество
+                // третичных (заводских, транспортных) упаковок = схема 915
+                Multi_Pack = new Multi_Pack
+                {
+                    // Идентификатор места деятельности (14 знаков) — 
+                    // указывается идентификатор из ранее загруженной схемы 311:
+                    // где упаковали и ввели ЛП в оборот, там и пакуем в коробку
+                    Subject_Id = "00000000104494",
+
+                    // дата упаковки
+                    Operation_Date = DateTime.Now,
+
+                    // вложены только SGTIN
+                }
+            };
+
+            // в документе схемы 915 можно упаковать либо SGTIN, 
+            // либо SSCC (третичную упаковку), но не одновременно
+            var sgtinPack = new Multi_PackBy_SgtinDetail
+            {
+                // Идентификатор SSCC (откуда он берется?)
+                Sscc = "507540413987451235",
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN – указываем первые четыре номера
+            // номера из ранее загруженных схем 311 и 313
+            // Первые 4 упакуем, оставшиеся 2 оставим неупакованными
+            var gtin = "50754041398745";
+            sgtinPack.Content.Add(gtin + "1234567896123");
+            sgtinPack.Content.Add(gtin + "1234567897123");
+            sgtinPack.Content.Add(gtin + "1234567898123");
+            sgtinPack.Content.Add(gtin + "1234567899123");
+            doc.Multi_Pack.By_Sgtin.Add(sgtinPack);
+
+            // В песочницу документ загружен через API и обработан,
+            // получил код 9534c7a7-7149-466a-aad2-1be19de810d6
+            return doc;
+        }
+
+        [Test, Explicit("Can't upload the same document more than once")]
+        public void SendDocument915ToSandbox()
+        {
+            var doc = CreateDocument915();
+            var docId = Client.SendDocument(doc);
+            WriteLine("Uploaded document #915: {0}", docId);
+        }
+
+        [Test]
+        public void GetDocument915FromSandbox()
+        {
+            var document = Client.GetDocument("9534c7a7-7149-466a-aad2-1be19de810d6");
+            Assert.NotNull(document);
+            Assert.NotNull(document.Multi_Pack);
+            Assert.NotNull(document.Multi_Pack.By_Sgtin);
+            Assert.AreEqual(1, document.Multi_Pack.By_Sgtin.Count);
+            Assert.AreEqual("00000000104494", document.Multi_Pack.Subject_Id);
+        }
+
+        [Test]
+        public void GetTicketForDocument915FromSandbox()
+        {
+            var ticket = Client.GetTicket("9534c7a7-7149-466a-aad2-1be19de810d6");
+            Assert.NotNull(ticket);
+            Assert.NotNull(ticket.Result);
+            Assert.AreEqual("915", ticket.Result.Operation);
+            Assert.AreEqual("Успешное завершение операции", ticket.Result.Operation_Comment);
+        }
+
+        private Documents CreateDocument415()
+        {
+            // Создаем документ схемы 415 от имени организации Типография для типографий
+            // sessionUi — просто Guid, объединяющий документы в смысловую группу
+            var sessionUi = "ca9a64ee-cf25-42af-a939-94d98fa16ab6";
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = sessionUi,
+
+                // Перемещение на склад получателя = схема 415
+                Move_Order = new Move_Order
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    // здесь у нас пока хранятся упакованные ЛП, ждущие отправки
+                    Subject_Id = "00000000104494",
+
+                    // из ЛК тестового участника-Автомойки
+                    // берем код места деятельности, расположенного по адресу:
+                    // Респ Адыгея р-н Тахтамукайский пгт Яблоновский ул Гагарина
+                    // сюда мы будем отправлять упакованные ЛП
+                    Receiver_Id = "00000000104453",
+
+                    // сегодня отправляем препараты
+                    Operation_Date = DateTime.Now,
+
+                    // Реквизиты документа отгрузки: номер и дата документа
+                    Doc_Num = "123а",
+                    Doc_Date = DateTime.Today.ToString(@"dd\.MM\.yyyy"),
+
+                    // Тип операции отгрузки со склада: 1 - продажа, 2 - возврат
+                    Turnover_Type = Turnover_Type_Enum.Item1,
+
+                    // Источник финансирования: 1 - собственные средства, 2-3 - бюджет
+                    Source = Source_Type.Item1,
+
+                    // Тип договора: 1 - купля-продажа
+                    Contract_Type = Contract_Type_Enum.Item1,
+
+                    // Реестровый номер контракта (договора)
+                    // в Единой информационной системе в сфере закупок
+                    // нам в данном случае не требуется
+                    Contract_Num = null,
+                },
+            };
+
+            // Список отгружаемой продукции
+            var order = doc.Move_Order.Order_Details;
+            order.Add(new Move_OrderOrder_DetailsUnion
+            {
+                // берем зарегистрированный КИЗ, который был в документе 311,
+                // введен в оборот документом 313, но не упаковам документом 915
+                Sgtin = "50754041398745" + "123456789A123",
+
+                // цена единицы продукции
+                Cost = 1000,
+
+                // сумма НДС
+                Vat_Value = 100,
+            });
+
+            // и еще один — упакованный ящик, полученный в документе схемы 915
+            var ssccItem = new Move_OrderOrder_DetailsUnion
+            {
+                // Sgtin отсутствует, зато присутствует Sscc_Detail
+                Sscc_Detail = new Move_OrderOrder_DetailsUnionSscc_Detail
+                {
+                    // код третичной упаковки тот же, что был в документе схемы 915
+                    Sscc = "507540413987451235"
+                },
+
+                // а вот нужны ли здесь Cost и Vat_Value, непонятно,
+                // поскольку они есть в самом Sscc_Detail
+                Cost = 1000,
+                Vat_Value = 100,
+            };
+
+            ssccItem.Sscc_Detail.Detail.Add(new Move_OrderOrder_DetailsUnionSscc_DetailDetail
+            {
+                // GTIN и номер производственной серии — из документа 311
+                Gtin = "50754041398745",
+                Series_Number = "100000003",
+
+                // стоимость единицы продукции с учетом НДС и сумма НДС, руб
+                Cost = 1000,
+                Vat_Value = 100,
+            });
+
+            // итого в документе перемещения схемы 415 у нас один SGTIN
+            // и один ящик SSCC с четырьмя SGTIN-ами,
+            // а еще один неупакованный SGTIN остался в типографии
+            order.Add(ssccItem);
+
+            // документ загружен через API и обработан,
+            // получил код ?
+            return doc;
+        }
+
+        [Test, Explicit("Can't upload the same document more than once")]
+        public void SendDocument415ToSandbox()
+        {
+            var doc = CreateDocument415();
+            var docId = Client.SendDocument(doc);
+            WriteLine("Uploaded document #415: {0}", docId);
+        }
+
+        [Test]
+        public void GetDocument415FromSandbox()
+        {
+            var document = Client.GetDocument("667f1d2f-0d4f-43c4-9d56-b5d3da29c4ac");
+            Assert.NotNull(document);
+            Assert.NotNull(document.Move_Order);
+            Assert.NotNull(document.Move_Order.Order_Details);
+            Assert.AreEqual(2, document.Move_Order.Order_Details.Count);
+            Assert.AreEqual("00000000104494", document.Move_Order.Subject_Id);
+        }
+
+        [Test]
+        public void GetTicketForDocument415FromSandbox()
+        {
+            var ticket = Client.GetTicket("667f1d2f-0d4f-43c4-9d56-b5d3da29c4ac");
+            Assert.NotNull(ticket);
+            Assert.NotNull(ticket.Result);
+            Assert.AreEqual("415", ticket.Result.Operation);
+            Assert.AreEqual("Успешное завершение операции", ticket.Result.Operation_Comment);
+        }
+
+        private Documents CreateDocument701(Documents doc601)
+        {
+            var mo = doc601.Move_Order_Notification;
+            var doc = new Documents
+            {
+                Version = doc601.Version,
+                Session_Ui = doc601.Session_Ui,
+                Accept = new Accept
+                {
+                    // Отправитель и получатель меняются местами
+                    Subject_Id = mo.Receiver_Id,
+                    Counterparty_Id = mo.Subject_Id,
+
+                    // Дата и время текущие
+                    Operation_Date = DateTime.Now,
+                    Order_Details = new AcceptOrder_Details(),
+                }
+            };
+
+            // Список подтверждаемой продукции:
+            // не знаю, можно ли подтвердить не все, что в документе 601?
+            var od = doc.Accept.Order_Details;
+            foreach (var unit in mo.Order_Details)
+            {
+                // подтверждаем прием упаковки с несколькими ЛП
+                if (unit.Sscc_Detail != null && unit.Sscc_Detail.Sscc != null)
+                {
+                    // Номер транспортной упаковки
+                    od.Sscc.Add(unit.Sscc_Detail.Sscc);
+                    continue;
+                }
+
+                // подтверждаем прием экземпляра ЛП
+                if (unit.Sgtin != null)
+                {
+                    // Номер SGTIN указывается номер из ранее загруженной 415 схемы
+                    od.Sgtin.Add(unit.Sgtin);
+                    continue;
+                }
+            }
+
+            // загружен через API, обработан, код d72a2afc-fddd-43e3-b308-a8c3eece70a4
+            return doc;
+        }
+
+        [Test, Explicit("Can't upload the same document more than once")]
+        public void FindIncomingDocument601AndCreateDocument701()
+        {
+            // заходим в песочницу от имени второго участника
+            using (var client = CreateSecondClient())
+            {
+                // находим уведомление в списке входящих документов
+                var docs = client.GetIncomeDocuments(new DocFilter
+                {
+                    DocType = 601,
+                    SenderID = "00000000104494",
+                    ProcessedDateFrom = new DateTime(2020, 04, 24, 03, 00, 00),
+                    ProcessedDateTo = new DateTime(2020, 04, 24, 04, 00, 00),
+                }, 0, 1);
+
+                // оно там будет одно в указанный период
+                Assert.AreEqual(1, docs.Total);
+                Assert.AreEqual(1, docs.Documents.Length);
+
+                var doc = docs.Documents[0];
+                Assert.AreEqual("6faca9fc-5390-406f-b935-03ee4705e4ac", doc.DocumentID);
+
+                // скачиваем уведомление по коду
+                var doc601 = client.GetDocument(doc.DocumentID);
+                Assert.NotNull(doc601.Move_Order_Notification);
+
+                // формируем ответ на него: мол, подтверждаем получение всех ЛП в полном объеме
+                var doc701 = CreateDocument701(doc601);
+                var docId = client.SendDocument(doc701);
+                WriteLine("Uploaded document #701: {0}", docId);
+            }
+        }
+
+        [Test]
+        public void GetDocument701AndTicket701FromSandbox()
+        {
+            using (var client = CreateSecondClient())
+            {
+                var document = client.GetDocument("d72a2afc-fddd-43e3-b308-a8c3eece70a4");
+                Assert.NotNull(document);
+                Assert.NotNull(document.Accept);
+                Assert.NotNull(document.Accept.Order_Details);
+                Assert.AreEqual(1, document.Accept.Order_Details.Sgtin.Count);
+                Assert.AreEqual(1, document.Accept.Order_Details.Sscc.Count);
+                Assert.AreEqual("00000000104494", document.Accept.Counterparty_Id);
+
+                var ticket = client.GetTicket("d72a2afc-fddd-43e3-b308-a8c3eece70a4");
+                Assert.NotNull(ticket);
+                Assert.NotNull(ticket.Result);
+                Assert.AreEqual("701", ticket.Result.Operation);
+                Assert.AreEqual("Успешное завершение операции", ticket.Result.Operation_Comment);
+            }
+        }
+
+        [Test]
+        public void GetDocument607FromSandbox()
+        {
+            // находим уведомление в списке входящих документов
+            var docs = Client.GetIncomeDocuments(new DocFilter
+            {
+                DocType = 607,
+                SenderID = "00000000104453",
+                ProcessedDateFrom = new DateTime(2020, 04, 24, 04, 17, 00),
+                ProcessedDateTo = new DateTime(2020, 04, 24, 04, 18, 00),
+            }, 0, 1);
+
+            // оно там будет одно в указанный период
+            Assert.AreEqual(1, docs.Total);
+            Assert.AreEqual(1, docs.Documents.Length);
+
+            var text = Client.GetDocumentText(docs.Documents[0].DocumentID);
+            WriteLine(text);
+        }
+    }
+}

@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using System.Security;
+    using System.Text;
     using DataContracts;
     using MdlpApiClient.Toolbox;
 
@@ -24,8 +25,12 @@
             // get authentication code
             var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "SIGNED_CODE");
 
+            // compute the signature and save the size
+            var signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode);
+            apiClient.SignatureSize = Encoding.UTF8.GetByteCount(signature);
+
             // get authentication token
-            return apiClient.GetToken(authCode, signature: GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode));
+            return apiClient.GetToken(authCode, signature: signature);
         }
     }
 }

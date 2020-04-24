@@ -54,11 +54,14 @@
                     var element = xdoc.FirstNode as XElement;
                     if (element != null && element.FirstNode != null)
                     {
+                        // <!-- add spaces before and after the text -->
+                        comments = " " + comments.Trim() + " ";
                         element.FirstNode.AddBeforeSelf(new XComment(comments));
                     }
                 }
 
-                return xdoc.ToXmlString();
+                // ToString skips the XML declaration node
+                return xdoc.ToString();
             }
         }
 
@@ -68,7 +71,7 @@
         /// <param name="xdoc"><see cref="XDocument"/> to save.</param>
         /// <param name="options"><see cref="SaveOptions"/>, optional.</param>
         /// <returns>String representation of the given <see cref="XDocument"/>.</returns>
-        public static string ToXmlString(this XDocument xdoc, SaveOptions options = SaveOptions.None)
+        internal static string ToXmlString(this XDocument xdoc, SaveOptions options = SaveOptions.None)
         {
             var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
             return xdoc.Declaration == null ? xdoc.ToString(options) : xdoc.Declaration + newLine + xdoc.ToString(options);

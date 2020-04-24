@@ -15,6 +15,9 @@
         /// <summary>
         /// 5.1. Отправка документа
         /// </summary>
+        /// <remarks>
+        /// Метод подходит для маленьких документов
+        /// </remarks>
         /// <param name="xmlDocument">Документ в формате XML.</param>
         /// <returns>Идентификатор документа</returns>
         public string SendDocument(string xmlDocument)

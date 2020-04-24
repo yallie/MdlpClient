@@ -31,6 +31,7 @@
         {
             if (Client != null)
             {
+                Client.Tracer = null;
                 Client.Dispose();
                 Client = null;
             }

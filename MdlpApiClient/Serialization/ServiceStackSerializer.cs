@@ -1,6 +1,7 @@
 ﻿
 namespace MdlpApiClient.Serialization
 {
+    using System;
     using RestSharp;
     using RestSharp.Serialization;
     using ServiceStack.Text;
@@ -10,11 +11,6 @@ namespace MdlpApiClient.Serialization
     /// </summary>
     internal class ServiceStackSerializer : IRestSerializer
     {
-        //public ServiceStackSerializer()
-        //{
-        //    JsConfig.DateHandler = DateHandler.ISO8601;// ISO8601;
-        //}
-
         public string[] SupportedContentTypes
         {
             get
