@@ -5,7 +5,7 @@
     using MdlpApiClient.Xsd;
     using NUnit.Framework;
 
-    [TestFixture, Ignore("Sandbox is offline")]
+    [TestFixture]
     public class SandboxTests : UnitTestsClientBase
     {
         protected override MdlpClient CreateClient()
