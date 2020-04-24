@@ -19,7 +19,7 @@
     <RepositoryUrl>https://github.com/yallie/MdlpClient.git</RepositoryUrl>
     <!--PackageLicenseExpression>MIT</PackageLicenseExpression-->
     <PackageReleaseNotes>Beta release. What's new:
-      v1.0.1:
+      v1.1.0:
       — SendDocument, GetDocument and GetTicket are working with document classes, not strings.
       — Added GetDocumentText and GetTicketText methods to return strings.
       — Added XmlSerializationHelper class.
