@@ -25462,6 +25462,9 @@ namespace MdlpApiClient
         /// <summary>
         /// 5.1. Отправка документа
         /// </summary>
+        /// <remarks>
+        /// Метод подходит для маленьких документов
+        /// </remarks>
         /// <param name="xmlDocument">Документ в формате XML.</param>
         /// <returns>Идентификатор документа</returns>
         public string SendDocument(string xmlDocument)
@@ -25575,10 +25578,10 @@ namespace MdlpApiClient
         }
 
         /// <summary>
-        /// 5.10. Получение документа по идентификатору
+        /// 5.10. Получение текста документа по идентификатору
         /// </summary>
         /// <param name="documentId">Идентификатор документа</param>
-        public string GetDocument(string documentId)
+        public string GetDocumentText(string documentId)
         {
             var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
             {
@@ -25601,10 +25604,10 @@ namespace MdlpApiClient
         }
 
         /// <summary>
-        /// 5.12. Получение квитанции по номеру исходящего документа
+        /// 5.12. Получение текста квитанции по номеру исходящего документа
         /// </summary>
         /// <param name="documentId">Идентификатор документа</param>
-        public string GetTicket(string documentId)
+        public string GetTicketText(string documentId)
         {
             var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
             {
@@ -25890,6 +25893,7 @@ namespace MdlpApiClient
         internal void Logout()
         {
             Get("auth/logout");
+            IsAuthenticated = false;
         }
 
         /// <summary>
@@ -26964,6 +26968,78 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using MdlpApiClient.Xsd;
+    using MdlpApiClient.Serialization;
+    using System.Text;
+
+    /// <remarks>
+    /// Strongly typed REST API methods. Chapter 5: documents.
+    /// </remarks>
+    partial class MdlpClient
+    {
+        /// <summary>
+        /// 5.1. Отправка объекта документа
+        /// </summary>
+        /// <param name="doc">Объект документа</param>
+        /// <returns>Идентификатор документа</returns>
+        public string SendDocument(Documents doc)
+        {
+            if (!LargeDocumentSize.HasValue)
+            {
+                LargeDocumentSize = GetLargeDocumentSize();
+            }
+
+            // serialize the document and estimate data packet size
+            var xml = XmlSerializationHelper.Serialize(doc, ApplicationName);
+            var xmlBytes = Encoding.UTF8.GetByteCount(xml);
+            var xmlBase64 = 4 * xmlBytes / 3;
+            var overhead = 1024; // requestId + JSON serialization overhead
+            var totalSize = xmlBase64 + SignatureSize + overhead;
+
+            // prefer SendDocument for small documents
+            if (totalSize < LargeDocumentSize)
+            {
+                return SendDocument(xml);
+            }
+
+            return SendLargeDocument(xml);
+        }
+
+        /// <summary>
+        /// Ограничение на размер документа, который можно отсылать методом SendDocument.
+        /// </summary>
+        public int? LargeDocumentSize { get; set; }
+
+        /// <summary>
+        /// Приблизительный размер подписи для оценки размера отсылаемого пакета.
+        /// Размер сигнатуры вычисляется при аутентификации резидента.
+        /// </summary>
+        public int SignatureSize { get; set; }
+
+        /// <summary>
+        /// 5.10. Получение объекта документа по идентификатору
+        /// </summary>
+        /// <param name="documentId">Идентификатор документа</param>
+        public Documents GetDocument(string documentId)
+        {
+            var xml = GetDocumentText(documentId);
+            return XmlSerializationHelper.Deserialize(xml);
+        }
+
+        /// <summary>
+        /// 5.12. Получение объекта квитанции по номеру исходящего документа
+        /// </summary>
+        /// <param name="documentId">Идентификатор документа</param>
+        public Documents GetTicket(string documentId)
+        {
+            var xml = GetTicketText(documentId);
+            return XmlSerializationHelper.Deserialize(xml);
+        }
+    }
+}
+
+namespace MdlpApiClient
+{
     using System;
     using System.Diagnostics;
     using System.Linq;
@@ -26991,6 +27067,16 @@ namespace MdlpApiClient
         /// Stage API HTTPS URL.
         /// </summary>
         public const string StageApiHttps = "https://api.stage.mdlp.crpt.ru/api/v1/";
+
+        /// <summary>
+        /// Sandbox API HTTP URL.
+        /// </summary>
+        public const string SandboxApiHttp = "http://api.sb.mdlp.crpt.ru/api/v1/";
+
+        /// <summary>
+        /// Sandbox API HTTPS URL.
+        /// </summary>
+        public const string SandboxApiHttps = "https://api.sb.mdlp.crpt.ru/api/v1/";
 
         /// <summary>
         /// Initializes a new instance of the MDLP REST API client.
@@ -27029,6 +27115,11 @@ namespace MdlpApiClient
                 Logout();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the application name.
+        /// </summary>
+        public string ApplicationName { get; set; }
 
         /// <summary>
         /// Gets base API URL.
@@ -27692,6 +27783,7 @@ namespace MdlpApiClient
 namespace MdlpApiClient
 {
     using System.Security;
+    using System.Text;
     using DataContracts;
     using MdlpApiClient.Toolbox;
 
@@ -27715,14 +27807,19 @@ namespace MdlpApiClient
             // get authentication code
             var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "SIGNED_CODE");
 
+            // compute the signature and save the size
+            var signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode);
+            apiClient.SignatureSize = Encoding.UTF8.GetByteCount(signature);
+
             // get authentication token
-            return apiClient.GetToken(authCode, signature: GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode));
+            return apiClient.GetToken(authCode, signature: signature);
         }
     }
 }
 
 namespace MdlpApiClient.Serialization
 {
+    using System;
     using RestSharp;
     using RestSharp.Serialization;
     using ServiceStack.Text;
@@ -27732,11 +27829,6 @@ namespace MdlpApiClient.Serialization
     /// </summary>
     internal class ServiceStackSerializer : IRestSerializer
     {
-        //public ServiceStackSerializer()
-        //{
-        //    JsConfig.DateHandler = DateHandler.ISO8601;// ISO8601;
-        //}
-
         public string[] SupportedContentTypes
         {
             get
@@ -27785,6 +27877,103 @@ namespace MdlpApiClient.Serialization
                 scope.DateHandler = DateHandler.UnixTime;
                 return JsonSerializer.SerializeToString(obj);
             }
+        }
+    }
+}
+
+namespace MdlpApiClient.Serialization
+{
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Xml.Linq;
+    using System.Xml.Serialization;
+    using MdlpApiClient.Xsd;
+
+    /// <summary>
+    /// XML serialization helper.
+    /// </summary>
+    public static class XmlSerializationHelper
+    {
+        /// <summary>
+        /// Deserializes the given XML document.
+        /// </summary>
+        /// <param name="docXml">XML document to deserialize.</param>
+        /// <returns>The <see cref="Documents"/> instance.</returns>
+        public static Documents Deserialize(string docXml)
+        {
+            var serializer = new XmlSerializer(typeof(Documents));
+            using (var reader = new StringReader(docXml))
+            {
+                return serializer.Deserialize(reader) as Documents;
+            }
+        }
+
+        /// <summary>
+        /// Serializes the given document to XML string.
+        /// </summary>
+        /// <param name="doc">Document to serialize.</param>
+        /// <param name="comments">Optional comments such as application name and version.</param>
+        /// <returns>Serialized XML document.</returns>
+        public static string Serialize(Documents doc, string comments = null)
+        {
+            var serializer = new XmlSerializer(typeof(Documents));
+            using (var writer = new StringWriter())
+            {
+                serializer.Serialize(writer, doc);
+
+                // add optional comments, etc
+                var xml = writer.GetStringBuilder().ToString();
+                var xdoc = XDocument.Parse(xml);
+
+                // add namespace prefix
+                var by = new XAttribute(XNamespace.Xmlns + "by", PackageUrl);
+                xdoc.Root.ReplaceAttributes(new object[] { by, xdoc.Root.Attributes() });
+
+                // add optional comments
+                if (!string.IsNullOrWhiteSpace(comments))
+                {
+                    var element = xdoc.FirstNode as XElement;
+                    if (element != null && element.FirstNode != null)
+                    {
+                        // <!-- add spaces before and after the text -->
+                        comments = " " + comments.Trim() + " ";
+                        element.FirstNode.AddBeforeSelf(new XComment(comments));
+                    }
+                }
+
+                // ToString skips the XML declaration node
+                return xdoc.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Saves <see cref="XDocument"/> as string preserving the declaration node.
+        /// </summary>
+        /// <param name="xdoc"><see cref="XDocument"/> to save.</param>
+        /// <param name="options"><see cref="SaveOptions"/>, optional.</param>
+        /// <returns>String representation of the given <see cref="XDocument"/>.</returns>
+        internal static string ToXmlString(this XDocument xdoc, SaveOptions options = SaveOptions.None)
+        {
+            var newLine = (options & SaveOptions.DisableFormatting) == SaveOptions.DisableFormatting ? "" : Environment.NewLine;
+            return xdoc.Declaration == null ? xdoc.ToString(options) : xdoc.Declaration + newLine + xdoc.ToString(options);
+        }
+
+        internal static string PackageUrl = GetPackageUrl();
+
+        private static string GetPackageUrl()
+        {
+            // get assembly file version, such as 1.0.2.4
+            var version = typeof(MdlpClient).Assembly
+                .GetCustomAttributes(typeof(AssemblyFileVersionAttribute))
+                .OfType<AssemblyFileVersionAttribute>()
+                .FirstOrDefault()
+                .Version;
+
+            // skip the last part: 1.2.3.x => 1.2.3
+            var index = version.LastIndexOf(".");
+            return "https://www.nuget.org/packages/MdlpApiClient/" + version.Substring(0, index);
         }
     }
 }

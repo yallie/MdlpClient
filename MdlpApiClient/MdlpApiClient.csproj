@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <RootNamespace>MdlpApiClient</RootNamespace>
-    <Description>MDLP REST API client for .NET Framework.</Description>
+    <Description>Честный знак. ИС «Маркировка». МДЛП — MDLP REST API client.</Description>
     <Company>Alexey Yakovlev</Company>
-    <Copyright>Copyright Alexey Yakovlev 2020</Copyright>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <Copyright>Copyright © Alexey Yakovlev 2020</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
     <Authors>Alexey Yakovlev;Contributors</Authors>
 
     <PackageId>MdlpApiClient</PackageId>
@@ -16,6 +17,18 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/yallie/MdlpClient.git</RepositoryUrl>
     <!--PackageLicenseExpression>MIT</PackageLicenseExpression-->
+    <PackageReleaseNotes>Beta release. What's new:
+      v1.0.1:
+      — SendDocument, GetDocument and GetTicket are working with document classes, not strings.
+      — Added GetDocumentText and GetTicketText methods to return strings.
+      — Added XmlSerializationHelper class.
+      — Automatic selection of SendDocument and SendLargeDocument based on the document size.
+      — Sandbox support.
+
+      v1.0.0:
+      — Initial implementation.
+    </PackageReleaseNotes>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup>
