@@ -5,8 +5,9 @@
     <Description>Честный знак. ИС «Маркировка». МДЛП — MDLP REST API client.</Description>
     <Company>Alexey Yakovlev</Company>
     <Copyright>Copyright © Alexey Yakovlev 2020</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.1.0.0</Version>
     <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Authors>Alexey Yakovlev;Contributors</Authors>
 
     <PackageId>MdlpApiClient</PackageId>
