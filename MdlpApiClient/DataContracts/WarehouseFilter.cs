@@ -31,12 +31,12 @@
         /// Дата начала периода фильтрации по дате регистрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата окончания периода фильтрации по дате регистрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
     }
 }

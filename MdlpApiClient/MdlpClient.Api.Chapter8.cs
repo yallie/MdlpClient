@@ -3,6 +3,7 @@
     using System.Net;
     using DataContracts;
     using RestSharp;
+    using ServiceStack.Text;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 8: MDLP information.

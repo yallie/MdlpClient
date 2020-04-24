@@ -4,6 +4,7 @@
     using System.Runtime.Serialization;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using MdlpApiClient.DataContracts;
     using MdlpApiClient.Serialization;
     using MdlpApiClient.Toolbox;
     using MdlpApiClient.Xsd;
@@ -69,6 +70,43 @@
         }
 
         #endregion
+
+        [DataContract]
+        public class CustomThing
+        {
+            [DataMember(Name = "from")]
+            public CustomDateTime From { get; set; }
+            [DataMember(Name = "to")]
+            public CustomDateTime To { get; set; }
+            [DataMember(Name = "now")]
+            public CustomDateTime Now { get; set; }
+            [DataMember(Name = "then")]
+            public CustomDateTime Then { get; set; }
+        }
+
+        [Test]
+        public void CustomDateTimeSerialization()
+        {
+            // implicit conversion from date/to string
+            CustomDateTime dt = new DateTime(2020, 04, 24, 1, 2, 3);
+            string s = dt;
+            Assert.AreEqual("2020-04-24T01:02:03Z", s);
+
+            var thing = new CustomThing
+            {
+                From = new DateTime(2020, 04, 24, 1, 2, 3),
+                Now = new DateTime?(new DateTime(2019, 12, 24, 1, 2, 3)),
+                Then = new DateTime?(),
+            };
+
+            var ss = new ServiceStackSerializer();
+            var json = ss.Serialize(thing);
+            Assert.NotNull(json);
+            WriteLine(JsonFormatter.FormatJson(json));
+
+            var obj = ss.Deserialize<CustomThing>(new RestResponse() { Content = json });
+            Assert.NotNull(obj);
+        }
 
         [Test]
         public void XmlSerializationTest()
