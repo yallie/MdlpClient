@@ -95,7 +95,7 @@
             {
                 DocType = 311,
                 DocStatus = DocStatusEnum.FAILED_RESULT_READY,
-            }, 
+            },
             startFrom: 0, count: 10);
 
             Assert.IsNotNull(docs);
@@ -111,7 +111,7 @@
             {
                 DocType = 607,
                 DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
-                ProcessedDateFrom = DateTime.Now.AddYears(-1)
+                ProcessedDateFrom = DateTime.Now.AddYears(-100)
             },
             startFrom: 0, count: 10);
 

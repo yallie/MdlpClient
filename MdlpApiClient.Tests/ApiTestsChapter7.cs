@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient.Tests
 {
+    using System;
     using System.Linq;
     using System.Net;
     using MdlpApiClient.DataContracts;
@@ -92,7 +93,9 @@
         {
             var licenses = Client.GetProductionLicenses(new LicenseApiFilter
             {
-                LicenseNumber = "ЛС-000613"
+                LicenseNumber = "ЛС-000613",
+                StartDateFrom = DateTime.Now.AddYears(-100),
+                StartDateTo = DateTime.Now,
             }, 0, 10);
             Assert.NotNull(licenses);
             Assert.NotNull(licenses.Entries);
@@ -212,6 +215,8 @@
             {
                 ProductName = "трастузумаб",
                 RegistrationID = "ЛП-003403",
+                RegistrationDateFrom = DateTime.Now.AddYears(-100),
+                RegistrationDateTo = DateTime.Now
             }, 0, 1);
             Assert.NotNull(esklp);
             Assert.NotNull(esklp.Entries);
@@ -230,7 +235,7 @@
         {
             var customsPoints = Client.GetCustomsPoints(new CustomsPointsFilter
             {
-                CustomsCode = "10311000"
+                CustomsCode = "10311000",
             }, 0, 1);
             Assert.NotNull(customsPoints);
             Assert.NotNull(customsPoints.Entries);

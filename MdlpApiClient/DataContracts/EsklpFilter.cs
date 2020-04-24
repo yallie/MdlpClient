@@ -14,13 +14,13 @@
         /// Дата гос. регистрации, начальная дата
         /// </summary>
         [DataMember(Name = "REG_DATE", IsRequired = false)]
-        public DateTime? RegistrationDateFrom { get; set; }
+        public CustomDateTime RegistrationDateFrom { get; set; }
 
         /// <summary>
         /// Дата гос. регистрации, конечная дата
         /// </summary>
         [DataMember(Name = "REG_END_DATE", IsRequired = false)]
-        public DateTime? RegistrationDateTo { get; set; }
+        public CustomDateTime RegistrationDateTo { get; set; }
 
         /// <summary>
         /// Номер регистрационного удостоверения

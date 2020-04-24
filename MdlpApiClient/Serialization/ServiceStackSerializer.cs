@@ -17,6 +17,8 @@ namespace MdlpApiClient.Serialization
             // use custom serialization only for our own types
             JsConfig<CustomDateTime>.SerializeFn = c => c;
             JsConfig<CustomDateTime>.DeSerializeFn = s => CustomDateTime.Parse(s);
+            JsConfig<CustomDate>.SerializeFn = c => c;
+            JsConfig<CustomDate>.DeSerializeFn = s => CustomDate.Parse(s);
         }
 
         public string[] SupportedContentTypes

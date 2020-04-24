@@ -154,7 +154,11 @@
             // поиск без фильтра Sgtin: elapsed: 00:00:09.8758950
             var sgtins = Client.GetSgtins(new SgtinFilter
             {
-                Sgtin = "04607028394287PQ28I2DHQDF1V"
+                Sgtin = "04607028394287PQ28I2DHQDF1V",
+                EmissionDateFrom = DateTime.Now.AddYears(-100),
+                EmissionDateTo = DateTime.Now,
+                LastTracingDateFrom = DateTime.Now.AddYears(-100),
+                LastTracingDateTo = DateTime.Now,
             },
             startFrom: 0, count: 10);
 
@@ -268,7 +272,9 @@
             // поискал с фильтром null, чтобы найти хоть какой-нибудь
             var sgtins = Client.GetSgtinsOnHold(new SgtinOnHoldFilter
             {
-                Sgtin = "061017000000000000000000006"
+                Sgtin = "061017000000000000000000006",
+                ReleaseDateFrom = DateTime.Now.AddYears(-100),
+                ReleaseDateTo = DateTime.Now,
             }, 0, 1);
 
             Assert.IsNotNull(sgtins);
@@ -294,7 +300,9 @@
         {
             var sgtins = Client.GetSgtinsKktAwaitingWithdrawal(new SgtinAwaitingWithdrawalFilter
             {
-                Sgtin = "061017000000000000000000006"
+                Sgtin = "061017000000000000000000006",
+                StartDate = DateTime.Now.AddYears(-100),
+                EndDate = DateTime.Now,
             }, 0, 1);
             Assert.NotNull(sgtins);
 
@@ -308,7 +316,9 @@
         {
             var sgtins = Client.GetSgtinsDeviceAwaitingWithdrawal(new SgtinAwaitingWithdrawalFilter
             {
-                Sgtin = "061017000000000000000000006"
+                Sgtin = "061017000000000000000000006",
+                StartDate = DateTime.Now.AddYears(-100),
+                EndDate = DateTime.Now,
             }, 0, 1);
             Assert.NotNull(sgtins);
 
@@ -352,7 +362,9 @@
         {
             var medProducts = Client.GetCurrentMedProducts(new MedProductsFilter
             {
-                Gtin = "04607028394287"
+                Gtin = "04607028394287",
+                RegistrationDateFrom = DateTime.Now.AddYears(-100),
+                RegistrationDateTo = DateTime.Now
             }, 0, 1);
 
             Assert.NotNull(medProducts);
@@ -448,6 +460,8 @@
             var counterparties = Client.GetForeignCounterparties(new ForeignCounterpartyFilter
             {
                 Inn = "56887455222583",
+                RegistrationDateFrom = DateTime.Now.AddYears(-100),
+                RegistrationDateTo = DateTime.Now,
             }, 0, 10);
 
             // похоже, метод возвращает все регистрации: и успешные, и неуспешные
@@ -519,7 +533,13 @@
         public void Chapter8_08_1_GetForeignPartners()
         {
             // вернуть первые 10 зарегистрированных иностранных контрагентов
-            var partners = Client.GetForeignPartners(null, 0, 10);
+            var partners = Client.GetForeignPartners(new PartnerFilter
+            {
+                StartDate = DateTime.Now.AddYears(-100),
+                EndDate = DateTime.Now,
+                OperationStartDate = DateTime.Now.AddYears(-100),
+                OperationEndDate = DateTime.Now,
+            }, 0, 10);
             Assert.NotNull(partners);
             Assert.NotNull(partners.Entries);
             Assert.IsTrue(partners.Total > 1);
@@ -631,7 +651,12 @@
         [Test]
         public void Chapter8_10_1_GetEmissionDevices()
         {
-            var devices = Client.GetEmissionDevices(null, 0, 10);
+            var devices = Client.GetEmissionDevices(new EmissionDeviceFilter
+            {
+                ProvisionStartDate = DateTime.Now.AddYears(-100),
+                ProvisionEndDate = DateTime.Now,
+            }, 0, 10);
+
             Assert.NotNull(devices);
             Assert.NotNull(devices.Entries);
             Assert.AreEqual(0, devices.Total);
@@ -643,7 +668,11 @@
         [Test]
         public void Chapter8_10_2_GetWithdrawalDevices()
         {
-            var devices = Client.GetWithdrawalDevices(null, 0, 10);
+            var devices = Client.GetWithdrawalDevices(new WithdrawalDeviceFilter
+            {
+                ProvisionStartDate = DateTime.Now.AddYears(-100),
+                ProvisionEndDate = DateTime.Now,
+            }, 0, 10);
             Assert.NotNull(devices);
             Assert.NotNull(devices.Entries);
             Assert.AreEqual(0, devices.Total);
@@ -658,7 +687,9 @@
                 // "00000000100930" returns error 500
                 // "00000000000551" returns 0 entries
                 // 00000000100946 00000000100964
-                StorageID = "00000000100931"
+                StorageID = "00000000100931",
+                StartDate = DateTime.Now.AddYears(-100),
+                EndDate = DateTime.Now,
             }, 0, 10);
 
             Assert.NotNull(balance);
@@ -673,7 +704,11 @@
         {
             var decisions = Client.GetPausedCirculationDecisions(new PausedCirculationDecisionFilter
             {
-                Gtin = "04610020540019"
+                Gtin = "04610020540019",
+                StartHaltDate = DateTime.Now.AddYears(-100),
+                EndHaltDate = DateTime.Now,
+                StartHaltDocDate = DateTime.Now.AddYears(-100),
+                EndHaltDocDate = DateTime.Now,
             }, 0, 10);
             Assert.NotNull(decisions);
             Assert.NotNull(decisions.Entries);

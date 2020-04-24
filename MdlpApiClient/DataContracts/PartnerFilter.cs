@@ -62,13 +62,13 @@
         /// Дата заявки на регистрацию, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата заявки на регистрацию, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
 
         /// <summary>
         /// Тип участника, см. <see cref="RegEntityTypeEnum"/>:
@@ -84,12 +84,12 @@
         /// Дата фактической регистрации, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "op_exec_date_start", IsRequired = false)]
-        public DateTime? OperationStartDate { get; set; }
+        public CustomDateTime OperationStartDate { get; set; }
 
         /// <summary>
         /// Дата фактической регистрации, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "op_exec_date_end", IsRequired = false)]
-        public DateTime? OperationEndDate { get; set; }
+        public CustomDateTime OperationEndDate { get; set; }
     }
 }

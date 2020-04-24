@@ -19,13 +19,13 @@
         /// Дата предоставления, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "provision_start_date", IsRequired = false)]
-        public DateTime? ProvisionStartDate { get; set; }
+        public CustomDate ProvisionStartDate { get; set; }
 
         /// <summary>
         /// Дата предоставления, окончание периода фильтрации
         /// </summary>
         [DataMember(Name = "provision_end_date", IsRequired = false)]
-        public DateTime? ProvisionEndDate { get; set; }
+        public CustomDate ProvisionEndDate { get; set; }
 
         /// <summary>
         /// Тип размещения

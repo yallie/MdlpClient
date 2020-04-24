@@ -51,24 +51,24 @@
         /// Дата решения, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "start_halt_doc_date", IsRequired = false)]
-        public DateTime? StartHaltDocDate { get; set; }
+        public CustomDateTime StartHaltDocDate { get; set; }
 
         /// <summary>
         /// Дата решения, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "end_halt_doc_date", IsRequired = false)]
-        public DateTime? EndHaltDocDate { get; set; }
+        public CustomDateTime EndHaltDocDate { get; set; }
 
         /// <summary>
         /// Дата вступления в силу, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "start_halt_date", IsRequired = false)]
-        public DateTime? StartHaltDate { get; set; }
+        public CustomDateTime StartHaltDate { get; set; }
 
         /// <summary>
-        /// ДДата вступления в силу, конец периода фильтрации
+        /// Дата вступления в силу, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "end_halt_date", IsRequired = false)]
-        public DateTime? EndHaltDate { get; set; }
+        public CustomDateTime EndHaltDate { get; set; }
     }
 }

@@ -26,12 +26,12 @@
         /// Дата операции из чека, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "op_start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата операции из чека, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "op_end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
     }
 }
