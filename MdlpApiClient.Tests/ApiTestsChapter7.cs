@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Net;
+    using System.Threading;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
 
@@ -107,7 +108,7 @@
             AssertRequired(license);
         }
 
-        [Test]
+        [Test, Explicit("Request limit exceeded! You should follow time limits between method invocations!")]
         public void Chapter7_06_3_ResyncProductionLicenses()
         {
             Assert.DoesNotThrow(() => Client.ResyncProductionLicenses());
@@ -131,7 +132,7 @@
             Assert.AreEqual(0, licenses.Entries.Length);
         }
 
-        [Test]
+        [Test, Explicit("Request limit exceeded! You should follow time limits between method invocations!")]
         public void Chapter7_07_3_ResyncPharmacyLicenses()
         {
             Assert.DoesNotThrow(() => Client.ResyncPharmacyLicenses());

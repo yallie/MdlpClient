@@ -41,12 +41,20 @@
         [DataMember(Name = "path")] // "/api/v1/reestr/shtuchek/dryuchek"
         public string Path { get; set; }
 
-        // And sometimes it's like { error_description }
+        // And sometimes it's like { error_description: "hey" }
 
         /// <summary>
         /// Сообщение об ошибке, текстовое представление
         /// </summary>
         [DataMember(Name = "error_description")] // "Ошибка такая-то с подробностями",
         public string Description { get; set; }
+
+        // And sometimes it's like { success: false, violations: ["one", "two", "three"] }
+
+        [DataMember(Name = "success")]
+        public bool Success { get; set; }
+
+        [DataMember(Name = "violations")]
+        public string[] Violations { get; set; }
     }
 }

@@ -71,6 +71,31 @@
         }
 
         [Test]
+        public void Chapter6_01_03_RegisterUserWithWeakPassword()
+        {
+            // зарегистрировать можно только один раз
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var userId = Client.RegisterUser(SystemID, new NonResidentUser
+                {
+                    FirstName = "Alex",
+                    LastName = "Leonov",
+                    Email = "asd2@asd.com",
+                    Password = "buzzword"
+                });
+
+                Assert.IsNotNull(userId);
+            });
+
+            Assert.AreEqual(HttpStatusCode.Conflict, ex.StatusCode);
+            Assert.NotNull(ex.ErrorResponse);
+            Assert.NotNull(ex.ErrorResponse.Violations);
+            Assert.IsTrue(ex.ErrorResponse.Violations.Contains("UPPER_REQUIRED"));
+            Assert.IsTrue(ex.ErrorResponse.Violations.Contains("NUM_REQUIRED"));
+            Assert.IsTrue(ex.ErrorResponse.Violations.Contains("SPECIAL_REQUIRED"));
+        }
+
+        [Test]
         public void Chapter6_01_03_RegisterUser()
         {
             // зарегистрировать можно только один раз
@@ -81,7 +106,7 @@
                     FirstName = "Neil",
                     LastName = "Armstrong",
                     Email = "asd1@asd.com",
-                    Password = "password"
+                    Password = "Pass-w0rd"
                 });
 
                 Assert.IsNotNull(userId);
