@@ -22,6 +22,7 @@ unit_tests:
     # choco install codecov
   script:
     - dotnet test --logger "trx;LogFileName=TestResults.trx"
+    - echo "Converting TRX test results to JUnit XML format..."
     - trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
   artifacts:
     paths:
