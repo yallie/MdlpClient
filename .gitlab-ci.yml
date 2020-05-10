@@ -26,7 +26,7 @@ unit_tests:
     # original test command line --
     # dotnet test --logger "trx;LogFileName=TestResults.trx"
     # don't use -returntargetcode for now
-    - "OpenCover.Console.exe -register:administrator -target:dotnet.exe -targetargs:'test --logger=trx;LogFileName=TestResults.trx' -filter:'+[*]* -[*Test*]*' -output:MdlpCoverage.xml"
+    - 'cmd /c OpenCover.Console.exe -register:administrator -target:dotnet.exe -targetargs:"test --logger=trx;LogFileName=TestResults.trx" -filter:"+[*]* -[*Test*]*" -output:MdlpCoverage.xml'
     - codecov -f "MdlpCoverage.xml"
     - echo "Converting TRX test results to JUnit XML format..."
     - trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
