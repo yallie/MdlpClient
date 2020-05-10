@@ -17,7 +17,7 @@ unit_tests:
   stage: unit tests
   before_script:
     - echo "Normal build -- running unit tests with coverage..."
-    - dotnet tool install -g trx2junit
+    # dotnet tool install -g trx2junit
     # choco install opencover.portable
     # choco install codecov
   script:
