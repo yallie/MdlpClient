@@ -32,7 +32,7 @@ unit_tests:
     expire_in: 1 day
 
 codecov:
- state: coverage report
+ stage: coverage report
  before_script:
  script:
    - echo "TODO -- upload coverage report to codecov.io"
