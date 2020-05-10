@@ -35,4 +35,4 @@ codecov:
  state: coverage report
  before_script:
  script:
-   - echo "TODO: upload coverage report to codecov.io"
+   - echo "TODO -- upload coverage report to codecov.io"
