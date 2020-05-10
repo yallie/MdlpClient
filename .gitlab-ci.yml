@@ -1,0 +1,38 @@
+variables:
+  GIT_CLEAN_FLAGS: none # disable git clean on every stage
+
+stages:
+  - build
+  - unit tests
+  - coverage report
+
+build:
+  stage: build
+  before_script:
+    - git clean -ffdx -e SomeDirectoryToIgnore/
+  script:
+    - dotnet build
+
+unit_tests:
+  stage: unit tests
+  before_script:
+    - echo "Normal build -- running unit tests with coverage..."
+    - dotnet tool install -g trx2junit
+    # choco install opencover.portable
+    # choco install codecov
+  script:
+    - dotnet test --logger "trx;LogFileName=TestResults.trx"
+    - trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
+  artifacts:
+    paths:
+      - MdlpApiClient.Tests\TestResults\TestResults.trx 
+      - MdlpApiClient.Tests\TestResults\TestResults.xml
+    reports:
+      junit: MdlpApiClient.Tests\TestResults\TestResults.xml
+    expire_in: 1 day
+
+codecov:
+ state: coverage report
+ before_script:
+ script:
+   - echo "TODO: upload coverage report to codecov.io"
