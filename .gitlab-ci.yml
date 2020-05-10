@@ -1,5 +1,6 @@
 variables:
   GIT_CLEAN_FLAGS: none # disable git clean on every stage
+  CODECOV_TOKEN: "064fad14-0241-4b7a-9c86-ab7b5ed067a3"
 
 stages:
   - build
@@ -17,11 +18,16 @@ unit_tests:
   stage: unit tests
   before_script:
     - echo "Normal build -- running unit tests with coverage..."
+    # how to install the tools --
     # dotnet tool install -g trx2junit
     # choco install opencover.portable
     # choco install codecov
   script:
-    - dotnet test --logger "trx;LogFileName=TestResults.trx"
+    # original test command line --
+    # dotnet test --logger "trx;LogFileName=TestResults.trx"
+    # don't use -returntargetcode for now
+    - OpenCover.Console.exe -register:administrator -target:"dotnet" -targetargs:"test --logger trx;LogFileName=TestResults.trx" -filter:"+[*]* -[*Test*]*" -output:".\MdlpCoverage.xml"
+    - codecov -f "MdlpCoverage.xml"
     - echo "Converting TRX test results to JUnit XML format..."
     - trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
   artifacts:
