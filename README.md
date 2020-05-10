@@ -2,6 +2,7 @@
 
 [![MDLP REST API Client v3.05](https://img.shields.io/badge/честный%20знак-v3.05-yellowgreen)](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)
 [![.NET Framework 4.62](https://img.shields.io/badge/.net-v4.62-yellow)](https://www.microsoft.com/ru-RU/download/details.aspx?id=53321)
+[![Code Coverage](https://codecov.io/gh/yallie/mdlpclient/branch/master/graph/badge.svg)](https://codecov.io/gh/yallie/mdlpclient)
 [![Unit tests](https://img.shields.io/badge/build%20passing-128%20tests-brightgreen)](https://github.com/yallie/MdlpClient/tree/master/MdlpApiClient.Tests)
 [![Code quality](https://img.shields.io/codefactor/grade/github/yallie/MdlpClient)](https://www.codefactor.io/repository/github/yallie/mdlpclient)
 [![NuGet](https://img.shields.io/nuget/v/MdlpApiClient.svg)](https://www.nuget.org/packages/MdlpApiClient)
