@@ -33,8 +33,12 @@
 
         static UnitTestsBase()
         {
-            // for unit tests: use current user's certificates
-            GostCryptoHelpers.DefaultStoreLocation = StoreLocation.CurrentUser;
+            // detect CI runner environment
+            var ci = Environment.GetEnvironmentVariable("GITLAB_CI") != null;
+
+            // for continuous integration: use certificates installed on the local machine
+            // for unit tests run inside Visual Studio: use current user's certificates
+            GostCryptoHelpers.DefaultStoreLocation = ci ? StoreLocation.LocalMachine : StoreLocation.CurrentUser;
         }
 
         public UnitTestsBase()
