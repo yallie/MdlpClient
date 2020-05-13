@@ -1,11 +1,12 @@
 variables:
   GIT_CLEAN_FLAGS: none # disable git clean on every stage
   CODECOV_TOKEN: "064fad14-0241-4b7a-9c86-ab7b5ed067a3"
+  GITHUB_REPO: https://github.com/yallie/MdlpClient.git
 
 stages:
   - build
   - unit tests
-  - coverage report
+  - push
 
 build:
   stage: build
@@ -29,8 +30,6 @@ unit_tests:
     # 'OpenCover.Console.exe -register:administrator -target:dotnet.exe -targetargs:"test --logger=trx;LogFileName=TestResults.trx" -filter:"+[*]* -[*Test*]*" -output:MdlpCoverage.xml'
     # codecov -f "MdlpCoverage.xml"
     - powershell /file .\Scripts\Coverage.ps1
-    - echo "Converting TRX test results to JUnit XML format..."
-    - trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
   artifacts:
     paths:
       - MdlpApiClient.Tests\TestResults\TestResults.trx 
@@ -39,8 +38,10 @@ unit_tests:
       junit: MdlpApiClient.Tests\TestResults\TestResults.xml
     expire_in: 1 day
 
-codecov:
- stage: coverage report
- before_script:
- script:
-   - echo "TODO -- upload coverage report to codecov.io"
+mirror:
+  stage: push
+  before_script:
+    - echo "Push changes to github mirror..."
+  script:
+    - powershell /file .\Scripts\Remote.ps1 -remote github -url $GITHUB_REPO -user yallie -token $GITHUB_TOKEN
+    - git push github
