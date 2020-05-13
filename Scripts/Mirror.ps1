@@ -37,4 +37,8 @@ git fetch
 
 echo "Pushing to $remote..."
 git push $remote
+$code = $lastexitcode
 popd
+
+# fail the pipeline if push failed
+exit $code
