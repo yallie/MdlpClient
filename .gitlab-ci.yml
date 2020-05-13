@@ -15,7 +15,6 @@ build:
   before_script:
     - git clean -ffdx -e $MIRROR_DIR/
   script:
-    - exit
     - dotnet build
 
 unit_tests:
@@ -32,7 +31,6 @@ unit_tests:
     # don't use -returntargetcode for now
     # 'OpenCover.Console.exe -register:administrator -target:dotnet.exe -targetargs:"test --logger=trx;LogFileName=TestResults.trx" -filter:"+[*]* -[*Test*]*" -output:MdlpCoverage.xml'
     # codecov -f "MdlpCoverage.xml"
-    - exit
     - Scripts\Coverage.ps1
   artifacts:
     paths:
