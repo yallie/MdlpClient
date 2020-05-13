@@ -11,4 +11,4 @@ codecov -t "064fad14-0241-4b7a-9c86-ab7b5ed067a3" -f MdlpCoverage.xml
 trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
 
 # return dotnet test exit code
-exit $exit
+# exit $exit
