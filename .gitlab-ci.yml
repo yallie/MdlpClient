@@ -1,7 +1,9 @@
 variables:
   GIT_CLEAN_FLAGS: none # disable git clean on every stage
   CODECOV_TOKEN: "064fad14-0241-4b7a-9c86-ab7b5ed067a3"
+  MIRROR_DIR: .mirror
   GITHUB_REPO: https://github.com/yallie/MdlpClient.git
+  GITHUB_USER: yallie
 
 stages:
   - build
@@ -11,7 +13,7 @@ stages:
 build:
   stage: build
   before_script:
-    - git clean -ffdx -e .mirror/
+    - git clean -ffdx -e $MIRROR_DIR/
   script:
     - exit
     - dotnet build
@@ -46,9 +48,9 @@ mirror:
     - echo "Push changes to github mirror..."
   script:
     - Scripts\Mirror.ps1 
-      -dir    .mirror
       -remote github
       -repo   $CI_REPOSITORY_URL 
+      -dir    $MIRROR_DIR
       -url    $GITHUB_REPO
-      -user   yallie
+      -user   $GITHUB_USER
       -token  $GITHUB_TOKEN
