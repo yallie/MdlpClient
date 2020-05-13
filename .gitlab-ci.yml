@@ -34,13 +34,13 @@ unit_tests:
     # codecov -f "MdlpCoverage.xml"
     - exit
     - Scripts\Coverage.ps1
-#  artifacts:
-#    paths:
-#      - MdlpApiClient.Tests\TestResults\TestResults.trx 
-#      - MdlpApiClient.Tests\TestResults\TestResults.xml
-#    reports:
-#      junit: MdlpApiClient.Tests\TestResults\TestResults.xml
-#    expire_in: 1 day
+  artifacts:
+    paths:
+      - MdlpApiClient.Tests\TestResults\TestResults.trx 
+      - MdlpApiClient.Tests\TestResults\TestResults.xml
+    reports:
+      junit: MdlpApiClient.Tests\TestResults\TestResults.xml
+    expire_in: 1 day
 
 mirror:
   stage: mirror

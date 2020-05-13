@@ -36,5 +36,5 @@ echo "Fetching updates to the mirror..."
 git fetch
 
 echo "Pushing to $remote..."
-git push $remote -n
+git push $remote
 popd
