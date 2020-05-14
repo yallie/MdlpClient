@@ -151,3 +151,17 @@ https://www.cryptopro.ru/ui/Register/RegGetSubject.asp
 ### 25. Выбор хранилища
 
 Дальше снова следует запрос типа и расположения хранилища:
+
+![Тип хранилища](https://github.com/yallie/MdlpClient/blob/master/Docs/Certificates/screenshots/39-PushkinCertificate.png?raw=true)
+
+### 26. Пароль от хранилища
+
+Тут нужно придумать новый пароль, под которым ключ будет защищен уже в постоянном хранилище:
+
+![Пароль от хранилища](https://github.com/yallie/MdlpClient/blob/master/Docs/Certificates/screenshots/40-PushkinCertificate.png?raw=true)
+
+### 27. Проверьте установленный сертификат
+
+После импорта сертификата с ключом можно проверить его свойства в хранилище. Убедитесь, что на иконке сертификата показан ключик, а в свойствах сертификата написано: You have a private key that corresponds to this certificate. A certificate that has a corresponding private key is also known as a digital ID:
+
+![Пароль от хранилища](https://github.com/yallie/MdlpClient/blob/master/Docs/Certificates/screenshots/43-PushkinCertificate.png?raw=true)
