@@ -12,11 +12,13 @@
     public class UnitTestsBase : IDisposable
     {
         // MDLP test stage data
-        public const string SystemID = "9dedee17-e43a-47f1-910e-3a88ff6bc81b"; // идентификатор субъекта обращения
+        public const string SystemID1 = "9dedee17-e43a-47f1-910e-3a88ff6bc81b"; // идентификатор субъекта обращения
         public const string ClientID1 = "01db16f2-9a4e-4d9f-b5e8-c68f12566fd5"; // идентификатор учетной системы
         public const string ClientSecret1 = "9199fe04-42c3-4e81-83b5-120eb5f129f2"; // секретный ключ учетной системы
         public const string UserStarter1 = "starter_resident_1"; // имя тестового пользователя
         public const string UserPassword1 = "password"; // пароль тестового пользователя
+
+        public const string SystemID2 = "6f6fa779-b637-4234-9117-8ac4c1a9a81c";
         public const string ClientID2 = "c9c307fd-dcb0-4505-8178-13ba2f362339";
         public const string ClientSecret2 = "4d3a2f91-992f-4604-a8a1-71378a1eb75e";
         public const string UserStarter2 = "starter_resident_2";
