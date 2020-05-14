@@ -14,9 +14,8 @@
 
 # Инструкция по быстрому старту
 
-Прочитайте эту инструкцию, чтобы настроить окружение для работы с API:
-
-https://честныйзнак.рф/upload/iblock/25b/Kratkaya_instruktsiya_po_bystromu_startu_dlya_izucheniya_API.pdf
+1. Прочитайте эту инструкцию, чтобы настроить окружение для работы с API: [PDF](https://честныйзнак.рф/upload/iblock/25b/Kratkaya_instruktsiya_po_bystromu_startu_dlya_izucheniya_API.pdf)  
+2. Регистрация тестовой электронной подписи УКЭП в деталях [описана тут](https://github.com/yallie/MdlpClient/blob/master/Docs/Certificates/CreateTestCertificate.md).
 
 # Как использовать REST API-клиент
 
