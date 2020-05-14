@@ -70,6 +70,41 @@
             Assert.AreEqual("Ошибка при выполнении операции: пользователь с данным email уже зарегистрирован", ex.Message);
         }
 
+        private string RegisterMdlpTestUser(MdlpClient client, int number)
+        {
+            return client.RegisterUser(SystemID, new NonResidentUser
+            {
+                FirstName = "mdlp",
+                MiddleName = "api",
+                LastName = "client",
+                Email = "mdlp" + number + "@mdlpclient.github.com",
+                Password = "MdlpClient-Pa55w0rd"
+            });
+        }
+
+        [Test, Explicit]
+        public void RegisterMdlpTestUser()
+        {
+            // starter_resident_1 and starter_resident2 are blocked, so use another account instead
+            var client = new MdlpClient(credentials: new ResidentCredentials
+            {
+                ClientID = ClientID1,
+                ClientSecret = ClientSecret1,
+                UserID = TestUserThumbprint,
+            },
+            baseUrl: MdlpClient.StageApiHttps)
+            {
+                Tracer = WriteLine
+            };
+
+            // register new test users to use instead of starter_resident1/2
+            using (client)
+            {
+                WriteLine("MDLP Test user1: {0}", RegisterMdlpTestUser(client, 1));
+                WriteLine("MDLP Test user2: {0}", RegisterMdlpTestUser(client, 2));
+            }
+        }
+
         [Test]
         public void Chapter6_01_03_RegisterUserWithWeakPassword()
         {
