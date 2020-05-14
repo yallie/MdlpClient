@@ -29,7 +29,8 @@ https://честныйзнак.рф/upload/iblock/25b/Kratkaya_instruktsiya_po_b
 ``` 
 
 4. Добавить в проект Nuget-пакет: https://www.nuget.org/packages/MdlpApiClient
-5. Проверить вызовы API по документу «Быстрый старт».
+5. Завести себе тестовый УКЭП по этой [инструкции](https://github.com/yallie/MdlpClient/blob/master/Docs/Certificates/CreateTestCertificate.md).
+6. Проверить вызовы API по документу «Быстрый старт».
 
 ## Авторизация тестовым участником
 
