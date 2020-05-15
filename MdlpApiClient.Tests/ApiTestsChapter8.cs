@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using MdlpApiClient.DataContracts;
@@ -160,7 +161,7 @@
                 LastTracingDateFrom = DateTime.Now.AddYears(-100),
                 LastTracingDateTo = DateTime.Now,
             },
-            startFrom: 0, count: 10);
+            startFrom: 0, count: 1);
 
             Assert.IsNotNull(sgtins);
             Assert.AreEqual(1, sgtins.Entries.Length);
@@ -328,7 +329,7 @@
         }
 
         [Test]
-        public void Chapter8_04_1_GetSsccHierarchy()
+        public void Chapter8_04_1_GetSsccHierarchy_NotFound()
         {
             // пример из документации не найден: 201902251235570000
             // пример из документации вызывает ошибку: NUEMOESSCC00000001
@@ -343,8 +344,102 @@
             Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
         }
 
+        private IEnumerable<string> GetTestCodes(Func<SgtinExtended, string> getCode)
+        {
+            var endDate = DateTime.Now;
+            while (true)
+            {
+                // travel back in time
+                var startDate = endDate.AddDays(-100);
+                var sgtins = Client.GetSgtins(new SgtinFilter
+                {
+                    EmissionDateFrom = startDate,
+                    EmissionDateTo = endDate,
+                },
+                startFrom: 0, count: 400);
+
+                // look for non-empty properties
+                Assert.IsNotNull(sgtins);
+                foreach (var sgtin in sgtins.Entries.Where(s => getCode(s) != null))
+                {
+                    yield return getCode(sgtin);
+                }
+
+                endDate = startDate;
+            }
+        }
+
+        [Test, Explicit]
+        public void ThereAreSomeSsccs()
+        {
+            var sscc = GetTestCodes(s => s.Sscc).Take(50).ToArray();
+            foreach (var s in sscc)
+            {
+                Assert.IsNotNull(s);
+                WriteLine(s);
+            }
+        }
+
+        private string GetRandomSsccCodeWithHierarchy()
+        {
+            // как получить любой sscc-код из базы тестового стенда
+            //var code = GetTestCodes(s => s.Sscc).First();
+
+            // как получить интересный sscc-код с помощью GetTestCodes:
+            var codes = GetTestCodes(s =>
+            {
+                var sscc = s.Sscc;
+                if (string.IsNullOrWhiteSpace(sscc))
+                {
+                    return null;
+                }
+
+                // метод GetSsccHierarchy разрешается вызывать раз в 5 секунд
+                System.Threading.Thread.Sleep(5000);
+                var h = Client.GetSsccHierarchy(sscc);
+
+                // если нет иерархии, то это неинтересный код
+                if (h == null || h.Up.Length < 1 || h.Down.Length < 1)
+                {
+                    return null;
+                }
+
+                // пусть будет хотя бы 3 пункта в иерархии
+                if (h.Up.Length + h.Down.Length < 3)
+                {
+                    return null;
+                }
+
+                return sscc;
+            });
+
+            // может занять довольно продолжительное время!
+            var code = codes.First();
+            WriteLine(code);
+            return code;
+        }
+
         [Test]
-        public void Chapter8_04_2_GetSsccSgtins()
+        public void Chapter8_04_1_GetSsccHierarchy_Found()
+        {
+            // реально существующий, но неинтересный код: 246070020300009887
+            var ssccs = Client.GetSsccHierarchy("000000111100000097");
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Up);
+            Assert.NotNull(ssccs.Down);
+
+            Assert.AreEqual(2, ssccs.Up.Length);
+            Assert.AreEqual(1, ssccs.Down.Length);
+            Assert.IsNull(ssccs.ErrorCode);
+            Assert.IsNull(ssccs.ErrorDescription);
+
+            Assert.AreEqual("000000111100000097", ssccs.Up[0].Sscc);
+            Assert.AreEqual("000000111100000100", ssccs.Up[1].Sscc);
+            Assert.AreEqual("000000111100000097", ssccs.Down[0].Sscc);
+        }
+
+        [Test]
+        public void Chapter8_04_2_GetSsccSgtins_NotFound()
         {
             // пример из документации не найден: 201902251235570000
             // пример из документации вызывает ошибку: NUEMOESSCC00000001
@@ -358,7 +453,22 @@
         }
 
         [Test]
-        public void Chapter8_04_3_GetSsccFullHierarchy()
+        public void Chapter8_04_2_GetSsccSgtins_Found()
+        {
+            var ssccs = Client.GetSsccSgtins("246070020300009887", null, 0, 1);
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Entries);
+
+            Assert.AreEqual(1, ssccs.Entries.Length);
+            Assert.IsNull(ssccs.ErrorCode);
+            Assert.IsNull(ssccs.ErrorDescription);
+
+            Assert.NotNull(ssccs.Entries[0]);
+            Assert.AreEqual("046070283942870000012700984", ssccs.Entries[0].SgtinValue);
+        }
+
+        [Test]
+        public void Chapter8_04_3_GetSsccFullHierarchy_NotFound()
         {
             // примеры из документации вызывают ошибку 404: 201902251235570000
             var ex = Assert.Throws<MdlpException>(() =>
@@ -373,6 +483,18 @@
             });
 
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
+        }
+
+        [Test]
+        public void Chapter8_04_3_GetSsccFullHierarchy_Found()
+        {
+            var ssccs = Client.GetSsccFullHierarchy("000000111100000097");
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Up);
+            Assert.NotNull(ssccs.Down);
+
+            Assert.AreEqual(0, ssccs.Up.Length);
+            Assert.AreEqual(0, ssccs.Down.Length);
         }
 
         [Test]
