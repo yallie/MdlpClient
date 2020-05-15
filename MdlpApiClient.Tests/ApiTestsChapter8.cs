@@ -493,8 +493,8 @@
             Assert.NotNull(ssccs.Up);
             Assert.NotNull(ssccs.Down);
 
-            Assert.AreEqual(0, ssccs.Up.Length);
-            Assert.AreEqual(0, ssccs.Down.Length);
+            Assert.AreEqual(1, ssccs.Up.Length);
+            Assert.AreEqual(1, ssccs.Down.Length);
         }
 
         [Test]
