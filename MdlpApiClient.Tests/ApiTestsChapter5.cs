@@ -25,7 +25,7 @@
         }
 
         [Test]
-        public void Chapter5_01_SendDocument()
+        public void Chapter5_01_SendDocumentText()
         {
             var docXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
