@@ -104,10 +104,19 @@
         /// </summary>
         /// <typeparam name="T">Sequence element type.</typeparam>
         /// <param name="sequence">Enumerable sequence.</param>
-        /// <returns></returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> sequence)
         {
             return sequence == null || !sequence.Any();
+        }
+
+        /// <summary>
+        /// Returns empty enumerable sequence if it's null.
+        /// </summary>
+        /// <typeparam name="T">Sequence element type.</typeparam>
+        /// <param name="sequence">Enumerable sequence.</param>
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> sequence)
+        {
+            return sequence == null ? Enumerable.Empty<T>() : sequence;
         }
     }
 }

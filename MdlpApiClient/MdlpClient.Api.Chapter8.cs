@@ -266,10 +266,19 @@
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public SsccHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
         {
-            return Get<SsccHierarchyResponse<HierarchySsccInfo>>("reestr/sscc/{sscc}/full-hierarchy", new[]
+            var result = Get<SsccHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
+
+            // sort child records and convert to real HierarchySsccInfo items
+            return new SsccHierarchyResponse<HierarchySsccInfo>
+            {
+                Up = HierarchySsccInfoInternal.Convert(result.Up),
+                Down = HierarchySsccInfoInternal.Convert(result.Down),
+                ErrorCode = result.ErrorCode,
+                ErrorDescription = result.ErrorDescription,
+            };
         }
 
         /// <summary>

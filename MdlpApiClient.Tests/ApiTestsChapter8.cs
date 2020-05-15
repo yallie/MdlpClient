@@ -360,16 +360,19 @@
         [Test]
         public void Chapter8_04_3_GetSsccFullHierarchy()
         {
-            // пример из документации вызывает ошибку 404: 201902251235570000
-            var ssccs = Client.GetSsccFullHierarchy("201902251235570000");
-            Assert.NotNull(ssccs);
-            Assert.NotNull(ssccs.Up);
-            Assert.NotNull(ssccs.Down);
+            // примеры из документации вызывают ошибку 404: 201902251235570000
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var ssccs = Client.GetSsccFullHierarchy("100000000000000300");
+                Assert.NotNull(ssccs);
+                Assert.NotNull(ssccs.Up);
+                Assert.NotNull(ssccs.Down);
 
-            Assert.AreEqual(0, ssccs.Up.Length);
-            Assert.AreEqual(0, ssccs.Down.Length);
-            Assert.AreEqual(2, ssccs.ErrorCode);
-            Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
+                Assert.AreEqual(0, ssccs.Up.Length);
+                Assert.AreEqual(0, ssccs.Down.Length);
+            });
+
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
         }
 
         [Test]

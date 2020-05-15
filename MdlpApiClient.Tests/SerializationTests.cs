@@ -239,6 +239,47 @@
             Assert.Null(info.Children);
             Assert.Null(info.ChildSgtins);
             Assert.Null(info.ChildSsccs);
+
+            // convert
+            var up = HierarchySsccInfoInternal.Convert(sscc.Up);
+            var down = HierarchySsccInfoInternal.Convert(sscc.Down);
+
+            Assert.AreEqual(1, up.Length);
+            var up0 = up[0];
+            Assert.NotNull(up0);
+            Assert.AreEqual("100000000000000100", up0.Sscc);
+            Assert.NotNull(up0.ChildSgtins);
+            Assert.AreEqual(0, up0.ChildSgtins.Length);
+            Assert.NotNull(up0.ChildSsccs);
+            Assert.AreEqual(1, up0.ChildSsccs.Length);
+            var up1 = up0.ChildSsccs[0];
+            Assert.NotNull(up1);
+            Assert.AreEqual("100000000000000200", up1.Sscc);
+            Assert.NotNull(up1.ChildSgtins);
+            Assert.AreEqual(0, up1.ChildSgtins.Length);
+            Assert.NotNull(up1.ChildSsccs);
+            Assert.AreEqual(0, up1.ChildSsccs.Length);
+
+            Assert.AreEqual(1, down.Length);
+            var down0 = down[0];
+            Assert.NotNull(down0);
+            Assert.AreEqual("100000000000000200", down0.Sscc);
+            Assert.NotNull(down0.ChildSsccs);
+            Assert.NotNull(down0.ChildSgtins);
+            Assert.AreEqual(0, down0.ChildSgtins.Length);
+            Assert.AreEqual(1, down0.ChildSsccs.Length);
+            var down1 = down0.ChildSsccs[0];
+            Assert.NotNull(down1);
+            Assert.AreEqual("100000000000000300", down1.Sscc);
+            Assert.NotNull(down1.ChildSsccs);
+            Assert.NotNull(down1.ChildSgtins);
+            Assert.AreEqual(1, down1.ChildSgtins.Length);
+            Assert.AreEqual(0, down1.ChildSsccs.Length);
+            var down2 = down1.ChildSgtins[0];
+            Assert.NotNull(down2);
+            Assert.AreEqual("100000000000000300", down2.Sscc);
+            Assert.AreEqual("04601907002768TESTTEST00001", down2.Sgtin);
+            Assert.AreEqual("04601907002768", down2.Gtin);
         }
 
         [DataContract]

@@ -1,6 +1,8 @@
 ﻿namespace MdlpApiClient.DataContracts
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using MdlpApiClient.Toolbox;
 
@@ -14,6 +16,28 @@
     [DataContract]
     internal class HierarchySsccInfoInternal : HierarchySsccInfo
     {
+        /// <summary>
+        /// Converts items to real Hierarchy
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static HierarchySsccInfo[] Convert(IEnumerable<HierarchySsccInfoInternal> items)
+        {
+            var converted =
+                from item in items
+                let children = item.Children.EmptyIfNull()
+                let ssccs = children.Where(c => !c.IsSgtinInfo)
+                let sgtins = children.Where(c => c.IsSgtinInfo)
+                select new HierarchySsccInfo
+                {
+                    Sscc = item.Sscc,
+                    ChildSsccs = Convert(ssccs),
+                    ChildSgtins = sgtins.Select(c => c.GetSgtinInfo()).ToArray(),
+                };
+
+            return converted.ToArray();
+        }
+
         /// <summary>
         /// Checks if the current instance represents <see cref="HierarchySgtinInfo"/>.
         /// </summary>
