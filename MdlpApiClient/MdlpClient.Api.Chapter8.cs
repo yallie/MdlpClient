@@ -228,9 +228,9 @@
         /// </summary>
         /// <param name="sscc">Идентификационный код третичной упаковки</param>
         /// <returns>Подробная информация КИЗ и ЛП</returns>
-        public SsccHierarchyResponse GetSsccHierarchy(string sscc)
+        public SsccHierarchyResponse<SsccInfo> GetSsccHierarchy(string sscc)
         {
-            return Get<SsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
+            return Get<SsccHierarchyResponse<SsccInfo>>("reestr/sscc/{sscc}/hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
@@ -264,9 +264,9 @@
         /// </summary>
         /// <param name="sscc">Идентификационный код третичной упаковки</param>
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
-        public SsccHierarchyResponse GetSsccFullHierarchy(string sscc)
+        public SsccHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
         {
-            return Get<SsccHierarchyResponse>("reestr/sscc/{sscc}/full-hierarchy", new[]
+            return Get<SsccHierarchyResponse<HierarchySsccInfo>>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });

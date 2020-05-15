@@ -14,6 +14,18 @@
     [TestFixture]
     public class SerializationTests : UnitTestsBase
     {
+        private string Serialize<T>(T dto)
+        {
+            var ss = new ServiceStackSerializer();
+            return ss.Serialize(dto);
+        }
+
+        private T Deserialize<T>(string json)
+        {
+            var ss = new ServiceStackSerializer();
+            return ss.Deserialize<T>(json);
+        }
+
         #region JSON иерархия — нет, такое мы использовать не будем:
 
         [DataContract]
@@ -60,16 +72,174 @@
                 }
             };
 
-            var s = new ServiceStackSerializer();
-            var json = s.Serialize(r);
+            var json = Serialize(r);
             Assert.NotNull(json);
             WriteLine(JsonFormatter.FormatJson(json));
 
-            var obj = s.Deserialize<Response>(new RestResponse() { Content = json });
+            var obj = Deserialize<Response>(json);
             Assert.NotNull(obj);
         }
 
         #endregion
+
+        // А вот такое придется использовать для метода 8.4.3:
+
+        [DataContract]
+        public class SsccInfo
+        {
+            [DataMember(Name = "sscc")]
+            public string Sscc { get; set; }
+
+            [DataMember(Name = "childs")]
+            public SsccOrSgtinInfo[] Children { get; set; }
+
+            [IgnoreDataMember]
+            public SsccInfo[] ChildSsccs { get; set; }
+
+            [IgnoreDataMember]
+            public SgtinInfo[] ChildSgtins { get; set; }
+        }
+
+        [DataContract]
+        public class SsccOrSgtinInfo : SsccInfo
+        {
+            internal bool IsSgtinInfo => Sgtin != null || Gtin != null;
+
+            internal SgtinInfo GetSgtinInfo => new SgtinInfo
+            {
+                Sscc = Sscc,
+                Sgtin = Sgtin,
+                Gtin = Gtin,
+            };
+
+            // a copy of distinct SgtinInfo members
+            [DataMember(Name = "sgtin")]
+            public string Sgtin { get; set; }
+
+            [DataMember(Name = "gtin")]
+            public string Gtin { get; set; }
+        }
+
+        [DataContract]
+        public class SgtinInfo
+        {
+            [DataMember(Name = "sscc")]
+            public string Sscc { get; set; }
+
+            [DataMember(Name = "sgtin")]
+            public string Sgtin { get; set; }
+
+            [DataMember(Name = "gtin")]
+            public string Gtin { get; set; }
+        }
+
+        [Test]
+        public void PolymorphicCrapPrototypeForMethod843()
+        {
+            var shit = new SsccInfo
+            {
+                Sscc = "Root",
+                Children = new[]
+                {
+                    new SsccOrSgtinInfo
+                    {
+                        Sscc = "Child",
+                        Children = new[]
+                        {
+                            new SsccOrSgtinInfo
+                            {
+                                Sgtin = "ChildSgtin",
+                                Sscc = "ChildSscc",
+                                Gtin = "ChildGtin",
+                            }
+                        }
+                    },
+                    new SsccOrSgtinInfo
+                    {
+                        Sscc = "Child2",
+                        Children = new[]
+                        {
+                            new SsccOrSgtinInfo
+                            {
+                                Sgtin = "Child2Sgtin",
+                                Sscc = "Child2Sscc",
+                                Gtin = "Child2Gtin",
+                            }
+                        }
+                    }
+                }
+            };
+
+            var json = Serialize(shit);
+            Assert.NotNull(json);
+            WriteLine(JsonFormatter.FormatJson(json));
+
+            var obj = Deserialize<SsccInfo>(json);
+            Assert.NotNull(obj);
+        }
+
+        [Test]
+        public void DeserializeHierarchySsccInfo()
+        {
+            var json = @"{
+                ""up"": {
+                    ""sscc"": ""100000000000000100"",
+                    ""packing_date"": ""2020-02-14T15:04:08.059Z"",
+                    ""childs"": [{
+                        ""sscc"": ""100000000000000200"",
+                        ""packing_date"": ""2020-02-14T15:04:08.059Z""
+                    }]
+                },
+                ""down"": {
+                    ""sscc"": ""100000000000000200"",
+                    ""packing_date"": ""2020-02-14T15:04:08.059Z"",
+                    ""childs"": [{
+                        ""sscc"": ""100000000000000300"",
+                        ""packing_date"": ""2020-02-14T15:04:08.059Z"",
+                        ""childs"": [{
+                            ""sgtin"": ""04601907002768TESTTEST00001"",
+                            ""sscc"": ""100000000000000300"",
+                            ""gtin"": ""04601907002768"",
+                            ""status"": ""paused_circulation"",
+                            ""expiration_date"": ""2025-02-02T00:00:00Z"",
+                            ""series_number"": ""BATCH101"",
+                            ""pause_decision_info"": {
+                                ""id"": ""9d1bd9c5-07aa-4a0e-b10d-061bb837584a"",
+                                ""date"": ""2018-08-21"",
+                                ""number"": ""AUTO 1534859443""
+                            }
+                        }]
+                    }]
+                }
+            }";
+
+            Assert.NotNull(json);
+
+            var sscc = Deserialize<SsccHierarchyResponse<HierarchySsccInfoInternal>>(json);
+            Assert.NotNull(sscc);
+            Assert.NotNull(sscc.Up);
+            Assert.NotNull(sscc.Down);
+
+            var info = sscc.Up[0];
+            Assert.NotNull(info.Children);
+            Assert.Null(info.ChildSgtins);
+            Assert.Null(info.ChildSsccs);
+
+            info = sscc.Down[0];
+            Assert.NotNull(info.Children);
+            Assert.Null(info.ChildSgtins);
+            Assert.Null(info.ChildSsccs);
+
+            info = info.Children[0];
+            Assert.NotNull(info.Children);
+            Assert.Null(info.ChildSgtins);
+            Assert.Null(info.ChildSsccs);
+
+            info = info.Children[0];
+            Assert.Null(info.Children);
+            Assert.Null(info.ChildSgtins);
+            Assert.Null(info.ChildSsccs);
+        }
 
         [DataContract]
         public class CustomThing

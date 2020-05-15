@@ -360,9 +360,7 @@
         [Test]
         public void Chapter8_04_3_GetSsccFullHierarchy()
         {
-            // пример из документации не найден: 201902251235570000
-            // пример из документации вызывает ошибку: NUEMOESSCC00000001
-            // var ssccs = Client.GetSsccFullHierarchy("201902251235570000");
+            // пример из документации вызывает ошибку 404: 201902251235570000
             var ssccs = Client.GetSsccFullHierarchy("201902251235570000");
             Assert.NotNull(ssccs);
             Assert.NotNull(ssccs.Up);

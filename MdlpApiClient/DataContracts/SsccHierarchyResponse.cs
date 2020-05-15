@@ -4,9 +4,10 @@
 
     /// <summary>
     /// 8.4.1. Информация об иерархии вложенности третичной упаковки
+    /// 8.4.3. Информация о полной иерархии вложенности третичной упаковки
     /// </summary>
     [DataContract]
-    public class SsccHierarchyResponse
+    public class SsccHierarchyResponse<T>
     {
         /// <summary>
         /// Иерархия вложенности "вверх".
@@ -19,7 +20,7 @@
         /// уровня.
         /// </remarks>
         [DataMember(Name = "up")]
-        public SsccInfo[] Up { get; set; }
+        public T[] Up { get; set; }
 
         /// <summary>
         /// Иерархия вложенности "вниз".
@@ -29,7 +30,7 @@
         /// начиная с запрошенного идентификационного кода третичной упаковки.
         /// </remarks>
         [DataMember(Name = "down")]
-        public SsccInfo[] Down { get; set; }
+        public T[] Down { get; set; }
 
         /// <summary>
         /// Код ошибки: 2 — не найден, 4 — доступ запрещен

@@ -45,15 +45,20 @@ namespace MdlpApiClient.Serialization
             set { contentType = value; }
         }
 
-        public T Deserialize<T>(IRestResponse response)
+        internal T Deserialize<T>(string content)
         {
             using (var scope = JsConfig.BeginScope())
             {
                 scope.AlwaysUseUtc = false;
                 scope.AssumeUtc = false;
                 scope.AppendUtcOffset = false;
-                return JsonSerializer.DeserializeFromString<T>(response.Content);
+                return JsonSerializer.DeserializeFromString<T>(content);
             }
+        }
+
+        public T Deserialize<T>(IRestResponse response)
+        {
+            return Deserialize<T>(response.Content);
         }
 
         public string Serialize(Parameter bodyParameter)
