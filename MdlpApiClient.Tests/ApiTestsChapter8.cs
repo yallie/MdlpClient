@@ -358,6 +358,23 @@
         }
 
         [Test]
+        public void Chapter8_04_3_GetSsccFullHierarchy()
+        {
+            // пример из документации не найден: 201902251235570000
+            // пример из документации вызывает ошибку: NUEMOESSCC00000001
+            // var ssccs = Client.GetSsccFullHierarchy("201902251235570000");
+            var ssccs = Client.GetSsccFullHierarchy("201902251235570000");
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Up);
+            Assert.NotNull(ssccs.Down);
+
+            Assert.AreEqual(0, ssccs.Up.Length);
+            Assert.AreEqual(0, ssccs.Down.Length);
+            Assert.AreEqual(2, ssccs.ErrorCode);
+            Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
+        }
+
+        [Test]
         public void Chapter8_05_1_GetCurrentMedProducts()
         {
             var medProducts = Client.GetCurrentMedProducts(new MedProductsFilter

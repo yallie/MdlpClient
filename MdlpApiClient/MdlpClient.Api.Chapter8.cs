@@ -228,9 +228,9 @@
         /// </summary>
         /// <param name="sscc">Идентификационный код третичной упаковки</param>
         /// <returns>Подробная информация КИЗ и ЛП</returns>
-        public GetSsccHierarchyResponse GetSsccHierarchy(string sscc)
+        public SsccHierarchyResponse GetSsccHierarchy(string sscc)
         {
-            return Get<GetSsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
+            return Get<SsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
@@ -254,6 +254,19 @@
                 count = count,
             },
             new[]
+            {
+                new Parameter("sscc", sscc, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 8.4.3. Метод для получения информации о полной иерархии вложенности третичной упаковки
+        /// </summary>
+        /// <param name="sscc">Идентификационный код третичной упаковки</param>
+        /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
+        public SsccHierarchyResponse GetSsccFullHierarchy(string sscc)
+        {
+            return Get<SsccHierarchyResponse>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });

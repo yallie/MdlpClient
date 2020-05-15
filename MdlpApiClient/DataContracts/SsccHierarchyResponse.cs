@@ -6,7 +6,7 @@
     /// 8.4.1. Информация об иерархии вложенности третичной упаковки
     /// </summary>
     [DataContract]
-    public class GetSsccHierarchyResponse
+    public class SsccHierarchyResponse
     {
         /// <summary>
         /// Иерархия вложенности "вверх".
