@@ -48,6 +48,7 @@
             Credentials = credentials;
             Serializer = new ServiceStackSerializer();
             BaseUrl = client.BaseUrl.ToString();
+            Limiter = new RequestRateLimiter();
 
             // set up REST client
             Client = client;
@@ -87,6 +88,8 @@
         public string BaseUrl { get; private set; }
 
         private IRestSerializer Serializer { get; set; }
+
+        private RequestRateLimiter Limiter { get; set; }
 
         /// <summary>
         /// Gets the <see cref="IRestClient"/> instance.

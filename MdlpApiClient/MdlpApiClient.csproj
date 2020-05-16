@@ -72,7 +72,7 @@
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <NoWarn>1701;1702;1591</NoWarn>
-    <LangVersion>5</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
 </Project>

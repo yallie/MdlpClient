@@ -215,17 +215,17 @@
 
             Assert.NotNull(json);
 
-            var sscc = Deserialize<SsccHierarchyResponse<HierarchySsccInfoInternal>>(json);
+            var sscc = Deserialize<SsccFullHierarchyResponse<HierarchySsccInfoInternal>>(json);
             Assert.NotNull(sscc);
             Assert.NotNull(sscc.Up);
             Assert.NotNull(sscc.Down);
 
-            var info = sscc.Up[0];
+            var info = sscc.Up;
             Assert.NotNull(info.Children);
             Assert.Null(info.ChildSgtins);
             Assert.Null(info.ChildSsccs);
 
-            info = sscc.Down[0];
+            info = sscc.Down;
             Assert.NotNull(info.Children);
             Assert.Null(info.ChildSgtins);
             Assert.Null(info.ChildSsccs);
@@ -244,8 +244,8 @@
             var up = HierarchySsccInfoInternal.Convert(sscc.Up);
             var down = HierarchySsccInfoInternal.Convert(sscc.Down);
 
-            Assert.AreEqual(1, up.Length);
-            var up0 = up[0];
+            Assert.IsNotNull(up);
+            var up0 = up;
             Assert.NotNull(up0);
             Assert.AreEqual("100000000000000100", up0.Sscc);
             Assert.NotNull(up0.ChildSgtins);
@@ -260,8 +260,8 @@
             Assert.NotNull(up1.ChildSsccs);
             Assert.AreEqual(0, up1.ChildSsccs.Length);
 
-            Assert.AreEqual(1, down.Length);
-            var down0 = down[0];
+            Assert.IsNotNull(down);
+            var down0 = down;
             Assert.NotNull(down0);
             Assert.AreEqual("100000000000000200", down0.Sscc);
             Assert.NotNull(down0.ChildSsccs);

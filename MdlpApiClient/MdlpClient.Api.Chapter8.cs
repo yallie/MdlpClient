@@ -230,6 +230,8 @@
         /// <returns>Подробная информация КИЗ и ЛП</returns>
         public SsccHierarchyResponse<SsccInfo> GetSsccHierarchy(string sscc)
         {
+            Limiter.Delay();
+
             return Get<SsccHierarchyResponse<SsccInfo>>("reestr/sscc/{sscc}/hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
@@ -264,20 +266,20 @@
         /// </summary>
         /// <param name="sscc">Идентификационный код третичной упаковки</param>
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
-        public SsccHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
+        public SsccFullHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
         {
-            var result = Get<SsccHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
+            Limiter.Delay();
+
+            var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
 
             // sort child records and convert to real HierarchySsccInfo items
-            return new SsccHierarchyResponse<HierarchySsccInfo>
+            return new SsccFullHierarchyResponse<HierarchySsccInfo>
             {
                 Up = HierarchySsccInfoInternal.Convert(result.Up),
                 Down = HierarchySsccInfoInternal.Convert(result.Down),
-                ErrorCode = result.ErrorCode,
-                ErrorDescription = result.ErrorDescription,
             };
         }
 

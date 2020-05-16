@@ -386,17 +386,17 @@
             //var code = GetTestCodes(s => s.Sscc).First();
 
             // как получить интересный sscc-код с помощью GetTestCodes:
+            var alreadyChecked = new HashSet<string>();
             var codes = GetTestCodes(s =>
             {
                 var sscc = s.Sscc;
-                if (string.IsNullOrWhiteSpace(sscc))
+                if (string.IsNullOrWhiteSpace(sscc) || alreadyChecked.Contains(sscc))
                 {
                     return null;
                 }
 
-                // метод GetSsccHierarchy разрешается вызывать раз в 5 секунд
-                System.Threading.Thread.Sleep(5000);
                 var h = Client.GetSsccHierarchy(sscc);
+                alreadyChecked.Add(sscc);
 
                 // если нет иерархии, то это неинтересный код
                 if (h == null || h.Up.Length < 1 || h.Down.Length < 1)
@@ -405,7 +405,7 @@
                 }
 
                 // пусть будет хотя бы 3 пункта в иерархии
-                if (h.Up.Length + h.Down.Length < 3)
+                if (h.Up.Length + h.Down.Length < 4)
                 {
                     return null;
                 }
@@ -423,6 +423,7 @@
         public void Chapter8_04_1_GetSsccHierarchy_Found()
         {
             // реально существующий, но неинтересный код: 246070020300009887
+            // тоже более или менее интересный: 000000111100000098
             var ssccs = Client.GetSsccHierarchy("000000111100000097");
             Assert.NotNull(ssccs);
             Assert.NotNull(ssccs.Up);
@@ -472,15 +473,7 @@
         {
             // примеры из документации вызывают ошибку 404: 201902251235570000
             var ex = Assert.Throws<MdlpException>(() =>
-            {
-                var ssccs = Client.GetSsccFullHierarchy("100000000000000300");
-                Assert.NotNull(ssccs);
-                Assert.NotNull(ssccs.Up);
-                Assert.NotNull(ssccs.Down);
-
-                Assert.AreEqual(0, ssccs.Up.Length);
-                Assert.AreEqual(0, ssccs.Down.Length);
-            });
+                Client.GetSsccFullHierarchy("100000000000000300"));
 
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
         }
@@ -492,9 +485,6 @@
             Assert.NotNull(ssccs);
             Assert.NotNull(ssccs.Up);
             Assert.NotNull(ssccs.Down);
-
-            Assert.AreEqual(1, ssccs.Up.Length);
-            Assert.AreEqual(1, ssccs.Down.Length);
         }
 
         [Test]

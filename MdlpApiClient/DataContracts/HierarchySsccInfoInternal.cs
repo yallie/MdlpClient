@@ -17,25 +17,20 @@
     internal class HierarchySsccInfoInternal : HierarchySsccInfo
     {
         /// <summary>
-        /// Converts items to real Hierarchy
+        /// Converts items to real <see cref="HierarchySsccInfo"/>.
         /// </summary>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        public static HierarchySsccInfo[] Convert(IEnumerable<HierarchySsccInfoInternal> items)
+        /// <param name="item">Item to convert</param>
+        public static HierarchySsccInfo Convert(HierarchySsccInfoInternal item)
         {
-            var converted =
-                from item in items
-                let children = item.Children.EmptyIfNull()
-                let ssccs = children.Where(c => !c.IsSgtinInfo)
-                let sgtins = children.Where(c => c.IsSgtinInfo)
-                select new HierarchySsccInfo
-                {
-                    Sscc = item.Sscc,
-                    ChildSsccs = Convert(ssccs),
-                    ChildSgtins = sgtins.Select(c => c.GetSgtinInfo()).ToArray(),
-                };
-
-            return converted.ToArray();
+            var children = item.Children.EmptyIfNull();
+            var ssccs = children.Where(c => !c.IsSgtinInfo);
+            var sgtins = children.Where(c => c.IsSgtinInfo);
+            return new HierarchySsccInfo
+            {
+                Sscc = item.Sscc,
+                ChildSsccs = ssccs.Select(s => Convert(s)).ToArray(),
+                ChildSgtins = sgtins.Select(c => c.GetSgtinInfo()).ToArray(),
+            };
         }
 
         /// <summary>
