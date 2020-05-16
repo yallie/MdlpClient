@@ -249,6 +249,8 @@
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public GetSsccSgtinsResponse GetSsccSgtins(string sscc, SsccSgtinsFilter filter, int startFrom, int count)
         {
+            RequestRate(6);
+
             return Post<GetSsccSgtinsResponse>("reestr/sscc/{sscc}/sgtins", new
             {
                 sscc = sscc,
