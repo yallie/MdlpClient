@@ -16,19 +16,19 @@
             Limiter.Delay(TimeSpan.FromSeconds(seconds), methodName);
 
         [Test]
-        public void UnknownMethodHasUnlimitedRequestRate()
+        public void TheFirstCallOfAnyMethodIsNeverDelayed()
         {
             var sw = Stopwatch.StartNew();
-            RequestRate(1, "One");
-            RequestRate(1, "Two");
-            RequestRate(1, "Three");
+            RequestRate(1, "MethodOne");
+            RequestRate(1, "MethodTwo");
+            RequestRate(1, "MethodThree");
             RequestRate(1);
             sw.Stop();
             Assert.True(sw.ElapsedMilliseconds < 100);
         }
 
         [Test]
-        public void ContinueWithExperiment()
+        public void TaskContinueWithTaskDelayShouldBeUnwrapped()
         {
             var sw = Stopwatch.StartNew();
             var task = Task.CompletedTask;
@@ -39,34 +39,40 @@
         }
 
         [Test]
-        public void RegisteredMethodDoesHaveLimitedRequestRate()
+        public void SubsequentCallsOfTheSameMethodAreDelayedAccordingToTheRequestRateLimits()
         {
+            // the first call is not delayed
             var sw = Stopwatch.StartNew();
             RequestRate(0.3);
-            Assert.LessOrEqual(sw.ElapsedMilliseconds, 100);
+            Assert.That(sw.ElapsedMilliseconds, Is.LessThan(100));
 
             RequestRate(0.3);
             RequestRate(0.3);
             RequestRate(0.3);
             sw.Stop();
-            Assert.GreaterOrEqual(sw.ElapsedMilliseconds, 900);
-            Assert.LessOrEqual(sw.ElapsedMilliseconds, 1500);
+
+            // at least 0.3 * 3 seconds should have passed, but not more
+            Assert.That(sw.ElapsedMilliseconds, Is.GreaterThanOrEqualTo(900));
+            Assert.That(sw.ElapsedMilliseconds, Is.LessThan(1200));
         }
 
         [Test]
-        public void OneMoreRequestLimiterTest()
+        public void RequestRateSpecifiesTheMinimumTimeBetweenTheNextRequestRateCall()
         {
+            // the next call to RequestRate should end not earlier that 0.6 seconds
             var time1 = DateTime.Now;
-            RequestRate(1);
-            Assert.GreaterOrEqual(TimeSpan.FromSeconds(0.1), DateTime.Now - time1);
+            RequestRate(0.6);
+            Assert.That(DateTime.Now - time1, Is.LessThan(TimeSpan.FromSeconds(0.1)));
 
+            // the next call to RequestRate should end not earlier than 1.1 seconds
             var time2 = DateTime.Now;
-            RequestRate(1);
-            Assert.LessOrEqual(TimeSpan.FromSeconds(1), DateTime.Now - time2);
+            RequestRate(1.1);
+            Assert.That(DateTime.Now - time2, Is.GreaterThan(TimeSpan.FromSeconds(0.5)));
 
+            // as there won't be any next call, this request rate limit has no effect
             var time3 = DateTime.Now;
-            RequestRate(1);
-            Assert.LessOrEqual(TimeSpan.FromSeconds(1), DateTime.Now - time3);
+            RequestRate(10);
+            Assert.That(DateTime.Now - time3, Is.GreaterThan(TimeSpan.FromSeconds(1)));
         }
     }
 }

@@ -468,7 +468,7 @@
             Assert.AreEqual("046070283942870000012700984", ssccs.Entries[0].SgtinValue);
         }
 
-        [Test]
+        [Test, Explicit("No use to wait half a minute to complete this call")]
         public void Chapter8_04_3_GetSsccFullHierarchy_NotFound()
         {
             // примеры из документации вызывают ошибку 404: 201902251235570000
