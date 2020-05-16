@@ -13,7 +13,7 @@
         private RequestRateLimiter Limiter { get; } = new RequestRateLimiter();
 
         private void RequestRate(double seconds, [CallerMemberName]string methodName = null) =>
-            Limiter.Delay(TimeSpan.FromSeconds(seconds + 0.1), methodName);
+            Limiter.Delay(TimeSpan.FromSeconds(seconds), methodName);
 
         [Test]
         public void UnknownMethodHasUnlimitedRequestRate()
@@ -42,15 +42,15 @@
         public void RegisteredMethodDoesHaveLimitedRequestRate()
         {
             var sw = Stopwatch.StartNew();
-            RequestRate(0.1);
+            RequestRate(0.3);
             Assert.LessOrEqual(sw.ElapsedMilliseconds, 100);
 
-            RequestRate(0.1);
-            RequestRate(0.1);
-            RequestRate(0.1);
+            RequestRate(0.3);
+            RequestRate(0.3);
+            RequestRate(0.3);
             sw.Stop();
-            Assert.GreaterOrEqual(sw.ElapsedMilliseconds, 300);
-            Assert.LessOrEqual(sw.ElapsedMilliseconds, 350);
+            Assert.GreaterOrEqual(sw.ElapsedMilliseconds, 900);
+            Assert.LessOrEqual(sw.ElapsedMilliseconds, 1500);
         }
 
         [Test]
