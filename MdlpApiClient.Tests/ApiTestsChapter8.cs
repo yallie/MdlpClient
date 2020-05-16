@@ -440,6 +440,21 @@
         }
 
         [Test]
+        public void Chapter8_04_2_GetSsccSgtins()
+        {
+            var ssccs = Client.GetSsccSgtins("246070020300009887", null, 0, 1);
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Entries);
+
+            Assert.AreEqual(1, ssccs.Entries.Length);
+            Assert.IsNull(ssccs.ErrorCode);
+            Assert.IsNull(ssccs.ErrorDescription);
+
+            Assert.NotNull(ssccs.Entries[0]);
+            Assert.AreEqual("046070283942870000012700984", ssccs.Entries[0].SgtinValue);
+        }
+
+        [Test, Explicit("No much use to wait for 5 seconds before completing this call")]
         public void Chapter8_04_2_GetSsccSgtins_NotFound()
         {
             // пример из документации не найден: 201902251235570000
@@ -454,18 +469,33 @@
         }
 
         [Test]
-        public void Chapter8_04_2_GetSsccSgtins_Found()
+        public void Chapter8_04_3_GetSsccFullHierarchy()
         {
-            var ssccs = Client.GetSsccSgtins("246070020300009887", null, 0, 1);
-            Assert.NotNull(ssccs);
-            Assert.NotNull(ssccs.Entries);
+            var h = Client.GetSsccFullHierarchy("000000111100000097");
+            Assert.NotNull(h);
+            Assert.NotNull(h.Up);
+            Assert.NotNull(h.Down);
 
-            Assert.AreEqual(1, ssccs.Entries.Length);
-            Assert.IsNull(ssccs.ErrorCode);
-            Assert.IsNull(ssccs.ErrorDescription);
+            // validate up hierarchy
+            Assert.AreEqual("000000111100000100", h.Up.Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSgtins.Length);
+            Assert.AreEqual(1, h.Up.ChildSsccs.Length);
+            Assert.AreEqual("000000111100000097", h.Up.ChildSsccs[0].Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSsccs.Length);
+            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSgtins.Length);
 
-            Assert.NotNull(ssccs.Entries[0]);
-            Assert.AreEqual("046070283942870000012700984", ssccs.Entries[0].SgtinValue);
+            // validate down hierarchy
+            Assert.AreEqual("000000111100000097", h.Down.Sscc);
+            Assert.IsNotNull(h.Down.ChildSsccs);
+            Assert.IsNotNull(h.Down.ChildSgtins);
+            Assert.AreEqual(2, h.Down.ChildSgtins.Length);
+            Assert.AreEqual(0, h.Down.ChildSsccs.Length);
+            Assert.AreEqual("04607028393860G000000001J21", h.Down.ChildSgtins[0].Sgtin);
+            Assert.AreEqual("04607028393860G000000001J22", h.Down.ChildSgtins[1].Sgtin);
         }
 
         [Test, Explicit("No use to wait half a minute to complete this call")]
@@ -476,15 +506,6 @@
                 Client.GetSsccFullHierarchy("100000000000000300"));
 
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
-        }
-
-        [Test]
-        public void Chapter8_04_3_GetSsccFullHierarchy_Found()
-        {
-            var ssccs = Client.GetSsccFullHierarchy("000000111100000097");
-            Assert.NotNull(ssccs);
-            Assert.NotNull(ssccs.Up);
-            Assert.NotNull(ssccs.Down);
         }
 
         [Test]
