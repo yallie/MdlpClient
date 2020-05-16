@@ -10,55 +10,19 @@
     /// </summary>
     internal class RequestRateLimiter
     {
-        // time spans between the consequent method calls
-        public static Dictionary<string, TimeSpan> RequestRateLimits { get; } =
-            new Dictionary<string, TimeSpan>(StringComparer.OrdinalIgnoreCase)
-            {
-                { nameof(MdlpClient.SendDocument), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.SendLargeDocument), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.CancelSendDocument), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetDocumentText), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetLargeDocumentSize), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetIncomeDocuments), TimeSpan.FromSeconds(1.1) },
-                { nameof(MdlpClient.GetOutcomeDocuments), TimeSpan.FromSeconds(1.1) },
-                { nameof(MdlpClient.GetDocumentMetadata), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetDocumentsByRequestID), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetTicketText), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetSignature), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.RegisterAccountSystem), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetAccountSystem), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetAccountSystems), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.DeleteAccountSystem), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.RegisterUser), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.UpdateUserProfile), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.DeleteUser), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetUserInfo), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetUserCertificates), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetCurrentUserInfo), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.GetCurrentCertificates), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.AddUserCertificate), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.DeleteUserCertificate), TimeSpan.FromSeconds(0.55) },
-                { nameof(MdlpClient.Authenticate), TimeSpan.FromSeconds(1.1) },
-                { nameof(MdlpClient.GetToken), TimeSpan.FromSeconds(1.1) },
-                { nameof(MdlpClient.Logout), TimeSpan.FromSeconds(1.1) },
-                { nameof(MdlpClient.GetSsccFullHierarchy), TimeSpan.FromSeconds(5.1) },
-                { nameof(MdlpClient.GetSsccHierarchy), TimeSpan.FromSeconds(5.1) },
-            };
-
-        public static void RegisterRate(string name, TimeSpan span) =>
-            RequestRateLimits[name] = span;
-
         // tasks for delaying between the consequent method calls
         public Dictionary<string, Task> RequestTasks { get; } =
             new Dictionary<string, Task>(StringComparer.OrdinalIgnoreCase);
 
-        public Task DelayAsync([CallerMemberName]string methodName = null)
+        public Task DelayAsync(TimeSpan span, [CallerMemberName]string methodName = null)
         {
-            var span = TimeSpan.Zero;
-            if (string.IsNullOrWhiteSpace(methodName) || !RequestRateLimits.TryGetValue(methodName, out span))
+            if (span == TimeSpan.Zero)
             {
                 return Task.CompletedTask;
             }
+
+            // null value can't be used as a key
+            methodName = methodName ?? string.Empty;
 
             lock (RequestTasks)
             {
@@ -78,9 +42,9 @@
             }
         }
 
-        public void Delay([CallerMemberName]string methodName = null)
+        public void Delay(TimeSpan span, [CallerMemberName]string methodName = null)
         {
-            DelayAsync(methodName).ConfigureAwait(false).GetAwaiter().GetResult();
+            DelayAsync(span, methodName).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }

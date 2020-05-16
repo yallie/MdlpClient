@@ -91,6 +91,12 @@
 
         private RequestRateLimiter Limiter { get; set; }
 
+        private void RequestRate(double seconds, [CallerMemberName]string methodName = null)
+        {
+            var correction = IsAuthenticated ? 0.1 : 2;
+            Limiter.Delay(TimeSpan.FromSeconds(seconds + 0.1), methodName);
+        }
+
         /// <summary>
         /// Gets the <see cref="IRestClient"/> instance.
         /// </summary>

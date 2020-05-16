@@ -22,6 +22,8 @@
         /// <returns>Идентификатор документа</returns>
         public string SendDocument(string xmlDocument)
         {
+            RequestRate(0.5);
+
             var result = Post<SendDocumentResponse>("documents/send", new
             {
                 document = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlDocument)),
@@ -41,6 +43,8 @@
         /// <returns>Идентификатор документа</returns>
         public string SendLargeDocument(string xmlDocument)
         {
+            RequestRate(0.5);
+
             // 5.2
             var link = Post<SendLargeDocumentResponse>("documents/send_large", new
             {
@@ -67,6 +71,8 @@
         /// <returns>Максимальный размер документа в байтах.</returns>
         public int GetLargeDocumentSize()
         {
+            RequestRate(0.5);
+
             var result = Get<GetLargeDocumentSizeResponse>("documents/doc_size");
             return result.DocSize;
         }
@@ -78,6 +84,8 @@
         /// <param name="requestId"></param>
         public void CancelSendDocument(string docId, string requestId)
         {
+            RequestRate(0.5);
+
             Post("documents/cancel", new
             {
                 document_id = docId,
@@ -93,6 +101,8 @@
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public DocumentsResponse<OutcomeDocument> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
         {
+            RequestRate(1);
+
             return Post<DocumentsResponse<OutcomeDocument>>("documents/outcome", new
             {
                 filter = filter,
@@ -109,6 +119,8 @@
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public DocumentsResponse<IncomeDocument> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
         {
+            RequestRate(1);
+
             return Post<DocumentsResponse<IncomeDocument>>("documents/income", new
             {
                 filter = filter,
@@ -124,6 +136,8 @@
         /// <returns>Метаданные документа</returns>
         public DocumentMetadata GetDocumentMetadata(string documentId)
         {
+            RequestRate(0.5);
+
             return Get<DocumentMetadata>("documents/{document_id}", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -136,6 +150,8 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetDocumentText(string documentId)
         {
+            RequestRate(0.5);
+
             var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -150,6 +166,8 @@
         /// <param name="requestId">Идентификатор запроса</param>
         public DocumentsResponse<DocumentMetadata> GetDocumentsByRequestID(string requestId)
         {
+            RequestRate(0.5);
+
             return Get<DocumentsResponse<DocumentMetadata>>("documents/request/{request_id}", new[]
             {
                 new Parameter("request_id", requestId, ParameterType.UrlSegment),
@@ -162,6 +180,8 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetTicketText(string documentId)
         {
+            RequestRate(0.5);
+
             var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -176,6 +196,8 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetSignature(string documentId)
         {
+            RequestRate(0.5);
+
             return Get("documents/{document_id}/signature", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),

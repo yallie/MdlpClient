@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient
 {
+    using System;
     using System.Net;
     using DataContracts;
     using RestSharp;
@@ -230,7 +231,7 @@
         /// <returns>Подробная информация КИЗ и ЛП</returns>
         public SsccHierarchyResponse<SsccInfo> GetSsccHierarchy(string sscc)
         {
-            Limiter.Delay();
+            RequestRate(5.1);
 
             return Get<SsccHierarchyResponse<SsccInfo>>("reestr/sscc/{sscc}/hierarchy", new[]
             {
@@ -268,7 +269,7 @@
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public SsccFullHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
         {
-            Limiter.Delay();
+            RequestRate(35);
 
             var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {

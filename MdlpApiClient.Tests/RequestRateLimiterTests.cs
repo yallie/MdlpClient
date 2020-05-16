@@ -1,10 +1,8 @@
 ﻿namespace MdlpApiClient.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using MdlpApiClient.Toolbox;
     using NUnit.Framework;
@@ -12,15 +10,19 @@
     [TestFixture]
     public class RequestRateLimiterTests
     {
+        private RequestRateLimiter Limiter { get; } = new RequestRateLimiter();
+
+        private void RequestRate(double seconds, [CallerMemberName]string methodName = null) =>
+            Limiter.Delay(TimeSpan.FromSeconds(seconds + 0.1), methodName);
+
         [Test]
         public void UnknownMethodHasUnlimitedRequestRate()
         {
-            var helper = new RequestRateLimiter();
             var sw = Stopwatch.StartNew();
-            helper.Delay();
-            helper.Delay();
-            helper.Delay();
-            helper.Delay();
+            RequestRate(1, "One");
+            RequestRate(1, "Two");
+            RequestRate(1, "Three");
+            RequestRate(1);
             sw.Stop();
             Assert.True(sw.ElapsedMilliseconds < 100);
         }
@@ -39,21 +41,32 @@
         [Test]
         public void RegisteredMethodDoesHaveLimitedRequestRate()
         {
-            var helper = new RequestRateLimiter();
-            var span = TimeSpan.FromMilliseconds(100);
-            var key = nameof(RegisteredMethodDoesHaveLimitedRequestRate);
-            RequestRateLimiter.RegisterRate(key, span);
-
             var sw = Stopwatch.StartNew();
-            helper.Delay();
+            RequestRate(0.1);
             Assert.LessOrEqual(sw.ElapsedMilliseconds, 100);
 
-            helper.Delay();
-            helper.Delay();
-            helper.Delay();
+            RequestRate(0.1);
+            RequestRate(0.1);
+            RequestRate(0.1);
             sw.Stop();
             Assert.GreaterOrEqual(sw.ElapsedMilliseconds, 300);
             Assert.LessOrEqual(sw.ElapsedMilliseconds, 350);
+        }
+
+        [Test]
+        public void OneMoreRequestLimiterTest()
+        {
+            var time1 = DateTime.Now;
+            RequestRate(1);
+            Assert.GreaterOrEqual(TimeSpan.FromSeconds(0.1), DateTime.Now - time1);
+
+            var time2 = DateTime.Now;
+            RequestRate(1);
+            Assert.LessOrEqual(TimeSpan.FromSeconds(1), DateTime.Now - time2);
+
+            var time3 = DateTime.Now;
+            RequestRate(1);
+            Assert.LessOrEqual(TimeSpan.FromSeconds(1), DateTime.Now - time3);
         }
     }
 }

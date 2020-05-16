@@ -16,6 +16,8 @@
         /// <returns>Идентификатор учетной системы</returns>
         public AccountSystem RegisterAccountSystem(string sysId, string name)
         {
+            RequestRate(0.5);
+
             var accSystem = Post<AccountSystem>("registration/accounting_system", new
             {
                 sys_id = sysId,
@@ -35,6 +37,8 @@
         /// <returns>Идентификатор пользователя</returns>
         public string RegisterUser(string sysId, ResidentUser user)
         {
+            RequestRate(0.5);
+
             var response = Post<RegisterUserResponse>("registration/user_resident", new
             {
                 sys_id = sysId,
@@ -80,6 +84,8 @@
         /// <returns>Свойства пользователя</returns>
         public GroupedUser GetUserInfo(string userId)
         {
+            RequestRate(0.5);
+
             return Get<GetUserResponse>("users/{user_id}", new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
@@ -103,6 +109,8 @@
         /// <param name="user">Свойства профиля пользователя</param>
         public void UpdateUserProfile(string userId, UserEditProfileEntry user)
         {
+            RequestRate(0.5);
+
             Put("users/{user_id}", new
             {
                 user_id = userId,
@@ -120,6 +128,8 @@
         /// <returns>Свойства пользователя</returns>
         public GroupedUser GetCurrentUserInfo()
         {
+            RequestRate(0.5);
+
             return Get<GetUserResponse>("users/current").User;
         }
 
@@ -143,6 +153,8 @@
         /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetCurrentCertificates(int startFrom, int count)
         {
+            RequestRate(0.5);
+
             return Post<CertificatesResponse<UserCertificate>>("users/current/keys", new
             {
                 start_from = startFrom,
@@ -159,6 +171,8 @@
         /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetUserCertificates(string userId, int startFrom, int count)
         {
+            RequestRate(0.5);
+
             return Post<CertificatesResponse<UserCertificate>>("users/{user_id}/keys", new
             {
                 start_from = startFrom,
@@ -177,6 +191,8 @@
         /// <returns>Свойства УС</returns>
         public AccountSystem GetAccountSystem(string accountSystemId)
         {
+            RequestRate(0.5);
+
             return Get<GetAccountSystemResponse>("account_systems/{account_system_id}", new[]
             {
                 new Parameter("account_system_id", accountSystemId, ParameterType.UrlSegment),
@@ -198,6 +214,8 @@
         /// <returns>Код аутентификации для получения ключа сессии</returns>
         internal string Authenticate(string clientId, string clientSecret, string userId, string authType)
         {
+            RequestRate(1);
+
             var auth = Post<AuthResponse>("auth", new
             {
                 client_id = clientId,
@@ -222,6 +240,8 @@
         /// <returns>Ключ сессии <see cref="AuthToken"/>.</returns>
         internal AuthToken GetToken(string authCode, string signature = null, string password = null)
         {
+            RequestRate(1);
+
             var result = Post<AuthToken>("token", new
             {
                 code = authCode,
@@ -239,6 +259,8 @@
         /// </summary>
         internal void Logout()
         {
+            RequestRate(1);
+
             Get("auth/logout");
             IsAuthenticated = false;
         }
@@ -249,6 +271,8 @@
         /// <param name="userId">Уникальный идентификатор пользователя учетной системы</param>
         public void DeleteUser(string userId)
         {
+            RequestRate(0.5);
+
             Delete("users/{user_id}", null, new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
@@ -261,6 +285,8 @@
         /// <param name="accountSystemId">Уникальный идентификатор учетной системы</param>
         public void DeleteAccountSystem(string accountSystemId)
         {
+            RequestRate(0.5);
+
             Delete("account_systems/{account_system_id}", null, new[]
             {
                 new Parameter("account_system_id", accountSystemId, ParameterType.UrlSegment),
@@ -277,6 +303,8 @@
         /// <param name="certificate">Публичный сертификат пользователя</param>
         public void AddUserCertificate(string userId, string certificate)
         {
+            RequestRate(0.5);
+
             Post("users/{user_id}/add_key", new
             {
                 public_cert = certificate
@@ -299,6 +327,8 @@
         /// <param name="certificate">Публичный сертификат пользователя</param>
         public void DeleteUserCertificate(string userId, string certificate)
         {
+            RequestRate(0.5);
+
             Delete("users/{user_id}/delete_key", new
             {
                 public_cert = certificate
@@ -490,6 +520,8 @@
         /// <returns>Список учетных систем</returns>
         public AccountSystemsResponse<AccountSystem> GetAccountSystems(string name, int startFrom, int count)
         {
+            RequestRate(0.5);
+
             return Post<AccountSystemsResponse<AccountSystem>>("account_systems/filter", new
             {
                 filter = new
