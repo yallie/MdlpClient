@@ -111,7 +111,8 @@
             {
                 DocType = 607,
                 DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
-                ProcessedDateFrom = DateTime.Now.AddYears(-100)
+                ProcessedDateFrom = DateTime.Now.AddYears(-100),
+                StartDate = DateTime.Now.AddYears(-100)
             },
             startFrom: 0, count: 10);
 

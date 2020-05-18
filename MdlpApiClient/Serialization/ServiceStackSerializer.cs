@@ -15,10 +15,12 @@ namespace MdlpApiClient.Serialization
         static ServiceStackSerializer()
         {
             // use custom serialization only for our own types
-            JsConfig<CustomDateTime>.SerializeFn = c => c;
-            JsConfig<CustomDateTime>.DeSerializeFn = s => CustomDateTime.Parse(s);
             JsConfig<CustomDate>.SerializeFn = c => c;
             JsConfig<CustomDate>.DeSerializeFn = s => CustomDate.Parse(s);
+            JsConfig<CustomDateTime>.SerializeFn = c => c;
+            JsConfig<CustomDateTime>.DeSerializeFn = s => CustomDateTime.Parse(s);
+            JsConfig<CustomDateTimeSpace>.SerializeFn = c => c;
+            JsConfig<CustomDateTimeSpace>.DeSerializeFn = s => CustomDateTimeSpace.Parse(s);
         }
 
         public string[] SupportedContentTypes

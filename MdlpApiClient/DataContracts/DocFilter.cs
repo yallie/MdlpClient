@@ -14,25 +14,25 @@
         /// Дата начала периода фильтрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTimeSpace StartDate { get; set; }
 
         /// <summary>
         /// Дата окончания периода фильтрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTimeSpace EndDate { get; set; }
 
         /// <summary>
         /// Дата обработки документа: начало периода
         /// </summary>
         [DataMember(Name = "processed_date_from", IsRequired = false)]
-        public DateTime? ProcessedDateFrom { get; set; }
+        public CustomDateTimeSpace ProcessedDateFrom { get; set; }
 
         /// <summary>
         /// Дата обработки документа: окончание периода
         /// </summary>
         [DataMember(Name = "processed_date_to", IsRequired = false)]
-        public DateTime? ProcessedDateTo { get; set; }
+        public CustomDateTimeSpace ProcessedDateTo { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор документа
@@ -49,14 +49,17 @@
         /// <summary>
         /// Уникальный идентификатор отправителя.
         /// Идентификатор места осуществления деятельности, места ответственного
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sender_id", IsRequired = false)]
         public string SenderID { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор получателя.
         /// Идентификатор места осуществления деятельности, места ответственного
-        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»        /// Применимо для входящих документов.        /// </summary>
+        /// хранения или идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// Применимо для входящих документов.
+        /// </summary>
         [DataMember(Name = "receiver_id", IsRequired = false)]
         public string ReceiverID { get; set; }
 

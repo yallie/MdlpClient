@@ -304,6 +304,10 @@
             public CustomDateTime Now { get; set; }
             [DataMember(Name = "then")]
             public CustomDateTime Then { get; set; }
+            [DataMember(Name = "start")]
+            public CustomDateTimeSpace Start { get; set; }
+            [DataMember(Name = "end")]
+            public CustomDateTimeSpace End { get; set; }
         }
 
         [Test]
@@ -319,6 +323,7 @@
                 From = new DateTime(2020, 04, 24, 1, 2, 3),
                 Now = new DateTime?(new DateTime(2019, 12, 24, 1, 2, 3)),
                 Then = new DateTime?(),
+                Start = new DateTime(2020, 05, 19, 2, 48, 55),
             };
 
             var ss = new ServiceStackSerializer();
