@@ -19165,6 +19165,25 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    /// <summary>
+    /// 4.14. Список типов аутентификации (AuthType)
+    /// Таблица 10. Список типов аутентификации    /// </summary>
+    public class AuthTypeEnum
+    {
+        /// <summary>
+        /// Аутентификация с помощью пароля.
+        /// </summary>
+        public const string PASSWORD = "PASSWORD";
+
+        /// <summary>
+        /// Аутентификация с помощью подписанного одноразового кода.
+        /// </summary>
+        public const string SIGNED_CODE = "SIGNED_CODE";
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System;
     using System.Runtime.Serialization;
 
@@ -19386,13 +19405,35 @@ namespace MdlpApiClient.DataContracts
         /// Дата начала периода фильтрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата окончания периода фильтрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
+
+        /// <summary>
+        /// Возможность вывода ЛП из оборота через РВ или соответствующий документ.
+        /// • true — вывод ЛП из оборота возможен через РВ или документ
+        /// • false — вывод ЛП из оборота возможен только через РВ        /// </summary>
+        [DataMember(Name = "is_withdrawal_via_document_allowed", IsRequired = false)]
+        public bool? IsWithdrawalViaDocumentAllowed { get; set; }
+
+        /// <summary>
+        /// Лицензия на фармацевтическую деятельность        /// </summary>
+        [DataMember(Name = "has_pharm_license", IsRequired = false)]
+        public bool? HasPharmLicense { get; set; }
+
+        /// <summary>
+        /// Лицензия на производственную деятельность        /// </summary>
+        [DataMember(Name = "has_prod_license", IsRequired = false)]
+        public bool? HasProdLicense { get; set; }
+
+        /// <summary>
+        /// Лицензия на медицинскую деятельность        /// </summary>
+        [DataMember(Name = "has_med_license", IsRequired = false)]
+        public bool? HasMedLicense { get; set; }
     }
 }
 
@@ -19541,6 +19582,166 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
+
+    /// <summary>
+    /// Custom <see cref="System.DateTime"/> wrapper class to work around serialization issues.
+    /// Some API methods assume that date+time fields look like this: "2018-12-12T00:00:00Z".
+    /// While some others assume that date+time fields look like this: "2018-12-12 00:00:00"
+    /// </summary>
+    public class CustomDate
+    {
+        /// <summary>
+        /// Real Date value.
+        /// </summary>
+        public DateTime? DateTime { get; set; }
+
+        private const string Format = "yyyy\\-MM\\-dd";
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            // 2020-04-24
+            return DateTime.HasValue ? DateTime.Value.ToString(Format) : "null";
+        }
+
+        /// <summary>
+        /// Parses the given string.
+        /// </summary>
+        /// <param name="s">String to parse.</param>
+        /// <returns><see cref="CustomDate"/> instance.</returns>
+        public static CustomDate Parse(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s) || "null".Equals(s, StringComparison.OrdinalIgnoreCase))
+            {
+                return new CustomDate();
+            }
+
+            return new CustomDate
+            {
+                DateTime = System.DateTime.ParseExact(s.TrimEnd('z', 'Z'), Format, null).Date
+            };
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDate"/> instance.</param>
+        public static implicit operator DateTime(CustomDate cd)
+        {
+            return cd.DateTime ?? default(DateTime);
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDate"/> instance.</param>
+        public static implicit operator DateTime?(CustomDate cd)
+        {
+            return cd.DateTime;
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="string"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDate"/> instance.</param>
+        public static implicit operator string(CustomDate cd)
+        {
+            return cd == null ? "null" : cd.ToString();
+        }
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDate"/> instance.</param>
+        public static implicit operator CustomDate(DateTime? dt)
+        {
+            return new CustomDate { DateTime = dt };
+        }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+
+    /// <summary>
+    /// Custom <see cref="System.DateTime"/> wrapper class to work around serialization issues.
+    /// Some API methods assume that date+time fields look like this: "2018-12-12T00:00:00Z".
+    /// While some others assume that date+time fields look like this: "2018-12-12 00:00:00"
+    /// </summary>
+    public class CustomDateTime
+    {
+        /// <summary>
+        /// Real DateTime value.
+        /// </summary>
+        public DateTime? DateTime { get; set; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            // 2020-04-24T21:01:40Z
+            return DateTime.HasValue ? DateTime.Value.ToString("s") + "Z" : "null";
+        }
+
+        /// <summary>
+        /// Parses the given string.
+        /// </summary>
+        /// <param name="s">String to parse.</param>
+        /// <returns><see cref="CustomDateTime"/> instance.</returns>
+        public static CustomDateTime Parse(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s) || "null".Equals(s, StringComparison.OrdinalIgnoreCase))
+            {
+                return new CustomDateTime();
+            }
+
+            return new CustomDateTime
+            {
+                DateTime = System.DateTime.ParseExact(s.TrimEnd('z', 'Z'), "s", null)
+            };
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
+        public static implicit operator DateTime(CustomDateTime cd)
+        {
+            return cd.DateTime ?? default(DateTime);
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
+        public static implicit operator DateTime?(CustomDateTime cd)
+        {
+            return cd.DateTime;
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="string"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
+        public static implicit operator string(CustomDateTime cd)
+        {
+            return cd == null ? "null" : cd.ToString();
+        }
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDateTime"/> instance.</param>
+        public static implicit operator CustomDateTime(DateTime? dt)
+        {
+            return new CustomDateTime { DateTime = dt };
+        }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -19556,17 +19757,20 @@ namespace MdlpApiClient.DataContracts
         public string ID { get; set; }
 
         /// <summary>
-        /// ИНН владельца СВХ/ТС или УЭО        /// </summary>
+        /// ИНН владельца СВХ/ТС или УЭО
+        /// </summary>
         [DataMember(Name = "inn", IsRequired = false)]
         public string Inn { get; set; }
 
         /// <summary>
-        /// Номер свидетельства о включении в реестр ФТС России        /// </summary>
+        /// Номер свидетельства о включении в реестр ФТС России
+        /// </summary>
         [DataMember(Name = "regNum", IsRequired = false)]
         public string RegistrationNumber { get; set; }
 
         /// <summary>
-        /// Тип склада        /// </summary>
+        /// Тип склада
+        /// </summary>
         [DataMember(Name = "warehouseType", IsRequired = false)]
         public string WarehouseType { get; set; }
 
@@ -19575,6 +19779,12 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "customCode", IsRequired = false)]
         public string CustomsCode { get; set; }
+
+        /// <summary>
+        /// Наличие лицензии на фармацевтическую деятельность.
+        /// </summary>
+        [DataMember(Name = "hasPharmLicense", IsRequired = false)]
+        public bool? HasPharmLicense { get; set; }
     }
 }
 
@@ -19744,6 +19954,13 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "file_uploadtype", IsRequired = false)]
         public int? FileUploadType { get; set; } // 1 УСО, 2 ЛК, 3 API, 4 ОФД, 5 СКЗКМ
+
+        /// <summary>
+        /// Идентификатор отчета СУЗ.
+        /// Для документов, полученных от регистраторов событий
+        /// </summary>
+        [DataMember(Name = "skzkm_report_id", IsRequired = false)]
+        public string SkzkmReportID { get; set; }
     }
 }
 
@@ -20029,13 +20246,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата предоставления, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "provision_start_date", IsRequired = false)]
-        public DateTime? ProvisionStartDate { get; set; }
+        public CustomDate ProvisionStartDate { get; set; }
 
         /// <summary>
         /// Дата предоставления, окончание периода фильтрации
         /// </summary>
         [DataMember(Name = "provision_end_date", IsRequired = false)]
-        public DateTime? ProvisionEndDate { get; set; }
+        public CustomDate ProvisionEndDate { get; set; }
 
         /// <summary>
         /// Тип размещения
@@ -20317,13 +20534,21 @@ namespace MdlpApiClient.DataContracts
         [DataMember(Name = "path")] // "/api/v1/reestr/shtuchek/dryuchek"
         public string Path { get; set; }
 
-        // And sometimes it's like { error_description }
+        // And sometimes it's like { error_description: "hey" }
 
         /// <summary>
         /// Сообщение об ошибке, текстовое представление
         /// </summary>
         [DataMember(Name = "error_description")] // "Ошибка такая-то с подробностями",
         public string Description { get; set; }
+
+        // And sometimes it's like { success: false, violations: ["one", "two", "three"] }
+
+        [DataMember(Name = "success")]
+        public bool Success { get; set; }
+
+        [DataMember(Name = "violations")]
+        public string[] Violations { get; set; }
     }
 }
 
@@ -20343,13 +20568,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата гос. регистрации, начальная дата
         /// </summary>
         [DataMember(Name = "REG_DATE", IsRequired = false)]
-        public DateTime? RegistrationDateFrom { get; set; }
+        public CustomDateTime RegistrationDateFrom { get; set; }
 
         /// <summary>
         /// Дата гос. регистрации, конечная дата
         /// </summary>
         [DataMember(Name = "REG_END_DATE", IsRequired = false)]
-        public DateTime? RegistrationDateTo { get; set; }
+        public CustomDateTime RegistrationDateTo { get; set; }
 
         /// <summary>
         /// Номер регистрационного удостоверения
@@ -21195,59 +21420,6 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.4.1. Информация об иерархии вложенности третичной упаковки
-    /// </summary>
-    [DataContract]
-    public class GetSsccHierarchyResponse
-    {
-        /// <summary>
-        /// Иерархия вложенности "вверх".
-        /// </summary>
-        /// <remarks>
-        /// Описывающий иерархию вложенности "вверх" массив упорядочен согласно уровням
-        /// вложенности упаковки и в качестве первого элемента содержит описание для
-        /// запрошенного идентификационного кода третичной упаковки, а в качестве последнего
-        /// элемента — описание для идентификационного кода третичной упаковки самого верхнего
-        /// уровня.
-        /// </remarks>
-        [DataMember(Name = "up")]
-        public SsccInfo[] Up { get; set; }
-
-        /// <summary>
-        /// Иерархия вложенности "вниз".
-        /// </summary>
-        /// <remarks>
-        /// Содержит информацию о вложенности третичной упаковки,
-        /// начиная с запрошенного идентификационного кода третичной упаковки.
-        /// </remarks>
-        [DataMember(Name = "down")]
-        public SsccInfo[] Down { get; set; }
-
-        /// <summary>
-        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
-        /// </summary>
-        /// <remarks>
-        /// В случае успешного поиска информация об ошибке отсутствует
-        /// </remarks>
-        [DataMember(Name = "error_code", IsRequired = false)]
-        public int? ErrorCode { get; set; }
-
-        /// <summary>
-        /// Описание ошибки
-        /// </summary>
-        /// <remarks>
-        /// В случае успешного поиска информация об ошибке отсутствует
-        /// </remarks>
-        [DataMember(Name = "error_desc", IsRequired = false)]
-        public string ErrorDescription { get; set; }
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
-    using System.Runtime.Serialization;
-
-    /// <summary>
     /// 8.4.2. Список КИЗ, вложенных в третичную упаковку
     /// </summary>
     [DataContract]
@@ -21447,6 +21619,73 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "total", IsRequired = true)]
         public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    /// <summary>
+    /// 4.13. Список типов групп прав (GroupTypeEnum)
+    /// Таблица 9. Список типов групп прав
+    /// </summary>
+    public class GroupTypeEnum
+    {
+        /// <summary>
+        /// Пользовательская группа прав.
+        /// Создаётся пользователем. Только над группами прав 
+        /// с этим типом разрешены операции модификации 
+        /// (удаление, редактирование, добавление/удаление
+        /// пользователей).
+        /// </summary>
+        public const int USER_GROUP = 0;
+
+        /// <summary>
+        /// Системная группа прав.
+        /// Создается автоматически при регистрации участника.
+        /// В нее входят пользователи, состоящие в реестрах
+        /// ЕГРИП/ЕГРЮЛ/РАФП(администраторы).
+        /// </summary>
+        public const int SYS_GROUP = 1;
+
+        /// <summary>
+        /// Группа прав "Производитель".
+        /// Создается автоматически у представительства,
+        /// иностранного участника или участника при наличии
+        /// производственной лицензии.Позволяет работать с
+        /// заявлениями и анкетами на устройства регистрации
+        /// эмиссии, а также с реестрами биллинга.
+        /// </summary>
+        public const int PROD_GROUP = 2;
+
+        /// <summary>
+        /// Группа прав "Медицинская деятельность".
+        /// Создается автоматически у участника при наличии
+        /// медицинской лицензии.Позволяет работать с
+        /// заявлениями и анкетами на устройства регистрации
+        /// выбытия.        /// </summary>
+        public const int MED_GROUP = 3;
+
+        /// <summary>
+        /// Группа прав "Заказчик КМ".
+        /// Создается по заявке. Позволяет работать с
+        /// заявлениям на коды маркировки.        /// </summary>
+        public const int LABEL_GROUP = 4;
+
+        /// <summary>
+        /// Группа прав "Фармацевтическая организация".
+        /// Создается автоматически у участника при наличии
+        /// фармацевтической лицензии.Позволяет работать с
+        /// заявлениями и анкетами на устройства регистрации
+        /// выбытия.        /// </summary>
+        public const int PHARM_GROUP = 5;
+
+        /// <summary>
+        /// Группа прав "Держатель регистрационного удостоверения".
+        /// Создается по заявке. Позволяет работать с
+        /// заявлениями и анкетами на устройства регистрации
+        /// эмиссии, а также с реестрами биллинга.
+        /// </summary>
+        public const int REG_GROUP = 6;
     }
 }
 
@@ -21677,6 +21916,233 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "drug_code_version", IsRequired = false)]
         public int? DrugCodeVersion { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.3. Информация о приостановке оборота ЛП
+    /// </summary>
+    [DataContract]
+    public class HierarchyPausedCirculationDecision
+    {
+        /// <summary>
+        /// Идентификатор решения
+        /// </summary>
+        [DataMember(Name = "id", IsRequired = true)]
+        public string HaltID { get; set; }
+
+        /// <summary>
+        /// Номер решения
+        /// </summary>
+        [DataMember(Name = "number", IsRequired = true)]
+        public string HaltDocNumber { get; set; }
+
+        /// <summary>
+        /// Дата решения
+        /// </summary>
+        [DataMember(Name = "date", IsRequired = true)]
+        public DateTime HaltDate { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.3. Информация о полной иерархии вложенности третичной упаковки
+    /// </summary>
+    [DataContract]
+    public class HierarchySgtinInfo
+    {
+        /// <summary>
+        /// Идентификационный код SGTIN
+        /// </summary>
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Идентификационный код третичной упаковки
+        /// </summary>
+        [DataMember(Name = "sscc")]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// Идентификационный код товара в GS1
+        /// </summary>
+        [DataMember(Name = "gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Статус SGTIN
+        /// </summary>
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "series_number")]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Срок годности препарата
+        /// </summary>
+        [DataMember(Name = "expiration_date", IsRequired = false)]
+        public DateTime? ExpirationDate { get; set; }
+
+        /// <summary>
+        /// Решение о приостановке оборота, если есть
+        /// </summary>
+        [DataMember(Name = "pause_decision_info", IsRequired = false)]
+        public HierarchyPausedCirculationDecision PausedDecision { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.3. Информация о полной иерархии вложенности третичной упаковки
+    /// </summary>
+    [DataContract]
+    public class HierarchySsccInfo
+    {
+        /// <summary>
+        /// Идентификационный код третичной упаковки
+        /// </summary>
+        [DataMember(Name = "sscc")]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// Дата и время совершения операции упаковки
+        /// </summary>
+        [DataMember(Name = "packing_date")]
+        public DateTime PackingDate { get; set; }
+
+        /// <summary>
+        /// Список вложенных упаковок
+        /// </summary>
+        [IgnoreDataMember]
+        public HierarchySsccInfo[] ChildSsccs { get; set; }
+
+        /// <summary>
+        /// Список вложенных препаратов
+        /// </summary>
+        [IgnoreDataMember]
+        public HierarchySgtinInfo[] ChildSgtins { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Linq;
+    using System.Runtime.Serialization;
+    using MdlpApiClient.Toolbox;
+
+    /// <summary>
+    /// 8.4.3. Информация о полной иерархии вложенности третичной упаковки
+    /// </summary>
+    /// <remarks>
+    /// Вспомогательный класс для решения проблемы десериализации 
+    /// разнородных элементов в массиве "childs"
+    /// </remarks>
+    [DataContract]
+    internal class HierarchySsccInfoInternal : HierarchySsccInfo
+    {
+        /// <summary>
+        /// Converts items to real <see cref="HierarchySsccInfo"/>.
+        /// </summary>
+        /// <param name="item">Item to convert</param>
+        public static HierarchySsccInfo Convert(HierarchySsccInfoInternal item)
+        {
+            var children = item.Children.EmptyIfNull();
+            var ssccs = children.Where(c => !c.IsSgtinInfo);
+            var sgtins = children.Where(c => c.IsSgtinInfo);
+            return new HierarchySsccInfo
+            {
+                Sscc = item.Sscc,
+                ChildSsccs = ssccs.Select(s => Convert(s)).ToArray(),
+                ChildSgtins = sgtins.Select(c => c.GetSgtinInfo()).ToArray(),
+            };
+        }
+
+        /// <summary>
+        /// Checks if the current instance represents <see cref="HierarchySgtinInfo"/>.
+        /// </summary>
+        [IgnoreDataMember]
+        private bool IsSgtinInfo
+        {
+            get { return Sgtin != null; }
+        }
+
+        /// <summary>
+        /// Converts to <see cref="HierarchySgtinInfo"/>.
+        /// </summary>
+        private HierarchySgtinInfo GetSgtinInfo()
+        {
+            return new HierarchySgtinInfo
+            {
+                Sgtin = Sgtin,
+                Sscc = Sscc,
+                Gtin = Gtin,
+                Status = Status,
+                BatchNumber = BatchNumber,
+                ExpirationDate = ExpirationDate,
+                PausedDecision = PausedDecision,
+            };
+        }
+
+        /// <summary>
+        /// Идентификационный код SGTIN
+        /// </summary>
+        [DataMember(Name = "sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// Идентификационный код товара в GS1
+        /// </summary>
+        [DataMember(Name = "gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Статус SGTIN
+        /// </summary>
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Номер производственной серии
+        /// </summary>
+        [DataMember(Name = "series_number")]
+        public string BatchNumber { get; set; }
+
+        /// <summary>
+        /// Срок годности препарата
+        /// </summary>
+        [DataMember(Name = "expiration_date", IsRequired = false)]
+        public DateTime? ExpirationDate { get; set; }
+
+        /// <summary>
+        /// Решение о приостановке оборота, если есть
+        /// </summary>
+        [DataMember(Name = "pause_decision_info", IsRequired = false)]
+        public HierarchyPausedCirculationDecision PausedDecision { get; set; }
+
+        /// <summary>
+        /// Дочерние элементы, сваленные в кучу
+        /// </summary>
+        [DataMember(Name = "childs", IsRequired = false)]
+        public HierarchySsccInfoInternal[] Children { get; set; }
     }
 }
 
@@ -22582,14 +23048,21 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Уникальный идентификатор регистратора событий РЭ или РВ.
         /// </summary>
-        [DataMember(Name = "device_id")]
+        [DataMember(Name = "device_id", IsRequired = false)]
         public string DeviceID { get; set; } // 1230000011111111 (optional)
 
         /// <summary>
-        /// Уникальный идентификатор системы, сформировавшей сообщение
+        /// Уникальный идентификатор системы, сформировавшей сообщение.
         /// </summary>
-        [DataMember(Name = "skzkm_origin_msg_id")]
+        [DataMember(Name = "skzkm_origin_msg_id", IsRequired = false)]
         public string SkzkmOriginMessageID { get; set; } // "e2cb20c1-1d5b-4ab6-b8dd-9297bec23f63" (optional)
+
+        /// <summary>
+        /// Идентификатор отчета системы управления заказами (СУЗ), Guid.
+        /// Для документов, полученных от регистраторов событий.
+        /// </summary>
+        [DataMember(Name = "skzkm_report_id", IsRequired = false)]
+        public string SkzkmReportID { get; set; }
     }
 }
 
@@ -22657,13 +23130,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата заявки на регистрацию, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата заявки на регистрацию, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
 
         /// <summary>
         /// Тип участника, см. <see cref="RegEntityTypeEnum"/>:
@@ -22679,13 +23152,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата фактической регистрации, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "op_exec_date_start", IsRequired = false)]
-        public DateTime? OperationStartDate { get; set; }
+        public CustomDateTime OperationStartDate { get; set; }
 
         /// <summary>
         /// Дата фактической регистрации, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "op_exec_date_end", IsRequired = false)]
-        public DateTime? OperationEndDate { get; set; }
+        public CustomDateTime OperationEndDate { get; set; }
     }
 }
 
@@ -22841,25 +23314,25 @@ namespace MdlpApiClient.DataContracts
         /// Дата решения, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "start_halt_doc_date", IsRequired = false)]
-        public DateTime? StartHaltDocDate { get; set; }
+        public CustomDateTime StartHaltDocDate { get; set; }
 
         /// <summary>
         /// Дата решения, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "end_halt_doc_date", IsRequired = false)]
-        public DateTime? EndHaltDocDate { get; set; }
+        public CustomDateTime EndHaltDocDate { get; set; }
 
         /// <summary>
         /// Дата вступления в силу, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "start_halt_date", IsRequired = false)]
-        public DateTime? StartHaltDate { get; set; }
+        public CustomDateTime StartHaltDate { get; set; }
 
         /// <summary>
-        /// ДДата вступления в силу, конец периода фильтрации
+        /// Дата вступления в силу, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "end_halt_date", IsRequired = false)]
-        public DateTime? EndHaltDate { get; set; }
+        public CustomDateTime EndHaltDate { get; set; }
     }
 }
 
@@ -23798,7 +24271,7 @@ namespace MdlpApiClient.DataContracts
         public string SgtinValue { get; set; }
 
         /// <summary>
-        /// Статус (см. Список возможных статусов КИЗ)
+        /// Статус (см. Список возможных статусов КИЗ, <see cref="SgtinStatus"/>)
         /// </summary>
         [DataMember(Name = "status")]
         public string Status { get; set; }
@@ -23825,7 +24298,9 @@ namespace MdlpApiClient.DataContracts
         /// Тип эмиссии:
         /// 1 — собственное,
         /// 2 — контрактное,
-        /// 3 — иностранное производство
+        /// 3 — иностранное производство,
+        /// 4 — маркирован на таможне.
+        /// См. <see cref="SgtinEmissionType"/>.
         /// </summary>
         [DataMember(Name = "emission_type")]
         public int EmissionType { get; set; }
@@ -23907,7 +24382,10 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Источник финансирования.
-        /// Возможные значения см. в XSD описании базовых типов комплекта схем.
+        /// Возможные значения см. в XSD описании базовых типов комплекта схем:
+        /// 1 — собственные средства,
+        /// 2 — средства федерального бюджета,
+        /// 3 — средства регионального бюджета
         /// </summary>
         [DataMember(Name = "source_type", IsRequired = false)]
         public int? SourceType { get; set; }
@@ -23972,6 +24450,30 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "gnvlp")]
         public bool Gnvlp { get; set; }
+
+        /// <summary>
+        /// Дата решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_doc_date", IsRequired = false)]
+        public DateTime? HaltDocDate { get; set; }
+
+        /// <summary>
+        /// Дата вступления в силу решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_date", IsRequired = false)]
+        public DateTime? HaltDate { get; set; }
+
+        /// <summary>
+        /// Номер решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_doc_num", IsRequired = false)]
+        public string HaltDocNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_id", IsRequired = true)]
+        public string HaltID { get; set; }
     }
 }
 
@@ -24003,13 +24505,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата операции из чека, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "op_start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата операции из чека, конец периода фильтрации
         /// </summary>
         [DataMember(Name = "op_end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
     }
 }
 
@@ -24142,6 +24644,36 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    /// <summary>
+    /// 4.44. Типы эмиссии
+    /// Таблица 40. Типы эмиссии
+    /// </summary>
+    public class SgtinEmissionType
+    {
+        /// <summary>
+        /// Собственное производство.
+        /// </summary>
+        public const int OWN_PRODUCTION = 1;
+
+        /// <summary>
+        /// Контрактное производство.
+        /// </summary>
+        public const int CONTRACT_PRODUCTION = 2;
+
+        /// <summary>
+        /// Иностранное производство.
+        /// </summary>
+        public const int FOREIGN_PRODUCTION = 3;
+
+        /// <summary>
+        /// Маркирован в зоне таможенного контроля.
+        /// </summary>
+        public const int CUSTOMS_LABELING = 4;
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -24151,29 +24683,47 @@ namespace MdlpApiClient.DataContracts
     public class SgtinExtended : Sgtin
     {
         // <summary>
-        // Идентификатор заказа системы управления заказами (СУЗ), Guid        // Он и так есть в классе Sgtin.        // </summary>
+        // Идентификатор заказа системы управления заказами (СУЗ), Guid
+        // Он и так есть в классе Sgtin.
+        // </summary>
         // [DataMember(Name = "oms_order_id", IsRequired = false)]
         // public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// ИНН/ИТИН производителя-упаковщика        /// </summary>
+        /// ИНН/ИТИН упаковщика во вторичную/третичную упаковку.
+        /// </summary>
         [DataMember(Name = "packing_inn", IsRequired = false)]
         public string PackingInn { get; set; }
 
         /// <summary>
-        /// Наименование производителя-упаковщика        /// </summary>
+        /// Наименование упаковщика во вторичную/третичную упаковку.
+        /// </summary>
         [DataMember(Name = "packing_name", IsRequired = false)]
         public string PackingName { get; set; }
 
         /// <summary>
-        /// ИНН/ИТИН производителя-выпускающего        /// </summary>
+        /// Идентификатор упаковщика во вторичную/третичную упаковку.
+        /// </summary>
+        [DataMember(Name = "packing_id", IsRequired = false)]
+        public string PackingID { get; set; }
+
+        /// <summary>
+        /// ИНН/ИТИН производителя стадии выпускающий контроль качества.
+        /// </summary>
         [DataMember(Name = "control_inn", IsRequired = false)]
         public string ControlInn { get; set; }
 
         /// <summary>
-        /// Наименование производителя-выпускающего        /// </summary>
+        /// Наименование производителя стадии выпускающий контроль качества.
+        /// </summary>
         [DataMember(Name = "control_name", IsRequired = false)]
         public string ControlName { get; set; }
+
+        /// <summary>
+        /// Идентификатор производителя стадии выпускающий контроль качества.
+        /// </summary>
+        [DataMember(Name = "control_id", IsRequired = false)]
+        public string ControlID { get; set; }
     }
 }
 
@@ -24220,7 +24770,7 @@ namespace MdlpApiClient.DataContracts
     public class SgtinFilter
     {
         /// <summary>
-        /// Статус
+        /// Статус (см. Список возможных статусов КИЗ, <see cref="SgtinStatus"/>)
         /// </summary>
         [DataMember(Name = "status", IsRequired = false)]
         public string[] Status { get; set; }
@@ -24229,7 +24779,9 @@ namespace MdlpApiClient.DataContracts
         /// Тип эмиссии:
         /// 1 — собственное,
         /// 2 — контрактное,
-        /// 3 — иностранное производство
+        /// 3 — иностранное производство,
+        /// 4 — маркирован на таможне.
+        /// См. <see cref="SgtinEmissionType"/>.
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }
@@ -24315,7 +24867,10 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Источник финансирования.
-        /// Возможные значения см. в XSD описании базовых типов комплекта схем.
+        /// Возможные значения см. в XSD описании базовых типов комплекта схем:
+        /// 1 — собственные средства,
+        /// 2 — средства федерального бюджета,
+        /// 3 — средства регионального бюджета
         /// </summary>
         [DataMember(Name = "source_type", IsRequired = false)]
         public int[] SourceType { get; set; }
@@ -24490,7 +25045,9 @@ namespace MdlpApiClient.DataContracts
         /// Тип эмиссии:
         /// 1 — собственное,
         /// 2 — контрактное,
-        /// 3 — иностранное производство
+        /// 3 — иностранное производство,
+        /// 4 — маркирован на таможне.
+        /// См. <see cref="SgtinEmissionType"/>.
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }
@@ -24634,6 +25191,349 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    /// <summary>
+    /// 4.43. Список возможных статусов КИЗ
+    /// Таблица 39. Статусы КИЗ
+    /// </summary>
+    public class SgtinStatus
+    {
+        /// <summary>
+        /// Ожидает выпуска.
+        /// </summary>
+        public const string MARKED = "marked";
+
+        /// <summary>
+        /// Отобран образец.
+        /// </summary>
+        public const string LP_SAMPLED = "lp_sampled";
+
+        /// <summary>
+        /// Передан на уничтожение.
+        /// </summary>
+        public const string MOVED_FOR_DISPOSAL = "moved_for_disposal";
+
+        /// <summary>
+        /// Уничтожен.
+        /// </summary>
+        public const string DISPOSED = "disposed";
+
+        /// <summary>
+        /// Выведен из оборота.
+        /// </summary>
+        public const string OUT_OF_CIRCULATION = "out_of_circulation";
+
+        /// <summary>
+        /// Ожидает подтверждения получения собственником.
+        /// </summary>
+        public const string TRANSFERED_TO_OWNER = "transfered_to_owner";
+
+        /// <summary>
+        /// Отгружен в РФ.
+        /// </summary>
+        public const string SHIPPED = "shipped";
+
+        /// <summary>
+        /// Ввезен на территорию РФ.
+        /// </summary>
+        public const string ARRIVED = "arrived";
+
+        /// <summary>
+        /// Задекларирован.
+        /// </summary>
+        public const string DECLARED = "declared";
+
+        /// <summary>
+        /// В обороте.
+        /// </summary>
+        public const string IN_CIRCULATION = "in_circulation";
+
+        /// <summary>
+        /// Отгружен.
+        /// </summary>
+        public const string IN_REALIZATION = "in_realization";
+
+        /// <summary>
+        /// Оборот приостановлен.
+        /// </summary>
+        public const string PAUSED_CIRCULATION = "paused_circulation";
+
+        /// <summary>
+        /// Продан в розницу.
+        /// </summary>
+        public const string IN_SALE = "in_sale";
+
+        /// <summary>
+        /// Отпущен по льготному рецепту.
+        /// </summary>
+        public const string IN_DISCOUNT_PRESCRIPTION_SALE = "in_discount_prescription_sale";
+
+        /// <summary>
+        /// Выдан для медицинского применения.
+        /// </summary>
+        public const string IN_MEDICAL_USE = "in_medical_use";
+
+        /// <summary>
+        /// Перемаркирован.
+        /// </summary>
+        public const string RELABELED = "relabeled";
+
+        /// <summary>
+        /// Реэкспорт.
+        /// </summary>
+        public const string REEXPORTED = "reexported";
+
+        /// <summary>
+        /// Ожидает передачи собственнику.
+        /// </summary>
+        public const string RELEASED_CONTRACT = "released_contract";
+
+        /// <summary>
+        /// • для типа эмиссии 3 — Ожидает отгрузки в РФ
+        /// • для типа эмиссии 4 — Маркирован в ЗТК.
+        /// </summary>
+        public const string RELEASED_FOREIGN = "released_foreign";
+
+        /// <summary>
+        /// Отгружен на незарегистрированное место деятельности.
+        /// </summary>
+        public const string MOVED_TO_UNREGISTERED = "moved_to_unregistered";
+
+        /// <summary>
+        /// Срок годности истек.
+        /// </summary>
+        public const string EXPIRED = "expired";
+
+        /// <summary>
+        /// Ожидает подтверждения смены собственника.
+        /// </summary>
+        public const string CHANGE_OWNER = "change_owner";
+
+        /// <summary>
+        /// Ожидает подтверждения получения новым владельцем.
+        /// </summary>
+        public const string CHANGE_OWNER_STATE_GOV = "change_owner_state_gov";
+
+        /// <summary>
+        /// Ожидает подтверждения возврата приостановленных лекарственных препаратов.
+        /// </summary>
+        public const string CONFIRM_RETURN_PAUSED = "confirm_return_paused";
+
+        /// <summary>
+        /// Выведен из оборота (накопленный в рамках эксперимента).
+        /// </summary>
+        public const string EXPERIMENT_OUTBOUND = "experiment_outbound";
+
+        /// <summary>
+        /// Частично выдан для медицинского применения.
+        /// </summary>
+        public const string IN_PARTIAL_MEDICAL_USE = "in_partial_medical_use";
+
+        /// <summary>
+        /// Частично продан в розницу.
+        /// </summary>
+        public const string IN_PARTIAL_SALE = "in_partial_sale";
+
+        /// <summary>
+        /// Частично отпущен по льготному рецепту.
+        /// </summary>
+        public const string IN_PARTIAL_DISCOUNT_PRESCRIPTION_SALE = "in_partial_discount_prescription_sale";
+
+        /// <summary>
+        /// Отгружен в ЕАЭС.
+        /// </summary>
+        public const string MOVED_TO_EEU = "moved_to_eeu";
+
+        /// <summary>
+        /// Принят на склад из ЗТК.
+        /// </summary>
+        public const string MOVED_TO_WAREHOUSE = "moved_to_warehouse";
+
+        /// <summary>
+        /// Эмитирован.
+        /// </summary>
+        public const string EMISSION = "emission";
+
+        /// <summary>
+        /// Продан в розницу с использованием ККТ с ошибкой.
+        /// </summary>
+        public const string OFD_RETAIL_ERROR = "ofd_retail_error";
+
+        /// <summary>
+        /// Отпущен по льготному рецепту с использованием ККТ с ошибкой.
+        /// </summary>
+        public const string OFD_DISCOUNT_PRESCRIPTION_ERROR = "ofd_discount_prescription_error";
+
+        /// <summary>
+        /// Ожидает подтверждения получения собственником до ввода в оборот.
+        /// </summary>
+        public const string TRANSFERRED_FOR_RELEASE = "transferred_for_release";
+
+        /// <summary>
+        /// Ожидает ввода в оборот собственником.
+        /// </summary>
+        public const string WAITING_FOR_RELEASE = "waiting_for_release";
+
+        /// <summary>
+        /// Эмитирован.
+        /// </summary>
+        public const string EMITTED = "emitted";
+
+        /// <summary>
+        /// Ожидает выпуска, не оплачен.
+        /// </summary>
+        public const string MARKED_NOT_PAID = "marked_not_paid";
+
+        /// <summary>
+        /// • для типа эмиссии 3 — Ожидает отгрузки в РФ, не оплачен
+        /// • для типа эмиссии 4 — Маркирован в ЗТК, не оплачен
+        /// </summary>
+        public const string RELEASED_FOREIGN_NOT_PAID = "released_foreign_not_paid";
+
+        /// <summary>
+        /// Истек срок ожидания оплаты.
+        /// </summary>
+        public const string EXPIRED_NOT_PAID = "expired_not_paid";
+
+        /// <summary>
+        /// Эмитирован, готов к использованию.
+        /// </summary>
+        public const string EMITTED_PAID = "emitted_paid";
+
+        /// <summary>
+        /// Отпущен по льготному рецепту с использованием РВ с ошибкой.
+        /// </summary>
+        public const string DISCOUNT_PRESCRIPTION_ERROR = "discount_prescription_error";
+
+        /// <summary>
+        /// Выдан для медицинского применения с использованием РВ с ошибкой.
+        /// </summary>
+        public const string MED_CARE_ERROR = "med_care_error";
+
+        /// <summary>
+        /// Принят на склад из ЗТК.
+        /// </summary>
+        public const string DECLARED_WAREHOUSE = "declared_warehouse";
+
+        /// <summary>
+        /// Передан для маркировки в ЗТК.
+        /// </summary>
+        public const string TRANSFERRED_TO_CUSTOMS = "transferred_to_customs";
+
+        /// <summary>
+        /// Ожидает подтверждения импортером.
+        /// </summary>
+        public const string TRANSFERRED_TO_IMPORTER = "transferred_to_importer";
+
+        /// <summary>
+        /// В арбитраже.
+        /// </summary>
+        public const string IN_ARBITRATION = "in_arbitration";
+
+        /// <summary>
+        /// Ожидает подтверждения.
+        /// </summary>
+        public const string WAITING_CONFIRMATION = "waiting_confirmation";
+
+        /// <summary>
+        /// Ожидает подтверждения возврата.
+        /// </summary>
+        public const string TRANSFER_TO_PRODUCTION = "transfer_to_production";
+
+        /// <summary>
+        /// Ожидает подтверждения корректировки.
+        /// </summary>
+        public const string WAITING_CHANGE_PROPERTY = "waiting_change_property";
+
+        /// <summary>
+        /// Не использован.
+        /// </summary>
+        public const string ELIMINATED = "eliminated";
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.3. Информация о полной иерархии вложенности третичной упаковки
+    /// </summary>
+    /// <remarks>
+    /// Ошибка в документации: сказано, что Up и Down — массивы.
+    /// Написал в техподдержку: заявка SR00499639.
+    /// </remarks>
+    [DataContract]
+    public class SsccFullHierarchyResponse<T>
+    {
+        /// <summary>
+        /// Иерархия вложенности "вверх".
+        /// </summary>
+        [DataMember(Name = "up")]
+        public T Up { get; set; }
+
+        /// <summary>
+        /// Иерархия вложенности "вниз".
+        /// </summary>
+        [DataMember(Name = "down")]
+        public T Down { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.4.1. Информация об иерархии вложенности третичной упаковки
+    /// </summary>
+    [DataContract]
+    public class SsccHierarchyResponse<T>
+    {
+        /// <summary>
+        /// Иерархия вложенности "вверх".
+        /// </summary>
+        /// <remarks>
+        /// Описывающий иерархию вложенности "вверх" массив упорядочен согласно уровням
+        /// вложенности упаковки и в качестве первого элемента содержит описание для
+        /// запрошенного идентификационного кода третичной упаковки, а в качестве последнего
+        /// элемента — описание для идентификационного кода третичной упаковки самого верхнего
+        /// уровня.
+        /// </remarks>
+        [DataMember(Name = "up")]
+        public T[] Up { get; set; }
+
+        /// <summary>
+        /// Иерархия вложенности "вниз".
+        /// </summary>
+        /// <remarks>
+        /// Содержит информацию о вложенности третичной упаковки,
+        /// начиная с запрошенного идентификационного кода третичной упаковки.
+        /// </remarks>
+        [DataMember(Name = "down")]
+        public T[] Down { get; set; }
+
+        /// <summary>
+        /// Код ошибки: 2 — не найден, 4 — доступ запрещен
+        /// </summary>
+        /// <remarks>
+        /// В случае успешного поиска информация об ошибке отсутствует
+        /// </remarks>
+        [DataMember(Name = "error_code", IsRequired = false)]
+        public int? ErrorCode { get; set; }
+
+        /// <summary>
+        /// Описание ошибки
+        /// </summary>
+        /// <remarks>
+        /// В случае успешного поиска информация об ошибке отсутствует
+        /// </remarks>
+        [DataMember(Name = "error_desc", IsRequired = false)]
+        public string ErrorDescription { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System;
     using System.Runtime.Serialization;
 
@@ -24767,6 +25667,7 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -24804,6 +25705,24 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "phone", IsRequired = false)]
         public string Phone { get; set; }
+
+        /// <summary>
+        /// Статус пользователя, см. значения <see cref="UserStatus"/>.
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Причина, по которой пользователь переведен в статус, см. значения <see cref="UserStatusReason"/>.
+        /// </summary>
+        [DataMember(Name = "status_change_reason", IsRequired = false)]
+        public string StatusChangeReason { get; set; }
+
+        /// <summary>
+        /// Дата и время последнего входа в систему.
+        /// </summary>
+        [DataMember(Name = "last_login_time", IsRequired = false)]
+        public DateTime? LastLoginTime { get; set; }
     }
 }
 
@@ -24939,6 +25858,12 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "is_admin", IsRequired = false)]
         public bool? IsAdmin { get; set; }
+
+        /// <summary>
+        /// Статусы пользователей, см. значения <see cref="UserStatus"/>.
+        /// </summary>
+        [DataMember(Name = "statuses", IsRequired = false)]
+        public string[] Statuses { get; set; }
     }
 }
 
@@ -24983,6 +25908,60 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "total", IsRequired = true)]
         public int Total { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    /// <summary>
+    /// 4.15. Список статусов пользователя (UserStatus)    /// Таблица 11. Список статусов пользователя
+    /// </summary>
+    public class UserStatus
+    {
+        /// <summary>
+        /// Активен.
+        /// </summary>
+        public const string ACTIVE = "ACTIVE";
+
+        /// <summary>
+        /// Заблокирован.
+        /// </summary>
+        public const string BLOCKED = "BLOCKED";
+
+        /// <summary>
+        /// Удален.
+        /// </summary>
+        public const string DELETED = "DELETED";
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    /// <summary>
+    /// 4.16. Список причин смены статуса пользователя (UserStatusReason)
+    /// Таблица 12. Список причин смены статуса пользователя
+    /// </summary>
+    public class UserStatusReason
+    {
+        /// <summary>
+        /// Заблокирован вручную.
+        /// </summary>
+        public const string MANUAL_BLOCK = "MANUAL_BLOCK";
+
+        /// <summary>
+        /// Временно заблокирован по причине превышения количества неверных попыток входа.
+        /// </summary>
+        public const string TEMPORARY_BLOCK = "TEMPORARY_BLOCK";
+
+        /// <summary>
+        /// Заблокирован по причине длительного бездействия.
+        /// </summary>
+        public const string INACTIVE_BLOCK = "INACTIVE_BLOCK";
+
+        /// <summary>
+        /// Заблокирован по причине истечения срока действия пароля.
+        /// </summary>
+        public const string PASSWORD_EXPIRED = "PASSWORD_EXPIRED";
     }
 }
 
@@ -25288,13 +26267,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата начала периода фильтрации по дате регистрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTime StartDate { get; set; }
 
         /// <summary>
         /// Дата окончания периода фильтрации по дате регистрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTime EndDate { get; set; }
     }
 }
 
@@ -25319,13 +26298,13 @@ namespace MdlpApiClient.DataContracts
         /// Дата предоставления, начало периода фильтрации
         /// </summary>
         [DataMember(Name = "provision_start_date", IsRequired = false)]
-        public DateTime? ProvisionStartDate { get; set; }
+        public CustomDate ProvisionStartDate { get; set; }
 
         /// <summary>
         /// Дата предоставления, окончание периода фильтрации
         /// </summary>
         [DataMember(Name = "provision_end_date", IsRequired = false)]
-        public DateTime? ProvisionEndDate { get; set; }
+        public CustomDate ProvisionEndDate { get; set; }
 
         /// <summary>
         /// Идентификатор места деятельности согласно лицензии
@@ -25469,6 +26448,8 @@ namespace MdlpApiClient
         /// <returns>Идентификатор документа</returns>
         public string SendDocument(string xmlDocument)
         {
+            RequestRate(0.5); // 1
+
             var result = Post<SendDocumentResponse>("documents/send", new
             {
                 document = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlDocument)),
@@ -25488,6 +26469,8 @@ namespace MdlpApiClient
         /// <returns>Идентификатор документа</returns>
         public string SendLargeDocument(string xmlDocument)
         {
+            RequestRate(0.5); // 2, 3, 4
+
             // 5.2
             var link = Post<SendLargeDocumentResponse>("documents/send_large", new
             {
@@ -25514,6 +26497,8 @@ namespace MdlpApiClient
         /// <returns>Максимальный размер документа в байтах.</returns>
         public int GetLargeDocumentSize()
         {
+            RequestRate(0.5); // 6
+
             var result = Get<GetLargeDocumentSizeResponse>("documents/doc_size");
             return result.DocSize;
         }
@@ -25525,6 +26510,8 @@ namespace MdlpApiClient
         /// <param name="requestId"></param>
         public void CancelSendDocument(string docId, string requestId)
         {
+            RequestRate(0.5); // 5
+
             Post("documents/cancel", new
             {
                 document_id = docId,
@@ -25540,6 +26527,8 @@ namespace MdlpApiClient
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public DocumentsResponse<OutcomeDocument> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
         {
+            RequestRate(1); // 7
+
             return Post<DocumentsResponse<OutcomeDocument>>("documents/outcome", new
             {
                 filter = filter,
@@ -25556,6 +26545,8 @@ namespace MdlpApiClient
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public DocumentsResponse<IncomeDocument> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
         {
+            RequestRate(1); // 8
+
             return Post<DocumentsResponse<IncomeDocument>>("documents/income", new
             {
                 filter = filter,
@@ -25571,6 +26562,8 @@ namespace MdlpApiClient
         /// <returns>Метаданные документа</returns>
         public DocumentMetadata GetDocumentMetadata(string documentId)
         {
+            RequestRate(0.5); // 9
+
             return Get<DocumentMetadata>("documents/{document_id}", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -25583,6 +26576,8 @@ namespace MdlpApiClient
         /// <param name="documentId">Идентификатор документа</param>
         public string GetDocumentText(string documentId)
         {
+            RequestRate(0.5); // 10
+
             var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -25597,6 +26592,8 @@ namespace MdlpApiClient
         /// <param name="requestId">Идентификатор запроса</param>
         public DocumentsResponse<DocumentMetadata> GetDocumentsByRequestID(string requestId)
         {
+            RequestRate(0.5); // 11
+
             return Get<DocumentsResponse<DocumentMetadata>>("documents/request/{request_id}", new[]
             {
                 new Parameter("request_id", requestId, ParameterType.UrlSegment),
@@ -25609,6 +26606,8 @@ namespace MdlpApiClient
         /// <param name="documentId">Идентификатор документа</param>
         public string GetTicketText(string documentId)
         {
+            RequestRate(0.5); // 12
+
             var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -25623,6 +26622,8 @@ namespace MdlpApiClient
         /// <param name="documentId">Идентификатор документа</param>
         public string GetSignature(string documentId)
         {
+            RequestRate(0.5); // 13
+
             return Get("documents/{document_id}/signature", new[]
             {
                 new Parameter("document_id", documentId, ParameterType.UrlSegment),
@@ -25638,6 +26639,8 @@ namespace MdlpApiClient
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public ItemsResponse<DocumentSkzkmMetadata> GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
         {
+            RequestRate(1); // 98
+
             return Post<ItemsResponse<DocumentSkzkmMetadata>>("documents/skzkm-traces/filter", new
             {
                 filter = new
@@ -25669,6 +26672,8 @@ namespace MdlpApiClient
         /// <returns>Идентификатор учетной системы</returns>
         public AccountSystem RegisterAccountSystem(string sysId, string name)
         {
+            RequestRate(0.5); // 14
+
             var accSystem = Post<AccountSystem>("registration/accounting_system", new
             {
                 sys_id = sysId,
@@ -25688,6 +26693,8 @@ namespace MdlpApiClient
         /// <returns>Идентификатор пользователя</returns>
         public string RegisterUser(string sysId, ResidentUser user)
         {
+            RequestRate(0.5); // 15
+
             var response = Post<RegisterUserResponse>("registration/user_resident", new
             {
                 sys_id = sysId,
@@ -25711,6 +26718,8 @@ namespace MdlpApiClient
         /// <returns>Идентификатор пользователя</returns>
         public string RegisterUser(string sysId, NonResidentUser user)
         {
+            RequestRate(0.5); // 16
+
             var response = Post<RegisterUserResponse>("registration/user_nonresident", new
             {
                 sys_id = sysId,
@@ -25733,6 +26742,8 @@ namespace MdlpApiClient
         /// <returns>Свойства пользователя</returns>
         public GroupedUser GetUserInfo(string userId)
         {
+            RequestRate(0.5); // 17
+
             return Get<GetUserResponse>("users/{user_id}", new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
@@ -25756,6 +26767,8 @@ namespace MdlpApiClient
         /// <param name="user">Свойства профиля пользователя</param>
         public void UpdateUserProfile(string userId, UserEditProfileEntry user)
         {
+            RequestRate(0.5); // 18
+
             Put("users/{user_id}", new
             {
                 user_id = userId,
@@ -25773,6 +26786,8 @@ namespace MdlpApiClient
         /// <returns>Свойства пользователя</returns>
         public GroupedUser GetCurrentUserInfo()
         {
+            RequestRate(0.5); // 19
+
             return Get<GetUserResponse>("users/current").User;
         }
 
@@ -25796,6 +26811,8 @@ namespace MdlpApiClient
         /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetCurrentCertificates(int startFrom, int count)
         {
+            RequestRate(0.5); // 20
+
             return Post<CertificatesResponse<UserCertificate>>("users/current/keys", new
             {
                 start_from = startFrom,
@@ -25812,6 +26829,8 @@ namespace MdlpApiClient
         /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetUserCertificates(string userId, int startFrom, int count)
         {
+            RequestRate(0.5); // 21
+
             return Post<CertificatesResponse<UserCertificate>>("users/{user_id}/keys", new
             {
                 start_from = startFrom,
@@ -25830,6 +26849,8 @@ namespace MdlpApiClient
         /// <returns>Свойства УС</returns>
         public AccountSystem GetAccountSystem(string accountSystemId)
         {
+            RequestRate(0.5); // 22
+
             return Get<GetAccountSystemResponse>("account_systems/{account_system_id}", new[]
             {
                 new Parameter("account_system_id", accountSystemId, ParameterType.UrlSegment),
@@ -25847,10 +26868,12 @@ namespace MdlpApiClient
         /// <param name="clientId">Идентификатор клиента</param>
         /// <param name="clientSecret">Секретный ключ клиента</param>
         /// <param name="userId">Уникальный идентификатор пользователя</param>
-        /// <param name="authType">Тип аутентификации: PASSWORD или SIGNED_CODE</param>
+        /// <param name="authType">Тип аутентификации, см. <see cref="AuthTypeEnum"/>.</param>
         /// <returns>Код аутентификации для получения ключа сессии</returns>
         internal string Authenticate(string clientId, string clientSecret, string userId, string authType)
         {
+            RequestRate(1); // 23
+
             var auth = Post<AuthResponse>("auth", new
             {
                 client_id = clientId,
@@ -25875,6 +26898,8 @@ namespace MdlpApiClient
         /// <returns>Ключ сессии <see cref="AuthToken"/>.</returns>
         internal AuthToken GetToken(string authCode, string signature = null, string password = null)
         {
+            RequestRate(1); // 24
+
             var result = Post<AuthToken>("token", new
             {
                 code = authCode,
@@ -25892,6 +26917,8 @@ namespace MdlpApiClient
         /// </summary>
         internal void Logout()
         {
+            RequestRate(1); // 25
+
             Get("auth/logout");
             IsAuthenticated = false;
         }
@@ -25902,6 +26929,8 @@ namespace MdlpApiClient
         /// <param name="userId">Уникальный идентификатор пользователя учетной системы</param>
         public void DeleteUser(string userId)
         {
+            RequestRate(0.5); // 26
+
             Delete("users/{user_id}", null, new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
@@ -25914,6 +26943,8 @@ namespace MdlpApiClient
         /// <param name="accountSystemId">Уникальный идентификатор учетной системы</param>
         public void DeleteAccountSystem(string accountSystemId)
         {
+            RequestRate(0.5); // 27
+
             Delete("account_systems/{account_system_id}", null, new[]
             {
                 new Parameter("account_system_id", accountSystemId, ParameterType.UrlSegment),
@@ -25930,6 +26961,8 @@ namespace MdlpApiClient
         /// <param name="certificate">Публичный сертификат пользователя</param>
         public void AddUserCertificate(string userId, string certificate)
         {
+            RequestRate(0.5); // 28
+
             Post("users/{user_id}/add_key", new
             {
                 public_cert = certificate
@@ -25952,6 +26985,8 @@ namespace MdlpApiClient
         /// <param name="certificate">Публичный сертификат пользователя</param>
         public void DeleteUserCertificate(string userId, string certificate)
         {
+            RequestRate(0.5); // 29
+
             Delete("users/{user_id}/delete_key", new
             {
                 public_cert = certificate
@@ -25969,6 +27004,8 @@ namespace MdlpApiClient
         /// <param name="password">Пароль пользователя</param>
         public void ChangeUserPassword(string userId, string password)
         {
+            RequestRate(0.5); // 30
+
             Post("users/{user_id}/change_password", new
             {
                 password = password
@@ -25984,6 +27021,8 @@ namespace MdlpApiClient
         /// </summary>
         public RightsInfo[] GetRights()
         {
+            RequestRate(0.5); // 31
+
             return Get<GetRightsResponse<RightsInfo>>("rights/about").Rights;
         }
 
@@ -25992,6 +27031,8 @@ namespace MdlpApiClient
         /// </summary>
         public string[] GetCurrentRights()
         {
+            RequestRate(0.5); // 32
+
             return Get<GetRightsResponse<string>>("rights/current").Rights;
         }
 
@@ -26003,6 +27044,8 @@ namespace MdlpApiClient
         /// <returns>Уникальный идентификатор группы</returns>
         public string CreateRightsGroup(string groupName, string[] rights)
         {
+            RequestRate(0.5); // 33
+
             return Post<CreateRightsGroupResponse>("rights/create_group", new
             {
                 group_name = groupName,
@@ -26018,6 +27061,8 @@ namespace MdlpApiClient
         /// <returns><see cref="Group"/></returns>
         public Group GetRightsGroup(string groupId)
         {
+            RequestRate(0.5); // 35
+
             return Get<GetGroupResponse>("rights/{group_id}", new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
@@ -26032,6 +27077,8 @@ namespace MdlpApiClient
         /// <returns>Список объектов <see cref="User"/></returns>
         public User[] GetGroupUsers(string groupId)
         {
+            RequestRate(0.5); // 34
+
             return Get<GetGroupUsersResponse>("rights/{group_id}/users", new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
@@ -26046,6 +27093,8 @@ namespace MdlpApiClient
         /// <param name="groupChange">Объект <see cref="Group"/></param>
         public void UpdateRightsGroup(string groupId, Group groupChange)
         {
+            RequestRate(0.5); // 36
+
             Put("rights/{group_id}", new
             {
                 group_change = groupChange
@@ -26062,6 +27111,8 @@ namespace MdlpApiClient
         /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
         public void DeleteRightsGroup(string groupId)
         {
+            RequestRate(0.5); // 37
+
             Delete("rights/{group_id}", null, new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
@@ -26076,6 +27127,8 @@ namespace MdlpApiClient
         /// <returns>Уникальный идентификатор группы</returns>
         public void AddUserToRightsGroup(string userId, string groupId)
         {
+            RequestRate(0.5); // 38
+
             Post("rights/{group_id}/user_add", new
             {
                 user_id = userId
@@ -26093,6 +27146,8 @@ namespace MdlpApiClient
         /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
         public void DeleteUserFromRightsGroup(string userId, string groupId)
         {
+            RequestRate(0.5); // 39
+
             Delete("rights/{group_id}/{user_id}", null, new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
@@ -26109,6 +27164,8 @@ namespace MdlpApiClient
         /// <returns>Список групп прав пользователей </returns>
         public GroupsResponse<Group> GetRightsGroups(GroupFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 41
+
             return Post<GroupsResponse<Group>>("rights/filter", new
             {
                 filter = filter ?? new GroupFilter(),
@@ -26126,6 +27183,8 @@ namespace MdlpApiClient
         /// <returns>Список зарегистрированных пользователей</returns>
         public UsersResponse<GroupedUser> GetUsers(UserFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 43
+
             return Post<UsersResponse<GroupedUser>>("users/filter", new
             {
                 filter = filter ?? new UserFilter(),
@@ -26143,6 +27202,8 @@ namespace MdlpApiClient
         /// <returns>Список учетных систем</returns>
         public AccountSystemsResponse<AccountSystem> GetAccountSystems(string name, int startFrom, int count)
         {
+            RequestRate(0.5); // 45
+
             return Post<AccountSystemsResponse<AccountSystem>>("account_systems/filter", new
             {
                 filter = new
@@ -26174,6 +27235,8 @@ namespace MdlpApiClient
         /// <returns>Данные из реестра ЕГРЮЛ</returns>
         public EgrulRegistryResponse GetEgrulRegistryEntry()
         {
+            RequestRate(0.5); // 46
+
             return Get<EgrulRegistryResponse>("reestr/egrul");
         }
 
@@ -26183,6 +27246,8 @@ namespace MdlpApiClient
         /// <returns>Данные из реестра ЕГРИП</returns>
         public EgripRegistryResponse GetEgripRegistryEntry()
         {
+            RequestRate(0.5); // 47
+
             return Get<EgripRegistryResponse>("reestr/egrip");
         }
 
@@ -26192,6 +27257,8 @@ namespace MdlpApiClient
         /// <returns>Данные из реестра РАФП</returns>
         public RafpRegistryResponse GetRafpRegistryEntry()
         {
+            RequestRate(0.5); // 48
+
             return Get<RafpRegistryResponse>("reestr/rafp");
         }
 
@@ -26202,6 +27269,8 @@ namespace MdlpApiClient
         /// <returns>Данные из реестра ФИАС</returns>
         public FiasAddressObject GetFiasAddressObject(string addressId)
         {
+            RequestRate(0.5); // 50
+
             return Get<FiasAddressObject>("reestr/fias/addrobj/{addrobj}", new[]
             {
                 new Parameter("addrobj", addressId, ParameterType.UrlSegment)
@@ -26215,6 +27284,8 @@ namespace MdlpApiClient
         /// <returns>Данные из реестра ФИАС</returns>
         public FiasHouseObject GetFiasHouseObject(string houseGuid)
         {
+            RequestRate(0.5); // 51
+
             return Get<FiasHouseObject>("reestr/fias/house/{houseobj}", new[]
             {
                 new Parameter("houseobj", houseGuid, ParameterType.UrlSegment)
@@ -26230,6 +27301,8 @@ namespace MdlpApiClient
         /// <returns>Данные из реестра ФИАС</returns>
         public AddressResolved GetFiasAddress(string houseGuid, string aoGuid = null, string room = null)
         {
+            RequestRate(0.5); // 52
+
             var address = Post<AddressResolved>("reestr/fias/resolve", new
             {
                 // похоже, параметр aoGuid игнорируется, если указан дом, но наличие его все равно требуется
@@ -26249,6 +27322,8 @@ namespace MdlpApiClient
         /// <returns>Список лицензий</returns>
         public LicenseEntry[] GetProductionLicenses()
         {
+            RequestRate(0.5); // 53
+
             return Get<List<LicenseEntry>>("reestr/prod_licenses").ToArray();
         }
 
@@ -26261,6 +27336,8 @@ namespace MdlpApiClient
         /// <returns>Список лицензий</returns>
         public EntriesResponse<LicenseEntry> GetProductionLicenses(LicenseApiFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 94
+
             return Post<EntriesResponse<LicenseEntry>>("reestr/prod_licenses", new
             {
                 filter = filter ?? new LicenseApiFilter(),
@@ -26274,6 +27351,8 @@ namespace MdlpApiClient
         /// </summary>
         public void ResyncProductionLicenses()
         {
+            RequestRate(86400); // 91: сутки
+
             Post<EmptyResponse>("reestr/prod_licenses/resync", new { });
         }
 
@@ -26283,6 +27362,8 @@ namespace MdlpApiClient
         /// <returns>Список лицензий</returns>
         public LicenseEntry[] GetPharmacyLicenses()
         {
+            RequestRate(0.5); // 54
+
             return Get<List<LicenseEntry>>("reestr/pharm_licenses").ToArray();
         }
 
@@ -26295,6 +27376,8 @@ namespace MdlpApiClient
         /// <returns>Список лицензий</returns>
         public EntriesResponse<LicenseEntry> GetPharmacyLicenses(LicenseApiFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 93
+
             return Post<EntriesResponse<LicenseEntry>>("reestr/pharm_licenses", new
             {
                 filter = filter ?? new LicenseApiFilter(),
@@ -26308,6 +27391,8 @@ namespace MdlpApiClient
         /// </summary>
         public void ResyncPharmacyLicenses()
         {
+            RequestRate(86400); // 92: сутки
+
             Post<EmptyResponse>("reestr/pharm_licenses/resync", new { });
         }
 
@@ -26321,6 +27406,8 @@ namespace MdlpApiClient
         /// </remarks>
         public EntriesResponse<AddressEntry> GetCurrentAddresses()
         {
+            RequestRate(0.5); // 65
+
             return Get<EntriesResponse<AddressEntry>>("reestr/address/all");
         }
 
@@ -26332,6 +27419,8 @@ namespace MdlpApiClient
         /// <returns>Список стран</returns>
         public EntriesResponse<CountryInfo> GetCountries(int startFrom, int count)
         {
+            RequestRate(0.5); // 66
+
             return Post<EntriesResponse<CountryInfo>>("reestr/area/countries", new
             {
                 start_from = startFrom,
@@ -26347,6 +27436,8 @@ namespace MdlpApiClient
         /// <returns>Список субъектов РФ</returns>
         public EntriesResponse<Region> GetRegions(int startFrom, int count)
         {
+            RequestRate(0.5); // 67
+
             return Post<EntriesResponse<Region>>("reestr/area/regions", new
             {
                 start_from = startFrom,
@@ -26363,6 +27454,8 @@ namespace MdlpApiClient
         /// <returns>Список записей реестра ЕСКЛП</returns>
         public EntriesResponse<EsklpInfo> GetEsklpInfo(EsklpFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 68
+
             return Post<EntriesResponse<EsklpInfo>>("reestr/esklp/filter", new
             {
                 filter = filter ?? new EsklpFilter(),
@@ -26380,6 +27473,8 @@ namespace MdlpApiClient
         /// <returns>Список мест таможенного контроля</returns>
         public EntriesResponse<CustomsPointsInfoEntry> GetCustomsPoints(CustomsPointsFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 84
+
             return Post<EntriesResponse<CustomsPointsInfoEntry>>("reestr/customs_points/filter", new
             {
                 filter = filter ?? new CustomsPointsFilter(),
@@ -26392,9 +27487,11 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
+    using System;
     using System.Net;
     using DataContracts;
     using RestSharp;
+    using ServiceStack.Text;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 8: MDLP information.
@@ -26410,6 +27507,8 @@ namespace MdlpApiClient
         /// <returns>Список мест осуществления деятельности</returns>
         public EntriesResponse<BranchEntry> GetBranches(BranchFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 56
+
             return Post<EntriesResponse<BranchEntry>>("reestr/branches/filter", new
             {
                 filter = filter ?? new BranchFilter(),
@@ -26423,6 +27522,8 @@ namespace MdlpApiClient
         /// </summary>
         public GetBranchResponse GetBranch(string branchId)
         {
+            RequestRate(0.5); // 57
+
             return Get<GetBranchResponse>("reestr/branches/{branch_id}", new[]
             {
                 new Parameter("branch_id", branchId, ParameterType.UrlSegment)
@@ -26434,6 +27535,8 @@ namespace MdlpApiClient
         /// </summary>
         public string RegisterBranch(Address address)
         {
+            RequestRate(0.5); // 58
+
             var branch = Post<GetBranchResponse>("reestr/branches/register", new
             {
                 branch_address = address
@@ -26451,6 +27554,8 @@ namespace MdlpApiClient
         /// <returns>Список мест ответственного хранения</returns>
         public EntriesResponse<WarehouseEntry> GetWarehouses(WarehouseFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 61
+
             return Post<EntriesResponse<WarehouseEntry>>("reestr/warehouses/filter", new
             {
                 filter = filter ?? new WarehouseFilter(),
@@ -26462,8 +27567,10 @@ namespace MdlpApiClient
         /// <summary>
         /// 8.2.3. Получение информации о конкретном месте ответственного хранения
         /// </summary>
-        public GetWarehouseResponse GetWarehouses(string warehouseId)
+        public GetWarehouseResponse GetWarehouse(string warehouseId)
         {
+            RequestRate(0.5); // 62
+
             return Get<GetWarehouseResponse>("reestr/warehouses/{warehouse_id}", new[]
             {
                 new Parameter("warehouse_id", warehouseId, ParameterType.UrlSegment)
@@ -26475,6 +27582,8 @@ namespace MdlpApiClient
         /// </summary>
         public string RegisterWarehouse(string warehouseOrgInn, Address address)
         {
+            RequestRate(0.5); // 63
+
             var warehouse = Post<RegisterWarehouseResponse>("reestr/warehouses/register", new
             {
                 warehouse_org_inn = warehouseOrgInn,
@@ -26492,6 +27601,8 @@ namespace MdlpApiClient
         /// <param name="licenseNumber">Номер лицензии (необязательно)</param>
         public EntriesResponse<RegistrationAddress> GetAvailableAddresses(string inn = null, string licenseNumber = null)
         {
+            RequestRate(0.5); // 64
+
             return Post<EntriesResponse<RegistrationAddress>>("reestr/warehouses/available_safe_warehouses_addresses", new
             {
                 inn = inn,
@@ -26508,6 +27619,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinExtended> GetSgtins(SgtinFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 69
+
             return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/filter", new
             {
                 filter = filter ?? new SgtinFilter(),
@@ -26523,6 +27636,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(string[] sgtins)
         {
+            RequestRate(5); // 70
+
             return Post<EntriesFailedResponse<SgtinExtended, SgtinFailed>>("reestr/sgtin/sgtins-by-list", new
             {
                 filter = new
@@ -26539,6 +27654,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
         {
+            RequestRate(1); // 88
+
             return Post<EntriesFailedResponse<PublicSgtin, string>>("reestr/sgtin/public/sgtins-by-list", new
             {
                 filter = new
@@ -26555,6 +27672,8 @@ namespace MdlpApiClient
         /// <returns>Подробная информация КИЗ и ЛП</returns>
         public GetSgtinResponse GetSgtin(string sgtin)
         {
+            RequestRate(0.5); // 71
+
             return Get<GetSgtinResponse>("reestr/sgtin/{sgtin}", new[]
             {
                 new Parameter("sgtin", sgtin, ParameterType.UrlSegment),
@@ -26570,6 +27689,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinExtended> GetSgtinsOnHold(SgtinOnHoldFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 96
+
             return Post<EntriesResponse<SgtinExtended>>("reestr/sgtin/on_hold", new
             {
                 filter = filter ?? new SgtinOnHoldFilter(),
@@ -26588,6 +27709,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinKktAwaitingWithdrawal> GetSgtinsKktAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 90
+
             return Post<EntriesResponse<SgtinKktAwaitingWithdrawal>>("reestr/sgtin/kkt/awaiting-withdrawal/filter", new
             {
                 filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
@@ -26606,6 +27729,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesResponse<SgtinDeviceAwaitingWithdrawal> GetSgtinsDeviceAwaitingWithdrawal(SgtinAwaitingWithdrawalFilter filter, int startFrom, int count)
         {
+            RequestRate(1); // 99
+
             return Post<EntriesResponse<SgtinDeviceAwaitingWithdrawal>>("reestr/sgtin/device/awaiting-withdrawal/filter", new
             {
                 filter = filter ?? new SgtinAwaitingWithdrawalFilter(),
@@ -26619,9 +27744,11 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="sscc">Идентификационный код третичной упаковки</param>
         /// <returns>Подробная информация КИЗ и ЛП</returns>
-        public GetSsccHierarchyResponse GetSsccHierarchy(string sscc)
+        public SsccHierarchyResponse<SsccInfo> GetSsccHierarchy(string sscc)
         {
-            return Get<GetSsccHierarchyResponse>("reestr/sscc/{sscc}/hierarchy", new[]
+            RequestRate(5); // 73
+
+            return Get<SsccHierarchyResponse<SsccInfo>>("reestr/sscc/{sscc}/hierarchy", new[]
             {
                 new Parameter("sscc", sscc, ParameterType.UrlSegment),
             });
@@ -26637,6 +27764,8 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public GetSsccSgtinsResponse GetSsccSgtins(string sscc, SsccSgtinsFilter filter, int startFrom, int count)
         {
+            RequestRate(5); // 74
+
             return Post<GetSsccSgtinsResponse>("reestr/sscc/{sscc}/sgtins", new
             {
                 sscc = sscc,
@@ -26651,6 +27780,28 @@ namespace MdlpApiClient
         }
 
         /// <summary>
+        /// 8.4.3. Метод для получения информации о полной иерархии вложенности третичной упаковки
+        /// </summary>
+        /// <param name="sscc">Идентификационный код третичной упаковки</param>
+        /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
+        public SsccFullHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
+        {
+            RequestRate(30); // 100
+
+            var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
+            {
+                new Parameter("sscc", sscc, ParameterType.UrlSegment),
+            });
+
+            // sort child records and convert to real HierarchySsccInfo items
+            return new SsccFullHierarchyResponse<HierarchySsccInfo>
+            {
+                Up = HierarchySsccInfoInternal.Convert(result.Up),
+                Down = HierarchySsccInfoInternal.Convert(result.Down),
+            };
+        }
+
+        /// <summary>
         /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП
         /// </summary>
         /// <param name="filter">Фильтр для поиска ЛП</param>
@@ -26659,6 +27810,8 @@ namespace MdlpApiClient
         /// <returns>Список ЛП</returns>
         public EntriesResponse<MedProduct> GetCurrentMedProducts(MedProductsFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 75
+
             return Post<EntriesResponse<MedProduct>>("reestr/med_products/current", new
             {
                 filter = filter ?? new MedProductsFilter(),
@@ -26674,6 +27827,8 @@ namespace MdlpApiClient
         /// <returns>Описание ЛП</returns>
         public MedProduct GetCurrentMedProduct(string gtin)
         {
+            RequestRate(0.5); // 76
+
             return Get<MedProduct>("reestr/med_products/{gtin}", new[]
             {
                 new Parameter("gtin", gtin, ParameterType.UrlSegment),
@@ -26689,6 +27844,8 @@ namespace MdlpApiClient
         /// <returns>Список ЛП</returns>
         public EntriesResponse<MedProductPublic> GetPublicMedProducts(MedProductsFilter filter, int startFrom, int count)
         {
+            RequestRate(5); // 95
+
             return Post<EntriesResponse<MedProductPublic>>("reestr/med_products/public/filter", new
             {
                 filter = filter ?? new MedProductsFilter(),
@@ -26709,6 +27866,8 @@ namespace MdlpApiClient
         /// <returns>Описание ЛП</returns>
         public MedProductPublic GetPublicMedProduct(string gtin)
         {
+            RequestRate(1); // 89
+
             return Get<MedProductPublic>("reestr/med_products/public/{gtin}", new[]
             {
                 new Parameter("gtin", gtin, ParameterType.UrlSegment),
@@ -26724,6 +27883,8 @@ namespace MdlpApiClient
         /// <returns>Идентификатор контрагента</returns>
         public string RegisterForeignCounterparty(string itin, string name, ForeignAddress address)
         {
+            RequestRate(0.5); // 77
+
             var counterparty = Post<RegisterForeignCounterpartyResponse>("reestr/foreign_counterparty/register", new
             {
                 counterparty_itin = itin,
@@ -26743,6 +27904,8 @@ namespace MdlpApiClient
         /// <returns>Список иностранных контрагентов</returns>
         public EntriesResponse<ForeignCounterpartyEntry> GetForeignCounterparties(ForeignCounterpartyFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 78
+
             return Post<EntriesResponse<ForeignCounterpartyEntry>>("reestr/foreign_counterparty/filter", new
             {
                 filter = filter ?? new ForeignCounterpartyFilter(),
@@ -26757,6 +27920,8 @@ namespace MdlpApiClient
         /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
         public void AddTrustedPartners(params string[] partnerIds)
         {
+            RequestRate(0.5); // 79
+
             Post("reestr/trusted_partners/add", new
             {
                 trusted_partners = partnerIds
@@ -26769,6 +27934,8 @@ namespace MdlpApiClient
         /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
         public void DeleteTrustedPartners(params string[] partnerIds)
         {
+            RequestRate(0.5); // 80
+
             Post("reestr/trusted_partners/delete", new
             {
                 trusted_partners = partnerIds
@@ -26784,6 +27951,8 @@ namespace MdlpApiClient
         /// <returns>Список доверенных контрагентов</returns>
         public EntriesResponse<TrustedPartnerEntry> GetTrustedPartners(TrustedPartnerFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 81
+
             return Post<EntriesResponse<TrustedPartnerEntry>>("/reestr/trusted_partners/filter", new
             {
                 filter = filter ?? new TrustedPartnerFilter(),
@@ -26802,6 +27971,8 @@ namespace MdlpApiClient
         /// <returns>Список субъектов обращения</returns>
         private EntriesFilteredResponse<T> GetPartners<T>(PartnerFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 82
+
             return Post<EntriesFilteredResponse<T>>("reestr_partners/filter", new
             {
                 filter = filter ?? new PartnerFilter(),
@@ -26819,6 +27990,8 @@ namespace MdlpApiClient
         /// <returns>Список субъектов обращения</returns>
         public EntriesFilteredResponse<ForeignCounterparty> GetForeignPartners(PartnerFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 82?
+
             // запрос иностранных контрагентов
             filter = filter ?? new PartnerFilter();
             filter.RegEntityType = RegEntityTypeEnum.FOREIGN_COUNTERPARTY;
@@ -26855,6 +28028,8 @@ namespace MdlpApiClient
         /// <returns>Описание организации</returns>
         public Member GetCurrentMember()
         {
+            RequestRate(0.5); // 83
+
             var member = Get<MemberResponse>("members/current");
             return member != null ? member.Member : null;
         }
@@ -26885,6 +28060,8 @@ namespace MdlpApiClient
         /// <returns>Список регистраторов эмиссии</returns>
         public EntriesResponse<EmissionDeviceInfoEntry> GetEmissionDevices(EmissionDeviceFilter filter, int startFrom, int count)
         {
+            RequestRate(1); // 85
+
             return Post<EntriesResponse<EmissionDeviceInfoEntry>>("reestr/registration-devices/emission/filter", new
             {
                 filter = filter ?? new EmissionDeviceFilter(),
@@ -26902,6 +28079,8 @@ namespace MdlpApiClient
         /// <returns>Список регистраторов выбытия</returns>
         public EntriesResponse<WithdrawalDeviceInfoEntry> GetWithdrawalDevices(WithdrawalDeviceFilter filter, int startFrom, int count)
         {
+            RequestRate(1); // 86
+
             return Post<EntriesResponse<WithdrawalDeviceInfoEntry>>("reestr/registration-devices/withdrawal/filter", new
             {
                 filter = filter ?? new WithdrawalDeviceFilter(),
@@ -26919,6 +28098,8 @@ namespace MdlpApiClient
         /// <returns>Список остатков</returns>
         public EntriesResponse<VirtualStorageEntry> GetVirtualStorage(VirtualStorageFilter filter, int startFrom, int count)
         {
+            RequestRate(1); // 87
+
             return Post<EntriesResponse<VirtualStorageEntry>>("reestr/virtual-storage/filter", new
             {
                 filter = filter ?? new VirtualStorageFilter(),
@@ -26953,6 +28134,8 @@ namespace MdlpApiClient
         /// <returns>Список приостановленных КИЗ</returns>
         public EntriesResponse<PausedCirculationSgtin> GetPausedCirculationSgtins(string haltId, int startFrom, int count)
         {
+            RequestRate(0.5); // 72
+
             return Post<EntriesResponse<PausedCirculationSgtin>>("reestr/paused-circulation-decisions/{halt_id}/sgtins/filter", new
             {
                 start_from = startFrom,
@@ -27088,6 +28271,7 @@ namespace MdlpApiClient
             Credentials = credentials;
             Serializer = new ServiceStackSerializer();
             BaseUrl = client.BaseUrl.ToString();
+            Limiter = new RequestRateLimiter();
 
             // set up REST client
             Client = client;
@@ -27127,6 +28311,14 @@ namespace MdlpApiClient
         public string BaseUrl { get; private set; }
 
         private IRestSerializer Serializer { get; set; }
+
+        private RequestRateLimiter Limiter { get; set; }
+
+        private void RequestRate(double seconds, [CallerMemberName]string methodName = null)
+        {
+            var correction = IsAuthenticated ? 0.1 : 2;
+            Limiter.Delay(TimeSpan.FromSeconds(seconds + 0.1), methodName);
+        }
 
         /// <summary>
         /// Gets the <see cref="IRestClient"/> instance.
@@ -27772,7 +28964,7 @@ namespace MdlpApiClient
         public override AuthToken Authenticate(MdlpClient apiClient)
         {
             // get authentication code
-            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "PASSWORD");
+            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, AuthTypeEnum.PASSWORD);
 
             // get authentication token
             return apiClient.GetToken(authCode, password: Password);
@@ -27805,7 +28997,7 @@ namespace MdlpApiClient
             }
 
             // get authentication code
-            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "SIGNED_CODE");
+            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, AuthTypeEnum.SIGNED_CODE);
 
             // compute the signature and save the size
             var signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode);
@@ -27820,6 +29012,7 @@ namespace MdlpApiClient
 namespace MdlpApiClient.Serialization
 {
     using System;
+    using MdlpApiClient.DataContracts;
     using RestSharp;
     using RestSharp.Serialization;
     using ServiceStack.Text;
@@ -27829,6 +29022,15 @@ namespace MdlpApiClient.Serialization
     /// </summary>
     internal class ServiceStackSerializer : IRestSerializer
     {
+        static ServiceStackSerializer()
+        {
+            // use custom serialization only for our own types
+            JsConfig<CustomDateTime>.SerializeFn = c => c;
+            JsConfig<CustomDateTime>.DeSerializeFn = s => CustomDateTime.Parse(s);
+            JsConfig<CustomDate>.SerializeFn = c => c;
+            JsConfig<CustomDate>.DeSerializeFn = s => CustomDate.Parse(s);
+        }
+
         public string[] SupportedContentTypes
         {
             get
@@ -27853,15 +29055,20 @@ namespace MdlpApiClient.Serialization
             set { contentType = value; }
         }
 
-        public T Deserialize<T>(IRestResponse response)
+        internal T Deserialize<T>(string content)
         {
             using (var scope = JsConfig.BeginScope())
             {
                 scope.AlwaysUseUtc = false;
                 scope.AssumeUtc = false;
                 scope.AppendUtcOffset = false;
-                return JsonSerializer.DeserializeFromString<T>(response.Content);
+                return JsonSerializer.DeserializeFromString<T>(content);
             }
+        }
+
+        public T Deserialize<T>(IRestResponse response)
+        {
+            return Deserialize<T>(response.Content);
         }
 
         public string Serialize(Parameter bodyParameter)
@@ -27874,7 +29081,11 @@ namespace MdlpApiClient.Serialization
             using (var scope = JsConfig.BeginScope())
             {
                 scope.IncludeTypeInfo = false;
-                scope.DateHandler = DateHandler.UnixTime;
+
+                // ISO8601DateTime: "2019-04-24 20:43:44"
+                // ISO8601DateOnly: "2018-12-12"
+                // ISO8601: "2018-12-12T00:00:00.0000000"
+                scope.DateHandler = DateHandler.ISO8601DateTime;
                 return JsonSerializer.SerializeToString(obj);
             }
         }
@@ -28175,10 +29386,19 @@ namespace MdlpApiClient.Toolbox
         /// </summary>
         /// <typeparam name="T">Sequence element type.</typeparam>
         /// <param name="sequence">Enumerable sequence.</param>
-        /// <returns></returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> sequence)
         {
             return sequence == null || !sequence.Any();
+        }
+
+        /// <summary>
+        /// Returns empty enumerable sequence if it's null.
+        /// </summary>
+        /// <typeparam name="T">Sequence element type.</typeparam>
+        /// <param name="sequence">Enumerable sequence.</param>
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> sequence)
+        {
+            return sequence == null ? Enumerable.Empty<T>() : sequence;
         }
     }
 }
@@ -28267,5 +29487,56 @@ namespace MdlpApiClient.Toolbox
 			return string.Concat(result);
 		}
 	}
+}
+
+namespace MdlpApiClient.Toolbox
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// Helps limiting requests.
+    /// </summary>
+    internal class RequestRateLimiter
+    {
+        // tasks for delaying between the consequent method calls
+        public Dictionary<string, Task> RequestTasks { get; } =
+            new Dictionary<string, Task>(StringComparer.OrdinalIgnoreCase);
+
+        public Task DelayAsync(TimeSpan span, [CallerMemberName]string methodName = null)
+        {
+            if (span == TimeSpan.Zero)
+            {
+                return Task.CompletedTask;
+            }
+
+            // null value can't be used as a key
+            methodName = methodName ?? string.Empty;
+
+            lock (RequestTasks)
+            {
+                if (RequestTasks.TryGetValue(methodName, out var task))
+                {
+                    // next call waits for the current task and more
+                    var nextCall = task.IsCompleted ? Task.Delay(span) :
+                        task.ContinueWith(t => Task.Delay(span)).Unwrap();
+
+                    RequestTasks[methodName] = nextCall;
+                    return task;
+                }
+
+                // don't wait
+                RequestTasks[methodName] = Task.Delay(span);
+                return Task.CompletedTask;
+            }
+        }
+
+        public void Delay(TimeSpan span, [CallerMemberName]string methodName = null)
+        {
+            DelayAsync(span, methodName).ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+    }
 }
 
