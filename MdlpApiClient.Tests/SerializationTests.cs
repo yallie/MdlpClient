@@ -26,6 +26,13 @@
             return ss.Deserialize<T>(json);
         }
 
+        [Test]
+        public void ServiceStack4LicenseEnvironmentVariableExists()
+        {
+            var license = Environment.GetEnvironmentVariable("SERVICE_STACK4_LICENSE");
+            Assert.False(string.IsNullOrWhiteSpace(license));
+        }
+
         #region JSON иерархия — нет, такое мы использовать не будем:
 
         [DataContract]
