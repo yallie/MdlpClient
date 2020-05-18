@@ -103,12 +103,12 @@
             // 13-значного серийного номера. Для каждой отгрузки 
             // необходимо генерировать уникальный серийный номер
             var gtin = doc.Register_End_Packing.Gtin;
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567896123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567897123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567898123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567899123");
-            doc.Register_End_Packing.Signs.Add(gtin + "123456789A123");
-            doc.Register_End_Packing.Signs.Add(gtin + "123456789B123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567906123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567907123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567908123");
+            doc.Register_End_Packing.Signs.Add(gtin + "1234567909123");
+            doc.Register_End_Packing.Signs.Add(gtin + "123456790A123");
+            doc.Register_End_Packing.Signs.Add(gtin + "123456790B123");
 
             // Документ загружен, но не обработан: fe4120a9-0485-4b0d-a878-fba3d7a644bd.
             // Похоже, серверу-таки не нравится XML-декларация: <?xml version="1.0" encoding="..." ?>
@@ -128,7 +128,10 @@
         [Test]
         public void GetDocument311FromSandbox()
         {
-            var document = Client.GetDocument("72c55992-83de-4101-919b-20d985f06bb0");
+            // прежние документы схемы 311:
+            // "72c55992-83de-4101-919b-20d985f06bb0" — ок, но его удалили
+            // "43e26ea9-7f84-4b92-bd94-37d897ed2a45" — после загрузки была ошибка обработки
+            var document = Client.GetDocument("e5d3b7c3-a472-44c4-92c8-4feb3c2632a9");
             Assert.NotNull(document);
             Assert.NotNull(document.Register_End_Packing);
             Assert.NotNull(document.Register_End_Packing.Signs);
@@ -140,7 +143,10 @@
         public void GetTicketForDocument311FromSandbox()
         {
             // квитанция об обработке документа появляется через какое-то время после загрузки
-            var ticket = Client.GetTicket("72c55992-83de-4101-919b-20d985f06bb0");
+            // прежние документы схемы 311: 
+            // "72c55992-83de-4101-919b-20d985f06bb0" — ок, но его удалили
+            // "43e26ea9-7f84-4b92-bd94-37d897ed2a45" — после загрузки была ошибка обработки
+            var ticket = Client.GetTicket("e5d3b7c3-a472-44c4-92c8-4feb3c2632a9");
             Assert.NotNull(ticket);
             Assert.NotNull(ticket.Result);
             Assert.AreEqual("311", ticket.Result.Operation);
@@ -194,12 +200,12 @@
             // номера из ранее загруженной 311 схемы
             var gtin = "50754041398745";
             var sgtins = doc.Register_Product_Emission.Signs.Sgtin;
-            sgtins.Add(gtin + "1234567896123");
-            sgtins.Add(gtin + "1234567897123");
-            sgtins.Add(gtin + "1234567898123");
-            sgtins.Add(gtin + "1234567899123");
-            sgtins.Add(gtin + "123456789A123");
-            sgtins.Add(gtin + "123456789B123");
+            sgtins.Add(gtin + "1234567906123");
+            sgtins.Add(gtin + "1234567907123");
+            sgtins.Add(gtin + "1234567908123");
+            sgtins.Add(gtin + "1234567909123");
+            sgtins.Add(gtin + "123456790A123");
+            sgtins.Add(gtin + "123456790B123");
 
             // В песочницу документ загружен через API и обработан,
             // получил код ecff5436-9a5d-408f-8d3b-0dd2eb6cad54
@@ -217,7 +223,9 @@
         [Test]
         public void GetDocument313FromSandbox()
         {
-            var document = Client.GetDocument("ecff5436-9a5d-408f-8d3b-0dd2eb6cad54");
+            // прежние документы схемы 313:
+            // "ecff5436-9a5d-408f-8d3b-0dd2eb6cad54" — ок, но был удален
+            var document = Client.GetDocument("728e315c-ee06-418d-82b0-79357eed8eb0");
             Assert.NotNull(document);
             Assert.NotNull(document.Register_Product_Emission);
             Assert.NotNull(document.Register_Product_Emission.Signs);
@@ -228,7 +236,9 @@
         [Test]
         public void GetTicketForDocument313FromSandbox()
         {
-            var ticket = Client.GetTicket("ecff5436-9a5d-408f-8d3b-0dd2eb6cad54");
+            // прежние документы схемы 313:
+            // "ecff5436-9a5d-408f-8d3b-0dd2eb6cad54" — ок, но был удален
+            var ticket = Client.GetTicket("728e315c-ee06-418d-82b0-79357eed8eb0");
             Assert.NotNull(ticket);
             Assert.NotNull(ticket.Result);
             Assert.AreEqual("313", ticket.Result.Operation);
@@ -269,7 +279,8 @@
             var sgtinPack = new Multi_PackBy_SgtinDetail
             {
                 // Идентификатор SSCC (откуда он берется?)
-                Sscc = "507540413987451235",
+                // Если делать новый документ
+                Sscc = "507540413987451236",
             };
 
             // Перечень идентификационных кодов потребительских упаковок.
@@ -277,10 +288,10 @@
             // номера из ранее загруженных схем 311 и 313
             // Первые 4 упакуем, оставшиеся 2 оставим неупакованными
             var gtin = "50754041398745";
-            sgtinPack.Content.Add(gtin + "1234567896123");
-            sgtinPack.Content.Add(gtin + "1234567897123");
-            sgtinPack.Content.Add(gtin + "1234567898123");
-            sgtinPack.Content.Add(gtin + "1234567899123");
+            sgtinPack.Content.Add(gtin + "1234567906123");
+            sgtinPack.Content.Add(gtin + "1234567907123");
+            sgtinPack.Content.Add(gtin + "1234567908123");
+            sgtinPack.Content.Add(gtin + "1234567909123");
             doc.Multi_Pack.By_Sgtin.Add(sgtinPack);
 
             // В песочницу документ загружен через API и обработан,
@@ -299,7 +310,10 @@
         [Test]
         public void GetDocument915FromSandbox()
         {
-            var document = Client.GetDocument("9534c7a7-7149-466a-aad2-1be19de810d6");
+            // прежние документы схемы 915:
+            // "9534c7a7-7149-466a-aad2-1be19de810d6" — удален
+            // "2e41f73b-5310-4cb4-917c-4d7ac0f7ecc3" — отклонен
+            var document = Client.GetDocument("423d7e82-62c0-4f23-a421-158ec90f0ee3");
             Assert.NotNull(document);
             Assert.NotNull(document.Multi_Pack);
             Assert.NotNull(document.Multi_Pack.By_Sgtin);
@@ -310,7 +324,10 @@
         [Test]
         public void GetTicketForDocument915FromSandbox()
         {
-            var ticket = Client.GetTicket("9534c7a7-7149-466a-aad2-1be19de810d6");
+            // прежние документы схемы 915:
+            // "9534c7a7-7149-466a-aad2-1be19de810d6" — удален
+            // "2e41f73b-5310-4cb4-917c-4d7ac0f7ecc3" — отклонен
+            var ticket = Client.GetTicket("423d7e82-62c0-4f23-a421-158ec90f0ee3");
             Assert.NotNull(ticket);
             Assert.NotNull(ticket.Result);
             Assert.AreEqual("915", ticket.Result.Operation);
@@ -373,7 +390,7 @@
             {
                 // берем зарегистрированный КИЗ, который был в документе 311,
                 // введен в оборот документом 313, но не упаковам документом 915
-                Sgtin = "50754041398745" + "123456789A123",
+                Sgtin = "50754041398745" + "123456790A123",
 
                 // цена единицы продукции
                 Cost = 1000,
@@ -389,7 +406,7 @@
                 Sscc_Detail = new Move_OrderOrder_DetailsUnionSscc_Detail
                 {
                     // код третичной упаковки тот же, что был в документе схемы 915
-                    Sscc = "507540413987451235"
+                    Sscc = "507540413987451236"
                 },
 
                 // а вот нужны ли здесь Cost и Vat_Value, непонятно,
@@ -430,7 +447,9 @@
         [Test]
         public void GetDocument415FromSandbox()
         {
-            var document = Client.GetDocument("667f1d2f-0d4f-43c4-9d56-b5d3da29c4ac");
+            // прежние документы схемы 415:
+            // "667f1d2f-0d4f-43c4-9d56-b5d3da29c4ac" — удален
+            var document = Client.GetDocument("a8528183-b4d9-4e1c-b1ed-c2d6dab97504");
             Assert.NotNull(document);
             Assert.NotNull(document.Move_Order);
             Assert.NotNull(document.Move_Order.Order_Details);
@@ -441,7 +460,9 @@
         [Test]
         public void GetTicketForDocument415FromSandbox()
         {
-            var ticket = Client.GetTicket("667f1d2f-0d4f-43c4-9d56-b5d3da29c4ac");
+            // прежние документы схемы 415:
+            // "667f1d2f-0d4f-43c4-9d56-b5d3da29c4ac" — удален
+            var ticket = Client.GetTicket("a8528183-b4d9-4e1c-b1ed-c2d6dab97504");
             Assert.NotNull(ticket);
             Assert.NotNull(ticket.Result);
             Assert.AreEqual("415", ticket.Result.Operation);
@@ -493,10 +514,14 @@
             return doc;
         }
 
-        [Test, Explicit("Can't upload the same document more than once")]
-        public void FindIncomingDocument601AndCreateDocument701()
+        [Test]
+        public void FindIncomingDocument601()
         {
-            // заходим в песочницу от имени второго участника
+            // Документы структуры 601 создает сама песочница, мы такой документ загрузить не можем.
+            // Чтобы получить документ 601, мы (отправитель) загружаем документ 415,
+            // а в ответ песочница посылает нашему контрагенту (получателю) документ 601.
+            // Получателем выступает второй тестовый участник.
+            // Заходим в песочницу от имени второго участника.
             using (var client = CreateSecondClient())
             {
                 // находим уведомление в списке входящих документов
@@ -504,19 +529,48 @@
                 {
                     DocType = 601,
                     SenderID = "00000000104494",
-                    ProcessedDateFrom = new DateTime(2020, 04, 24, 03, 00, 00),
-                    ProcessedDateTo = new DateTime(2020, 04, 24, 04, 00, 00),
+                    ProcessedDateFrom = new DateTime(2020, 05, 18, 19, 10, 00),
+                    ProcessedDateTo = new DateTime(2020, 05, 18, 19, 18, 00),
                 }, 0, 1);
 
                 // оно там будет одно в указанный период
                 Assert.AreEqual(1, docs.Total);
                 Assert.AreEqual(1, docs.Documents.Length);
 
+                // прежние документы структуры 601:
+                // "6faca9fc-5390-406f-b935-03ee4705e4ac" — удален
                 var doc = docs.Documents[0];
-                Assert.AreEqual("6faca9fc-5390-406f-b935-03ee4705e4ac", doc.DocumentID);
+                Assert.AreEqual("ba494f1d-09e1-4b91-88e5-b37cbbb1be78", doc.DocumentID);
 
                 // скачиваем уведомление по коду
                 var doc601 = client.GetDocument(doc.DocumentID);
+                Assert.NotNull(doc601.Move_Order_Notification);
+
+                // содержимое должно соответствовать отосланному документу схемы 415
+                var details = doc601.Move_Order_Notification.Order_Details;
+                Assert.AreEqual(2, details.Count);
+
+                // тут у нас зарегистрированный КИЗ, который был в документе схемы 311,
+                // введен в оборот документом схемы 313, но не упаковам документом схемы 915
+                // и отправлен в наш адрес документом схемы 415
+                Assert.AreEqual("50754041398745" + "123456790A123", details[0].Sgtin);
+
+                // а тут у нас код третичной упаковки тот же, что был в документе схемы 915
+                // это ящик, в котором упакованы 4 КИЗа документом 915
+                // этот ящик тоже отправлен в наш адрес документом схемы 415
+                Assert.AreEqual("507540413987451236", details[1].Sscc_Detail.Sscc);
+            }
+        }
+
+        [Test, Explicit("Can't upload the same document more than once")]
+        public void SendDocument701ToSandbox()
+        {
+            // прежние документы структуры 601:
+            // "6faca9fc-5390-406f-b935-03ee4705e4ac" — удален
+            // скачиваем уведомление 601 по коду
+            using (var client = CreateSecondClient())
+            {
+                var doc601 = client.GetDocument("ba494f1d-09e1-4b91-88e5-b37cbbb1be78");
                 Assert.NotNull(doc601.Move_Order_Notification);
 
                 // формируем ответ на него: мол, подтверждаем получение всех ЛП в полном объеме
@@ -531,7 +585,9 @@
         {
             using (var client = CreateSecondClient())
             {
-                var document = client.GetDocument("d72a2afc-fddd-43e3-b308-a8c3eece70a4");
+                // прежние документы схемы 701:
+                // d72a2afc-fddd-43e3-b308-a8c3eece70a4 — удален
+                var document = client.GetDocument("602d156b-514c-46d4-9bc5-e87515f51c16");
                 Assert.NotNull(document);
                 Assert.NotNull(document.Accept);
                 Assert.NotNull(document.Accept.Order_Details);
@@ -539,7 +595,7 @@
                 Assert.AreEqual(1, document.Accept.Order_Details.Sscc.Count);
                 Assert.AreEqual("00000000104494", document.Accept.Counterparty_Id);
 
-                var ticket = client.GetTicket("d72a2afc-fddd-43e3-b308-a8c3eece70a4");
+                var ticket = client.GetTicket("602d156b-514c-46d4-9bc5-e87515f51c16");
                 Assert.NotNull(ticket);
                 Assert.NotNull(ticket.Result);
                 Assert.AreEqual("701", ticket.Result.Operation);
@@ -555,16 +611,31 @@
             {
                 DocType = 607,
                 SenderID = "00000000104453",
-                ProcessedDateFrom = new DateTime(2020, 04, 24, 04, 17, 00),
-                ProcessedDateTo = new DateTime(2020, 04, 24, 04, 18, 00),
+                ProcessedDateFrom = new DateTime(2020, 05, 18, 19, 37, 00),
+                ProcessedDateTo = new DateTime(2020, 05, 18, 19, 38, 00),
             }, 0, 1);
 
             // оно там будет одно в указанный период
             Assert.AreEqual(1, docs.Total);
             Assert.AreEqual(1, docs.Documents.Length);
+            var docId = docs.Documents[0].DocumentID;
 
-            var text = Client.GetDocumentText(docs.Documents[0].DocumentID);
+            // код документа стал известен после первого запуска теста
+            Assert.AreEqual("590b3155-ea61-49e4-90a4-19bdda30f3da", docId);
+            var text = Client.GetDocumentText(docId);
             WriteLine(text);
+
+            // получим документ подтверждения
+            var doc = Client.GetDocument(docId);
+            Assert.NotNull(doc.Accept_Notification);
+            var details = doc.Accept_Notification.Order_Details;
+            Assert.NotNull(details);
+
+            // в нем будут: один КИЗ и упаковка из четырех КИЗ
+            Assert.AreEqual(1, details.Sgtin.Count);
+            Assert.AreEqual("50754041398745" + "123456790A123", details.Sgtin[0]);
+            Assert.AreEqual(1, details.Sscc.Count);
+            Assert.AreEqual("507540413987451236", details.Sscc[0]);
         }
     }
 }
