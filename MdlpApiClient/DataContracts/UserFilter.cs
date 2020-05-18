@@ -38,5 +38,11 @@
         /// </summary>
         [DataMember(Name = "is_admin", IsRequired = false)]
         public bool? IsAdmin { get; set; }
+
+        /// <summary>
+        /// Статусы пользователей, см. значения <see cref="UserStatus"/>.
+        /// </summary>
+        [DataMember(Name = "statuses", IsRequired = false)]
+        public string[] Statuses { get; set; }
     }
 }

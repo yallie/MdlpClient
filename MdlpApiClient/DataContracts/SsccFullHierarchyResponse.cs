@@ -5,6 +5,10 @@
     /// <summary>
     /// 8.4.3. Информация о полной иерархии вложенности третичной упаковки
     /// </summary>
+    /// <remarks>
+    /// Ошибка в документации: сказано, что Up и Down — массивы.
+    /// Написал в техподдержку: заявка SR00499639.
+    /// </remarks>
     [DataContract]
     public class SsccFullHierarchyResponse<T>
     {

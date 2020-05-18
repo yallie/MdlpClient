@@ -1,5 +1,6 @@
 ﻿namespace MdlpApiClient.DataContracts
 {
+    using System;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -37,5 +38,23 @@
         /// </summary>
         [DataMember(Name = "phone", IsRequired = false)]
         public string Phone { get; set; }
+
+        /// <summary>
+        /// Статус пользователя, см. значения <see cref="UserStatus"/>.
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = false)]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Причина, по которой пользователь переведен в статус, см. значения <see cref="UserStatusReason"/>.
+        /// </summary>
+        [DataMember(Name = "status_change_reason", IsRequired = false)]
+        public string StatusChangeReason { get; set; }
+
+        /// <summary>
+        /// Дата и время последнего входа в систему.
+        /// </summary>
+        [DataMember(Name = "last_login_time", IsRequired = false)]
+        public DateTime? LastLoginTime { get; set; }
     }
 }
