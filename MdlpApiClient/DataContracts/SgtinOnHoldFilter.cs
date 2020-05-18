@@ -19,7 +19,9 @@
         /// Тип эмиссии:
         /// 1 — собственное,
         /// 2 — контрактное,
-        /// 3 — иностранное производство
+        /// 3 — иностранное производство,
+        /// 4 — маркирован на таможне.
+        /// См. <see cref="SgtinEmissionType"/>.
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }

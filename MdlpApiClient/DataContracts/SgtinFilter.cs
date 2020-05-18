@@ -9,7 +9,7 @@
     public class SgtinFilter
     {
         /// <summary>
-        /// Статус
+        /// Статус (см. Список возможных статусов КИЗ, <see cref="SgtinStatus"/>)
         /// </summary>
         [DataMember(Name = "status", IsRequired = false)]
         public string[] Status { get; set; }
@@ -18,7 +18,9 @@
         /// Тип эмиссии:
         /// 1 — собственное,
         /// 2 — контрактное,
-        /// 3 — иностранное производство
+        /// 3 — иностранное производство,
+        /// 4 — маркирован на таможне.
+        /// См. <see cref="SgtinEmissionType"/>.
         /// </summary>
         [DataMember(Name = "emission_type", IsRequired = false)]
         public int[] EmissionType { get; set; }

@@ -34,7 +34,7 @@
         public string SgtinValue { get; set; }
 
         /// <summary>
-        /// Статус (см. Список возможных статусов КИЗ)
+        /// Статус (см. Список возможных статусов КИЗ, <see cref="SgtinStatus"/>)
         /// </summary>
         [DataMember(Name = "status")]
         public string Status { get; set; }
@@ -61,7 +61,9 @@
         /// Тип эмиссии:
         /// 1 — собственное,
         /// 2 — контрактное,
-        /// 3 — иностранное производство
+        /// 3 — иностранное производство,
+        /// 4 — маркирован на таможне.
+        /// См. <see cref="SgtinEmissionType"/>.
         /// </summary>
         [DataMember(Name = "emission_type")]
         public int EmissionType { get; set; }

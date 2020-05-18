@@ -15,17 +15,20 @@
         public string ID { get; set; }
 
         /// <summary>
-        /// ИНН владельца СВХ/ТС или УЭО        /// </summary>
+        /// ИНН владельца СВХ/ТС или УЭО
+        /// </summary>
         [DataMember(Name = "inn", IsRequired = false)]
         public string Inn { get; set; }
 
         /// <summary>
-        /// Номер свидетельства о включении в реестр ФТС России        /// </summary>
+        /// Номер свидетельства о включении в реестр ФТС России
+        /// </summary>
         [DataMember(Name = "regNum", IsRequired = false)]
         public string RegistrationNumber { get; set; }
 
         /// <summary>
-        /// Тип склада        /// </summary>
+        /// Тип склада
+        /// </summary>
         [DataMember(Name = "warehouseType", IsRequired = false)]
         public string WarehouseType { get; set; }
 
@@ -34,5 +37,11 @@
         /// </summary>
         [DataMember(Name = "customCode", IsRequired = false)]
         public string CustomsCode { get; set; }
+
+        /// <summary>
+        /// Наличие лицензии на фармацевтическую деятельность.
+        /// </summary>
+        [DataMember(Name = "hasPharmLicense", IsRequired = false)]
+        public bool? HasPharmLicense { get; set; }
     }
 }
