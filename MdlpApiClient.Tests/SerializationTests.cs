@@ -29,6 +29,10 @@
         [Test]
         public void ServiceStack4LicenseEnvironmentVariableExists()
         {
+            // for manual test runs, add this environment variable to your user's variables:
+            // Control Panel -> System and Security -> System -> Advanced System Settings -> Environment variables -> User variables
+            // for CI/CD pipelines, add this environment variable to CI configuration:
+            // https://gitlab.ultima.ru/yakovlev.a/MdlpClient/-/settings/ci_cd
             var license = Environment.GetEnvironmentVariable("SERVICE_STACK4_LICENSE");
             Assert.False(string.IsNullOrWhiteSpace(license));
         }

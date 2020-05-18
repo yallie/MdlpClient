@@ -75,7 +75,7 @@ namespace MdlpApiClient.Serialization
                 // ISO8601DateTime: "2019-04-24 20:43:44"
                 // ISO8601DateOnly: "2018-12-12"
                 // ISO8601: "2018-12-12T00:00:00.0000000"
-                scope.DateHandler = DateHandler.ISO8601DateTime;
+                scope.DateHandler = DateHandler.ISO8601;
                 return JsonSerializer.SerializeToString(obj);
             }
         }

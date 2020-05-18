@@ -59,9 +59,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="restsharp" Version="106.10.1" />
+    <PackageReference Include="restsharp" Version="106.11.4" />
     <PackageReference Include="GostCryptography" Version="2.0.8" />
-    <PackageReference Include="ServiceStack.Text" Version="4.0.62" />
+    <PackageReference Include="ServiceStack.Text" Version="4.0.33" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">

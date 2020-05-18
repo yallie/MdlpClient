@@ -42,6 +42,13 @@
                 TestContext.Progress.WriteLine("Running unit tests on CI server.");
             }
 
+            // register old ServiceStack library that has limits
+            if (typeof(ServiceStack.Text.JsonSerializer).Assembly.GetName().Version <= new Version("4.0.33.0"))
+            {
+                var licenseKey = Environment.GetEnvironmentVariable("SERVICE_STACK4_LICENSE");
+                ServiceStack.Licensing.RegisterLicense(licenseKey);
+            }
+
             // for continuous integration: use certificates installed on the local machine
             // for unit tests run inside Visual Studio: use current user's certificates
             GostCryptoHelpers.DefaultStoreLocation = ci ? StoreLocation.LocalMachine : StoreLocation.CurrentUser;
