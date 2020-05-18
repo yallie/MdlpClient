@@ -51,5 +51,27 @@
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
         public CustomDateTime EndDate { get; set; }
+
+        /// <summary>
+        /// Возможность вывода ЛП из оборота через РВ или соответствующий документ.
+        /// • true — вывод ЛП из оборота возможен через РВ или документ
+        /// • false — вывод ЛП из оборота возможен только через РВ        /// </summary>
+        [DataMember(Name = "is_withdrawal_via_document_allowed", IsRequired = false)]
+        public bool? IsWithdrawalViaDocumentAllowed { get; set; }
+
+        /// <summary>
+        /// Лицензия на фармацевтическую деятельность        /// </summary>
+        [DataMember(Name = "has_pharm_license", IsRequired = false)]
+        public bool? HasPharmLicense { get; set; }
+
+        /// <summary>
+        /// Лицензия на производственную деятельность        /// </summary>
+        [DataMember(Name = "has_prod_license", IsRequired = false)]
+        public bool? HasProdLicense { get; set; }
+
+        /// <summary>
+        /// Лицензия на медицинскую деятельность        /// </summary>
+        [DataMember(Name = "has_med_license", IsRequired = false)]
+        public bool? HasMedLicense { get; set; }
     }
 }

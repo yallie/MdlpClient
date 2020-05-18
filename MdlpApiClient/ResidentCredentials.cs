@@ -23,7 +23,7 @@
             }
 
             // get authentication code
-            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, "SIGNED_CODE");
+            var authCode = apiClient.Authenticate(ClientID, ClientSecret, UserID, AuthTypeEnum.SIGNED_CODE);
 
             // compute the signature and save the size
             var signature = GostCryptoHelpers.ComputeDetachedSignature(certificate, authCode);

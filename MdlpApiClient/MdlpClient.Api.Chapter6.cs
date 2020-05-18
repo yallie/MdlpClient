@@ -212,7 +212,7 @@
         /// <param name="clientId">Идентификатор клиента</param>
         /// <param name="clientSecret">Секретный ключ клиента</param>
         /// <param name="userId">Уникальный идентификатор пользователя</param>
-        /// <param name="authType">Тип аутентификации: PASSWORD или SIGNED_CODE</param>
+        /// <param name="authType">Тип аутентификации, см. <see cref="AuthTypeEnum"/>.</param>
         /// <returns>Код аутентификации для получения ключа сессии</returns>
         internal string Authenticate(string clientId, string clientSecret, string userId, string authType)
         {
