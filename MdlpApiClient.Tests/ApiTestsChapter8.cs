@@ -104,7 +104,7 @@
         [Test]
         public void Chapter8_02_3_GetWarehouse()
         {
-            var warehouse = Client.GetWarehouses("00000000100931");
+            var warehouse = Client.GetWarehouse("00000000100931");
             Assert.NotNull(warehouse);
             Assert.NotNull(warehouse.Address);
             Assert.AreEqual("986f2934-be05-438f-a30e-c15b90e15dbc", warehouse.Address.HouseGuid);

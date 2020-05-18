@@ -16,6 +16,8 @@
         /// <returns>Данные из реестра ЕГРЮЛ</returns>
         public EgrulRegistryResponse GetEgrulRegistryEntry()
         {
+            RequestRate(0.5); // 46
+
             return Get<EgrulRegistryResponse>("reestr/egrul");
         }
 
@@ -25,6 +27,8 @@
         /// <returns>Данные из реестра ЕГРИП</returns>
         public EgripRegistryResponse GetEgripRegistryEntry()
         {
+            RequestRate(0.5); // 47
+
             return Get<EgripRegistryResponse>("reestr/egrip");
         }
 
@@ -34,6 +38,8 @@
         /// <returns>Данные из реестра РАФП</returns>
         public RafpRegistryResponse GetRafpRegistryEntry()
         {
+            RequestRate(0.5); // 48
+
             return Get<RafpRegistryResponse>("reestr/rafp");
         }
 
@@ -44,6 +50,8 @@
         /// <returns>Данные из реестра ФИАС</returns>
         public FiasAddressObject GetFiasAddressObject(string addressId)
         {
+            RequestRate(0.5); // 50
+
             return Get<FiasAddressObject>("reestr/fias/addrobj/{addrobj}", new[]
             {
                 new Parameter("addrobj", addressId, ParameterType.UrlSegment)
@@ -57,6 +65,8 @@
         /// <returns>Данные из реестра ФИАС</returns>
         public FiasHouseObject GetFiasHouseObject(string houseGuid)
         {
+            RequestRate(0.5); // 51
+
             return Get<FiasHouseObject>("reestr/fias/house/{houseobj}", new[]
             {
                 new Parameter("houseobj", houseGuid, ParameterType.UrlSegment)
@@ -72,6 +82,8 @@
         /// <returns>Данные из реестра ФИАС</returns>
         public AddressResolved GetFiasAddress(string houseGuid, string aoGuid = null, string room = null)
         {
+            RequestRate(0.5); // 52
+
             var address = Post<AddressResolved>("reestr/fias/resolve", new
             {
                 // похоже, параметр aoGuid игнорируется, если указан дом, но наличие его все равно требуется
@@ -91,6 +103,8 @@
         /// <returns>Список лицензий</returns>
         public LicenseEntry[] GetProductionLicenses()
         {
+            RequestRate(0.5); // 53
+
             return Get<List<LicenseEntry>>("reestr/prod_licenses").ToArray();
         }
 
@@ -103,6 +117,8 @@
         /// <returns>Список лицензий</returns>
         public EntriesResponse<LicenseEntry> GetProductionLicenses(LicenseApiFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 94
+
             return Post<EntriesResponse<LicenseEntry>>("reestr/prod_licenses", new
             {
                 filter = filter ?? new LicenseApiFilter(),
@@ -116,6 +132,8 @@
         /// </summary>
         public void ResyncProductionLicenses()
         {
+            RequestRate(86400); // 91: сутки
+
             Post<EmptyResponse>("reestr/prod_licenses/resync", new { });
         }
 
@@ -125,6 +143,8 @@
         /// <returns>Список лицензий</returns>
         public LicenseEntry[] GetPharmacyLicenses()
         {
+            RequestRate(0.5); // 54
+
             return Get<List<LicenseEntry>>("reestr/pharm_licenses").ToArray();
         }
 
@@ -137,6 +157,8 @@
         /// <returns>Список лицензий</returns>
         public EntriesResponse<LicenseEntry> GetPharmacyLicenses(LicenseApiFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 93
+
             return Post<EntriesResponse<LicenseEntry>>("reestr/pharm_licenses", new
             {
                 filter = filter ?? new LicenseApiFilter(),
@@ -150,6 +172,8 @@
         /// </summary>
         public void ResyncPharmacyLicenses()
         {
+            RequestRate(86400); // 92: сутки
+
             Post<EmptyResponse>("reestr/pharm_licenses/resync", new { });
         }
 
@@ -163,6 +187,8 @@
         /// </remarks>
         public EntriesResponse<AddressEntry> GetCurrentAddresses()
         {
+            RequestRate(0.5); // 65
+
             return Get<EntriesResponse<AddressEntry>>("reestr/address/all");
         }
 
@@ -174,6 +200,8 @@
         /// <returns>Список стран</returns>
         public EntriesResponse<CountryInfo> GetCountries(int startFrom, int count)
         {
+            RequestRate(0.5); // 66
+
             return Post<EntriesResponse<CountryInfo>>("reestr/area/countries", new
             {
                 start_from = startFrom,
@@ -189,6 +217,8 @@
         /// <returns>Список субъектов РФ</returns>
         public EntriesResponse<Region> GetRegions(int startFrom, int count)
         {
+            RequestRate(0.5); // 67
+
             return Post<EntriesResponse<Region>>("reestr/area/regions", new
             {
                 start_from = startFrom,
@@ -205,6 +235,8 @@
         /// <returns>Список записей реестра ЕСКЛП</returns>
         public EntriesResponse<EsklpInfo> GetEsklpInfo(EsklpFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 68
+
             return Post<EntriesResponse<EsklpInfo>>("reestr/esklp/filter", new
             {
                 filter = filter ?? new EsklpFilter(),
@@ -222,6 +254,8 @@
         /// <returns>Список мест таможенного контроля</returns>
         public EntriesResponse<CustomsPointsInfoEntry> GetCustomsPoints(CustomsPointsFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 84
+
             return Post<EntriesResponse<CustomsPointsInfoEntry>>("reestr/customs_points/filter", new
             {
                 filter = filter ?? new CustomsPointsFilter(),

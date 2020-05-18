@@ -16,7 +16,7 @@
         /// <returns>Идентификатор учетной системы</returns>
         public AccountSystem RegisterAccountSystem(string sysId, string name)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 14
 
             var accSystem = Post<AccountSystem>("registration/accounting_system", new
             {
@@ -37,7 +37,7 @@
         /// <returns>Идентификатор пользователя</returns>
         public string RegisterUser(string sysId, ResidentUser user)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 15
 
             var response = Post<RegisterUserResponse>("registration/user_resident", new
             {
@@ -62,6 +62,8 @@
         /// <returns>Идентификатор пользователя</returns>
         public string RegisterUser(string sysId, NonResidentUser user)
         {
+            RequestRate(0.5); // 16
+
             var response = Post<RegisterUserResponse>("registration/user_nonresident", new
             {
                 sys_id = sysId,
@@ -84,7 +86,7 @@
         /// <returns>Свойства пользователя</returns>
         public GroupedUser GetUserInfo(string userId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 17
 
             return Get<GetUserResponse>("users/{user_id}", new[]
             {
@@ -109,7 +111,7 @@
         /// <param name="user">Свойства профиля пользователя</param>
         public void UpdateUserProfile(string userId, UserEditProfileEntry user)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 18
 
             Put("users/{user_id}", new
             {
@@ -128,7 +130,7 @@
         /// <returns>Свойства пользователя</returns>
         public GroupedUser GetCurrentUserInfo()
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 19
 
             return Get<GetUserResponse>("users/current").User;
         }
@@ -153,7 +155,7 @@
         /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetCurrentCertificates(int startFrom, int count)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 20
 
             return Post<CertificatesResponse<UserCertificate>>("users/current/keys", new
             {
@@ -171,7 +173,7 @@
         /// <returns>Список сертификатов</returns>
         public CertificatesResponse<UserCertificate> GetUserCertificates(string userId, int startFrom, int count)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 21
 
             return Post<CertificatesResponse<UserCertificate>>("users/{user_id}/keys", new
             {
@@ -191,7 +193,7 @@
         /// <returns>Свойства УС</returns>
         public AccountSystem GetAccountSystem(string accountSystemId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 22
 
             return Get<GetAccountSystemResponse>("account_systems/{account_system_id}", new[]
             {
@@ -214,7 +216,7 @@
         /// <returns>Код аутентификации для получения ключа сессии</returns>
         internal string Authenticate(string clientId, string clientSecret, string userId, string authType)
         {
-            RequestRate(1);
+            RequestRate(1); // 23
 
             var auth = Post<AuthResponse>("auth", new
             {
@@ -240,7 +242,7 @@
         /// <returns>Ключ сессии <see cref="AuthToken"/>.</returns>
         internal AuthToken GetToken(string authCode, string signature = null, string password = null)
         {
-            RequestRate(1);
+            RequestRate(1); // 24
 
             var result = Post<AuthToken>("token", new
             {
@@ -259,7 +261,7 @@
         /// </summary>
         internal void Logout()
         {
-            RequestRate(1);
+            RequestRate(1); // 25
 
             Get("auth/logout");
             IsAuthenticated = false;
@@ -271,7 +273,7 @@
         /// <param name="userId">Уникальный идентификатор пользователя учетной системы</param>
         public void DeleteUser(string userId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 26
 
             Delete("users/{user_id}", null, new[]
             {
@@ -285,7 +287,7 @@
         /// <param name="accountSystemId">Уникальный идентификатор учетной системы</param>
         public void DeleteAccountSystem(string accountSystemId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 27
 
             Delete("account_systems/{account_system_id}", null, new[]
             {
@@ -303,7 +305,7 @@
         /// <param name="certificate">Публичный сертификат пользователя</param>
         public void AddUserCertificate(string userId, string certificate)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 28
 
             Post("users/{user_id}/add_key", new
             {
@@ -327,7 +329,7 @@
         /// <param name="certificate">Публичный сертификат пользователя</param>
         public void DeleteUserCertificate(string userId, string certificate)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 29
 
             Delete("users/{user_id}/delete_key", new
             {
@@ -346,6 +348,8 @@
         /// <param name="password">Пароль пользователя</param>
         public void ChangeUserPassword(string userId, string password)
         {
+            RequestRate(0.5); // 30
+
             Post("users/{user_id}/change_password", new
             {
                 password = password
@@ -361,6 +365,8 @@
         /// </summary>
         public RightsInfo[] GetRights()
         {
+            RequestRate(0.5); // 31
+
             return Get<GetRightsResponse<RightsInfo>>("rights/about").Rights;
         }
 
@@ -369,6 +375,8 @@
         /// </summary>
         public string[] GetCurrentRights()
         {
+            RequestRate(0.5); // 32
+
             return Get<GetRightsResponse<string>>("rights/current").Rights;
         }
 
@@ -380,6 +388,8 @@
         /// <returns>Уникальный идентификатор группы</returns>
         public string CreateRightsGroup(string groupName, string[] rights)
         {
+            RequestRate(0.5); // 33
+
             return Post<CreateRightsGroupResponse>("rights/create_group", new
             {
                 group_name = groupName,
@@ -395,6 +405,8 @@
         /// <returns><see cref="Group"/></returns>
         public Group GetRightsGroup(string groupId)
         {
+            RequestRate(0.5); // 35
+
             return Get<GetGroupResponse>("rights/{group_id}", new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
@@ -409,6 +421,8 @@
         /// <returns>Список объектов <see cref="User"/></returns>
         public User[] GetGroupUsers(string groupId)
         {
+            RequestRate(0.5); // 34
+
             return Get<GetGroupUsersResponse>("rights/{group_id}/users", new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
@@ -423,6 +437,8 @@
         /// <param name="groupChange">Объект <see cref="Group"/></param>
         public void UpdateRightsGroup(string groupId, Group groupChange)
         {
+            RequestRate(0.5); // 36
+
             Put("rights/{group_id}", new
             {
                 group_change = groupChange
@@ -439,6 +455,8 @@
         /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
         public void DeleteRightsGroup(string groupId)
         {
+            RequestRate(0.5); // 37
+
             Delete("rights/{group_id}", null, new[]
             {
                 new Parameter("group_id", groupId, ParameterType.UrlSegment),
@@ -453,6 +471,8 @@
         /// <returns>Уникальный идентификатор группы</returns>
         public void AddUserToRightsGroup(string userId, string groupId)
         {
+            RequestRate(0.5); // 38
+
             Post("rights/{group_id}/user_add", new
             {
                 user_id = userId
@@ -470,6 +490,8 @@
         /// <param name="groupId">Уникальный идентификатор группы прав пользователей</param>
         public void DeleteUserFromRightsGroup(string userId, string groupId)
         {
+            RequestRate(0.5); // 39
+
             Delete("rights/{group_id}/{user_id}", null, new[]
             {
                 new Parameter("user_id", userId, ParameterType.UrlSegment),
@@ -486,6 +508,8 @@
         /// <returns>Список групп прав пользователей </returns>
         public GroupsResponse<Group> GetRightsGroups(GroupFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 41
+
             return Post<GroupsResponse<Group>>("rights/filter", new
             {
                 filter = filter ?? new GroupFilter(),
@@ -503,6 +527,8 @@
         /// <returns>Список зарегистрированных пользователей</returns>
         public UsersResponse<GroupedUser> GetUsers(UserFilter filter, int startFrom, int count)
         {
+            RequestRate(0.5); // 43
+
             return Post<UsersResponse<GroupedUser>>("users/filter", new
             {
                 filter = filter ?? new UserFilter(),
@@ -520,7 +546,7 @@
         /// <returns>Список учетных систем</returns>
         public AccountSystemsResponse<AccountSystem> GetAccountSystems(string name, int startFrom, int count)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 45
 
             return Post<AccountSystemsResponse<AccountSystem>>("account_systems/filter", new
             {

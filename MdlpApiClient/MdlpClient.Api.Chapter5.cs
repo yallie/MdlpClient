@@ -22,7 +22,7 @@
         /// <returns>Идентификатор документа</returns>
         public string SendDocument(string xmlDocument)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 1
 
             var result = Post<SendDocumentResponse>("documents/send", new
             {
@@ -43,7 +43,7 @@
         /// <returns>Идентификатор документа</returns>
         public string SendLargeDocument(string xmlDocument)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 2, 3, 4
 
             // 5.2
             var link = Post<SendLargeDocumentResponse>("documents/send_large", new
@@ -71,7 +71,7 @@
         /// <returns>Максимальный размер документа в байтах.</returns>
         public int GetLargeDocumentSize()
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 6
 
             var result = Get<GetLargeDocumentSizeResponse>("documents/doc_size");
             return result.DocSize;
@@ -84,7 +84,7 @@
         /// <param name="requestId"></param>
         public void CancelSendDocument(string docId, string requestId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 5
 
             Post("documents/cancel", new
             {
@@ -101,7 +101,7 @@
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public DocumentsResponse<OutcomeDocument> GetOutcomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            RequestRate(1);
+            RequestRate(1); // 7
 
             return Post<DocumentsResponse<OutcomeDocument>>("documents/outcome", new
             {
@@ -119,7 +119,7 @@
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public DocumentsResponse<IncomeDocument> GetIncomeDocuments(DocFilter filter, int startFrom, int count)
         {
-            RequestRate(1);
+            RequestRate(1); // 8
 
             return Post<DocumentsResponse<IncomeDocument>>("documents/income", new
             {
@@ -136,7 +136,7 @@
         /// <returns>Метаданные документа</returns>
         public DocumentMetadata GetDocumentMetadata(string documentId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 9
 
             return Get<DocumentMetadata>("documents/{document_id}", new[]
             {
@@ -150,7 +150,7 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetDocumentText(string documentId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 10
 
             var docLink = Get<GetDocumentResponse>("/documents/download/{document_id}", new[]
             {
@@ -166,7 +166,7 @@
         /// <param name="requestId">Идентификатор запроса</param>
         public DocumentsResponse<DocumentMetadata> GetDocumentsByRequestID(string requestId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 11
 
             return Get<DocumentsResponse<DocumentMetadata>>("documents/request/{request_id}", new[]
             {
@@ -180,7 +180,7 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetTicketText(string documentId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 12
 
             var link = Get<GetDocumentResponse>("documents/{document_id}/ticket", new[]
             {
@@ -196,7 +196,7 @@
         /// <param name="documentId">Идентификатор документа</param>
         public string GetSignature(string documentId)
         {
-            RequestRate(0.5);
+            RequestRate(0.5); // 13
 
             return Get("documents/{document_id}/signature", new[]
             {
@@ -213,6 +213,8 @@
         /// <param name="count">Количество записей в списке возвращаемых документов</param>
         public ItemsResponse<DocumentSkzkmMetadata> GetDocumentsBySkzkmReportID(string reportId, int startFrom, int count)
         {
+            RequestRate(1); // 98
+
             return Post<ItemsResponse<DocumentSkzkmMetadata>>("documents/skzkm-traces/filter", new
             {
                 filter = new
