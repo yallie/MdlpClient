@@ -5,8 +5,8 @@
     <Description>Честный знак. ИС «Маркировка». МДЛП — MDLP REST API client.</Description>
     <Company>Alexey Yakovlev</Company>
     <Copyright>Copyright © Alexey Yakovlev 2020</Copyright>
-    <Version>1.2.0.0</Version>
-    <FileVersion>1.2.0.0</FileVersion>
+    <Version>1.3.0.6</Version>
+    <FileVersion>1.3.0.6</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Authors>Alexey Yakovlev;Contributors</Authors>
 
@@ -19,17 +19,24 @@
     <RepositoryUrl>https://github.com/yallie/MdlpClient.git</RepositoryUrl>
     <!--PackageLicenseExpression>MIT</PackageLicenseExpression-->
     <PackageReleaseNotes>Beta release. What's new:
-      v1.2.0:
+      v1.3.0.6:
+      — Support for MDLP API v3.06
+      - Added GetSsccFullHierarchy method
+      — Added AuthTypeEnum, GroupTypeEnum, SgtinEmissionType, SgtinStatus, UserStatus, UserStatusReason
+      — Updated BranchFilter, DocFilter, Sgtin, SgtinExtended, UserBase
+      — Added support for the request rate limits
+
+      v1.2.0.0:
       — Worked around DateTime serialization issues.
 
-      v1.1.0:
+      v1.1.0.0:
       — SendDocument, GetDocument and GetTicket are working with document classes, not strings.
       — Added GetDocumentText and GetTicketText methods to return strings.
       — Added XmlSerializationHelper class.
       — Automatic selection of SendDocument and SendLargeDocument based on the document size.
       — Sandbox support.
 
-      v1.0.0:
+      v1.0.0.0:
       — Initial implementation.
     </PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
