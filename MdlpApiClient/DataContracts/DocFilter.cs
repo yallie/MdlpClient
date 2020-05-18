@@ -82,5 +82,12 @@
         /// </summary>
         [DataMember(Name = "file_uploadtype", IsRequired = false)]
         public int? FileUploadType { get; set; } // 1 УСО, 2 ЛК, 3 API, 4 ОФД, 5 СКЗКМ
+
+        /// <summary>
+        /// Идентификатор отчета СУЗ.
+        /// Для документов, полученных от регистраторов событий
+        /// </summary>
+        [DataMember(Name = "skzkm_report_id", IsRequired = false)]
+        public string SkzkmReportID { get; set; }
     }
 }

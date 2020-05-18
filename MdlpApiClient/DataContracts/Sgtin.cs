@@ -145,7 +145,10 @@
 
         /// <summary>
         /// Источник финансирования.
-        /// Возможные значения см. в XSD описании базовых типов комплекта схем.
+        /// Возможные значения см. в XSD описании базовых типов комплекта схем:
+        /// 1 — собственные средства,
+        /// 2 — средства федерального бюджета,
+        /// 3 — средства регионального бюджета
         /// </summary>
         [DataMember(Name = "source_type", IsRequired = false)]
         public int? SourceType { get; set; }
@@ -210,5 +213,29 @@
         /// </summary>
         [DataMember(Name = "gnvlp")]
         public bool Gnvlp { get; set; }
+
+        /// <summary>
+        /// Дата решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_doc_date", IsRequired = false)]
+        public DateTime? HaltDocDate { get; set; }
+
+        /// <summary>
+        /// Дата вступления в силу решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_date", IsRequired = false)]
+        public DateTime? HaltDate { get; set; }
+
+        /// <summary>
+        /// Номер решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_doc_num", IsRequired = false)]
+        public string HaltDocNumber { get; set; }
+
+        /// <summary>
+        /// Идентификатор решения о приостановке.
+        /// </summary>
+        [DataMember(Name = "halt_id", IsRequired = true)]
+        public string HaltID { get; set; }
     }
 }
