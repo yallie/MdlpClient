@@ -7,7 +7,10 @@
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
 
-    internal class GostCryptoHelpers
+    /// <summary>
+    /// Cryptographic utilities for GOST provider.
+    /// </summary>
+    public class GostCryptoHelpers
     {
         /// <summary>
         /// For the unit tests, set this to the StoreLocation.CurrentUser.

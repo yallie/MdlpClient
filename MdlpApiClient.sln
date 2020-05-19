@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F1E44E55-75F6-49BA-A2EE-2FE735091191}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\list_of_methods.txt = Docs\list_of_methods.txt
+	EndProjectSection
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MdlpApiClient", "MdlpApiClient\MdlpApiClient.csproj", "{3025C52D-0FE3-40E4-8F19-48D466181CA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MdlpApiClient.Tests", "MdlpApiClient.Tests\MdlpApiClient.Tests.csproj", "{0338F2EB-F65B-4AA7-8206-878481C51887}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MdlpApiClient.Merged", "MdlpApiClient.Merged\MdlpApiClient.Merged.csproj", "{54549D2F-3EC5-4D0A-8FE8-9C47A535C1DD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F1E44E55-75F6-49BA-A2EE-2FE735091191}"
-	ProjectSection(SolutionItems) = preProject
-		Docs\list_of_methods.txt = Docs\list_of_methods.txt
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdlpApiClient.Merged.Tests", "MdlpApiClient.Merged.Tests\MdlpApiClient.Merged.Tests.csproj", "{9807ED81-3724-4751-910D-B04120A46494}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{54549D2F-3EC5-4D0A-8FE8-9C47A535C1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54549D2F-3EC5-4D0A-8FE8-9C47A535C1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54549D2F-3EC5-4D0A-8FE8-9C47A535C1DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9807ED81-3724-4751-910D-B04120A46494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9807ED81-3724-4751-910D-B04120A46494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9807ED81-3724-4751-910D-B04120A46494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9807ED81-3724-4751-910D-B04120A46494}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19027,8 +19027,7 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Дата последней смены статуса
-        /// Если статус еще не менялся, будет возвращена дата регистрации участника
-        /// </summary>
+        /// Если статус еще не менялся, будет возвращена дата регистрации участника        /// </summary>
         [DataMember(Name = "op_date")]
         public DateTime OperationDate { get; set; }
     }
@@ -19168,8 +19167,7 @@ namespace MdlpApiClient.DataContracts
 {
     /// <summary>
     /// 4.14. Список типов аутентификации (AuthType)
-    /// Таблица 10. Список типов аутентификации
-    /// </summary>
+    /// Таблица 10. Список типов аутентификации    /// </summary>
     public class AuthTypeEnum
     {
         /// <summary>
@@ -19418,26 +19416,22 @@ namespace MdlpApiClient.DataContracts
         /// <summary>
         /// Возможность вывода ЛП из оборота через РВ или соответствующий документ.
         /// • true — вывод ЛП из оборота возможен через РВ или документ
-        /// • false — вывод ЛП из оборота возможен только через РВ
-        /// </summary>
+        /// • false — вывод ЛП из оборота возможен только через РВ        /// </summary>
         [DataMember(Name = "is_withdrawal_via_document_allowed", IsRequired = false)]
         public bool? IsWithdrawalViaDocumentAllowed { get; set; }
 
         /// <summary>
-        /// Лицензия на фармацевтическую деятельность
-        /// </summary>
+        /// Лицензия на фармацевтическую деятельность        /// </summary>
         [DataMember(Name = "has_pharm_license", IsRequired = false)]
         public bool? HasPharmLicense { get; set; }
 
         /// <summary>
-        /// Лицензия на производственную деятельность
-        /// </summary>
+        /// Лицензия на производственную деятельность        /// </summary>
         [DataMember(Name = "has_prod_license", IsRequired = false)]
         public bool? HasProdLicense { get; set; }
 
         /// <summary>
-        /// Лицензия на медицинскую деятельность
-        /// </summary>
+        /// Лицензия на медицинскую деятельность        /// </summary>
         [DataMember(Name = "has_med_license", IsRequired = false)]
         public bool? HasMedLicense { get; set; }
     }
@@ -19748,6 +19742,85 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    using System;
+
+    /// <summary>
+    /// Custom <see cref="System.DateTime"/> wrapper class to work around serialization issues.
+    /// Some API methods assume that date+time fields look like this: "2018-12-12T00:00:00Z".
+    /// While some others assume that date+time fields look like this: "2018-12-12 00:00:00"
+    /// </summary>
+    public class CustomDateTimeSpace
+    {
+        /// <summary>
+        /// Real DateTime value.
+        /// </summary>
+        public DateTime? DateTime { get; set; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            // 2020-04-24 21:01:40
+            return DateTime.HasValue ? DateTime.Value.ToString("s").Replace("T", " ") : "null";
+        }
+
+        /// <summary>
+        /// Parses the given string.
+        /// </summary>
+        /// <param name="s">String to parse.</param>
+        /// <returns><see cref="CustomDateTimeSpace"/> instance.</returns>
+        public static CustomDateTimeSpace Parse(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s) || "null".Equals(s, StringComparison.OrdinalIgnoreCase))
+            {
+                return new CustomDateTimeSpace();
+            }
+
+            return new CustomDateTimeSpace
+            {
+                DateTime = System.DateTime.ParseExact(s.Replace(" ", "T").TrimEnd('z', 'Z'), "s", null)
+            };
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
+        public static implicit operator DateTime(CustomDateTimeSpace cd)
+        {
+            return cd.DateTime ?? default(DateTime);
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
+        public static implicit operator DateTime?(CustomDateTimeSpace cd)
+        {
+            return cd.DateTime;
+        }
+
+        /// <summary>
+        /// Implicit conversion to the <see cref="string"/> type.
+        /// </summary>
+        /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
+        public static implicit operator string(CustomDateTimeSpace cd)
+        {
+            return cd == null ? "null" : cd.ToString();
+        }
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDateTimeSpace"/> instance.</param>
+        public static implicit operator CustomDateTimeSpace(DateTime? dt)
+        {
+            return new CustomDateTimeSpace { DateTime = dt };
+        }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -19812,32 +19885,27 @@ namespace MdlpApiClient.DataContracts
         public string ID { get; set; }
 
         /// <summary>
-        /// ИНН владельца СВХ/ТС или УЭО
-        /// </summary>
+        /// ИНН владельца СВХ/ТС или УЭО        /// </summary>
         [DataMember(Name = "inn", IsRequired = false)]
         public string Inn { get; set; }
 
         /// <summary>
-        /// Наименовани владельца СВХ/ТС или УЭО
-        /// </summary>
+        /// Наименовани владельца СВХ/ТС или УЭО        /// </summary>
         [DataMember(Name = "orgName", IsRequired = false)]
         public string OrganizationName { get; set; }
 
         /// <summary>
-        /// Номер свидетельства о включении в реестр ФТС России
-        /// </summary>
+        /// Номер свидетельства о включении в реестр ФТС России        /// </summary>
         [DataMember(Name = "regNum", IsRequired = false)]
         public string RegistrationNumber { get; set; }
 
         /// <summary>
-        /// Тип склада
-        /// </summary>
+        /// Тип склада        /// </summary>
         [DataMember(Name = "warehouseAddress", IsRequired = false)]
         public string WarehouseAddress { get; set; }
 
         /// <summary>
-        /// Тип склада
-        /// </summary>
+        /// Тип склада        /// </summary>
         [DataMember(Name = "warehouseType", IsRequired = false)]
         public string WarehouseType { get; set; }
 
@@ -19897,25 +19965,25 @@ namespace MdlpApiClient.DataContracts
         /// Дата начала периода фильтрации
         /// </summary>
         [DataMember(Name = "start_date", IsRequired = false)]
-        public DateTime? StartDate { get; set; }
+        public CustomDateTimeSpace StartDate { get; set; }
 
         /// <summary>
         /// Дата окончания периода фильтрации
         /// </summary>
         [DataMember(Name = "end_date", IsRequired = false)]
-        public DateTime? EndDate { get; set; }
+        public CustomDateTimeSpace EndDate { get; set; }
 
         /// <summary>
         /// Дата обработки документа: начало периода
         /// </summary>
         [DataMember(Name = "processed_date_from", IsRequired = false)]
-        public DateTime? ProcessedDateFrom { get; set; }
+        public CustomDateTimeSpace ProcessedDateFrom { get; set; }
 
         /// <summary>
         /// Дата обработки документа: окончание периода
         /// </summary>
         [DataMember(Name = "processed_date_to", IsRequired = false)]
-        public DateTime? ProcessedDateTo { get; set; }
+        public CustomDateTimeSpace ProcessedDateTo { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор документа
@@ -20020,8 +20088,7 @@ namespace MdlpApiClient.DataContracts
         /// Квитанция для документа с информацией о причине сбоя 
         /// сформирована и может быть получена по request_id
         /// </summary>
-        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";
-    }
+        public const string FAILED_RESULT_READY = "FAILED_RESULT_READY";    }
 }
 
 namespace MdlpApiClient.DataContracts
@@ -21122,8 +21189,7 @@ namespace MdlpApiClient.DataContracts
         public string Litera { get; set; }
 
         /// <summary>
-        /// № помещения (квартиры)
-        /// </summary>
+        /// № помещения (квартиры)        /// </summary>
         [DataMember(Name = "room")]
         public string Room { get; set; }
     }
@@ -21678,15 +21744,13 @@ namespace MdlpApiClient.DataContracts
         /// Создается автоматически у участника при наличии
         /// медицинской лицензии.Позволяет работать с
         /// заявлениями и анкетами на устройства регистрации
-        /// выбытия.
-        /// </summary>
+        /// выбытия.        /// </summary>
         public const int MED_GROUP = 3;
 
         /// <summary>
         /// Группа прав "Заказчик КМ".
         /// Создается по заявке. Позволяет работать с
-        /// заявлениям на коды маркировки.
-        /// </summary>
+        /// заявлениям на коды маркировки.        /// </summary>
         public const int LABEL_GROUP = 4;
 
         /// <summary>
@@ -21694,8 +21758,7 @@ namespace MdlpApiClient.DataContracts
         /// Создается автоматически у участника при наличии
         /// фармацевтической лицензии.Позволяет работать с
         /// заявлениями и анкетами на устройства регистрации
-        /// выбытия.
-        /// </summary>
+        /// выбытия.        /// </summary>
         public const int PHARM_GROUP = 5;
 
         /// <summary>
@@ -22178,8 +22241,7 @@ namespace MdlpApiClient.DataContracts
     public class IncomeDocument : DocumentMetadata
     {
         /// <summary>
-        /// Идентификатор отправителя документа в «ИС "Маркировка". МДЛП»
-        /// </summary>
+        /// Идентификатор отправителя документа в «ИС "Маркировка". МДЛП»        /// </summary>
         [DataMember(Name = "sender_sys_id")]
         public string SenderSystemID { get; set; } // "e2cb20c1-1d5b-4ab6-b8dd-9297bec23f63" (optional)
     }
@@ -22874,8 +22936,7 @@ namespace MdlpApiClient.DataContracts
         public string ActivityDescription { get; set; }
 
         /// <summary>
-        /// Информация о руководителях организации
-        /// </summary>
+        /// Информация о руководителях организации        /// </summary>
         [DataMember(Name = "chiefs", IsRequired = false)]
         public ChiefInfo[] Chiefs { get; set; }
 
@@ -22886,8 +22947,7 @@ namespace MdlpApiClient.DataContracts
         public string Language { get; set; }
 
         /// <summary>
-        /// Код субъекта РФ (код места юридической регистрации участника)
-        /// </summary>
+        /// Код субъекта РФ (код места юридической регистрации участника)        /// </summary>
         [DataMember(Name = "registration_federal_subject_code", IsRequired = false)]
         public string RegistrationFederalSubjectCode { get; set; }
 
@@ -22941,8 +23001,7 @@ namespace MdlpApiClient.DataContracts
         public string Address { get; set; }
 
         /// <summary>
-        /// Краткое наименование организации
-        /// </summary>
+        /// Краткое наименование организации        /// </summary>
         [DataMember(Name = "org_short_name")]
         public string OrganizationShortName { get; set; }
     }
@@ -22970,8 +23029,7 @@ namespace MdlpApiClient.DataContracts
         public string Language { get; set; }
 
         /// <summary>
-        /// Код субъекта РФ (код места юридической регистрации участника)
-        /// </summary>
+        /// Код субъекта РФ (код места юридической регистрации участника)        /// </summary>
         [DataMember(Name = "registration_federal_subject_code", IsRequired = false)]
         public string RegistrationFederalSubjectCode { get; set; }
 
@@ -24568,14 +24626,12 @@ namespace MdlpApiClient.DataContracts
         public bool IsPaid { get; set; }
 
         /// <summary>
-        /// Признак вхождения в список высокозатратных нозологий
-        /// </summary>
+        /// Признак вхождения в список высокозатратных нозологий        /// </summary>
         [DataMember(Name = "contains_vzn")]
         public bool ContainsVzn { get; set; }
 
         /// <summary>
-        /// Список информации о платежах
-        /// </summary>
+        /// Список информации о платежах        /// </summary>
         [DataMember(Name = "payments")]
         public SgtinPaymentInformation[] Payments { get; set; }
     }
@@ -24989,8 +25045,7 @@ namespace MdlpApiClient.DataContracts
         public decimal? Price { get; set; }
 
         /// <summary>
-        /// Сумма НДС (если сделка облагается НДС), в коп.
-        /// </summary>
+        /// Сумма НДС (если сделка облагается НДС), в коп.        /// </summary>
         [DataMember(Name = "vat_value", IsRequired = false)]
         public decimal? VatValue { get; set; }
 
@@ -25001,8 +25056,7 @@ namespace MdlpApiClient.DataContracts
         public string SoldPart { get; set; }
 
         /// <summary>
-        /// Сумма скидки, в коп.
-        /// </summary>
+        /// Сумма скидки, в коп.        /// </summary>
         [DataMember(Name = "discount", IsRequired = false)]
         public decimal? Discount { get; set; }
 
@@ -25766,8 +25820,7 @@ namespace MdlpApiClient.DataContracts
     /// <summary>
     /// 6.1.9. Метод для получения информации о зарегистрированных сертификатах текущего пользователя
     /// 6.1.10. Метод для получения информации о зарегистрированных сертификатах пользователя
-    /// Формат объекта UserCert
-    /// </summary>
+    /// Формат объекта UserCert    /// </summary>
     [DataContract]
     public class UserCertificate
     {
@@ -25842,8 +25895,7 @@ namespace MdlpApiClient.DataContracts
     /// Таблица 24. Формат объекта UserEditProfileEntry
     /// </summary>
     [DataContract]
-    public class UserEditProfileEntry : UserBase
-    {
+    public class UserEditProfileEntry : UserBase    {
         /// <summary>
         /// Электронная почта
         /// </summary>
@@ -25948,8 +26000,7 @@ namespace MdlpApiClient.DataContracts
 namespace MdlpApiClient.DataContracts
 {
     /// <summary>
-    /// 4.15. Список статусов пользователя (UserStatus)
-    /// Таблица 11. Список статусов пользователя
+    /// 4.15. Список статусов пользователя (UserStatus)    /// Таблица 11. Список статусов пользователя
     /// </summary>
     public class UserStatus
     {
@@ -29060,10 +29111,12 @@ namespace MdlpApiClient.Serialization
         static ServiceStackSerializer()
         {
             // use custom serialization only for our own types
-            JsConfig<CustomDateTime>.SerializeFn = c => c;
-            JsConfig<CustomDateTime>.DeSerializeFn = s => CustomDateTime.Parse(s);
             JsConfig<CustomDate>.SerializeFn = c => c;
             JsConfig<CustomDate>.DeSerializeFn = s => CustomDate.Parse(s);
+            JsConfig<CustomDateTime>.SerializeFn = c => c;
+            JsConfig<CustomDateTime>.DeSerializeFn = s => CustomDateTime.Parse(s);
+            JsConfig<CustomDateTimeSpace>.SerializeFn = c => c;
+            JsConfig<CustomDateTimeSpace>.DeSerializeFn = s => CustomDateTimeSpace.Parse(s);
         }
 
         public string[] SupportedContentTypes
@@ -29233,7 +29286,10 @@ namespace MdlpApiClient.Toolbox
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
 
-    internal class GostCryptoHelpers
+    /// <summary>
+    /// Cryptographic utilities for GOST provider.
+    /// </summary>
+    public class GostCryptoHelpers
     {
         /// <summary>
         /// For the unit tests, set this to the StoreLocation.CurrentUser.
