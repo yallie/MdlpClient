@@ -13,6 +13,7 @@ stages:
 build:
   stage: build
   before_script:
+    - chcp 65001
     - git clean -ffdx -e $MIRROR_DIR/
   script:
     - dotnet build
