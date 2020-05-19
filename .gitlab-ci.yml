@@ -37,7 +37,7 @@ unit_tests:
     - copy "MdlpApiClient.Tests\TestResults\TestResults.trx.html" "$ULTIMA_REPORT_UPLOAD_PATH\MdlpClient.html"
   artifacts:
     paths:
-      - MdlpApiClient.Tests\TestResults\TestResults.trx 
+      - MdlpApiClient.Tests\TestResults\TestResults.trx
       - MdlpApiClient.Tests\TestResults\TestResults.xml
     reports:
       junit: MdlpApiClient.Tests\TestResults\TestResults.xml
@@ -48,9 +48,9 @@ mirror:
   before_script:
     - echo "Push changes to github mirror..."
   script:
-    - Scripts\Mirror.ps1 
+    - Scripts\Mirror.ps1
       -remote github
-      -repo   $CI_REPOSITORY_URL 
+      -repo   $CI_REPOSITORY_URL
       -dir    $MIRROR_DIR
       -url    $GITHUB_REPO
       -user   $GITHUB_USER

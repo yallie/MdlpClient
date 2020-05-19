@@ -1,4 +1,3 @@
-﻿
 namespace MdlpApiClient.Serialization
 {
     using System;
