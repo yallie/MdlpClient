@@ -13,7 +13,6 @@ stages:
 build:
   stage: build
   before_script:
-    - chcp 65001
     - git clean -ffdx -e $MIRROR_DIR/
   script:
     - dotnet build
@@ -22,8 +21,7 @@ unit_tests:
   stage: unit tests
   before_script:
     - echo "Normal build -- running unit tests with coverage..."
-    - chcp
-    - exit 1
+    - chcp 65001
     # uncomment to install the required tools --
     # dotnet tool install -g trx2junit
     # choco install opencover.portable
