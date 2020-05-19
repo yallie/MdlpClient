@@ -1,6 +1,6 @@
 ﻿# run unit tests and gather coverage information
 $args = "test --logger=trx;LogFileName=TestResults.trx"
-$filter = "+[*]* -[*Test*]* -[MdlpApiClient.Xsd*]*"
+$filter = "+[*]* -[*Test*]* -[*]MdlpApiClient.Xsd*"
 OpenCover.Console.exe -returntargetcode -register:administrator -target:dotnet.exe "-targetargs:$args" "-filter:$filter" -output:MdlpCoverage.xml
 $exit = $lastexitcode
 
