@@ -11,7 +11,8 @@
     public class IncomeDocument : DocumentMetadata
     {
         /// <summary>
-        /// Идентификатор отправителя документа в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// Идентификатор отправителя документа в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sender_sys_id")]
         public string SenderSystemID { get; set; } // "e2cb20c1-1d5b-4ab6-b8dd-9297bec23f63" (optional)
     }

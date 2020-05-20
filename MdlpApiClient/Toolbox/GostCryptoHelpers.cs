@@ -15,6 +15,7 @@
         /// <summary>
         /// For the unit tests, set this to the StoreLocation.CurrentUser.
         /// For the production code, keep it set to the StoreLocation.LocalMachine.
+        /// Only Administrator or LocalSystem accounts can access the LocalMachine stores.
         /// </summary>
         public static StoreLocation DefaultStoreLocation = StoreLocation.LocalMachine;
 
@@ -83,7 +84,7 @@
             var signer = new CmsSigner(certificate);
 
             // Computing the CMS/PKCS#7 signature
-            signedCms.ComputeSignature(signer);
+            signedCms.ComputeSignature(signer, true);
 
             // Encoding the CMS/PKCS#7 message
             var encoded = signedCms.Encode();
