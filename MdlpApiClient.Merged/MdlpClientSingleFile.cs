@@ -19599,11 +19599,8 @@ namespace MdlpApiClient.DataContracts
         private const string Format = "yyyy\\-MM\\-dd";
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            // 2020-04-24
-            return DateTime.HasValue ? DateTime.Value.ToString(Format) : "null";
-        }
+        public override string ToString() => // 2020-04-24
+            DateTime.HasValue ? DateTime.Value.ToString(Format) : null;
 
         /// <summary>
         /// Parses the given string.
@@ -19627,37 +19624,35 @@ namespace MdlpApiClient.DataContracts
         /// Implicit conversion to the <see cref="DateTime"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDate"/> instance.</param>
-        public static implicit operator DateTime(CustomDate cd)
-        {
-            return cd.DateTime ?? default(DateTime);
-        }
+        public static implicit operator DateTime(CustomDate cd) =>
+            cd.DateTime ?? default(DateTime);
 
         /// <summary>
         /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDate"/> instance.</param>
-        public static implicit operator DateTime?(CustomDate cd)
-        {
-            return cd.DateTime;
-        }
+        public static implicit operator DateTime?(CustomDate cd) => cd.DateTime;
 
         /// <summary>
         /// Implicit conversion to the <see cref="string"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDate"/> instance.</param>
-        public static implicit operator string(CustomDate cd)
-        {
-            return cd == null ? "null" : cd.ToString();
-        }
+        public static implicit operator string(CustomDate cd) =>
+            cd == null ? null : cd.ToString();
 
         /// <summary>
         /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="dt"><see cref="CustomDate"/> instance.</param>
-        public static implicit operator CustomDate(DateTime? dt)
-        {
-            return new CustomDate { DateTime = dt };
-        }
+        public static implicit operator CustomDate(DateTime? dt) =>
+            new CustomDate { DateTime = dt };
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDate"/> instance.</param>
+        public static implicit operator CustomDate(DateTime dt) =>
+            new CustomDate { DateTime = dt };
     }
 }
 
@@ -19678,11 +19673,8 @@ namespace MdlpApiClient.DataContracts
         public DateTime? DateTime { get; set; }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            // 2020-04-24T21:01:40Z
-            return DateTime.HasValue ? DateTime.Value.ToString("s") + "Z" : "null";
-        }
+        public override string ToString() => // 2020-04-24T21:01:40Z
+            DateTime.HasValue ? DateTime.Value.ToString("s") + "Z" : null;
 
         /// <summary>
         /// Parses the given string.
@@ -19706,37 +19698,35 @@ namespace MdlpApiClient.DataContracts
         /// Implicit conversion to the <see cref="DateTime"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator DateTime(CustomDateTime cd)
-        {
-            return cd.DateTime ?? default(DateTime);
-        }
+        public static implicit operator DateTime(CustomDateTime cd) =>
+            cd.DateTime ?? default(DateTime);
 
         /// <summary>
         /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator DateTime?(CustomDateTime cd)
-        {
-            return cd.DateTime;
-        }
+        public static implicit operator DateTime?(CustomDateTime cd) => cd.DateTime;
 
         /// <summary>
         /// Implicit conversion to the <see cref="string"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator string(CustomDateTime cd)
-        {
-            return cd == null ? "null" : cd.ToString();
-        }
+        public static implicit operator string(CustomDateTime cd) =>
+            cd == null ? null : cd.ToString();
 
         /// <summary>
         /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="dt"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator CustomDateTime(DateTime? dt)
-        {
-            return new CustomDateTime { DateTime = dt };
-        }
+        public static implicit operator CustomDateTime(DateTime? dt) =>
+            new CustomDateTime { DateTime = dt };
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDateTime"/> instance.</param>
+        public static implicit operator CustomDateTime(DateTime dt) =>
+            new CustomDateTime { DateTime = dt };
     }
 }
 
@@ -19757,11 +19747,8 @@ namespace MdlpApiClient.DataContracts
         public DateTime? DateTime { get; set; }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            // 2020-04-24 21:01:40
-            return DateTime.HasValue ? DateTime.Value.ToString("s").Replace("T", " ") : "null";
-        }
+        public override string ToString() => // 2020-04-24 21:01:40
+            DateTime.HasValue ? DateTime.Value.ToString("s").Replace("T", " ") : null;
 
         /// <summary>
         /// Parses the given string.
@@ -19785,37 +19772,36 @@ namespace MdlpApiClient.DataContracts
         /// Implicit conversion to the <see cref="DateTime"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator DateTime(CustomDateTimeSpace cd)
-        {
-            return cd.DateTime ?? default(DateTime);
-        }
+        public static implicit operator DateTime(CustomDateTimeSpace cd) =>
+            cd.DateTime ?? default(DateTime);
 
         /// <summary>
         /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator DateTime?(CustomDateTimeSpace cd)
-        {
-            return cd.DateTime;
-        }
+        public static implicit operator DateTime?(CustomDateTimeSpace cd) =>
+            cd.DateTime;
 
         /// <summary>
         /// Implicit conversion to the <see cref="string"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator string(CustomDateTimeSpace cd)
-        {
-            return cd == null ? "null" : cd.ToString();
-        }
+        public static implicit operator string(CustomDateTimeSpace cd) =>
+            cd == null ? null : cd.ToString();
 
         /// <summary>
         /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="dt"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator CustomDateTimeSpace(DateTime? dt)
-        {
-            return new CustomDateTimeSpace { DateTime = dt };
-        }
+        public static implicit operator CustomDateTimeSpace(DateTime? dt) =>
+            new CustomDateTimeSpace { DateTime = dt };
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDateTimeSpace"/> instance.</param>
+        public static implicit operator CustomDateTimeSpace(DateTime dt) =>
+            new CustomDateTimeSpace { DateTime = dt };
     }
 }
 
@@ -22241,7 +22227,8 @@ namespace MdlpApiClient.DataContracts
     public class IncomeDocument : DocumentMetadata
     {
         /// <summary>
-        /// Идентификатор отправителя документа в «ИС "Маркировка". МДЛП»        /// </summary>
+        /// Идентификатор отправителя документа в «ИС "Маркировка". МДЛП»
+        /// </summary>
         [DataMember(Name = "sender_sys_id")]
         public string SenderSystemID { get; set; } // "e2cb20c1-1d5b-4ab6-b8dd-9297bec23f63" (optional)
     }
@@ -29294,6 +29281,7 @@ namespace MdlpApiClient.Toolbox
         /// <summary>
         /// For the unit tests, set this to the StoreLocation.CurrentUser.
         /// For the production code, keep it set to the StoreLocation.LocalMachine.
+        /// Only Administrator or LocalSystem accounts can access the LocalMachine stores.
         /// </summary>
         public static StoreLocation DefaultStoreLocation = StoreLocation.LocalMachine;
 
@@ -29362,7 +29350,7 @@ namespace MdlpApiClient.Toolbox
             var signer = new CmsSigner(certificate);
 
             // Computing the CMS/PKCS#7 signature
-            signedCms.ComputeSignature(signer);
+            signedCms.ComputeSignature(signer, true);
 
             // Encoding the CMS/PKCS#7 message
             var encoded = signedCms.Encode();

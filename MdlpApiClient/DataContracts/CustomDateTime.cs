@@ -15,11 +15,8 @@
         public DateTime? DateTime { get; set; }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            // 2020-04-24T21:01:40Z
-            return DateTime.HasValue ? DateTime.Value.ToString("s") + "Z" : "null";
-        }
+        public override string ToString() => // 2020-04-24T21:01:40Z
+            DateTime.HasValue ? DateTime.Value.ToString("s") + "Z" : null;
 
         /// <summary>
         /// Parses the given string.
@@ -43,36 +40,34 @@
         /// Implicit conversion to the <see cref="DateTime"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator DateTime(CustomDateTime cd)
-        {
-            return cd.DateTime ?? default(DateTime);
-        }
+        public static implicit operator DateTime(CustomDateTime cd) =>
+            cd.DateTime ?? default(DateTime);
 
         /// <summary>
         /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator DateTime?(CustomDateTime cd)
-        {
-            return cd.DateTime;
-        }
+        public static implicit operator DateTime?(CustomDateTime cd) => cd.DateTime;
 
         /// <summary>
         /// Implicit conversion to the <see cref="string"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator string(CustomDateTime cd)
-        {
-            return cd == null ? "null" : cd.ToString();
-        }
+        public static implicit operator string(CustomDateTime cd) =>
+            cd == null ? null : cd.ToString();
 
         /// <summary>
         /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="dt"><see cref="CustomDateTime"/> instance.</param>
-        public static implicit operator CustomDateTime(DateTime? dt)
-        {
-            return new CustomDateTime { DateTime = dt };
-        }
+        public static implicit operator CustomDateTime(DateTime? dt) =>
+            new CustomDateTime { DateTime = dt };
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDateTime"/> instance.</param>
+        public static implicit operator CustomDateTime(DateTime dt) =>
+            new CustomDateTime { DateTime = dt };
     }
 }

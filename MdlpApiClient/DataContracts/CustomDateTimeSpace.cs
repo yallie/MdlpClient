@@ -15,11 +15,8 @@
         public DateTime? DateTime { get; set; }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            // 2020-04-24 21:01:40
-            return DateTime.HasValue ? DateTime.Value.ToString("s").Replace("T", " ") : "null";
-        }
+        public override string ToString() => // 2020-04-24 21:01:40
+            DateTime.HasValue ? DateTime.Value.ToString("s").Replace("T", " ") : null;
 
         /// <summary>
         /// Parses the given string.
@@ -43,36 +40,35 @@
         /// Implicit conversion to the <see cref="DateTime"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator DateTime(CustomDateTimeSpace cd)
-        {
-            return cd.DateTime ?? default(DateTime);
-        }
+        public static implicit operator DateTime(CustomDateTimeSpace cd) =>
+            cd.DateTime ?? default(DateTime);
 
         /// <summary>
         /// Implicit conversion to the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator DateTime?(CustomDateTimeSpace cd)
-        {
-            return cd.DateTime;
-        }
+        public static implicit operator DateTime?(CustomDateTimeSpace cd) =>
+            cd.DateTime;
 
         /// <summary>
         /// Implicit conversion to the <see cref="string"/> type.
         /// </summary>
         /// <param name="cd"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator string(CustomDateTimeSpace cd)
-        {
-            return cd == null ? "null" : cd.ToString();
-        }
+        public static implicit operator string(CustomDateTimeSpace cd) =>
+            cd == null ? null : cd.ToString();
 
         /// <summary>
         /// Implicit conversion from the <see cref="Nullable{DateTime}"/> type.
         /// </summary>
         /// <param name="dt"><see cref="CustomDateTimeSpace"/> instance.</param>
-        public static implicit operator CustomDateTimeSpace(DateTime? dt)
-        {
-            return new CustomDateTimeSpace { DateTime = dt };
-        }
+        public static implicit operator CustomDateTimeSpace(DateTime? dt) =>
+            new CustomDateTimeSpace { DateTime = dt };
+
+        /// <summary>
+        /// Implicit conversion from the <see cref="DateTime"/> type.
+        /// </summary>
+        /// <param name="dt"><see cref="CustomDateTimeSpace"/> instance.</param>
+        public static implicit operator CustomDateTimeSpace(DateTime dt) =>
+            new CustomDateTimeSpace { DateTime = dt };
     }
 }
