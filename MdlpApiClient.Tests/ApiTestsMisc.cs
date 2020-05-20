@@ -25,7 +25,7 @@
         /// Ошибка скачивания документа по идентификатору
         /// </summary>
         [Test]
-        public void IssueTestSR00497874()
+        public void TestServer_IssueSR00497874()
         {
             // 1. получаем список входящих документов
             var docs = Client.GetIncomeDocuments(new DocFilter

@@ -637,5 +637,27 @@
             Assert.AreEqual(1, details.Sscc.Count);
             Assert.AreEqual("507540413987451236", details.Sscc[0]);
         }
+
+        [Test]
+        public void Sandbox_Issue_SimilarToTest_TestServer_IssueSR00497874()
+        {
+            // 1. получаем список входящих документов
+            var docs = Client.GetIncomeDocuments(new DocFilter
+            {
+                DocType = 601,
+                DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
+                ProcessedDateFrom = new DateTime(2020, 01, 08), // new DateTime(2019, 11, 01),
+                ProcessedDateTo = new DateTime(2020, 01, 12), // new DateTime(2019, 12, 01)
+            }, 0, 1);
+            Assert.NotNull(docs);
+            Assert.NotNull(docs.Documents);
+            Assert.AreEqual(1, docs.Documents.Length);
+
+            // 2. скачиваем первый документ из списка, получаем ошибку
+            var docId = docs.Documents[0].DocumentID;
+            Assert.IsFalse(string.IsNullOrWhiteSpace(docId));
+            var doc = Client.GetDocumentText(docId);
+            Assert.NotNull(doc);
+        }
     }
 }
