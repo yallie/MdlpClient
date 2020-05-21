@@ -15,7 +15,11 @@ Wait-Event -Timeout 20
 
 # run normal unit tests for the single-file version and ServiceStack5 without coverage
 dotnet.exe test MdlpApiClient.Merged.Tests --logger="trx;LogFileName=TestResultsSingleFile.trx"
+$exit2 = $lastexitcode
 trx2junit MdlpApiClient.Merged.Tests\TestResults\TestResultsSingleFile.trx
 
 # return dotnet test exit code
-# exit $exit
+if (($exit + $exit2) -ne 0)
+{
+	exit ($exit + $exit2)
+}
