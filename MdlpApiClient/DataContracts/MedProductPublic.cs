@@ -83,7 +83,7 @@
         public string ProductDescription { get; set; }
 
         /// <summary>
-        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Количество единиц измерения дозировки лекарственного препарата, стандартизованное значение (строковое представление)
         /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name")]
@@ -96,7 +96,7 @@
         public string CostLimit { get; set; }
 
         /// <summary>
-        /// Лекарственная форма
+        /// Лекарственная форма, стандартизованное значение.
         /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
         /// </summary>
         [DataMember(Name = "prod_form_name")]
@@ -131,5 +131,33 @@
         /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, стандартизованное значение.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, нормализованное значение.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_norm_name", IsRequired = false)]
+        public string ProductNormalizedName { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма, нормализованное значение (строковое представление).
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_norm_name", IsRequired = false)]
+        public string ProductFormNormalizedName { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата, нормализованное значение (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_norm_name")]
+        public string ProductDosageNormalizedName { get; set; }
     }
 }

@@ -26,12 +26,6 @@
         public string Gtin { get; set; }
 
         /// <summary>
-        /// Статус рег. удостоверения
-        /// </summary>
-        [DataMember(Name = "reg_status")]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Номер рег. удостоверения
         /// </summary>
         [DataMember(Name = "reg_number")]
@@ -81,12 +75,6 @@
         public string ProductPack1AmountName { get; set; }
 
         /// <summary>
-        /// Адрес упаковщика (Устарел)
-        /// </summary>
-        [DataMember(Name = "packer_address"), Obsolete]
-        public string PackerAddress { get; set; }
-
-        /// <summary>
         /// Признак регистрации в Минздраве
         /// </summary>
         [DataMember(Name = "min_zdrav")]
@@ -111,7 +99,7 @@
         public string RegistrationHolderInn { get; set; }
 
         /// <summary>
-        /// Лекарственная форма
+        /// Лекарственная форма, стандартизованное значение.
         /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
         /// </summary>
         [DataMember(Name = "prod_form_name", IsRequired = false)]
@@ -162,7 +150,7 @@
         public int? DrugCodeVersion { get; set; }
 
         /// <summary>
-        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Количество единиц измерения дозировки лекарственного препарата, стандартизованное значение (строковое представление)
         /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name")]
@@ -175,10 +163,31 @@
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Международное непатентованное наименование, или группировочное, или химическое наименование.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, стандартизованное значение.
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
         public string ProductName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, нормализованное значение.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_norm_name", IsRequired = false)]
+        public string ProductNormalizedName { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма, нормализованное значение (строковое представление).
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_norm_name", IsRequired = false)]
+        public string ProductFormNormalizedName { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата, нормализованное значение (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_norm_name")]
+        public string ProductDosageNormalizedName { get; set; }
     }
 }
