@@ -22445,12 +22445,6 @@ namespace MdlpApiClient.DataContracts
         public string Gtin { get; set; }
 
         /// <summary>
-        /// Статус рег. удостоверения
-        /// </summary>
-        [DataMember(Name = "reg_status")]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Номер рег. удостоверения
         /// </summary>
         [DataMember(Name = "reg_number")]
@@ -22500,12 +22494,6 @@ namespace MdlpApiClient.DataContracts
         public string ProductPack1AmountName { get; set; }
 
         /// <summary>
-        /// Адрес упаковщика (Устарел)
-        /// </summary>
-        [DataMember(Name = "packer_address"), Obsolete]
-        public string PackerAddress { get; set; }
-
-        /// <summary>
         /// Признак регистрации в Минздраве
         /// </summary>
         [DataMember(Name = "min_zdrav")]
@@ -22530,7 +22518,7 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolderInn { get; set; }
 
         /// <summary>
-        /// Лекарственная форма
+        /// Лекарственная форма, стандартизованное значение.
         /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
         /// </summary>
         [DataMember(Name = "prod_form_name", IsRequired = false)]
@@ -22581,7 +22569,7 @@ namespace MdlpApiClient.DataContracts
         public int? DrugCodeVersion { get; set; }
 
         /// <summary>
-        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Количество единиц измерения дозировки лекарственного препарата, стандартизованное значение (строковое представление)
         /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name")]
@@ -22594,11 +22582,32 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Международное непатентованное наименование, или группировочное, или химическое наименование.
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, стандартизованное значение.
         /// Например: ТРАСТУЗУМАБ
         /// </summary>
         [DataMember(Name = "prod_name", IsRequired = false)]
         public string ProductName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, нормализованное значение.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_norm_name", IsRequired = false)]
+        public string ProductNormalizedName { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма, нормализованное значение (строковое представление).
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_norm_name", IsRequired = false)]
+        public string ProductFormNormalizedName { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата, нормализованное значение (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_norm_name")]
+        public string ProductDosageNormalizedName { get; set; }
     }
 }
 
@@ -22687,7 +22696,7 @@ namespace MdlpApiClient.DataContracts
         public string ProductDescription { get; set; }
 
         /// <summary>
-        /// Количество единиц измерения дозировки лекарственного препарата (строковое представление)
+        /// Количество единиц измерения дозировки лекарственного препарата, стандартизованное значение (строковое представление)
         /// Например: 150 мг
         /// </summary>
         [DataMember(Name = "prod_d_name")]
@@ -22700,7 +22709,7 @@ namespace MdlpApiClient.DataContracts
         public string CostLimit { get; set; }
 
         /// <summary>
-        /// Лекарственная форма
+        /// Лекарственная форма, стандартизованное значение.
         /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
         /// </summary>
         [DataMember(Name = "prod_form_name")]
@@ -22735,6 +22744,34 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "prod_pack1_ed_name")]
         public string ProductPack1AmountName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, стандартизованное значение.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_name", IsRequired = false)]
+        public string ProductName { get; set; }
+
+        /// <summary>
+        /// Международное непатентованное наименование, или группировочное, или химическое наименование, нормализованное значение.
+        /// Например: ТРАСТУЗУМАБ
+        /// </summary>
+        [DataMember(Name = "prod_norm_name", IsRequired = false)]
+        public string ProductNormalizedName { get; set; }
+
+        /// <summary>
+        /// Лекарственная форма, нормализованное значение (строковое представление).
+        /// Например: ЛИОФИЛИЗАТ ДЛЯ ПРИГОТОВЛЕНИЯ КОНЦЕНТРАТА ДЛЯ ПРИГОТОВЛЕНИЯ РАСТВОРА ДЛЯ ИНФУЗИЙ
+        /// </summary>
+        [DataMember(Name = "prod_form_norm_name", IsRequired = false)]
+        public string ProductFormNormalizedName { get; set; }
+
+        /// <summary>
+        /// Количество единиц измерения дозировки лекарственного препарата, нормализованное значение (строковое представление)
+        /// Например: 150 мг
+        /// </summary>
+        [DataMember(Name = "prod_d_norm_name")]
+        public string ProductDosageNormalizedName { get; set; }
     }
 }
 
@@ -27707,9 +27744,9 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="sgtins">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(string[] sgtins)
+        public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(params string[] sgtins)
         {
-            RequestRate(5); // 70
+            RequestRate(5, "sgtins-by-list"); // 70
 
             return Post<EntriesFailedResponse<SgtinExtended, SgtinFailed>>("reestr/sgtin/sgtins-by-list", new
             {
@@ -27727,7 +27764,7 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ</returns>
         public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
         {
-            RequestRate(1); // 88
+            RequestRate(1.5); // 88, сказано 1
 
             return Post<EntriesFailedResponse<PublicSgtin, string>>("reestr/sgtin/public/sgtins-by-list", new
             {
@@ -27837,7 +27874,7 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public GetSsccSgtinsResponse GetSsccSgtins(string sscc, SsccSgtinsFilter filter, int startFrom, int count)
         {
-            RequestRate(5); // 74
+            RequestRate(6); // 74, сказано 5
 
             return Post<GetSsccSgtinsResponse>("reestr/sscc/{sscc}/sgtins", new
             {
@@ -27859,7 +27896,7 @@ namespace MdlpApiClient
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public SsccFullHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
         {
-            RequestRate(30); // 100
+            RequestRate(35); // 100, сказано 30
 
             var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {
@@ -28389,8 +28426,8 @@ namespace MdlpApiClient
 
         private void RequestRate(double seconds, [CallerMemberName]string methodName = null)
         {
-            var correction = IsAuthenticated ? 0.1 : 2;
-            Limiter.Delay(TimeSpan.FromSeconds(seconds + 0.1), methodName);
+            var correction = IsAuthenticated ? 0.3 : 2;
+            Limiter.Delay(TimeSpan.FromSeconds(seconds + correction), methodName);
         }
 
         /// <summary>

@@ -44,5 +44,25 @@
             var doc = Client.GetDocumentText(docId);
             Assert.NotNull(doc);
         }
+
+        [Test]
+        public void TestServer_GetSgtinsRequestRate()
+        {
+            Client.GetSgtins("04607028394287PQ28I2DHQDF1V");
+
+            Client.GetSgtins(new SgtinFilter
+            {
+                Sgtin = "04607028394287PQ28I2DHQDF1V",
+            },
+            startFrom: 0, count: 1);
+
+            Client.GetSgtins(new SgtinFilter
+            {
+                Sgtin = "04607028394287PQ28I2DHQDF2V",
+            },
+            startFrom: 0, count: 1);
+
+            Client.GetSgtins("04607028394287PQ28I2DHQDF1V");
+        }
     }
 }

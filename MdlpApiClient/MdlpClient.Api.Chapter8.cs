@@ -147,9 +147,9 @@
         /// </summary>
         /// <param name="sgtins">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(string[] sgtins)
+        public EntriesFailedResponse<SgtinExtended, SgtinFailed> GetSgtins(params string[] sgtins)
         {
-            RequestRate(5); // 70
+            RequestRate(5, "sgtins-by-list"); // 70
 
             return Post<EntriesFailedResponse<SgtinExtended, SgtinFailed>>("reestr/sgtin/sgtins-by-list", new
             {
