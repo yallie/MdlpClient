@@ -1,6 +1,6 @@
 # Честный знак. ИС «Маркировка». МДЛП
 
-[![MDLP REST API Client v3.05](https://img.shields.io/badge/честный%20знак-v3.06.1-yellowgreen)](https://xn--80ajghhoc2aj1c8b.xn--p1ai/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya.pdf)
+[![MDLP REST API Client v3.05](https://img.shields.io/badge/честный%20знак-v3.06.1-yellowgreen)](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya.pdf)
 [![.NET Framework 4.62](https://img.shields.io/badge/.net-v4.62-yellow)](https://www.microsoft.com/ru-RU/download/details.aspx?id=53321)
 [![Code Coverage](https://codecov.io/gh/yallie/mdlpclient/branch/master/graph/badge.svg)](https://codecov.io/gh/yallie/mdlpclient)
 [![Unit tests](https://img.shields.io/badge/build%20passing-140%20tests-brightgreen)](https://github.com/yallie/MdlpClient/tree/master/MdlpApiClient.Tests)
@@ -9,7 +9,7 @@
 
 <img alt="MDLP API client logo" src="https://raw.githubusercontent.com/yallie/MdlpClient/master/Docs/MdlpApiClientLogo.png" width="50" align="left" />
 
-Протокол обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya-v3.05.pdf)  
+Протокол обмена интерфейсного уровня: [PDF](https://честныйзнак.рф/upload/iblock/200/IS-_Markirovka_.-MDLP.-Protokol-obmena-interfeysnogo-urovnya.pdf)  
 Список реализованных методов: [TXT](https://github.com/yallie/MdlpClient/blob/master/Docs/list_of_methods.txt)
 
 # Инструкция по быстрому старту
