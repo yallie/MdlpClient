@@ -20,10 +20,10 @@
     <!--PackageLicenseExpression>MIT</PackageLicenseExpression-->
     <PackageReleaseNotes>Beta release. What's new:
       v1.3.0:
-      — Support for MDLP API v3.06
-      - Added GetSsccFullHierarchy method
+      — Support for MDLP API v3.06.1
+      — Added GetSsccFullHierarchy method
       — Added AuthTypeEnum, GroupTypeEnum, SgtinEmissionType, SgtinStatus, UserStatus, UserStatusReason
-      — Updated BranchFilter, DocFilter, Sgtin, SgtinExtended, UserBase
+      — Updated BranchFilter, DocFilter, Sgtin, SgtinExtended, UserBase, MedProduct, MedProductPublic
       — Added support for the request rate limits
 
       v1.2.0:
