@@ -16,6 +16,10 @@ build:
     - git clean -ffdx -e $MIRROR_DIR/
   script:
     - dotnet build
+    - dotnet pack MdlpApiClient
+  artifacts:
+    paths:
+      - MdlpApiClient\bin\Debug\*.nupkg 
 
 unit_tests:
   stage: unit tests
