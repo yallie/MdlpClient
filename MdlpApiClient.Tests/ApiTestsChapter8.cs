@@ -208,7 +208,9 @@
             var failed = sgtins.FailedEntries[0];
             Assert.AreEqual("611700126101510000000001311", failed.Sgtin);
             Assert.AreEqual(4, failed.ErrorCode);
-            Assert.AreEqual("Запрашиваемые данные доступны только текущему владельцу или контрагенту по операции", failed.ErrorDescription);
+            Assert.That(failed.ErrorDescription, Is.AnyOf(
+                "Requested data is available only to the current owner or counterparty of the operation",
+                "Запрашиваемые данные доступны только текущему владельцу или контрагенту по операции"));
         }
 
         [Test]
@@ -341,7 +343,9 @@
             Assert.AreEqual(0, ssccs.Up.Length);
             Assert.AreEqual(0, ssccs.Down.Length);
             Assert.AreEqual(2, ssccs.ErrorCode);
-            Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
+            Assert.That(ssccs.ErrorDescription, Is.AnyOf(
+                "Requested data not found",
+                "Запрашиваемые данные не найдены"));
         }
 
         private IEnumerable<string> GetTestCodes(Func<SgtinExtended, string> getCode)
@@ -465,7 +469,9 @@
 
             Assert.AreEqual(0, ssccs.Entries.Length);
             Assert.AreEqual(2, ssccs.ErrorCode);
-            Assert.AreEqual("Запрашиваемые данные не найдены", ssccs.ErrorDescription);
+            Assert.That(ssccs.ErrorDescription, Is.AnyOf(
+                "Requested data not found",
+                "Запрашиваемые данные не найдены"));
         }
 
         [Test]

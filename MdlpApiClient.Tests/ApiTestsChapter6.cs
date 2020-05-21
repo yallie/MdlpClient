@@ -68,7 +68,9 @@
             });
 
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
-            Assert.AreEqual("Ошибка при выполнении операции: пользователь с данным email уже зарегистрирован", ex.Message);
+            Assert.That(ex.Message, Is.AnyOf(
+                "Error during operation: a user with this email is already registered",
+                "Ошибка при выполнении операции: пользователь с данным email уже зарегистрирован"));
         }
 
         private string RegisterMdlpTestUser(MdlpClient client, int number)
@@ -149,7 +151,9 @@
             });
 
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
-            Assert.AreEqual("Ошибка при выполнении операции: попытка зарегистрировать резидента по идентификатору sys_id для нерезидента или наоборот", ex.Message);
+            Assert.That(ex.Message, Is.AnyOf(
+                "Error during operation: attempt to register resident by sys_id for non-resident or non-resident by sys_id for resident",
+                "Ошибка при выполнении операции: попытка зарегистрировать резидента по идентификатору sys_id для нерезидента или наоборот"));
         }
 
         [Test]
@@ -169,7 +173,7 @@
         public void Chapter6_01_05_GetCurrentLanguage()
         {
             var language = Client.GetCurrentLanguage();
-            Assert.AreEqual("ru", language);
+            Assert.That(language, Is.AnyOf("ru", "en"));
         }
 
         [Test]
@@ -220,6 +224,8 @@
         public void Chapter6_01_08_SetCurrentLanguage()
         {
             var lang = Client.GetCurrentLanguage();
+            Assert.That(lang, Is.AnyOf("ru", "en"));
+
             try
             {
                 Client.SetCurrentLanguage("ru");
@@ -308,7 +314,9 @@
             // user not found
             var ex = Assert.Throws<MdlpException>(() => Client.DeleteUser("5b5540c4-fbb0-4ad7-a038-c8222affab3f"));
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
-            Assert.AreEqual("Ошибка при выполнении операции: запись не найдена", ex.Message);
+            Assert.That(ex.Message, Is.AnyOf(
+                "Error during operation: data not found",
+                "Ошибка при выполнении операции: запись не найдена"));
         }
 
         [Test]
@@ -324,7 +332,9 @@
         {
             var ex = Assert.Throws<MdlpException>(() => Client.AddUserCertificate(TestUserID, @"MIIBjjCCAT2gAwIBAgIEWWJzHzAIBgYqhQMCAgMwMTELMAkGA1UEBhMCUlUxEjAQBgNVBAoMCUNyeXB0b1BybzEOMAwGA1UEAwwFQWxpYXMwHhcNMTcxMTEzMTczMjI4WhcNMTgxMTEzMTczMjI4WjAxMQswCQYDVQQGEwJSVTESMBAGA1UECgwJQ3J5cHRvUHJvMQ4wDAYDVQQDDAVBbGlhczBjMBwGBiqFAwICEzASBgcqhQMCAiQABgcqhQMCAh4BA0MABEAIWARzAiI81k4i4Gz8EC7Ic01653JX5PCUfvgCBTpLduYtbTwLOwmGFcZzw9bwsxQpALqhcdRHxtx1UEeNKJuMozswOTAOBgNVHQ8BAf8EBAMCA+gwEwYDVR0lBAwwCgYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBBTAIBgYqhQMCAgMDQQBL9CrIk0EgnMVr1J5dKbfXVFrhJxGxztFkTdmGkGJ6gHywB5Y9KpP67pv7I2bP1m1ej9hu+C17GSJrWgMgq+UZ"));
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
-            Assert.AreEqual("Ошибка при выполнении операции: срок действия сертификата истек", ex.Message);
+            Assert.That(ex.Message, Is.AnyOf(
+                "Error during operation: certificate expired", 
+                "Ошибка при выполнении операции: срок действия сертификата истек"));
         }
 
         [Test]
@@ -332,7 +342,9 @@
         {
             var ex = Assert.Throws<MdlpException>(() => Client.DeleteUserCertificate(TestUserID, @"MIIBjjCCAT2gAwIBAgIEWWJzHzAIBgYqhQMCAgMwMTELMAkGA1UEBhMCUlUxEjAQBgNVBAoMCUNyeXB0b1BybzEOMAwGA1UEAwwFQWxpYXMwHhcNMTcxMTEzMTczMjI4WhcNMTgxMTEzMTczMjI4WjAxMQswCQYDVQQGEwJSVTESMBAGA1UECgwJQ3J5cHRvUHJvMQ4wDAYDVQQDDAVBbGlhczBjMBwGBiqFAwICEzASBgcqhQMCAiQABgcqhQMCAh4BA0MABEAIWARzAiI81k4i4Gz8EC7Ic01653JX5PCUfvgCBTpLduYtbTwLOwmGFcZzw9bwsxQpALqhcdRHxtx1UEeNKJuMozswOTAOBgNVHQ8BAf8EBAMCA+gwEwYDVR0lBAwwCgYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBBTAIBgYqhQMCAgMDQQBL9CrIk0EgnMVr1J5dKbfXVFrhJxGxztFkTdmGkGJ6gHywB5Y9KpP67pv7I2bP1m1ej9hu+C17GSJrWgMgq+UZ"));
             Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
-            Assert.AreEqual("Ошибка при выполнении операции: сертификат принадлежит другому пользователю", ex.Message);
+            Assert.That(ex.Message, Is.AnyOf(
+                "Error during operation: the certificate belongs to another user",
+                "Ошибка при выполнении операции: сертификат принадлежит другому пользователю"));
         }
 
         [Test]
