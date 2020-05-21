@@ -19,7 +19,7 @@ build:
     - dotnet pack MdlpApiClient
   artifacts:
     paths:
-      - MdlpApiClient\bin\Debug\*.nupkg 
+      - MdlpApiClient\bin\Debug\*.nupkg
 
 unit_tests:
   stage: unit tests
