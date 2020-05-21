@@ -10,8 +10,11 @@ codecov -t "064fad14-0241-4b7a-9c86-ab7b5ed067a3" -f MdlpCoverage.xml
 # convert trx reports to JUnit format so Gitlab can parse them
 trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
 
+# make sure we don't fail on REST methods that need long timeouts
+Wait-Event -Timeout 20
+
 # run normal unit tests for the single-file version and ServiceStack5 without coverage
-dotnet.exe test MdlpApiClient.Merged.Tests --logger=trx;LogFileName=TestResultsSingleFile.trx
+dotnet.exe test MdlpApiClient.Merged.Tests --logger="trx;LogFileName=TestResultsSingleFile.trx"
 trx2junit MdlpApiClient.Tests\TestResults\TestResultsSingleFile.trx
 
 # return dotnet test exit code
