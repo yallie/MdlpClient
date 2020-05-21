@@ -5,7 +5,7 @@
     using MdlpApiClient.Xsd;
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture, Ignore("Sandbox server is temporarily down")]
     public class SandboxTests : UnitTestsClientBase
     {
         protected override MdlpClient CreateClient()

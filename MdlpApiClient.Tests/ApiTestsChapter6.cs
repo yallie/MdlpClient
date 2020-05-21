@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Net;
+    using System.Threading;
     using MdlpApiClient.DataContracts;
     using NUnit.Framework;
 
@@ -174,6 +175,10 @@
         [Test]
         public void Chapter6_01_06_UpdateUserProfile()
         {
+            // наш уважаемый тестовый пользователь — Юрий Гагарин
+            var user = Client.GetUserInfo(TestUserID);
+            Assert.AreEqual("Гагарин", user.LastName);
+
             // Хм, при регистрации ИС проверяет, чтобы ФИО совпадали с сертификатом,
             // а после регистрации — уже не проверяет
             Client.UpdateUserProfile(TestUserID, new UserEditProfileEntry
@@ -183,8 +188,11 @@
                 Position = "Артист"
             });
 
+            // если не ждать, бывает, ИС не успевает закоммитить обновление
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+
             // действительно, обновляется
-            var user = Client.GetUserInfo(TestUserID);
+            user = Client.GetUserInfo(TestUserID);
             Assert.AreEqual("Никулин", user.LastName);
 
             // вернем все на место

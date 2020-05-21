@@ -167,7 +167,7 @@
         /// <returns>Список КИЗ</returns>
         public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
         {
-            RequestRate(1); // 88
+            RequestRate(1.5); // 88, сказано 1
 
             return Post<EntriesFailedResponse<PublicSgtin, string>>("reestr/sgtin/public/sgtins-by-list", new
             {
@@ -277,7 +277,7 @@
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public GetSsccSgtinsResponse GetSsccSgtins(string sscc, SsccSgtinsFilter filter, int startFrom, int count)
         {
-            RequestRate(5); // 74
+            RequestRate(6); // 74, сказано 5
 
             return Post<GetSsccSgtinsResponse>("reestr/sscc/{sscc}/sgtins", new
             {
@@ -299,7 +299,7 @@
         /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
         public SsccFullHierarchyResponse<HierarchySsccInfo> GetSsccFullHierarchy(string sscc)
         {
-            RequestRate(30); // 100
+            RequestRate(35); // 100, сказано 30
 
             var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>>("reestr/sscc/{sscc}/full-hierarchy", new[]
             {

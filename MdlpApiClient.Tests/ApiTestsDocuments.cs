@@ -68,15 +68,21 @@
         [Test]
         public void Chapter5_12_GetTicket()
         {
-            var ticket = Client.GetTicket(TestTicketID);
-            Assert.IsNotNull(ticket);
+            // ticket not found
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var ticket = Client.GetTicket(TestTicketID);
+                Assert.IsNotNull(ticket);
 
-            WriteLine("Downloaded TicketID: {0}", TestTicketID);
-            WriteLine("Ticket version: {0}", ticket.Version);
-            WriteLine("Operation: {0}", ticket.Result.Operation);
-            WriteLine("Result: {0}", ticket.Result.Operation_Result);
-            WriteLine("Comments: {0}", ticket.Result.Operation_Comment);
-            WriteLine(XmlSerializationHelper.Serialize(ticket));
+                WriteLine("Downloaded TicketID: {0}", TestTicketID);
+                WriteLine("Ticket version: {0}", ticket.Version);
+                WriteLine("Operation: {0}", ticket.Result.Operation);
+                WriteLine("Result: {0}", ticket.Result.Operation_Result);
+                WriteLine("Comments: {0}", ticket.Result.Operation_Comment);
+                WriteLine(XmlSerializationHelper.Serialize(ticket));
+            });
+
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
         }
     }
 }

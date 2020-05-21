@@ -158,11 +158,17 @@
         [Test]
         public void Chapter5_12_GetTicketText()
         {
-            var ticket = Client.GetTicketText(TestTicketID);
-            Assert.IsNotNull(ticket);
+            // ticket not found
+            var ex = Assert.Throws<MdlpException>(() =>
+            {
+                var ticket = Client.GetTicketText(TestTicketID);
+                Assert.IsNotNull(ticket);
 
-            WriteLine("Downloaded TicketID: {0}", TestTicketID);
-            WriteLine("{0}", XDocument.Parse(ticket).ToString());
+                WriteLine("Downloaded TicketID: {0}", TestTicketID);
+                WriteLine("{0}", XDocument.Parse(ticket).ToString());
+            });
+
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
         }
 
         [Test]

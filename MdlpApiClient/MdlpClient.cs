@@ -93,8 +93,8 @@
 
         private void RequestRate(double seconds, [CallerMemberName]string methodName = null)
         {
-            var correction = IsAuthenticated ? 0.1 : 2;
-            Limiter.Delay(TimeSpan.FromSeconds(seconds + 0.1), methodName);
+            var correction = IsAuthenticated ? 0.3 : 2;
+            Limiter.Delay(TimeSpan.FromSeconds(seconds + correction), methodName);
         }
 
         /// <summary>
