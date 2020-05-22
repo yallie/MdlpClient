@@ -543,11 +543,13 @@
                 Assert.AreEqual("ba494f1d-09e1-4b91-88e5-b37cbbb1be78", doc.DocumentID);
 
                 // скачиваем уведомление по коду
-                var doc601 = client.GetDocument(doc.DocumentID);
-                Assert.NotNull(doc601.Move_Order_Notification);
+                var doc601 = client.GetDocument(doc.DocumentID).Move_Order_Notification;
+                Assert.NotNull(doc601);
+                Assert.AreEqual("00000000104494", doc601.Subject_Id);
+                Assert.AreEqual("00000000104453", doc601.Receiver_Id);
 
                 // содержимое должно соответствовать отосланному документу схемы 415
-                var details = doc601.Move_Order_Notification.Order_Details;
+                var details = doc601.Order_Details;
                 Assert.AreEqual(2, details.Count);
 
                 // тут у нас зарегистрированный КИЗ, который был в документе схемы 311,
