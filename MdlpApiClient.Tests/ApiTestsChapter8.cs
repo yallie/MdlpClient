@@ -475,6 +475,16 @@
         }
 
         [Test]
+        public void Chapter8_04_2_GetSsccSgtinsNoImmediateSgtins()
+        {
+            // в упаковке — только другие упаковки, а лекарств нету
+            var ssccs = Client.GetSsccSgtins("000000111100000100", null, 0, 10);
+            Assert.NotNull(ssccs);
+            Assert.NotNull(ssccs.Entries);
+            Assert.AreEqual(0, ssccs.Total);
+        }
+
+        [Test]
         public void Chapter8_04_3_GetSsccFullHierarchy()
         {
             var h = Client.GetSsccFullHierarchy("000000111100000097");
