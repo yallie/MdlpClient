@@ -76,13 +76,13 @@
             {
                 //DocType = 607,
                 DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
-                ProcessedDateFrom = DateTime.Now.AddDays(-10)
+                ProcessedDateFrom = new DateTime(2020, 05, 22, 13, 30, 00)
             }, 0, 1);
             Assert.NotNull(docs);
             Assert.NotNull(docs.Documents);
             Assert.AreEqual(1, docs.Documents.Length);
 
-            // 2. скачиваем первый тикет из списка, получаем ошибку
+            // 2. скачиваем первый тикет из списка
             var docId = docs.Documents[0].DocumentID;
             Assert.IsFalse(string.IsNullOrWhiteSpace(docId));
             var doc = Client.GetTicketText(docId);

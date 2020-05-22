@@ -25,7 +25,7 @@
         public const string UserPassword2 = "password";
         public const string TestDocumentID = "cdeeb2af-bebc-44d6-ad78-4ceb1709b314"; // "60786bb4-fcb5-4587-b703-d0147e3f9d1c";
         public const string TestDocRequestID = "97dad8f1-ef1d-4339-9938-18f129200e5d"; // "528700e0-f967-4ddb-995d-5c6c7b73bcc9";
-        public const string TestTicketID = TestDocumentID; // "e6afe4b3-4cb3-43af-b94e-83fcc358f4b7";
+        public const string TestTicketID = "9d08e171-9ffc-4dce-b1da-d8e2472540ea"; // "e6afe4b3-4cb3-43af-b94e-83fcc358f4b7", TestDocumentID;
 
         // Custom test data, feel free to replace with your own certificate information
         public const string TestCertificateSubjectName = @"Тестовый УКЭП им. Юрия Гагарина";
