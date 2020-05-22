@@ -25,7 +25,7 @@
         /// Ошибка скачивания документа по идентификатору
         /// </summary>
         [Test]
-        public void TestServer_IssueSR00497874()
+        public void TestServer_DocumentIssueSR00497874()
         {
             // 1. получаем список входящих документов
             var docs = Client.GetIncomeDocuments(new DocFilter
@@ -63,6 +63,30 @@
             startFrom: 0, count: 1);
 
             Client.GetSgtins("04607028394287PQ28I2DHQDF1V");
+        }
+
+        /// <summary>
+        /// Ошибка скачивания тикета по идентификатору
+        /// </summary>
+        [Test, Ignore("Fails on test stage")]
+        public void TestServer_TicketIssueSR00497874()
+        {
+            // 1. получаем список входящих документов
+            var docs = Client.GetIncomeDocuments(new DocFilter
+            {
+                //DocType = 607,
+                DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
+                ProcessedDateFrom = DateTime.Now.AddDays(-10)
+            }, 0, 1);
+            Assert.NotNull(docs);
+            Assert.NotNull(docs.Documents);
+            Assert.AreEqual(1, docs.Documents.Length);
+
+            // 2. скачиваем первый тикет из списка, получаем ошибку
+            var docId = docs.Documents[0].DocumentID;
+            Assert.IsFalse(string.IsNullOrWhiteSpace(docId));
+            var doc = Client.GetTicketText(docId);
+            Assert.NotNull(doc);
         }
     }
 }
