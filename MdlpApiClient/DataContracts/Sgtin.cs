@@ -121,12 +121,14 @@
 
         /// <summary>
         /// Держатель регистрационного удостоверения
+        /// Например: ЗАО БИОКАД
         /// </summary>
         [DataMember(Name = "reg_holder", IsRequired = false)]
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Полное наименование товара (что это за чертовщина?)
+        /// Содержимое первичной упаковки?
+        /// Например: 1 контур.ячейк.упак.(пвх) на 1 фл.стек. по 440 мг + 1 фл.стек. по 20 мл растворитель + инструкция
         /// </summary>
         [DataMember(Name = "pack1_desc", IsRequired = false)]
         public string Pack1Desc { get; set; }

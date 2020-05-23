@@ -1,7 +1,10 @@
 ﻿namespace MdlpApiClient.Tests
 {
     using System;
+    using System.Linq;
     using MdlpApiClient.DataContracts;
+    using MdlpApiClient.Serialization;
+    using MdlpApiClient.Toolbox;
     using MdlpApiClient.Xsd;
     using NUnit.Framework;
 
@@ -279,7 +282,8 @@
             var sgtinPack = new Multi_PackBy_SgtinDetail
             {
                 // Идентификатор SSCC (откуда он берется?)
-                // Если делать новый документ
+                // Для тестов: если делать новый документ, номер нужно увеличить на 1
+                // Ниже по тексту есть обращение к этому номеру, его тоже поправить
                 Sscc = "507540413987451236",
             };
 
@@ -432,7 +436,7 @@
             order.Add(ssccItem);
 
             // документ загружен через API и обработан,
-            // получил код ?
+            // получил код a8528183-b4d9-4e1c-b1ed-c2d6dab97504
             return doc;
         }
 
@@ -660,6 +664,36 @@
             Assert.IsFalse(string.IsNullOrWhiteSpace(docId));
             var doc = Client.GetDocumentText(docId);
             Assert.NotNull(doc);
+        }
+
+        [Test, Explicit]
+        public void GetIncomeMoveOrderNotifications()
+        {
+            Client.Tracer = null;
+            var docs = Client.GetIncomeDocuments(new DocFilter
+            {
+                DocType = 601,
+                DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
+                ProcessedDateFrom = DateTime.Today.AddDays(-200),
+            }, 0, 400);
+
+            foreach (var d in docs.Documents)
+            {
+                var xml = Client.GetDocumentText(d.DocumentID);
+                var md = XmlSerializationHelper.Deserialize(xml);
+                Assert.NotNull(md.Move_Order_Notification);
+                if (md.Move_Order_Notification.Order_Details.IsNullOrEmpty())
+                {
+                    continue;
+                }
+
+                var od = md.Move_Order_Notification.Order_Details;
+                if (od.Where(o => o.Sscc_Detail != null).Any() && od.Where(o => o.Sgtin != null).Any())
+                {
+                    WriteLine("==== Move order with SGTINs and SSCCs =======");
+                    WriteLine(xml);
+                }
+            }
         }
     }
 }
