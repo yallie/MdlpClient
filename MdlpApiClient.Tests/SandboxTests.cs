@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Net;
     using MdlpApiClient.DataContracts;
     using MdlpApiClient.Serialization;
     using MdlpApiClient.Toolbox;
@@ -404,6 +405,8 @@
             });
 
             // и еще один — упакованный ящик, полученный в документе схемы 915
+            // если у нас несколько уровней упаковки, сведения подаются только
+            // по коробу самого верхнего уровня
             var ssccItem = new Move_OrderOrder_DetailsUnion
             {
                 // Sgtin отсутствует, зато присутствует Sscc_Detail
@@ -419,6 +422,9 @@
                 Vat_Value = 100,
             };
 
+            // Здесь может быть и пусто
+            // Тут указываются только те препараты, у которых цена не совпадает с той, что указана на коробе
+            // Такое бывает, если в короб вложены несколько разных препаратов
             ssccItem.Sscc_Detail.Detail.Add(new Move_OrderOrder_DetailsUnionSscc_DetailDetail
             {
                 // GTIN и номер производственной серии — из документа 311
@@ -644,22 +650,23 @@
             Assert.AreEqual("507540413987451236", details.Sscc[0]);
         }
 
-        private Documents CreateDocument210(string senderId, string sgtin, string sscc)
+        private Documents CreateDocument210(string senderId, string sgtin = null, string ssccUp = null, string ssccDown = null)
         {
             // создаем запрос содержимого упаковки
+            // в этом документе надо указывать одно из трех: либо SGTIN, либо SSCC up, либо SSCC down
             var doc = new Documents();
             doc.Query_Kiz_Info = new Query_Kiz_Info
             {
                 Subject_Id = senderId,
                 Sgtin = sgtin,
-                Sscc_Down = sscc,
-                Sscc_Up = sscc,
+                Sscc_Down = ssccDown,
+                Sscc_Up = ssccUp,
             };
 
             return doc;
         }
 
-        [Test, Explicit]
+        [Test, Explicit("Schema210 is obsolete and will be replaced with schema 220")]
         public void SendDocument210ToSandbox()
         {
             // Документ 210 возвращает информацию о содержимом короба, либо о КИЗ
@@ -679,8 +686,11 @@
             // Идентификатор SSCC из документа 915 (он же был в документах 415 и 601)
             var sscc = "507540413987451236";
 
-            // Пошлем документ (в данном случае получили код 89219f2a-f1db-4d2d-bcfb-05274c2188cd)
-            var doc210 = CreateDocument210(senderId, sgtin, sscc);
+            // Пошлем документ, в данном случае получили код:
+            // 89219f2a-f1db-4d2d-bcfb-05274c2188cd
+            // 734a0898-0c10-487e-af6b-cf7fb3ef050f
+            // f1bdc175-3740-4a4e-b7dd-bbb61c140d4c
+            var doc210 = CreateDocument210(senderId, sgtin, sscc, sscc);
             var docId = Client.SendDocument(doc210);
             WriteLine("Sent document 210: {0}", docId);
         }
@@ -688,10 +698,30 @@
         [Test]
         public void GetDocument210FromSandbox()
         {
-            var doc = Client.GetDocumentMetadata("89219f2a-f1db-4d2d-bcfb-05274c2188cd");
+            // Код отправленного документа схемы 210:
+            // "734a0898-0c10-487e-af6b-cf7fb3ef050f");
+            // "f1bdc175 -3740-4a4e-b7dd-bbb61c140d4c");
+            var doc = Client.GetDocumentMetadata("f44d0b72-7259-499c-859d-a50b4c6232e4");
             WriteLine(doc.DocStatus);
+
+            // ответ на схему 210 — схема 211, получаем ее как квитанцию к документу
             var ticket = Client.GetTicket(doc.DocumentID);
-            Assert.AreEqual(Operation_Result_Type_Enum.Rejected, ticket.Result.Operation_Result);
+            Assert.NotNull(ticket.Kiz_Info);
+            Assert.NotNull(ticket.Kiz_Info.Sgtin);
+            Assert.NotNull(ticket.Kiz_Info.Sgtin.Info_Sgtin);
+            Assert.AreEqual("50754041398745", ticket.Kiz_Info.Sgtin.Info_Sgtin.Gtin);
+        }
+
+        [Test]
+        public void UploadedDocumentIsImmediatelyAvailableForDownload()
+        {
+            var doc = CreateDocument210(senderId: "00000000104494", sgtin: "50754041398745" + "1234567906123");
+            var docId = Client.SendDocument(doc);
+            WriteLine("Uploaded document: {0}", docId);
+
+            // may throw 404 NotFound?
+            var md = Client.GetDocumentMetadata(docId);
+            Assert.NotNull(md);
         }
 
         [Test]
