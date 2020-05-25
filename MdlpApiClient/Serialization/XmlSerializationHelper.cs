@@ -16,7 +16,7 @@
         /// <summary>
         /// Gets or sets current document XSD schema version.
         /// </summary>
-        public static string DocumentSchemaVersion { get; set; } = "1.34";
+        public static string DocumentSchemaVersion { get; set; } = "1.35";
 
         /// <summary>
         /// Deserializes the given XML document.

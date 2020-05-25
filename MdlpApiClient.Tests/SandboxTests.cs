@@ -806,5 +806,85 @@
                 }
             }
         }
+
+        private Documents CreateDocument220(string senderId, string sscc)
+        {
+            // создаем запрос содержимого упаковки
+            var doc = new Documents();
+            doc.Query_Hierarchy_Info = new Query_Hierarchy_Info
+            {
+                Subject_Id = senderId,
+                Sscc = sscc,
+            };
+
+            return doc;
+        }
+
+        private string SendDocument220ToSandbox(string senderId, string sscc)
+        {
+            // Пошлем документ, в данном случае получили код:
+            // d4d79ada-6de6-412b-ac25-254ae533fe5f
+            var doc220 = CreateDocument220(senderId, sscc);
+            var docId = Client.SendDocument(doc220);
+            WriteLine("Sent document 220: {0}", docId);
+
+            // Циклически опрашиваем состояние документа
+            // Задержка между вызовами соблюдается автоматически
+            while (true)
+            {
+                var doc = Client.GetDocumentMetadata(docId);
+                WriteLine("Waiting... {0}", doc.DocStatus);
+                if (doc.DocStatus == DocStatusEnum.PROCESSED_DOCUMENT ||
+                    doc.DocStatus == DocStatusEnum.FAILED_RESULT_READY)
+                {
+                    break;
+                }
+            }
+
+            return docId;
+        }
+
+        [Test]
+        public void GetDocument221FromSandbox()
+        {
+            // Документ 220 запрашивает информацию о содержимом короба
+            // Идентификатор SSCC из документа 915 (он же был в документах 415 и 601)
+            var sscc = "507540413987451236";
+
+            // из личного кабинета тестового участника-Типографии
+            // берем код места деятельности, расположенного по адресу:
+            // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+            // отсюда делалась отправка ЛП
+            // var senderId = "00000000104494";
+
+            // Пошлем документ и дождемся конца обработки, в данном случае получили код:
+            // d4d79ada-6de6-412b-ac25-254ae533fe5f
+            // var docId = SendDocument220ToSandbox(senderId, sscc);
+
+            // ответ на схему 220 — схема 221, получаем ее как квитанцию к документу
+            var docId = "d4d79ada-6de6-412b-ac25-254ae533fe5f";
+            var ticket = Client.GetTicket(docId);
+            var hierarchy = ticket.Hierarchy_Info;
+            Assert.NotNull(hierarchy);
+
+            // нас интересует только раздел Sscc_Down, содержимое запрошенного короба
+            var package = hierarchy.Sscc_Down;
+            Assert.NotNull(package);
+            Assert.NotNull(package.Sscc_Info);
+            Assert.AreEqual(sscc, package.Sscc_Info.Sscc);
+
+            // в короб вложены ЛП или другие короба
+            Assert.NotNull(package.Sscc_Info.Childs);
+            Assert.AreEqual(1, package.Sscc_Info.Childs.Count);
+            Assert.NotNull(package.Sscc_Info.Childs[0]);
+
+            // вложенных коробов нет
+            Assert.NotNull(package.Sscc_Info.Childs[0].Sscc_Info);
+            Assert.AreEqual(0, package.Sscc_Info.Childs[0].Sscc_Info.Count);
+
+            // вложенные лекарства — есть
+            Assert.NotNull(package.Sscc_Info.Childs[0].Sgtin_Info);
+            Assert.AreEqual(4, package.Sscc_Info.Childs[0].Sgtin_Info.Count);
+        }
     }
 }
