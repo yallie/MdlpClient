@@ -24464,12 +24464,14 @@ namespace MdlpApiClient.DataContracts
 
         /// <summary>
         /// Держатель регистрационного удостоверения
+        /// Например: ЗАО БИОКАД
         /// </summary>
         [DataMember(Name = "reg_holder", IsRequired = false)]
         public string RegistrationHolder { get; set; }
 
         /// <summary>
-        /// Полное наименование товара (что это за чертовщина?)
+        /// Содержимое первичной упаковки?
+        /// Например: 1 контур.ячейк.упак.(пвх) на 1 фл.стек. по 440 мг + 1 фл.стек. по 20 мл растворитель + инструкция
         /// </summary>
         [DataMember(Name = "pack1_desc", IsRequired = false)]
         public string Pack1Desc { get; set; }
@@ -27600,6 +27602,7 @@ namespace MdlpApiClient
     using System;
     using System.Net;
     using DataContracts;
+    using MdlpApiClient.Toolbox;
     using RestSharp;
     using ServiceStack.Text;
 
@@ -27762,7 +27765,7 @@ namespace MdlpApiClient
         /// </summary>
         /// <param name="sgtins">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
+        public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(params string[] sgtins)
         {
             RequestRate(1.5); // 88, сказано 1
 
