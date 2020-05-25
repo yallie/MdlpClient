@@ -23,6 +23,11 @@
 					<xs:documentation>Дата совершения операции</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="turnover_type" type="turnover_type_enum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Тип операции отгрузки со склада</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="doc_num" type="document_number_200_type">
 				<xs:annotation>
 					<xs:documentation>Реквизиты документа основания: номер документа</xs:documentation>

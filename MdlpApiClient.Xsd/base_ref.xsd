@@ -209,7 +209,7 @@
 			</xs:element>
 			<xs:element name="confirmation_num" type="document_number_200_type">
 				<xs:annotation>
-					<xs:documentation>Номер подтверждения соответствия требованиям гос. регистрации</xs:documentation>
+					<xs:documentation>Идентификатор записи в АИС РЗН</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

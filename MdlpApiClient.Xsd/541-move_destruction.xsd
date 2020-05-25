@@ -71,7 +71,12 @@
 									</xs:element>
 									<xs:element name="destruction_type" type="destruction_type_enum">
 										<xs:annotation>
-											<xs:documentation>Причина (основание) передачи на уничтожение</xs:documentation>
+											<xs:documentation>Основание передачи на уничтожение</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="reason_for_destruction" type="reason_for_destruction_type_enum" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Причина передачи на уничтожение</xs:documentation>
 										</xs:annotation>
 									</xs:element>
 								</xs:sequence>

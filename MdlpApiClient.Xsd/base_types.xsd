@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<xs:simpleType name="datetimeoffset">
 		<xs:annotation>
@@ -41,6 +42,7 @@
                 94 - отказ в пользу государства
                 31 - реэкспорт
                 10 - экспорт
+                80 - таможенный транзит
             </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:int">
@@ -49,6 +51,7 @@
 			<xs:enumeration value="94"/>
 			<xs:enumeration value="31"/>
 			<xs:enumeration value="10"/>
+			<xs:enumeration value="80"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="code_country_type">
@@ -221,9 +224,10 @@
 			<xs:enumeration value="431"/>
 			<xs:enumeration value="470"/>
 			<xs:enumeration value="541"/>
+			<xs:enumeration value="300"/>
 		</xs:restriction>
 	</xs:simpleType>
-		<xs:simpleType name="confirm_doc_type_enum">
+	<xs:simpleType name="confirm_doc_type_enum">
 		<xs:annotation>
 			<xs:documentation>Виды документов подтверждения соответствия
                 1 - сертификат соответствия
@@ -251,7 +255,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="destruction_type_enum">
 		<xs:annotation>
-			<xs:documentation>Причины (основания) передачи на уничтожение
+			<xs:documentation>Основания передачи на уничтожение
                 1 – по решению владельца
                 2 – по решению Росздравнадзора
                 3 – по решению суда
@@ -273,6 +277,9 @@
                 5 - выведен из оборота в результате выдачи для оказания мед. помощи
                 6 - выведен из оборота в результате отгрузки незарегистрированному участнику
                 7 - выведен из оборота в результате выборочного контроля
+                8 - выведен из оборота в результате отгрузки в ЕАЭС
+                9 - выведен из оборота в результате розничной продажи
+                10 - выведен из оборота в результате экспорта
             </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:int">
@@ -283,6 +290,9 @@
 			<xs:enumeration value="5"/>
 			<xs:enumeration value="6"/>
 			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="reason_return_type_enum">
@@ -484,8 +494,8 @@
 	<xs:simpleType name="edit_type_enum">
 		<xs:annotation>
 			<xs:documentation>Виды операции редактирования
-                1 – добавление/бронирование
-                2 – удаление/отмена бронирования
+                1 – добавление/бронирование/постановка
+                2 – удаление/отмена бронирования/снятие
             </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:int">
@@ -547,6 +557,53 @@
 		<xs:restriction base="xs:int">
 			<xs:enumeration value="3"/>
 			<xs:enumeration value="31"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dropout_reason_type_enum">
+		<xs:annotation>
+			<xs:documentation>Причина списания
+                1 - по причине закрытия заказа
+                2 - по причине истечения срока годности КМ
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="action_id_type_enum">
+		<xs:annotation>
+			<xs:documentation>Перечень операций, для которых применима корректировка сведений
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="415"/>
+			<xs:enumeration value="416"/>
+			<xs:enumeration value="472"/>
+			<xs:enumeration value="471"/>
+			<xs:enumeration value="417"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="reason_for_destruction_type_enum">
+		<xs:annotation>
+			<xs:documentation>Причины передачи на уничтожение
+			    1 - недоброкачественный ЛП
+				2 - контрафактный ЛП
+				3 - фальсифицированный ЛП
+				4 - ЛП, утративший потребительские свойства
+				5 - ЛП с истекшим сроком годности
+				6 - ЛП, отозванный производителем/держателем регистрационного удостоверения
+				7 - ЛП, исключенный из Государственного реестра лекарственных средств
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

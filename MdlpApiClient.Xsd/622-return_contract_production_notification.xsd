@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<xs:include schemaLocation="base_ref.xsd"/>
 	<xs:include schemaLocation="base_types.xsd"/>
-	<xs:complexType name="move_return_notification">
+	<xs:complexType name="return_contract_production_notification">
 		<xs:annotation>
-			<xs:documentation>Уведомление получателя о возврате приостановленных лекарственных препаратов</xs:documentation>
+			<xs:documentation>Уведомление о регистрации в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="subject_id" type="subject_id_type">
@@ -19,17 +20,17 @@
 			</xs:element>
 			<xs:element name="operation_date" type="datetimeoffset">
 				<xs:annotation>
-					<xs:documentation>Дата отгрузки</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="doc_num" type="document_number_200_type">
-				<xs:annotation>
-					<xs:documentation>Реквизиты документа основания: номер документа</xs:documentation>
+					<xs:documentation>Дата совершения операции</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="doc_date" type="date_type">
 				<xs:annotation>
-					<xs:documentation>Реквизиты документа основания: дата документа</xs:documentation>
+					<xs:documentation>Реквизиты подтверждающего первичного документа - дата</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="doc_num" type="document_number_200_type">
+				<xs:annotation>
+					<xs:documentation>Реквизиты подтверждающего первичного документа - номер</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="order_details">
@@ -50,16 +51,16 @@
 						</xs:element>
 					</xs:choice>
 				</xs:complexType>
-				<xs:unique name="ux_move_return_notification_sgtin">
+				<xs:unique name="ux_return_contract_production_notification_sgtin">
 					<xs:selector xpath="sgtin"/>
 					<xs:field xpath="."/>
 				</xs:unique>
-				<xs:unique name="ux_move_return_notification_sscc">
+				<xs:unique name="ux_return_contract_production_notification_sscc">
 					<xs:selector xpath="sscc"/>
 					<xs:field xpath="."/>
 				</xs:unique>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="action_id" type="xs:int" use="required" fixed="610"/>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="622"/>
 	</xs:complexType>
 </xs:schema>

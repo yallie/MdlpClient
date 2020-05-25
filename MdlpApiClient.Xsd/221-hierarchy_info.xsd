@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_types.xsd"/>
+	<!-- Types -->
+	<xs:complexType name="hierarchy_sgtin_info">
+		<xs:annotation>
+			<xs:documentation>Детальная информация по SGTIN</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sgtin" type="sign_sgtin_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор SGTIN</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sscc" type="sscc_type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер транспортной упаковки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="string200_type">
+				<xs:annotation>
+					<xs:documentation>Статус SGTIN</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gtin" type="gs1_gtin_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор товара в GS1</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="series_number" type="series_number_type">
+				<xs:annotation>
+					<xs:documentation>Номер производственной серии</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="expiration_date" type="date_type">
+				<xs:annotation>
+					<xs:documentation>Срок годности препарата</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pause_decision_info" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация о решении о приостановке</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="guid_type">
+							<xs:annotation>
+								<xs:documentation>Идентификатор решения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="number" type="document_number_200_type">
+							<xs:annotation>
+								<xs:documentation>Номер решения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="date" type="date_type">
+							<xs:annotation>
+								<xs:documentation>Дата решения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="hierarchy_sscc_info">
+		<xs:annotation>
+			<xs:documentation>Детальная информация о транспортной упаковке</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sscc" type="sscc_type">
+				<xs:annotation>
+					<xs:documentation>Номер транспортной упаковки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="packing_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата упаковки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="childs" type="hierarchy_sscc_child" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="hierarchy_sscc_child">
+		<xs:annotation>
+			<xs:documentation>Детальная информация о вложенных элементах</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sgtin_info" type="hierarchy_sgtin_info" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="sscc_info" type="hierarchy_sscc_info" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Document -->
+	<xs:complexType name="hierarchy_info">
+		<xs:annotation>
+			<xs:documentation>Результат запроса информации об иерархии вложенности SSCC</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sscc_up" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация по SSCC (где находится данная упаковка)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sscc_info" type="hierarchy_sscc_info"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="sscc_down" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация по SSCC (что находится в данной упаковке)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sscc_info" type="hierarchy_sscc_info"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="operation_warnings" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Список предупреждений</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="operation_warning" type="string1000_type">
+							<xs:annotation>
+								<xs:documentation>Текст предупреждения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="221"/>
+	</xs:complexType>
+</xs:schema>

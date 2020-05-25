@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="query_hierarchy_info">
+		<xs:annotation>
+			<xs:documentation>Запрос информации об иерархии вложенности SSCC</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_any_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sscc" type="sscc_type">
+				<xs:annotation>
+					<xs:documentation>SSCC, по которому запрашивается информация</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="220"/>
+	</xs:complexType>
+</xs:schema>

@@ -8,19 +8,25 @@
 	<xs:include schemaLocation="211-kiz_info.xsd"/>
 	<xs:include schemaLocation="212-edit_counterparty_list.xsd"/>
 	<xs:include schemaLocation="213-booking_sscc.xsd"/>
+	<xs:include schemaLocation="220-query_hierarchy_info.xsd"/>
+	<xs:include schemaLocation="221-hierarchy_info.xsd"/>
 	<xs:include schemaLocation="250-recall.xsd"/>
 	<xs:include schemaLocation="251-refusal_sender.xsd"/>
 	<xs:include schemaLocation="252-refusal_receiver.xsd"/>
 	<xs:include schemaLocation="253-change_information.xsd"/>
+	<xs:include schemaLocation="254-change_property.xsd"/>
+	<xs:include schemaLocation="300-transfer_code_to_custom.xsd"/>
 	<xs:include schemaLocation="311-register_end_packing.xsd"/>
 	<xs:include schemaLocation="313-register_product_emission.xsd"/>
 	<xs:include schemaLocation="314-move_to_release.xsd"/>
+	<xs:include schemaLocation="315-return_contract_production.xsd"/>
 	<xs:include schemaLocation="321-foreign_emission.xsd"/>
 	<xs:include schemaLocation="331-foreign_shipment.xsd"/>
 	<xs:include schemaLocation="332-foreign_import.xsd"/>
 	<xs:include schemaLocation="333-foreign_import_owner.xsd"/>
 	<xs:include schemaLocation="334-custom_move.xsd"/>
 	<xs:include schemaLocation="335-fts_data.xsd"/>
+	<xs:include schemaLocation="336-import_info.xsd"/>
 	<xs:include schemaLocation="341-receive_importer.xsd"/>
 	<xs:include schemaLocation="342-release_in_circulation.xsd"/>
 	<xs:include schemaLocation="351-change_owner.xsd"/>
@@ -40,6 +46,7 @@
 	<xs:include schemaLocation="470-move_state_dispatch.xsd"/>
 	<xs:include schemaLocation="471-state_dispatch.xsd"/>
 	<xs:include schemaLocation="472-agent_dispatch.xsd"/>
+	<xs:include schemaLocation="481-arbitration.xsd"/>
 	<xs:include schemaLocation="511-retail_sale.xsd"/>
 	<xs:include schemaLocation="521-recipe.xsd"/>
 	<xs:include schemaLocation="531-health_care.xsd"/>
@@ -63,6 +70,10 @@
 	<xs:include schemaLocation="617-receive_order_errors_notification.xsd"/>
 	<xs:include schemaLocation="618-move_to_release_notification.xsd"/>
 	<xs:include schemaLocation="619-agent_dispatch_notification.xsd"/>
+	<xs:include schemaLocation="620-import_info_notification.xsd"/>
+	<xs:include schemaLocation="621-arbitration_notification.xsd"/>
+	<xs:include schemaLocation="622-return_contract_production_notification.xsd"/>
+	<xs:include schemaLocation="623-change_property_notification.xsd"/>
 	<xs:include schemaLocation="701-accept.xsd"/>
 	<xs:include schemaLocation="811-relabeling.xsd"/>
 	<xs:include schemaLocation="911-unit_pack.xsd"/>
@@ -70,7 +81,9 @@
 	<xs:include schemaLocation="913-unit_extract.xsd"/>
 	<xs:include schemaLocation="914-unit_append.xsd"/>
 	<xs:include schemaLocation="915-multi_pack.xsd"/>
+	<xs:include schemaLocation="916-multi_unit_append.xsd"/>
 	<xs:include schemaLocation="10300-code_emission.xsd"/>
+	<xs:include schemaLocation="10305-skzkm_report_of_dropout.xsd"/>
 	<xs:include schemaLocation="10311-skzkm_register_end_packing.xsd"/>
 	<xs:include schemaLocation="10511-retail_sell_kkt.xsd"/>
 	<xs:include schemaLocation="10521-skzkm_recipe.xsd"/>
@@ -114,6 +127,16 @@
 						<xs:documentation>213 - Бронирование (отмена бронирования) номеров транспортной упаковки</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="query_hierarchy_info" type="query_hierarchy_info">
+					<xs:annotation>
+						<xs:documentation>220 - Запрос информации об иерархии вложенности SSCC</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="hierarchy_info" type="hierarchy_info">
+					<xs:annotation>
+						<xs:documentation>221 - Результат запроса информации об иерархии вложенности SSCC</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="recall" type="recall">
 					<xs:annotation>
 						<xs:documentation>250 - Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственной операции</xs:documentation>
@@ -134,6 +157,16 @@
 						<xs:documentation>253 - Регистрация в ИС МДЛП сведений о корректировке ранее направленных реквизитов</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="change_property" type="change_property">
+					<xs:annotation>
+						<xs:documentation>254 - Регистрация в ИС МДЛП сведений о корректировке</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="transfer_code_to_custom" type="transfer_code_to_custom">
+					<xs:annotation>
+						<xs:documentation>300 - Регистрация держателем РУ (или его представительством) сведений о передаче кодов маркировки таможенному складу в ИС МДЛП</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="register_end_packing" type="register_end_packing">
 					<xs:annotation>
 						<xs:documentation>311 - Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки</xs:documentation>
@@ -147,6 +180,11 @@
 				<xs:element name="move_to_release" type="move_to_release">
 					<xs:annotation>
 						<xs:documentation>314 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов для выпуска готовой продукции</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="return_contract_production" type="return_contract_production">
+					<xs:annotation>
+						<xs:documentation>315 - Регистрация в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="foreign_emission" type="foreign_emission">
@@ -179,6 +217,11 @@
 						<xs:documentation>335 - Регистрация в ИС МДЛП сведений о результатах таможенного оформления</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="import_info" type="import_info">
+					<xs:annotation>
+						<xs:documentation>336 -Регистрация держателем РУ (или его представительством) сведений об условиях ввоза в Российскую Федерацию ЛП, маркированных на таможенном складе, в ИС МДЛП</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="receive_importer" type="receive_importer">
 					<xs:annotation>
 						<xs:documentation>341 - Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад импортера</xs:documentation>
@@ -186,7 +229,7 @@
 				</xs:element>
 				<xs:element name="release_in_circulation" type="release_in_circulation">
 					<xs:annotation>
-						<xs:documentation>342 - Регистрация  в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</xs:documentation>
+						<xs:documentation>342 - Регистрация в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="change_owner" type="change_owner">
@@ -272,6 +315,11 @@
 				<xs:element name="agent_dispatch" type="agent_dispatch">
 					<xs:annotation>
 						<xs:documentation>472 - Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов со склада отправителя в рамках агентского договора</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="arbitration" type="arbitration">
+					<xs:annotation>
+						<xs:documentation>481 - Регистрация в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="retail_sale" type="retail_sale">
@@ -389,6 +437,26 @@
 						<xs:documentation>619 - Уведомление получателя об отгрузке лекарственных препаратов со склада отправителя в рамках агентского договора</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="import_info_notification" type="import_info_notification">
+					<xs:annotation>
+						<xs:documentation>620 - Уведомление импортера о регистрации в ИС МДЛП сведений об условиях ввоза ЛП держателем РУ (или его представительством)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="arbitration_notification" type="arbitration_notification">
+					<xs:annotation>
+						<xs:documentation>621 - Уведомление о регистрации в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="return_contract_production_notification" type="return_contract_production_notification">
+					<xs:annotation>
+						<xs:documentation>622 - Уведомление о регистрации в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="change_property_notification" type="change_property_notification">
+					<xs:annotation>
+						<xs:documentation>623 - Уведомление о регистрация в ИС МДЛП сведений о корректировке</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="accept" type="accept">
 					<xs:annotation>
 						<xs:documentation>701 - Регистрация в ИС МДЛП подтверждения (акцептования) сведений</xs:documentation>
@@ -424,9 +492,19 @@
 						<xs:documentation>915 - Регистрация в ИС МДЛП сведений об агрегировании во множество третичных (заводских, транспортных) упаковок</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="multi_unit_append" type="multi_unit_append">
+					<xs:annotation>
+						<xs:documentation>916 - Регистрация в ИС МДЛП сведений о дополнительном вложении во множество третичных (заводских, транспортных) упаковок</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="code_emission" type="code_emission">
 					<xs:annotation>
 						<xs:documentation>10300 - Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="skzkm_report_of_dropout" type="skzkm_report_of_dropout">
+					<xs:annotation>
+						<xs:documentation>10305 - Регистрация в ИС МДЛП сведений об отбраковке (информация от СУЗ)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="skzkm_register_end_packing" type="skzkm_register_end_packing">

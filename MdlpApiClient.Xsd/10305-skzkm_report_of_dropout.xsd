@@ -3,12 +3,12 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<xs:include schemaLocation="base_ref.xsd"/>
 	<xs:include schemaLocation="base_types.xsd"/>
-	<xs:complexType name="return_to_circulation">
+	<xs:complexType name="skzkm_report_of_dropout">
 		<xs:annotation>
-			<xs:documentation>Регистрация в ИС МДЛП сведений о повторном вводе лекарственного препарата в оборот</xs:documentation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений об отбраковке (информация от СУЗ)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="subject_id" type="subject_any_type">
+			<xs:element name="subject_id" type="system_subject_type">
 				<xs:annotation>
 					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
 				</xs:annotation>
@@ -18,24 +18,19 @@
 					<xs:documentation>Дата совершения операции</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="withdrawal_reason" type="withdrawal_reason_enum">
+			<xs:element name="oms_id" type="guid_type">
 				<xs:annotation>
-					<xs:documentation>Причина вывода из оборота</xs:documentation>
+					<xs:documentation>Идентификатор СУЗ</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="doc_date" type="date_type" minOccurs="0">
+			<xs:element name="oms_order_id" type="guid_type">
 				<xs:annotation>
-					<xs:documentation>Реквизиты документа основания  - дата</xs:documentation>
+					<xs:documentation>Идентификатор заказа СУЗ</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="doc_num" type="document_number_200_type" minOccurs="0">
+			<xs:element name="dropout_reason" type="dropout_reason_type_enum">
 				<xs:annotation>
-					<xs:documentation>Реквизиты документа основания - номер</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="reason_return" type="reason_return_type_enum" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Причина возврата</xs:documentation>
+					<xs:documentation>Причина списания</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="order_details">
@@ -43,20 +38,25 @@
 					<xs:documentation>Список продукции</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
-					<xs:choice maxOccurs="25000">
-						<xs:element name="sgtin" type="sign_sgtin_type">
+					<xs:sequence>
+						<xs:element name="sgtin" type="sign_sgtin_type" maxOccurs="25000">
 							<xs:annotation>
 								<xs:documentation>Номер SGTIN</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-					</xs:choice>
+					</xs:sequence>
 				</xs:complexType>
-				<xs:unique name="ux_return_to_circulation_sgtin">
+				<xs:unique name="ismp_ux_skzkm_report_of_dropout_sgtin">
 					<xs:selector xpath="sgtin"/>
 					<xs:field xpath="."/>
 				</xs:unique>
 			</xs:element>
+			<xs:element name="device_info" type="skzkm_info_type">
+				<xs:annotation>
+					<xs:documentation>Информация об устройстве РЭ или РВ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="action_id" type="xs:int" use="required" fixed="391"/>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="10305"/>
 	</xs:complexType>
 </xs:schema>

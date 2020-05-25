@@ -112,7 +112,7 @@
 									</xs:choice>
 									<xs:element name="cost" type="price_type">
 										<xs:annotation>
-											<xs:documentation>Стоимость единицы продукции. Если сведенья посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</xs:documentation>
+											<xs:documentation>Стоимость единицы продукции. Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</xs:documentation>
 										</xs:annotation>
 									</xs:element>
 									<xs:element name="vat_value" type="price_type">

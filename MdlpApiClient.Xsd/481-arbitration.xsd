@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-	<xs:include schemaLocation="base_ref.xsd"/>
 	<xs:include schemaLocation="base_types.xsd"/>
-	<xs:complexType name="return_to_circulation">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:complexType name="arbitration">
 		<xs:annotation>
-			<xs:documentation>Регистрация в ИС МДЛП сведений о повторном вводе лекарственного препарата в оборот</xs:documentation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="subject_id" type="subject_any_type">
+			<xs:element name="subject_id" type="subject_id_type">
 				<xs:annotation>
-					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+					<xs:documentation>Идентификатор субъекта обращения в ИС МДЛП</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="counterparty_id" type="subject_id_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор контрагента</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="operation_date" type="datetimeoffset">
 				<xs:annotation>
-					<xs:documentation>Дата совершения операции</xs:documentation>
+					<xs:documentation>Дата отгрузки</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="withdrawal_reason" type="withdrawal_reason_enum">
-				<xs:annotation>
-					<xs:documentation>Причина вывода из оборота</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="doc_date" type="date_type" minOccurs="0">
+			<xs:element name="doc_date" type="date_type">
 				<xs:annotation>
 					<xs:documentation>Реквизиты документа основания  - дата</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="doc_num" type="document_number_200_type" minOccurs="0">
+			<xs:element name="doc_num" type="document_number_200_type">
 				<xs:annotation>
 					<xs:documentation>Реквизиты документа основания - номер</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="reason_return" type="reason_return_type_enum" minOccurs="0">
+			<xs:element name="sign_arbitration" type="edit_type_enum">
 				<xs:annotation>
-					<xs:documentation>Причина возврата</xs:documentation>
+					<xs:documentation>Признак постановки в арбитраж/снятие арбитража</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="order_details">
@@ -49,14 +49,23 @@
 								<xs:documentation>Номер SGTIN</xs:documentation>
 							</xs:annotation>
 						</xs:element>
+						<xs:element name="sscc" type="sscc_type">
+							<xs:annotation>
+								<xs:documentation>Номер транспортной упаковки</xs:documentation>
+							</xs:annotation>
+						</xs:element>
 					</xs:choice>
 				</xs:complexType>
-				<xs:unique name="ux_return_to_circulation_sgtin">
+				<xs:unique name="ux_arbitration_sgtin">
 					<xs:selector xpath="sgtin"/>
+					<xs:field xpath="."/>
+				</xs:unique>
+				<xs:unique name="ux_arbitration_sscc">
+					<xs:selector xpath="sscc"/>
 					<xs:field xpath="."/>
 				</xs:unique>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="action_id" type="xs:int" use="required" fixed="391"/>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="481"/>
 	</xs:complexType>
 </xs:schema>

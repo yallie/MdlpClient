@@ -70,10 +70,12 @@ namespace MdlpApiClient.Xsd
     ///                93 - уничтожение
     ///                94 - отказ в пользу государства
     ///                31 - реэкспорт
-    ///                10 - экспорт</para>
+    ///                10 - экспорт
+    ///                80 - таможенный транзит</para>
     /// </summary>
     [System.ComponentModel.DescriptionAttribute("Код таможенной процедуры 40 - выпуск для внутреннего потребления 93 - уничтожение" +
-        " 94 - отказ в пользу государства 31 - реэкспорт 10 - экспорт")]
+        " 94 - отказ в пользу государства 31 - реэкспорт 10 - экспорт 80 - таможенный тра" +
+        "нзит")]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute("custom_procedure_code_enum", Namespace="")]
@@ -94,6 +96,9 @@ namespace MdlpApiClient.Xsd
 
         [System.Xml.Serialization.XmlEnumAttribute("10")]
         Item10,
+
+        [System.Xml.Serialization.XmlEnumAttribute("80")]
+        Item80,
     }
 
     /// <summary>
@@ -246,6 +251,9 @@ namespace MdlpApiClient.Xsd
 
         [System.Xml.Serialization.XmlEnumAttribute("541")]
         Item541,
+
+        [System.Xml.Serialization.XmlEnumAttribute("300")]
+        Item300,
     }
 
     /// <summary>
@@ -294,13 +302,13 @@ namespace MdlpApiClient.Xsd
     }
 
     /// <summary>
-    /// <para>Причины (основания) передачи на уничтожение
+    /// <para>Основания передачи на уничтожение
     ///                1 – по решению владельца
     ///                2 – по решению Росздравнадзора
     ///                3 – по решению суда</para>
     /// </summary>
-    [System.ComponentModel.DescriptionAttribute("Причины (основания) передачи на уничтожение 1 – по решению владельца 2 – по решен" +
-        "ию Росздравнадзора 3 – по решению суда")]
+    [System.ComponentModel.DescriptionAttribute("Основания передачи на уничтожение 1 – по решению владельца 2 – по решению Росздра" +
+        "внадзора 3 – по решению суда")]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute("destruction_type_enum", Namespace="")]
@@ -325,9 +333,12 @@ namespace MdlpApiClient.Xsd
     ///                4 - выведен из оборота в результате отпуска по льготному рецепту
     ///                5 - выведен из оборота в результате выдачи для оказания мед. помощи
     ///                6 - выведен из оборота в результате отгрузки незарегистрированному участнику
-    ///                7 - выведен из оборота в результате выборочного контроля</para>
+    ///                7 - выведен из оборота в результате выборочного контроля
+    ///                8 - выведен из оборота в результате отгрузки в ЕАЭС
+    ///                9 - выведен из оборота в результате розничной продажи
+    ///                10 - выведен из оборота в результате экспорта</para>
     /// </summary>
-    [System.ComponentModel.DescriptionAttribute(@"Причины вывода из оборота 1 – выведен из оборота по причине списания 2 – выведен из оборота в результате реэкспорта 3 – выведен из оборота в результате отбора образцов 4 - выведен из оборота в результате отпуска по льготному рецепту 5 - выведен из оборота в результате выдачи для оказания мед. помощи 6 - выведен из оборота в результате отгрузки незарегистрированному участнику 7 - выведен из оборота в результате выборочного контроля")]
+    [System.ComponentModel.DescriptionAttribute(@"Причины вывода из оборота 1 – выведен из оборота по причине списания 2 – выведен из оборота в результате реэкспорта 3 – выведен из оборота в результате отбора образцов 4 - выведен из оборота в результате отпуска по льготному рецепту 5 - выведен из оборота в результате выдачи для оказания мед. помощи 6 - выведен из оборота в результате отгрузки незарегистрированному участнику 7 - выведен из оборота в результате выборочного контроля 8 - выведен из оборота в результате отгрузки в ЕАЭС 9 - выведен из оборота в результате розничной продажи 10 - выведен из оборота в результате экспорта")]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute("withdrawal_reason_enum", Namespace="")]
@@ -354,6 +365,15 @@ namespace MdlpApiClient.Xsd
 
         [System.Xml.Serialization.XmlEnumAttribute("7")]
         Item7,
+
+        [System.Xml.Serialization.XmlEnumAttribute("8")]
+        Item8,
+
+        [System.Xml.Serialization.XmlEnumAttribute("9")]
+        Item9,
+
+        [System.Xml.Serialization.XmlEnumAttribute("10")]
+        Item10,
     }
 
     /// <summary>
@@ -468,11 +488,11 @@ namespace MdlpApiClient.Xsd
 
     /// <summary>
     /// <para>Виды операции редактирования
-    ///                1 – добавление/бронирование
-    ///                2 – удаление/отмена бронирования</para>
+    ///                1 – добавление/бронирование/постановка
+    ///                2 – удаление/отмена бронирования/снятие</para>
     /// </summary>
-    [System.ComponentModel.DescriptionAttribute("Виды операции редактирования 1 – добавление/бронирование 2 – удаление/отмена брон" +
-        "ирования")]
+    [System.ComponentModel.DescriptionAttribute("Виды операции редактирования 1 – добавление/бронирование/постановка 2 – удаление/" +
+        "отмена бронирования/снятие")]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute("edit_type_enum", Namespace="")]
@@ -503,6 +523,91 @@ namespace MdlpApiClient.Xsd
 
         [System.Xml.Serialization.XmlEnumAttribute("31")]
         Item31,
+    }
+
+    /// <summary>
+    /// <para>Причина списания
+    ///                1 - по причине закрытия заказа
+    ///                2 - по причине истечения срока годности КМ</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Причина списания 1 - по причине закрытия заказа 2 - по причине истечения срока го" +
+        "дности КМ")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("dropout_reason_type_enum", Namespace="")]
+    public enum Dropout_Reason_Type_Enum
+    {
+
+        [System.Xml.Serialization.XmlEnumAttribute("1")]
+        Item1,
+
+        [System.Xml.Serialization.XmlEnumAttribute("2")]
+        Item2,
+    }
+
+    /// <summary>
+    /// <para>Перечень операций, для которых применима корректировка сведений</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Перечень операций, для которых применима корректировка сведений")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("action_id_type_enum", Namespace="")]
+    public enum Action_Id_Type_Enum
+    {
+
+        [System.Xml.Serialization.XmlEnumAttribute("415")]
+        Item415,
+
+        [System.Xml.Serialization.XmlEnumAttribute("416")]
+        Item416,
+
+        [System.Xml.Serialization.XmlEnumAttribute("472")]
+        Item472,
+
+        [System.Xml.Serialization.XmlEnumAttribute("471")]
+        Item471,
+
+        [System.Xml.Serialization.XmlEnumAttribute("417")]
+        Item417,
+    }
+
+    /// <summary>
+    /// <para>Причины передачи на уничтожение
+    ///			    1 - недоброкачественный ЛП
+    ///				2 - контрафактный ЛП
+    ///				3 - фальсифицированный ЛП
+    ///				4 - ЛП, утративший потребительские свойства
+    ///				5 - ЛП с истекшим сроком годности
+    ///				6 - ЛП, отозванный производителем/держателем регистрационного удостоверения
+    ///				7 - ЛП, исключенный из Государственного реестра лекарственных средств</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute(@"Причины передачи на уничтожение 1 - недоброкачественный ЛП 2 - контрафактный ЛП 3 - фальсифицированный ЛП 4 - ЛП, утративший потребительские свойства 5 - ЛП с истекшим сроком годности 6 - ЛП, отозванный производителем/держателем регистрационного удостоверения 7 - ЛП, исключенный из Государственного реестра лекарственных средств")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("reason_for_destruction_type_enum", Namespace="")]
+    public enum Reason_For_Destruction_Type_Enum
+    {
+
+        [System.Xml.Serialization.XmlEnumAttribute("1")]
+        Item1,
+
+        [System.Xml.Serialization.XmlEnumAttribute("2")]
+        Item2,
+
+        [System.Xml.Serialization.XmlEnumAttribute("3")]
+        Item3,
+
+        [System.Xml.Serialization.XmlEnumAttribute("4")]
+        Item4,
+
+        [System.Xml.Serialization.XmlEnumAttribute("5")]
+        Item5,
+
+        [System.Xml.Serialization.XmlEnumAttribute("6")]
+        Item6,
+
+        [System.Xml.Serialization.XmlEnumAttribute("7")]
+        Item7,
     }
 
     /// <summary>
@@ -975,12 +1080,12 @@ namespace MdlpApiClient.Xsd
         public string Doc_Num { get; set; }
 
         /// <summary>
-        /// <para>Номер подтверждения соответствия требованиям гос. регистрации</para>
+        /// <para>Идентификатор записи в АИС РЗН</para>
         /// <para>Номер документа, но не более 200 символов</para>
         /// <para xml:lang="en">Minimum length: 1.</para>
         /// <para xml:lang="en">Maximum length: 200.</para>
         /// </summary>
-        [System.ComponentModel.DescriptionAttribute("Номер подтверждения соответствия требованиям гос. регистрации")]
+        [System.ComponentModel.DescriptionAttribute("Идентификатор записи в АИС РЗН")]
         [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
         [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
         [System.Xml.Serialization.XmlElementAttribute("confirmation_num")]
@@ -2524,6 +2629,474 @@ namespace MdlpApiClient.Xsd
     }
 
     /// <summary>
+    /// <para>Запрос информации об иерархии вложенности SSCC</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Запрос информации об иерархии вложенности SSCC")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("query_hierarchy_info", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Query_Hierarchy_Info
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП (14 или 36 знаков)</para>
+        /// <para xml:lang="en">Minimum length: 14.</para>
+        /// <para xml:lang="en">Maximum length: 36.</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}|([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(14)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(36)]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}|([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9" +
+            "]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>SSCC, по которому запрашивается информация</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("SSCC, по которому запрашивается информация")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public string Sscc { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 220;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Детальная информация по SGTIN</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Детальная информация по SGTIN")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("hierarchy_sgtin_info", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_Sgtin_Info
+    {
+
+        /// <summary>
+        /// <para>Идентификатор SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// <para>Статус SGTIN</para>
+        /// <para>Строка произвольной длины, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Статус SGTIN")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор товара в GS1</para>
+        /// <para>Идентификационный номер GS1 для идентификации товаров (допускаются только цифры общей длины 14 символов)</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор товара в GS1")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// <para>Номер производственной серии</para>
+        /// <para>Номер производственной серии</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 20.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер производственной серии")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(20)]
+        [System.Xml.Serialization.XmlElementAttribute("series_number")]
+        public string Series_Number { get; set; }
+
+        /// <summary>
+        /// <para>Срок годности препарата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Срок годности препарата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("expiration_date")]
+        public string Expiration_Date { get; set; }
+
+        /// <summary>
+        /// <para>Информация о решении о приостановке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Информация о решении о приостановке")]
+        [System.Xml.Serialization.XmlElementAttribute("pause_decision_info")]
+        public Hierarchy_Sgtin_InfoPause_Decision_Info Pause_Decision_Info { get; set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Hierarchy_Sgtin_InfoPause_Decision_Info", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_Sgtin_InfoPause_Decision_Info
+    {
+
+        /// <summary>
+        /// <para>Идентификатор решения</para>
+        /// <para>GUID</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор решения")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// <para>Номер решения</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер решения")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("number")]
+        public string Number { get; set; }
+
+        /// <summary>
+        /// <para>Дата решения</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата решения")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("date")]
+        public string Date { get; set; }
+    }
+
+    /// <summary>
+    /// <para>Детальная информация о транспортной упаковке</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Детальная информация о транспортной упаковке")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("hierarchy_sscc_info", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_Sscc_Info
+    {
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public string Sscc { get; set; }
+
+        /// <summary>
+        /// <para>Дата упаковки</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("packing_date", DataType="dateTime")]
+        public System.DateTime Packing_Date { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Hierarchy_Sscc_Child> _childs;
+
+        [System.Xml.Serialization.XmlElementAttribute("childs")]
+        public System.Collections.ObjectModel.Collection<Hierarchy_Sscc_Child> Childs
+        {
+            get
+            {
+                return this._childs;
+            }
+            private set
+            {
+                this._childs = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Childs-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Childs collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ChildsSpecified
+        {
+            get
+            {
+                return (this.Childs.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Hierarchy_Sscc_Info" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Hierarchy_Sscc_Info" /> class.</para>
+        /// </summary>
+        public Hierarchy_Sscc_Info()
+        {
+            this._childs = new System.Collections.ObjectModel.Collection<Hierarchy_Sscc_Child>();
+        }
+    }
+
+    /// <summary>
+    /// <para>Детальная информация о вложенных элементах</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Детальная информация о вложенных элементах")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("hierarchy_sscc_child", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_Sscc_Child
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Hierarchy_Sgtin_Info> _sgtin_Info;
+
+        [System.Xml.Serialization.XmlElementAttribute("sgtin_info")]
+        public System.Collections.ObjectModel.Collection<Hierarchy_Sgtin_Info> Sgtin_Info
+        {
+            get
+            {
+                return this._sgtin_Info;
+            }
+            private set
+            {
+                this._sgtin_Info = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin_Info-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin_Info collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Sgtin_InfoSpecified
+        {
+            get
+            {
+                return (this.Sgtin_Info.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Hierarchy_Sscc_Child" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Hierarchy_Sscc_Child" /> class.</para>
+        /// </summary>
+        public Hierarchy_Sscc_Child()
+        {
+            this._sgtin_Info = new System.Collections.ObjectModel.Collection<Hierarchy_Sgtin_Info>();
+            this._sscc_Info = new System.Collections.ObjectModel.Collection<Hierarchy_Sscc_Info>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Hierarchy_Sscc_Info> _sscc_Info;
+
+        [System.Xml.Serialization.XmlElementAttribute("sscc_info")]
+        public System.Collections.ObjectModel.Collection<Hierarchy_Sscc_Info> Sscc_Info
+        {
+            get
+            {
+                return this._sscc_Info;
+            }
+            private set
+            {
+                this._sscc_Info = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc_Info-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc_Info collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Sscc_InfoSpecified
+        {
+            get
+            {
+                return (this.Sscc_Info.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Результат запроса информации об иерархии вложенности SSCC</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Результат запроса информации об иерархии вложенности SSCC")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("hierarchy_info", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_Info
+    {
+
+        /// <summary>
+        /// <para>Информация по SSCC (где находится данная упаковка)</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Информация по SSCC (где находится данная упаковка)")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc_up")]
+        public Hierarchy_InfoSscc_Up Sscc_Up { get; set; }
+
+        /// <summary>
+        /// <para>Информация по SSCC (что находится в данной упаковке)</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Информация по SSCC (что находится в данной упаковке)")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc_down")]
+        public Hierarchy_InfoSscc_Down Sscc_Down { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Hierarchy_InfoOperation_Warnings> _operation_Warnings;
+
+        /// <summary>
+        /// <para>Список предупреждений</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список предупреждений")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_warnings")]
+        public System.Collections.ObjectModel.Collection<Hierarchy_InfoOperation_Warnings> Operation_Warnings
+        {
+            get
+            {
+                return this._operation_Warnings;
+            }
+            private set
+            {
+                this._operation_Warnings = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Operation_Warnings-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Operation_Warnings collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Operation_WarningsSpecified
+        {
+            get
+            {
+                return (this.Operation_Warnings.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Hierarchy_Info" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Hierarchy_Info" /> class.</para>
+        /// </summary>
+        public Hierarchy_Info()
+        {
+            this._operation_Warnings = new System.Collections.ObjectModel.Collection<Hierarchy_InfoOperation_Warnings>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 221;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Hierarchy_InfoSscc_Up", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_InfoSscc_Up
+    {
+
+        [System.Xml.Serialization.XmlElementAttribute("sscc_info")]
+        public Hierarchy_Sscc_Info Sscc_Info { get; set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Hierarchy_InfoSscc_Down", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_InfoSscc_Down
+    {
+
+        [System.Xml.Serialization.XmlElementAttribute("sscc_info")]
+        public Hierarchy_Sscc_Info Sscc_Info { get; set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Hierarchy_InfoOperation_Warnings", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Hierarchy_InfoOperation_Warnings
+    {
+
+        /// <summary>
+        /// <para>Текст предупреждения</para>
+        /// <para>Строка произвольной длины, но не более 1000 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 1000.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Текст предупреждения")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(1000)]
+        [System.Xml.Serialization.XmlElementAttribute("operation_warning")]
+        public string Operation_Warning { get; set; }
+    }
+
+    /// <summary>
     /// <para>Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственной операции</para>
     /// </summary>
     [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственной опе" +
@@ -3209,6 +3782,567 @@ namespace MdlpApiClient.Xsd
     }
 
     /// <summary>
+    /// <para>Регистрация в ИС МДЛП сведений о корректировке</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о корректировке")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("change_property", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор контрагента</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор контрагента")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("counterparty_id")]
+        public string Counterparty_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Тип исходной операции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип исходной операции")]
+        [System.Xml.Serialization.XmlElementAttribute("action_id_type")]
+        public MdlpApiClient.Xsd.Action_Id_Type_Enum Action_Id_Type { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор запроса, подлежащего корректировке</para>
+        /// <para>Строка произвольной длины, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор запроса, подлежащего корректировке")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("operation_id")]
+        public string Operation_Id { get; set; }
+
+        /// <summary>
+        /// <para>Сведения подлежащие корректировке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения подлежащие корректировке")]
+        [System.Xml.Serialization.XmlElementAttribute("details")]
+        public Change_PropertyDetails Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 254;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_PropertyDetails", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_PropertyDetails
+    {
+
+        /// <summary>
+        /// <para>Реквизиты документа - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Источник финансирования</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Источник финансирования")]
+        [System.Xml.Serialization.XmlElementAttribute("source")]
+        public MdlpApiClient.Xsd.Source_Type Source { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Source-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Source property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SourceSpecified { get; set; }
+
+        /// <summary>
+        /// <para>Реестровый номер контракта (договора) в Единой информационной системе в сфере закупок</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реестровый номер контракта (договора) в Единой информационной системе в сфере зак" +
+            "упок")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("contract_num")]
+        public string Contract_Num { get; set; }
+
+        /// <summary>
+        /// <para>Тип договора</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип договора")]
+        [System.Xml.Serialization.XmlElementAttribute("contract_type")]
+        public MdlpApiClient.Xsd.Contract_Type_Enum Contract_Type { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Contract_Type-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Contract_Type property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Contract_TypeSpecified { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnion> _order_Details;
+
+        /// <summary>
+        /// <para>Список продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список продукции")]
+        [System.Xml.Serialization.XmlArrayAttribute("order_details")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("union")]
+        public System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnion> Order_Details
+        {
+            get
+            {
+                return this._order_Details;
+            }
+            private set
+            {
+                this._order_Details = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Change_PropertyDetails" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Change_PropertyDetails" /> class.</para>
+        /// </summary>
+        public Change_PropertyDetails()
+        {
+            this._order_Details = new System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnion>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_PropertyDetailsOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_PropertyDetailsOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnion> _union;
+
+        [System.Xml.Serialization.XmlElementAttribute("union")]
+        public System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnion> Union
+        {
+            get
+            {
+                return this._union;
+            }
+            private set
+            {
+                this._union = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Change_PropertyDetailsOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Change_PropertyDetailsOrder_Details" /> class.</para>
+        /// </summary>
+        public Change_PropertyDetailsOrder_Details()
+        {
+            this._union = new System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnion>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_PropertyDetailsOrder_DetailsUnion", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_PropertyDetailsOrder_DetailsUnion
+    {
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// <para>Сведения о транспортной упаковке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения о транспортной упаковке")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc_detail")]
+        public Change_PropertyDetailsOrder_DetailsUnionSscc_Detail Sscc_Detail { get; set; }
+
+        /// <summary>
+        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если свед" +
+            "ения посылаются в транспортной упаковке - стоимость единичной упаковки внутри тр" +
+            "етичной упаковки, руб")]
+        [System.Xml.Serialization.XmlElementAttribute("cost")]
+        public decimal Cost { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Cost-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Cost property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool CostSpecified { get; set; }
+
+        /// <summary>
+        /// <para>Cумма НДС, руб</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Cумма НДС, руб")]
+        [System.Xml.Serialization.XmlElementAttribute("vat_value")]
+        public decimal Vat_Value { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Vat_Value-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Vat_Value property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Vat_ValueSpecified { get; set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_PropertyDetailsOrder_DetailsUnionSscc_Detail", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_PropertyDetailsOrder_DetailsUnionSscc_Detail
+    {
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public string Sscc { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnionSscc_DetailDetail> _detail;
+
+        /// <summary>
+        /// <para>Сведения о цене содержимого транспортной упаковки</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения о цене содержимого транспортной упаковки")]
+        [System.Xml.Serialization.XmlElementAttribute("detail")]
+        public System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnionSscc_DetailDetail> Detail
+        {
+            get
+            {
+                return this._detail;
+            }
+            private set
+            {
+                this._detail = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Detail-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Detail collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool DetailSpecified
+        {
+            get
+            {
+                return (this.Detail.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Change_PropertyDetailsOrder_DetailsUnionSscc_Detail" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Change_PropertyDetailsOrder_DetailsUnionSscc_Detail" /> class.</para>
+        /// </summary>
+        public Change_PropertyDetailsOrder_DetailsUnionSscc_Detail()
+        {
+            this._detail = new System.Collections.ObjectModel.Collection<Change_PropertyDetailsOrder_DetailsUnionSscc_DetailDetail>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_PropertyDetailsOrder_DetailsUnionSscc_DetailDetail", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_PropertyDetailsOrder_DetailsUnionSscc_DetailDetail
+    {
+
+        /// <summary>
+        /// <para>Идентификатор товара в GS1 (GTIN)</para>
+        /// <para>Идентификационный номер GS1 для идентификации товаров (допускаются только цифры общей длины 14 символов)</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор товара в GS1 (GTIN)")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// <para>Номер производственной серии</para>
+        /// <para>Номер производственной серии</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 20.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер производственной серии")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(20)]
+        [System.Xml.Serialization.XmlElementAttribute("series_number")]
+        public string Series_Number { get; set; }
+
+        /// <summary>
+        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость)</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции (с учетом налога на добавленную стоимость)")]
+        [System.Xml.Serialization.XmlElementAttribute("cost")]
+        public decimal Cost { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Cost-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Cost property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool CostSpecified { get; set; }
+
+        /// <summary>
+        /// <para>Cумма НДС, руб</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Cумма НДС, руб")]
+        [System.Xml.Serialization.XmlElementAttribute("vat_value")]
+        public decimal Vat_Value { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Vat_Value-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Vat_Value property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Vat_ValueSpecified { get; set; }
+    }
+
+    /// <summary>
+    /// <para>Регистрация держателем РУ (или его представительством) сведений о передаче кодов маркировки таможенному складу в ИС МДЛП</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация держателем РУ (или его представительством) сведений о передаче кодов " +
+        "маркировки таможенному складу в ИС МДЛП")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("transfer_code_to_custom", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Transfer_Code_To_Custom
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата упаковки</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор местонахождения товара в зоне таможенного контроля</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор местонахождения товара в зоне таможенного контроля")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("custom_receiver_id")]
+        public string Custom_Receiver_Id { get; set; }
+
+        /// <summary>
+        /// <para>Код GTIN</para>
+        /// <para>Идентификационный номер GS1 для идентификации товаров (допускаются только цифры общей длины 14 символов)</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Код GTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("gtin")]
+        public string Gtin { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _signs;
+
+        /// <summary>
+        /// <para>Перечень идентификационных кодов потребительских упаковок</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Перечень идентификационных кодов потребительских упаковок")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlArrayAttribute("signs")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Signs
+        {
+            get
+            {
+                return this._signs;
+            }
+            private set
+            {
+                this._signs = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Transfer_Code_To_Custom" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Transfer_Code_To_Custom" /> class.</para>
+        /// </summary>
+        public Transfer_Code_To_Custom()
+        {
+            this._signs = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 300;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Transfer_Code_To_CustomSigns", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Transfer_Code_To_CustomSigns
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Идентификатор SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Transfer_Code_To_CustomSigns" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Transfer_Code_To_CustomSigns" /> class.</para>
+        /// </summary>
+        public Transfer_Code_To_CustomSigns()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+        }
+    }
+
+    /// <summary>
     /// <para>Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки</para>
     /// </summary>
     [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки")]
@@ -3685,6 +4819,191 @@ namespace MdlpApiClient.Xsd
         /// <para xml:lang="en">Initializes a new instance of the <see cref="Move_To_ReleaseOrder_Details" /> class.</para>
         /// </summary>
         public Move_To_ReleaseOrder_Details()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Регистрация в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о возврате лекарственных препаратов контрактному п" +
+        "роизводителю")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("return_contract_production", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Return_Contract_Production
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор организации-получателя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-получателя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("receiver_id")]
+        public string Receiver_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты подтверждающего первичного документа - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты подтверждающего первичного документа - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты подтверждающего первичного документа - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты подтверждающего первичного документа - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Список передаваемой продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список передаваемой продукции")]
+        [System.Xml.Serialization.XmlElementAttribute("order_details")]
+        public Return_Contract_ProductionOrder_Details Order_Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 315;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Return_Contract_ProductionOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Return_Contract_ProductionOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Return_Contract_ProductionOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Return_Contract_ProductionOrder_Details" /> class.</para>
+        /// </summary>
+        public Return_Contract_ProductionOrder_Details()
         {
             this._sgtin = new System.Collections.ObjectModel.Collection<string>();
             this._sscc = new System.Collections.ObjectModel.Collection<string>();
@@ -5040,6 +6359,227 @@ namespace MdlpApiClient.Xsd
     }
 
     /// <summary>
+    /// <para>Регистрация держателем РУ (или его представительством) сведений об условиях ввоза в Российскую Федерацию ЛП, маркированных на таможенном складе, в ИС МДЛП</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация держателем РУ (или его представительством) сведений об условиях ввоза" +
+        " в Российскую Федерацию ЛП, маркированных на таможенном складе, в ИС МДЛП")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("import_info", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Import_Info
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор продавца</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор продавца")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("seller_id")]
+        public string Seller_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор организации-получателя</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-получателя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("receiver_id")]
+        public string Receiver_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Тип договора</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип договора")]
+        [System.Xml.Serialization.XmlElementAttribute("contract_type")]
+        public Import_InfoContract_Type Contract_Type { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты первичного документа: номер документа</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты первичного документа: номер документа")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты первичного документа: дата документа</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты первичного документа: дата документа")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Список отгружаемой продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список отгружаемой продукции")]
+        [System.Xml.Serialization.XmlElementAttribute("order_details")]
+        public Import_InfoOrder_Details Order_Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 336;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Import_InfoContract_Type", Namespace="")]
+    public enum Import_InfoContract_Type
+    {
+
+        [System.Xml.Serialization.XmlEnumAttribute("1")]
+        Item1,
+
+        [System.Xml.Serialization.XmlEnumAttribute("2")]
+        Item2,
+
+        [System.Xml.Serialization.XmlEnumAttribute("3")]
+        Item3,
+
+        [System.Xml.Serialization.XmlEnumAttribute("4")]
+        Item4,
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Import_InfoOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Import_InfoOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Import_InfoOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Import_InfoOrder_Details" /> class.</para>
+        /// </summary>
+        public Import_InfoOrder_Details()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
     /// <para>Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад импортера</para>
     /// </summary>
     [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад импорт" +
@@ -5349,7 +6889,7 @@ namespace MdlpApiClient.Xsd
     }
 
     /// <summary>
-    /// <para>Регистрация  в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</para>
+    /// <para>Регистрация в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</para>
     /// </summary>
     [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ")]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
@@ -7056,6 +8596,30 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Withdrawal_Reason_Enum Withdrawal_Reason { get; set; }
 
         /// <summary>
+        /// <para>Реквизиты документа основания  - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа основания - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
         /// <para>Причина возврата</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("Причина возврата")]
@@ -7384,13 +8948,13 @@ namespace MdlpApiClient.Xsd
         public Move_OrderOrder_DetailsUnionSscc_Detail Sscc_Detail { get; set; }
 
         /// <summary>
-        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведенья посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
+        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
         /// <para>Стоимость</para>
         /// <para xml:lang="en">Total number of digits: 16.</para>
         /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если свед" +
-            "енья посылаются в транспортной упаковке - стоимость единичной упаковки внутри тр" +
+            "ения посылаются в транспортной упаковке - стоимость единичной упаковки внутри тр" +
             "етичной упаковки, руб")]
         [System.Xml.Serialization.XmlElementAttribute("cost")]
         public decimal Cost { get; set; }
@@ -7729,13 +9293,13 @@ namespace MdlpApiClient.Xsd
         public Receive_OrderOrder_DetailsUnionSscc_Detail Sscc_Detail { get; set; }
 
         /// <summary>
-        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведенья посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
+        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
         /// <para>Стоимость</para>
         /// <para xml:lang="en">Total number of digits: 16.</para>
         /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если свед" +
-            "енья посылаются в транспортной упаковке - стоимость единичной упаковки внутри тр" +
+            "ения посылаются в транспортной упаковке - стоимость единичной упаковки внутри тр" +
             "етичной упаковки, руб")]
         [System.Xml.Serialization.XmlElementAttribute("cost")]
         public decimal Cost { get; set; }
@@ -9706,6 +11270,20 @@ namespace MdlpApiClient.Xsd
         public System.DateTime Operation_Date { get; set; }
 
         /// <summary>
+        /// <para>Тип операции отгрузки со склада</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип операции отгрузки со склада")]
+        [System.Xml.Serialization.XmlElementAttribute("turnover_type")]
+        public MdlpApiClient.Xsd.Turnover_Type_Enum Turnover_Type { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Turnover_Type-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Turnover_Type property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Turnover_TypeSpecified { get; set; }
+
+        /// <summary>
         /// <para>Реквизиты документа основания: номер документа</para>
         /// <para>Номер документа, но не более 200 символов</para>
         /// <para xml:lang="en">Minimum length: 1.</para>
@@ -9802,6 +11380,197 @@ namespace MdlpApiClient.Xsd
         /// <para xml:lang="en">Initializes a new instance of the <see cref="Agent_DispatchOrder_Details" /> class.</para>
         /// </summary>
         public Agent_DispatchOrder_Details()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Регистрация в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("arbitration", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Arbitration
+    {
+
+        /// <summary>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор субъекта обращения в ИС МДЛП")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор контрагента</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор контрагента")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("counterparty_id")]
+        public string Counterparty_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата отгрузки</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата отгрузки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа основания  - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа основания - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Признак постановки в арбитраж/снятие арбитража</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Признак постановки в арбитраж/снятие арбитража")]
+        [System.Xml.Serialization.XmlElementAttribute("sign_arbitration")]
+        public MdlpApiClient.Xsd.Edit_Type_Enum Sign_Arbitration { get; set; }
+
+        /// <summary>
+        /// <para>Список продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список продукции")]
+        [System.Xml.Serialization.XmlElementAttribute("order_details")]
+        public ArbitrationOrder_Details Order_Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 481;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("ArbitrationOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ArbitrationOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="ArbitrationOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="ArbitrationOrder_Details" /> class.</para>
+        /// </summary>
+        public ArbitrationOrder_Details()
         {
             this._sgtin = new System.Collections.ObjectModel.Collection<string>();
             this._sscc = new System.Collections.ObjectModel.Collection<string>();
@@ -10741,11 +12510,25 @@ namespace MdlpApiClient.Xsd
         public string Decision { get; set; }
 
         /// <summary>
-        /// <para>Причина (основание) передачи на уничтожение</para>
+        /// <para>Основание передачи на уничтожение</para>
         /// </summary>
-        [System.ComponentModel.DescriptionAttribute("Причина (основание) передачи на уничтожение")]
+        [System.ComponentModel.DescriptionAttribute("Основание передачи на уничтожение")]
         [System.Xml.Serialization.XmlElementAttribute("destruction_type")]
         public MdlpApiClient.Xsd.Destruction_Type_Enum Destruction_Type { get; set; }
+
+        /// <summary>
+        /// <para>Причина передачи на уничтожение</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Причина передачи на уничтожение")]
+        [System.Xml.Serialization.XmlElementAttribute("reason_for_destruction")]
+        public MdlpApiClient.Xsd.Reason_For_Destruction_Type_Enum Reason_For_Destruction { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Reason_For_Destruction-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Reason_For_Destruction property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Reason_For_DestructionSpecified { get; set; }
     }
 
     /// <summary>
@@ -12858,6 +14641,30 @@ namespace MdlpApiClient.Xsd
         public System.DateTime Operation_Date { get; set; }
 
         /// <summary>
+        /// <para>Реквизиты документа основания: номер документа</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания: номер документа")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа основания: дата документа</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания: дата документа")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
         /// <para>Список передаваемой продукции</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("Список передаваемой продукции")]
@@ -14016,12 +15823,12 @@ namespace MdlpApiClient.Xsd
         public Eeu_Shipment_NotificationOrder_DetailsUnionSscc_Detail Sscc_Detail { get; set; }
 
         /// <summary>
-        /// <para>Стоимость единицы продукции. Если сведенья посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
+        /// <para>Стоимость единицы продукции. Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
         /// <para>Стоимость</para>
         /// <para xml:lang="en">Total number of digits: 16.</para>
         /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
         /// </summary>
-        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции. Если сведенья посылаются в транспортной упаковке - с" +
+        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции. Если сведения посылаются в транспортной упаковке - с" +
             "тоимость единичной упаковки внутри третичной упаковки, руб")]
         [System.Xml.Serialization.XmlElementAttribute("cost")]
         public decimal Cost { get; set; }
@@ -14362,12 +16169,12 @@ namespace MdlpApiClient.Xsd
         public Eeu_Import_NotificationOrder_DetailsUnionSscc_Detail Sscc_Detail { get; set; }
 
         /// <summary>
-        /// <para>Стоимость единицы продукции. Если сведенья посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
+        /// <para>Стоимость единицы продукции. Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
         /// <para>Стоимость</para>
         /// <para xml:lang="en">Total number of digits: 16.</para>
         /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
         /// </summary>
-        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции. Если сведенья посылаются в транспортной упаковке - с" +
+        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции. Если сведения посылаются в транспортной упаковке - с" +
             "тоимость единичной упаковки внутри третичной упаковки, руб")]
         [System.Xml.Serialization.XmlElementAttribute("cost")]
         public decimal Cost { get; set; }
@@ -14903,6 +16710,20 @@ namespace MdlpApiClient.Xsd
         public System.DateTime Operation_Date { get; set; }
 
         /// <summary>
+        /// <para>Тип операции отгрузки со склада</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип операции отгрузки со склада")]
+        [System.Xml.Serialization.XmlElementAttribute("turnover_type")]
+        public MdlpApiClient.Xsd.Turnover_Type_Enum Turnover_Type { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Turnover_Type-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Turnover_Type property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Turnover_TypeSpecified { get; set; }
+
+        /// <summary>
         /// <para>Реквизиты документа основания: номер документа</para>
         /// <para>Номер документа, но не более 200 символов</para>
         /// <para xml:lang="en">Minimum length: 1.</para>
@@ -15039,6 +16860,1018 @@ namespace MdlpApiClient.Xsd
                 return (this.Sscc.Count != 0);
             }
         }
+    }
+
+    /// <summary>
+    /// <para>Уведомление импортера о регистрации в ИС МДЛП сведений об условиях ввоза ЛП держателем РУ (или его представительством)</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Уведомление импортера о регистрации в ИС МДЛП сведений об условиях ввоза ЛП держа" +
+        "телем РУ (или его представительством)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("import_info_notification", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Import_Info_Notification
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор продавца</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор продавца")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("seller_id")]
+        public string Seller_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор организации-получателя</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-получателя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("receiver_id")]
+        public string Receiver_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Тип договора</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип договора")]
+        [System.Xml.Serialization.XmlElementAttribute("contract_type")]
+        public Import_Info_NotificationContract_Type Contract_Type { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты первичного документа: номер документа</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты первичного документа: номер документа")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты первичного документа: дата документа</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты первичного документа: дата документа")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Список отгружаемой продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список отгружаемой продукции")]
+        [System.Xml.Serialization.XmlElementAttribute("order_details")]
+        public Import_Info_NotificationOrder_Details Order_Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 620;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Import_Info_NotificationContract_Type", Namespace="")]
+    public enum Import_Info_NotificationContract_Type
+    {
+
+        [System.Xml.Serialization.XmlEnumAttribute("1")]
+        Item1,
+
+        [System.Xml.Serialization.XmlEnumAttribute("2")]
+        Item2,
+
+        [System.Xml.Serialization.XmlEnumAttribute("3")]
+        Item3,
+
+        [System.Xml.Serialization.XmlEnumAttribute("4")]
+        Item4,
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Import_Info_NotificationOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Import_Info_NotificationOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Import_Info_NotificationOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Import_Info_NotificationOrder_Details" /> class.</para>
+        /// </summary>
+        public Import_Info_NotificationOrder_Details()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Уведомление о регистрации в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Уведомление о регистрации в ИС МДЛП сведений о постановке в арбитраж/снятие арбит" +
+        "ража")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("arbitration_notification", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Arbitration_Notification
+    {
+
+        /// <summary>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор субъекта обращения в ИС МДЛП")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор контрагента</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор контрагента")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("counterparty_id")]
+        public string Counterparty_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата отгрузки</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата отгрузки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа основания  - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа основания - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа основания - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Признак постановки в арбитраж/снятие арбитража</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Признак постановки в арбитраж/снятие арбитража")]
+        [System.Xml.Serialization.XmlElementAttribute("sign_arbitration")]
+        public MdlpApiClient.Xsd.Edit_Type_Enum Sign_Arbitration { get; set; }
+
+        /// <summary>
+        /// <para>Список продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список продукции")]
+        [System.Xml.Serialization.XmlElementAttribute("order_details")]
+        public Arbitration_NotificationOrder_Details Order_Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 621;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Arbitration_NotificationOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Arbitration_NotificationOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Arbitration_NotificationOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Arbitration_NotificationOrder_Details" /> class.</para>
+        /// </summary>
+        public Arbitration_NotificationOrder_Details()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Уведомление о регистрации в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Уведомление о регистрации в ИС МДЛП сведений о возврате лекарственных препаратов " +
+        "контрактному производителю")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("return_contract_production_notification", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Return_Contract_Production_Notification
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор организации-получателя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-получателя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("receiver_id")]
+        public string Receiver_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты подтверждающего первичного документа - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты подтверждающего первичного документа - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты подтверждающего первичного документа - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты подтверждающего первичного документа - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Список передаваемой продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список передаваемой продукции")]
+        [System.Xml.Serialization.XmlElementAttribute("order_details")]
+        public Return_Contract_Production_NotificationOrder_Details Order_Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 622;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Return_Contract_Production_NotificationOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Return_Contract_Production_NotificationOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Return_Contract_Production_NotificationOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Return_Contract_Production_NotificationOrder_Details" /> class.</para>
+        /// </summary>
+        public Return_Contract_Production_NotificationOrder_Details()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Уведомление о регистрация в ИС МДЛП сведений о корректировке</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Уведомление о регистрация в ИС МДЛП сведений о корректировке")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("change_property_notification", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property_Notification
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор контрагента</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор контрагента")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("counterparty_id")]
+        public string Counterparty_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Тип исходной операции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип исходной операции")]
+        [System.Xml.Serialization.XmlElementAttribute("action_id_type")]
+        public MdlpApiClient.Xsd.Action_Id_Type_Enum Action_Id_Type { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор запроса, подлежащего корректировке</para>
+        /// <para>Строка произвольной длины, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор запроса, подлежащего корректировке")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("operation_id")]
+        public string Operation_Id { get; set; }
+
+        /// <summary>
+        /// <para>Сведения подлежащие корректировке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения подлежащие корректировке")]
+        [System.Xml.Serialization.XmlElementAttribute("details")]
+        public Change_Property_NotificationDetails Details { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 623;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_Property_NotificationDetails", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property_NotificationDetails
+    {
+
+        /// <summary>
+        /// <para>Реквизиты документа - номер</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа - номер")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("doc_num")]
+        public string Doc_Num { get; set; }
+
+        /// <summary>
+        /// <para>Реквизиты документа - дата</para>
+        /// <para>Дата в формате ДД.ММ.ГГГГ</para>
+        /// <para xml:lang="en">Pattern: ((((0[1-9]|1[0-9]|2[0-8])[\.](0[1-9]|1[012]))|((29|30|31)[\.](0[13578]|1[02]))|((29|30)[\.](0[4,6,9]|11)))[\.](19|[2-9][0-9])\d\d)|(29[\.]02[\.](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реквизиты документа - дата")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((((0[1-9]|1[0-9]|2[0-8])[\\.](0[1-9]|1[012]))|((29|30|31)[\\.](0[13578]|1[02]))|((" +
+            "29|30)[\\.](0[4,6,9]|11)))[\\.](19|[2-9][0-9])\\d\\d)|(29[\\.]02[\\.](19|[2-9][0-9])(0" +
+            "0|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))")]
+        [System.Xml.Serialization.XmlElementAttribute("doc_date")]
+        public string Doc_Date { get; set; }
+
+        /// <summary>
+        /// <para>Источник финансирования</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Источник финансирования")]
+        [System.Xml.Serialization.XmlElementAttribute("source")]
+        public MdlpApiClient.Xsd.Source_Type Source { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Source-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Source property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SourceSpecified { get; set; }
+
+        /// <summary>
+        /// <para>Реестровый номер контракта (договора) в Единой информационной системе в сфере закупок</para>
+        /// <para>Номер документа, но не более 200 символов</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 200.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Реестровый номер контракта (договора) в Единой информационной системе в сфере зак" +
+            "упок")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(200)]
+        [System.Xml.Serialization.XmlElementAttribute("contract_num")]
+        public string Contract_Num { get; set; }
+
+        /// <summary>
+        /// <para>Тип договора</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Тип договора")]
+        [System.Xml.Serialization.XmlElementAttribute("contract_type")]
+        public MdlpApiClient.Xsd.Contract_Type_Enum Contract_Type { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Contract_Type-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Contract_Type property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Contract_TypeSpecified { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnion> _order_Details;
+
+        /// <summary>
+        /// <para>Список продукции</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список продукции")]
+        [System.Xml.Serialization.XmlArrayAttribute("order_details")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("union")]
+        public System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnion> Order_Details
+        {
+            get
+            {
+                return this._order_Details;
+            }
+            private set
+            {
+                this._order_Details = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Change_Property_NotificationDetails" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Change_Property_NotificationDetails" /> class.</para>
+        /// </summary>
+        public Change_Property_NotificationDetails()
+        {
+            this._order_Details = new System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnion>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_Property_NotificationDetailsOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property_NotificationDetailsOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnion> _union;
+
+        [System.Xml.Serialization.XmlElementAttribute("union")]
+        public System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnion> Union
+        {
+            get
+            {
+                return this._union;
+            }
+            private set
+            {
+                this._union = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Change_Property_NotificationDetailsOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Change_Property_NotificationDetailsOrder_Details" /> class.</para>
+        /// </summary>
+        public Change_Property_NotificationDetailsOrder_Details()
+        {
+            this._union = new System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnion>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_Property_NotificationDetailsOrder_DetailsUnion", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property_NotificationDetailsOrder_DetailsUnion
+    {
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public string Sgtin { get; set; }
+
+        /// <summary>
+        /// <para>Сведения о транспортной упаковке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения о транспортной упаковке")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc_detail")]
+        public Change_Property_NotificationDetailsOrder_DetailsUnionSscc_Detail Sscc_Detail { get; set; }
+
+        /// <summary>
+        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если сведения посылаются в транспортной упаковке - стоимость единичной упаковки внутри третичной упаковки, руб</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции (с учетом налога на добавленную стоимость). Если свед" +
+            "ения посылаются в транспортной упаковке - стоимость единичной упаковки внутри тр" +
+            "етичной упаковки, руб")]
+        [System.Xml.Serialization.XmlElementAttribute("cost")]
+        public decimal Cost { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Cost-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Cost property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool CostSpecified { get; set; }
+
+        /// <summary>
+        /// <para>Cумма НДС, руб</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Cумма НДС, руб")]
+        [System.Xml.Serialization.XmlElementAttribute("vat_value")]
+        public decimal Vat_Value { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Vat_Value-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Vat_Value property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Vat_ValueSpecified { get; set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_Property_NotificationDetailsOrder_DetailsUnionSscc_Detail", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property_NotificationDetailsOrder_DetailsUnionSscc_Detail
+    {
+
+        /// <summary>
+        /// <para>Номер транспортной упаковки</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер транспортной упаковки")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public string Sscc { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnionSscc_DetailDetail> _detail;
+
+        /// <summary>
+        /// <para>Сведения о цене содержимого транспортной упаковки</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения о цене содержимого транспортной упаковки")]
+        [System.Xml.Serialization.XmlElementAttribute("detail")]
+        public System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnionSscc_DetailDetail> Detail
+        {
+            get
+            {
+                return this._detail;
+            }
+            private set
+            {
+                this._detail = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Detail-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Detail collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool DetailSpecified
+        {
+            get
+            {
+                return (this.Detail.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Change_Property_NotificationDetailsOrder_DetailsUnionSscc_Detail" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Change_Property_NotificationDetailsOrder_DetailsUnionSscc_Detail" /> class.</para>
+        /// </summary>
+        public Change_Property_NotificationDetailsOrder_DetailsUnionSscc_Detail()
+        {
+            this._detail = new System.Collections.ObjectModel.Collection<Change_Property_NotificationDetailsOrder_DetailsUnionSscc_DetailDetail>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Change_Property_NotificationDetailsOrder_DetailsUnionSscc_DetailDetail", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Change_Property_NotificationDetailsOrder_DetailsUnionSscc_DetailDetail
+    {
+
+        /// <summary>
+        /// <para>Идентификатор товара в GS1 (GTIN)</para>
+        /// <para>Идентификационный номер GS1 для идентификации товаров (допускаются только цифры общей длины 14 символов)</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор товара в GS1 (GTIN)")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}")]
+        [System.Xml.Serialization.XmlElementAttribute("gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// <para>Номер производственной серии</para>
+        /// <para>Номер производственной серии</para>
+        /// <para xml:lang="en">Minimum length: 1.</para>
+        /// <para xml:lang="en">Maximum length: 20.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер производственной серии")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(1)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(20)]
+        [System.Xml.Serialization.XmlElementAttribute("series_number")]
+        public string Series_Number { get; set; }
+
+        /// <summary>
+        /// <para>Стоимость единицы продукции (с учетом налога на добавленную стоимость)</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Стоимость единицы продукции (с учетом налога на добавленную стоимость)")]
+        [System.Xml.Serialization.XmlElementAttribute("cost")]
+        public decimal Cost { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Cost-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Cost property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool CostSpecified { get; set; }
+
+        /// <summary>
+        /// <para>Cумма НДС, руб</para>
+        /// <para>Стоимость</para>
+        /// <para xml:lang="en">Total number of digits: 16.</para>
+        /// <para xml:lang="en">Total number of digits in fraction: 2.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Cумма НДС, руб")]
+        [System.Xml.Serialization.XmlElementAttribute("vat_value")]
+        public decimal Vat_Value { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Vat_Value-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the Vat_Value property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Vat_ValueSpecified { get; set; }
     }
 
     /// <summary>
@@ -15583,6 +18416,9 @@ namespace MdlpApiClient.Xsd
         [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
         public System.DateTime Operation_Date { get; set; }
 
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
         /// <summary>
         /// <para>Идентификатор SSCC</para>
         /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
@@ -15591,7 +18427,26 @@ namespace MdlpApiClient.Xsd
         [System.ComponentModel.DescriptionAttribute("Идентификатор SSCC")]
         [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
         [System.Xml.Serialization.XmlElementAttribute("sscc")]
-        public string Sscc { get; set; }
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Unit_Unpack" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Unit_Unpack" /> class.</para>
+        /// </summary>
+        public Unit_Unpack()
+        {
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
 
         /// <summary>
         /// <para>Тип расформирования. При отсутствии элемента расформирование на один уровень (по умолчанию). При включении элемента рекурсивно до вторичной упаковки</para>
@@ -16342,6 +19197,245 @@ namespace MdlpApiClient.Xsd
     }
 
     /// <summary>
+    /// <para>Регистрация в ИС МДЛП сведений о дополнительном вложении во множество третичных (заводских, транспортных) упаковок</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений о дополнительном вложении во множество третичных (" +
+        "заводских, транспортных) упаковок")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("multi_unit_append", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Multi_Unit_Append
+    {
+
+        /// <summary>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП</para>
+        /// <para>Идентификатор субъекта обращения в ИС МДЛП (14 или 36 знаков)</para>
+        /// <para xml:lang="en">Minimum length: 14.</para>
+        /// <para xml:lang="en">Maximum length: 36.</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}|([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор субъекта обращения в ИС МДЛП")]
+        [System.ComponentModel.DataAnnotations.MinLengthAttribute(14)]
+        [System.ComponentModel.DataAnnotations.MaxLengthAttribute(36)]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}|([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9" +
+            "]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата включения</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата включения")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Multi_Unit_AppendInfo_AppendDetail> _info_Append;
+
+        /// <summary>
+        /// <para>Сведения о дополнительном вложении</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Сведения о дополнительном вложении")]
+        [System.Xml.Serialization.XmlArrayAttribute("info_append")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("detail")]
+        public System.Collections.ObjectModel.Collection<Multi_Unit_AppendInfo_AppendDetail> Info_Append
+        {
+            get
+            {
+                return this._info_Append;
+            }
+            private set
+            {
+                this._info_Append = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Multi_Unit_Append" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Multi_Unit_Append" /> class.</para>
+        /// </summary>
+        public Multi_Unit_Append()
+        {
+            this._info_Append = new System.Collections.ObjectModel.Collection<Multi_Unit_AppendInfo_AppendDetail>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 916;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Multi_Unit_AppendInfo_Append", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Multi_Unit_AppendInfo_Append
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<Multi_Unit_AppendInfo_AppendDetail> _detail;
+
+        /// <summary>
+        /// <para>Данные</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Данные")]
+        [System.Xml.Serialization.XmlElementAttribute("detail")]
+        public System.Collections.ObjectModel.Collection<Multi_Unit_AppendInfo_AppendDetail> Detail
+        {
+            get
+            {
+                return this._detail;
+            }
+            private set
+            {
+                this._detail = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Multi_Unit_AppendInfo_Append" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Multi_Unit_AppendInfo_Append" /> class.</para>
+        /// </summary>
+        public Multi_Unit_AppendInfo_Append()
+        {
+            this._detail = new System.Collections.ObjectModel.Collection<Multi_Unit_AppendInfo_AppendDetail>();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Multi_Unit_AppendInfo_AppendDetail", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Multi_Unit_AppendInfo_AppendDetail
+    {
+
+        /// <summary>
+        /// <para>Идентификатор SSCC</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор SSCC")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public string Sscc { get; set; }
+
+        [System.Xml.Serialization.XmlElementAttribute("content")]
+        public Multi_Unit_AppendInfo_AppendDetailContent Content { get; set; }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Multi_Unit_AppendInfo_AppendDetailContent", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Multi_Unit_AppendInfo_AppendDetailContent
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Идентификатор SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sgtin-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sgtin collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SgtinSpecified
+        {
+            get
+            {
+                return (this.Sgtin.Count != 0);
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Multi_Unit_AppendInfo_AppendDetailContent" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Multi_Unit_AppendInfo_AppendDetailContent" /> class.</para>
+        /// </summary>
+        public Multi_Unit_AppendInfo_AppendDetailContent()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+            this._sscc = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sscc;
+
+        /// <summary>
+        /// <para>Идентификатор SSCC</para>
+        /// <para>Индивидуальный серийный номер третичной/транспортной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{18}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор SSCC")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{18}")]
+        [System.Xml.Serialization.XmlElementAttribute("sscc")]
+        public System.Collections.ObjectModel.Collection<string> Sscc
+        {
+            get
+            {
+                return this._sscc;
+            }
+            private set
+            {
+                this._sscc = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Sscc-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the Sscc collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool SsccSpecified
+        {
+            get
+            {
+                return (this.Sscc.Count != 0);
+            }
+        }
+    }
+
+    /// <summary>
     /// <para>Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)</para>
     /// </summary>
     [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)")]
@@ -16492,6 +19586,166 @@ namespace MdlpApiClient.Xsd
         /// <para xml:lang="en">Initializes a new instance of the <see cref="Code_EmissionSigns" /> class.</para>
         /// </summary>
         public Code_EmissionSigns()
+        {
+            this._sgtin = new System.Collections.ObjectModel.Collection<string>();
+        }
+    }
+
+    /// <summary>
+    /// <para>Регистрация в ИС МДЛП сведений об отбраковке (информация от СУЗ)</para>
+    /// </summary>
+    [System.ComponentModel.DescriptionAttribute("Регистрация в ИС МДЛП сведений об отбраковке (информация от СУЗ)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("skzkm_report_of_dropout", Namespace="")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Skzkm_Report_Of_Dropout
+    {
+
+        /// <summary>
+        /// <para>Идентификатор организации-отправителя</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор организации-отправителя")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("subject_id")]
+        public string Subject_Id { get; set; }
+
+        /// <summary>
+        /// <para>Дата совершения операции</para>
+        /// <para>Тип "Дата со временем" (с временной зоной)</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0001-01-01T00:00:00Z.</para>
+        /// <para xml:lang="en">Pattern: ((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\.[0-9]+)?(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Дата совершения операции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("((000[1-9])|(00[1-9][0-9])|(0[1-9][0-9]{2})|([1-9][0-9]{3}))-((0[1-9])|(1[012]))-" +
+            "((0[1-9])|([12][0-9])|(3[01]))T(([01][0-9])|(2[0-3]))(:[0-5][0-9]){2}(\\.[0-9]+)?" +
+            "(([+-]((((0[0-9])|(1[0-3]))(:[0-5][0-9]))|14:00))|Z)")]
+        [System.Xml.Serialization.XmlElementAttribute("operation_date", DataType="dateTime")]
+        public System.DateTime Operation_Date { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор СУЗ</para>
+        /// <para>GUID</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор СУЗ")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("oms_id")]
+        public string Oms_Id { get; set; }
+
+        /// <summary>
+        /// <para>Идентификатор заказа СУЗ</para>
+        /// <para>GUID</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор заказа СУЗ")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("oms_order_id")]
+        public string Oms_Order_Id { get; set; }
+
+        /// <summary>
+        /// <para>Причина списания</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Причина списания")]
+        [System.Xml.Serialization.XmlElementAttribute("dropout_reason")]
+        public MdlpApiClient.Xsd.Dropout_Reason_Type_Enum Dropout_Reason { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _order_Details;
+
+        /// <summary>
+        /// <para>Список продукции</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Список продукции")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlArrayAttribute("order_details")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Order_Details
+        {
+            get
+            {
+                return this._order_Details;
+            }
+            private set
+            {
+                this._order_Details = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Skzkm_Report_Of_Dropout" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Skzkm_Report_Of_Dropout" /> class.</para>
+        /// </summary>
+        public Skzkm_Report_Of_Dropout()
+        {
+            this._order_Details = new System.Collections.ObjectModel.Collection<string>();
+        }
+
+        /// <summary>
+        /// <para>Информация об устройстве РЭ или РВ</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Информация об устройстве РЭ или РВ")]
+        [System.Xml.Serialization.XmlElementAttribute("device_info")]
+        public MdlpApiClient.Xsd.Skzkm_Info_Type Device_Info { get; set; }
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private int _action_Id = 10305;
+
+        [System.Xml.Serialization.XmlAttributeAttribute("action_id")]
+        public int Action_Id
+        {
+            get
+            {
+                return this._action_Id;
+            }
+            set
+            {
+                this._action_Id = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "2.0.349.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("Skzkm_Report_Of_DropoutOrder_Details", Namespace="", AnonymousType=true)]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Skzkm_Report_Of_DropoutOrder_Details
+    {
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<string> _sgtin;
+
+        /// <summary>
+        /// <para>Номер SGTIN</para>
+        /// <para>Индивидуальный серийный номер вторичной упаковки</para>
+        /// <para xml:lang="en">Pattern: [0-9]{14}[!-"%-/0-9A-Z_a-z]{13}.</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Номер SGTIN")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("[0-9]{14}[!-\"%-/0-9A-Z_a-z]{13}")]
+        [System.Xml.Serialization.XmlElementAttribute("sgtin")]
+        public System.Collections.ObjectModel.Collection<string> Sgtin
+        {
+            get
+            {
+                return this._sgtin;
+            }
+            private set
+            {
+                this._sgtin = value;
+            }
+        }
+
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="Skzkm_Report_Of_DropoutOrder_Details" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="Skzkm_Report_Of_DropoutOrder_Details" /> class.</para>
+        /// </summary>
+        public Skzkm_Report_Of_DropoutOrder_Details()
         {
             this._sgtin = new System.Collections.ObjectModel.Collection<string>();
         }
@@ -17749,6 +21003,16 @@ namespace MdlpApiClient.Xsd
         public string Control_Id { get; set; }
 
         /// <summary>
+        /// <para>Идентификатор местонахождения товара в зоне таможенного контроля</para>
+        /// <para>Идентификатор субъекта обращения (GUID)</para>
+        /// <para xml:lang="en">Pattern: ([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("Идентификатор местонахождения товара в зоне таможенного контроля")]
+        [System.ComponentModel.DataAnnotations.RegularExpressionAttribute("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})")]
+        [System.Xml.Serialization.XmlElementAttribute("custom_receiver_id")]
+        public string Custom_Receiver_Id { get; set; }
+
+        /// <summary>
         /// <para>Номер производственной серии</para>
         /// <para>Номер производственной серии</para>
         /// <para xml:lang="en">Minimum length: 1.</para>
@@ -18122,6 +21386,20 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Booking_Sscc Booking_Sscc { get; set; }
 
         /// <summary>
+        /// <para>220 - Запрос информации об иерархии вложенности SSCC</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("220 - Запрос информации об иерархии вложенности SSCC")]
+        [System.Xml.Serialization.XmlElementAttribute("query_hierarchy_info")]
+        public MdlpApiClient.Xsd.Query_Hierarchy_Info Query_Hierarchy_Info { get; set; }
+
+        /// <summary>
+        /// <para>221 - Результат запроса информации об иерархии вложенности SSCC</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("221 - Результат запроса информации об иерархии вложенности SSCC")]
+        [System.Xml.Serialization.XmlElementAttribute("hierarchy_info")]
+        public MdlpApiClient.Xsd.Hierarchy_Info Hierarchy_Info { get; set; }
+
+        /// <summary>
         /// <para>250 - Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственной операции</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("250 - Регистрация в ИС МДЛП сведений об отмене ранее зарегистрированной собственн" +
@@ -18154,6 +21432,21 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Change_Information Change_Information { get; set; }
 
         /// <summary>
+        /// <para>254 - Регистрация в ИС МДЛП сведений о корректировке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("254 - Регистрация в ИС МДЛП сведений о корректировке")]
+        [System.Xml.Serialization.XmlElementAttribute("change_property")]
+        public MdlpApiClient.Xsd.Change_Property Change_Property { get; set; }
+
+        /// <summary>
+        /// <para>300 - Регистрация держателем РУ (или его представительством) сведений о передаче кодов маркировки таможенному складу в ИС МДЛП</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("300 - Регистрация держателем РУ (или его представительством) сведений о передаче " +
+            "кодов маркировки таможенному складу в ИС МДЛП")]
+        [System.Xml.Serialization.XmlElementAttribute("transfer_code_to_custom")]
+        public MdlpApiClient.Xsd.Transfer_Code_To_Custom Transfer_Code_To_Custom { get; set; }
+
+        /// <summary>
         /// <para>311 - Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("311 - Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки")]
@@ -18174,6 +21467,14 @@ namespace MdlpApiClient.Xsd
             "уска готовой продукции")]
         [System.Xml.Serialization.XmlElementAttribute("move_to_release")]
         public MdlpApiClient.Xsd.Move_To_Release Move_To_Release { get; set; }
+
+        /// <summary>
+        /// <para>315 - Регистрация в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("315 - Регистрация в ИС МДЛП сведений о возврате лекарственных препаратов контракт" +
+            "ному производителю")]
+        [System.Xml.Serialization.XmlElementAttribute("return_contract_production")]
+        public MdlpApiClient.Xsd.Return_Contract_Production Return_Contract_Production { get; set; }
 
         /// <summary>
         /// <para>321 - Регистрация в ИС МДЛП сведений о выпуске готовой продукции за пределами территории Российской Федерации</para>
@@ -18223,6 +21524,14 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Fts_Data Fts_Data { get; set; }
 
         /// <summary>
+        /// <para>336 -Регистрация держателем РУ (или его представительством) сведений об условиях ввоза в Российскую Федерацию ЛП, маркированных на таможенном складе, в ИС МДЛП</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("336 -Регистрация держателем РУ (или его представительством) сведений об условиях " +
+            "ввоза в Российскую Федерацию ЛП, маркированных на таможенном складе, в ИС МДЛП")]
+        [System.Xml.Serialization.XmlElementAttribute("import_info")]
+        public MdlpApiClient.Xsd.Import_Info Import_Info { get; set; }
+
+        /// <summary>
         /// <para>341 - Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад импортера</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("341 - Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов на склад " +
@@ -18231,7 +21540,7 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Receive_Importer Receive_Importer { get; set; }
 
         /// <summary>
-        /// <para>342 - Регистрация  в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</para>
+        /// <para>342 - Регистрация в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("342 - Регистрация в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ")]
         [System.Xml.Serialization.XmlElementAttribute("release_in_circulation")]
@@ -18372,6 +21681,13 @@ namespace MdlpApiClient.Xsd
             "да отправителя в рамках агентского договора")]
         [System.Xml.Serialization.XmlElementAttribute("agent_dispatch")]
         public MdlpApiClient.Xsd.Agent_Dispatch Agent_Dispatch { get; set; }
+
+        /// <summary>
+        /// <para>481 - Регистрация в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("481 - Регистрация в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража")]
+        [System.Xml.Serialization.XmlElementAttribute("arbitration")]
+        public MdlpApiClient.Xsd.Arbitration Arbitration { get; set; }
 
         /// <summary>
         /// <para>511 - Регистрация в ИС МДЛП сведений о продаже лекарственного препарата в рамках розничной торговли</para>
@@ -18555,6 +21871,37 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Agent_Dispatch_Notification Agent_Dispatch_Notification { get; set; }
 
         /// <summary>
+        /// <para>620 - Уведомление импортера о регистрации в ИС МДЛП сведений об условиях ввоза ЛП держателем РУ (или его представительством)</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("620 - Уведомление импортера о регистрации в ИС МДЛП сведений об условиях ввоза ЛП" +
+            " держателем РУ (или его представительством)")]
+        [System.Xml.Serialization.XmlElementAttribute("import_info_notification")]
+        public MdlpApiClient.Xsd.Import_Info_Notification Import_Info_Notification { get; set; }
+
+        /// <summary>
+        /// <para>621 - Уведомление о регистрации в ИС МДЛП сведений о постановке в арбитраж/снятие арбитража</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("621 - Уведомление о регистрации в ИС МДЛП сведений о постановке в арбитраж/снятие" +
+            " арбитража")]
+        [System.Xml.Serialization.XmlElementAttribute("arbitration_notification")]
+        public MdlpApiClient.Xsd.Arbitration_Notification Arbitration_Notification { get; set; }
+
+        /// <summary>
+        /// <para>622 - Уведомление о регистрации в ИС МДЛП сведений о возврате лекарственных препаратов контрактному производителю</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("622 - Уведомление о регистрации в ИС МДЛП сведений о возврате лекарственных препа" +
+            "ратов контрактному производителю")]
+        [System.Xml.Serialization.XmlElementAttribute("return_contract_production_notification")]
+        public MdlpApiClient.Xsd.Return_Contract_Production_Notification Return_Contract_Production_Notification { get; set; }
+
+        /// <summary>
+        /// <para>623 - Уведомление о регистрация в ИС МДЛП сведений о корректировке</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("623 - Уведомление о регистрация в ИС МДЛП сведений о корректировке")]
+        [System.Xml.Serialization.XmlElementAttribute("change_property_notification")]
+        public MdlpApiClient.Xsd.Change_Property_Notification Change_Property_Notification { get; set; }
+
+        /// <summary>
         /// <para>701 - Регистрация в ИС МДЛП подтверждения (акцептования) сведений</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("701 - Регистрация в ИС МДЛП подтверждения (акцептования) сведений")]
@@ -18610,11 +21957,26 @@ namespace MdlpApiClient.Xsd
         public MdlpApiClient.Xsd.Multi_Pack Multi_Pack { get; set; }
 
         /// <summary>
+        /// <para>916 - Регистрация в ИС МДЛП сведений о дополнительном вложении во множество третичных (заводских, транспортных) упаковок</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("916 - Регистрация в ИС МДЛП сведений о дополнительном вложении во множество трети" +
+            "чных (заводских, транспортных) упаковок")]
+        [System.Xml.Serialization.XmlElementAttribute("multi_unit_append")]
+        public MdlpApiClient.Xsd.Multi_Unit_Append Multi_Unit_Append { get; set; }
+
+        /// <summary>
         /// <para>10300 - Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)</para>
         /// </summary>
         [System.ComponentModel.DescriptionAttribute("10300 - Регистрация в ИС МДЛП сведений об эмиссии (информация от СУЗ)")]
         [System.Xml.Serialization.XmlElementAttribute("code_emission")]
         public MdlpApiClient.Xsd.Code_Emission Code_Emission { get; set; }
+
+        /// <summary>
+        /// <para>10305 - Регистрация в ИС МДЛП сведений об отбраковке (информация от СУЗ)</para>
+        /// </summary>
+        [System.ComponentModel.DescriptionAttribute("10305 - Регистрация в ИС МДЛП сведений об отбраковке (информация от СУЗ)")]
+        [System.Xml.Serialization.XmlElementAttribute("skzkm_report_of_dropout")]
+        public MdlpApiClient.Xsd.Skzkm_Report_Of_Dropout Skzkm_Report_Of_Dropout { get; set; }
 
         /// <summary>
         /// <para>10311 - Регистрация в ИС МДЛП сведений о завершении этапа окончательной упаковки (информация с СКЗКМ)</para>

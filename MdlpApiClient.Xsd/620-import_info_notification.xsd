@@ -3,17 +3,22 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<xs:include schemaLocation="base_ref.xsd"/>
 	<xs:include schemaLocation="base_types.xsd"/>
-	<xs:complexType name="agent_dispatch">
+	<xs:complexType name="import_info_notification">
 		<xs:annotation>
-			<xs:documentation>Регистрация в ИС МДЛП сведений об отгрузке лекарственных препаратов со склада отправителя в рамках агентского договора</xs:documentation>
+			<xs:documentation>Уведомление импортера о регистрации в ИС МДЛП сведений об условиях ввоза ЛП держателем РУ (или его представительством)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="subject_id" type="subject_id_type">
+			<xs:element name="subject_id" type="system_subject_type">
 				<xs:annotation>
 					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="receiver_id" type="subject_id_type">
+			<xs:element name="seller_id" type="system_subject_type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор продавца</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="receiver_id" type="system_subject_type">
 				<xs:annotation>
 					<xs:documentation>Идентификатор организации-получателя</xs:documentation>
 				</xs:annotation>
@@ -23,24 +28,32 @@
 					<xs:documentation>Дата совершения операции</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="turnover_type" type="turnover_type_enum" minOccurs="0">
+			<xs:element name="contract_type">
 				<xs:annotation>
-					<xs:documentation>Тип операции отгрузки со склада</xs:documentation>
+					<xs:documentation>Тип договора</xs:documentation>
 				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="contract_type_enum">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:element>
 			<xs:element name="doc_num" type="document_number_200_type">
 				<xs:annotation>
-					<xs:documentation>Реквизиты документа основания: номер документа</xs:documentation>
+					<xs:documentation>Реквизиты первичного документа: номер документа</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="doc_date" type="date_type">
 				<xs:annotation>
-					<xs:documentation>Реквизиты документа основания: дата документа</xs:documentation>
+					<xs:documentation>Реквизиты первичного документа: дата документа</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="order_details">
 				<xs:annotation>
-					<xs:documentation>Список передаваемой продукции</xs:documentation>
+					<xs:documentation>Список отгружаемой продукции</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:choice maxOccurs="25000">
@@ -56,16 +69,16 @@
 						</xs:element>
 					</xs:choice>
 				</xs:complexType>
-				<xs:unique name="ux_agent_desp_sgtin">
+				<xs:unique name="ux_import_info_notification_sgtin">
 					<xs:selector xpath="sgtin"/>
 					<xs:field xpath="."/>
 				</xs:unique>
-				<xs:unique name="ux_agent_desp_sscc">
+				<xs:unique name="ux_import_info_notification_sscc">
 					<xs:selector xpath="sscc"/>
 					<xs:field xpath="."/>
 				</xs:unique>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="action_id" type="xs:int" use="required" fixed="472"/>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="620"/>
 	</xs:complexType>
 </xs:schema>
