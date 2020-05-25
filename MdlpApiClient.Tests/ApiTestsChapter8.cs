@@ -214,14 +214,23 @@
         }
 
         [Test]
+        public void Chapter8_03_2_GetSgtins_EmptyListIsNotAllowed()
+        {
+            var ex = Assert.Throws<MdlpException>(() => Client.GetSgtins());
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+            Assert.That(ex.Message, Is.AnyOf(
+               "Error during operation",
+               "Ошибка при выполнении операции"));
+        }
+
+        [Test]
         public void Chapter8_03_3_GetPublicSgtins()
         {
-            var sgtins = Client.GetPublicSgtins(new[]
-            {
+            var sgtins = Client.GetPublicSgtins(
                 "04607028394287PQ28I2DHQDF1V", // найдется
                 "611700126101510000000001311", // найдется
                 "61170012610151000000000131V" // не найдется
-            });
+            );
 
             Assert.IsNotNull(sgtins);
             Assert.AreEqual(3, sgtins.Total);
@@ -245,6 +254,16 @@
 
             var failed = sgtins.FailedEntries[0];
             Assert.AreEqual("61170012610151000000000131V", failed);
+        }
+
+        [Test]
+        public void Chapter8_03_3_GetPublicSgtins_EmptyListIsNotAllowed()
+        {
+            var ex = Assert.Throws<MdlpException>(() => Client.GetPublicSgtins());
+            Assert.AreEqual(HttpStatusCode.BadRequest, ex.StatusCode);
+            Assert.That(ex.Message, Is.AnyOf(
+               "Error during operation",
+               "Ошибка при выполнении операции"));
         }
 
         [Test]

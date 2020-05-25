@@ -3,6 +3,7 @@
     using System;
     using System.Net;
     using DataContracts;
+    using MdlpApiClient.Toolbox;
     using RestSharp;
     using ServiceStack.Text;
 
@@ -165,7 +166,7 @@
         /// </summary>
         /// <param name="sgtins">Список КИЗ для поиска (не более 500 значений)</param>
         /// <returns>Список КИЗ</returns>
-        public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(string[] sgtins)
+        public EntriesFailedResponse<PublicSgtin, string> GetPublicSgtins(params string[] sgtins)
         {
             RequestRate(1.5); // 88, сказано 1
 
