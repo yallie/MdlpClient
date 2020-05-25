@@ -652,6 +652,7 @@
 
         private Documents CreateDocument210(string senderId, string sgtin = null, string ssccUp = null, string ssccDown = null)
         {
+            // Схема 210 устарела и будет вскоре удалена
             // создаем запрос содержимого упаковки
             // в этом документе надо указывать одно из трех: либо SGTIN, либо SSCC up, либо SSCC down
             var doc = new Documents();
@@ -667,7 +668,7 @@
         }
 
         [Test, Explicit("Schema210 is obsolete and will be replaced with schema 220")]
-        public void SendDocument210ToSandbox()
+        public void SendDocument210WithSgtinAndSsccToSandbox()
         {
             // Документ 210 возвращает информацию о содержимом короба, либо о КИЗ
             // из личного кабинета тестового участника-Типографии
@@ -695,21 +696,51 @@
             WriteLine("Sent document 210: {0}", docId);
         }
 
+        [Test, Explicit("Schema210 is obsolete and will be replaced with schema 220")]
+        public void SendDocument210WithSsccDownToSandbox()
+        {
+            // Документ 210 возвращает информацию о содержимом короба, либо о КИЗ
+            // из личного кабинета тестового участника-Типографии
+            // берем код места деятельности, расположенного по адресу:
+            // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+            // отсюда делалась отправка ЛП
+            var senderId = "00000000104494";
+
+            // Идентификатор SSCC из документа 915 (он же был в документах 415 и 601)
+            var sscc = "507540413987451236";
+
+            // Пошлем документ, в данном случае получили код:
+            var doc210 = CreateDocument210(senderId, ssccDown: sscc);
+            var docId = Client.SendDocument(doc210);
+            WriteLine("Sent document 210: {0}", docId);
+        }
+
         [Test]
         public void GetDocument210FromSandbox()
         {
             // Код отправленного документа схемы 210:
             // "734a0898-0c10-487e-af6b-cf7fb3ef050f");
             // "f1bdc175 -3740-4a4e-b7dd-bbb61c140d4c");
-            var doc = Client.GetDocumentMetadata("f44d0b72-7259-499c-859d-a50b4c6232e4");
+            // "f44d0b72-7259-499c-859d-a50b4c6232e4"
+            // "7db0d364-6577-4699-aa22-a6dbe7f3184c"
+            var doc = Client.GetDocumentMetadata("7db0d364-6577-4699-aa22-a6dbe7f3184c");
             WriteLine(doc.DocStatus);
 
             // ответ на схему 210 — схема 211, получаем ее как квитанцию к документу
             var ticket = Client.GetTicket(doc.DocumentID);
             Assert.NotNull(ticket.Kiz_Info);
-            Assert.NotNull(ticket.Kiz_Info.Sgtin);
-            Assert.NotNull(ticket.Kiz_Info.Sgtin.Info_Sgtin);
-            Assert.AreEqual("50754041398745", ticket.Kiz_Info.Sgtin.Info_Sgtin.Gtin);
+
+            // если был запрос SGTIN, то было бы заполнено следующее:
+            //Assert.NotNull(ticket.Kiz_Info.Sgtin);
+            //Assert.NotNull(ticket.Kiz_Info.Sgtin.Info_Sgtin);
+            //Assert.AreEqual("50754041398745", ticket.Kiz_Info.Sgtin.Info_Sgtin.Gtin);
+
+            // запрос по коду третичной упаковки
+            Assert.NotNull(ticket.Kiz_Info.Sscc_Down);
+            Assert.IsTrue(ticket.Kiz_Info.Sscc_Down.Any());
+            Assert.NotNull(ticket.Kiz_Info.Sscc_Down[0]);
+            Assert.NotNull(ticket.Kiz_Info.Sscc_Down[0].Sgtin);
+            Assert.IsTrue(ticket.Kiz_Info.Sscc_Down.Any(s => s.Sgtin.Info_Sgtin.Sgtin == "507540413987451234567906123"));
         }
 
         [Test]

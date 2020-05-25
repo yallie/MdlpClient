@@ -88,5 +88,27 @@
             var doc = Client.GetTicketText(docId);
             Assert.NotNull(doc);
         }
+
+        [Test]
+        public void TestStage_UploadedDocumentIsImmediatelyAvailableForDownload()
+        {
+            var xml = @"<documents 
+              xmlns:by=""https://www.nuget.org/packages/MdlpApiClient/1.3.0"" 
+              xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
+              xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
+              version=""1.34"">
+              <query_kiz_info action_id=""210"">
+                <subject_id>00000000104494</subject_id>
+                <sgtin>507540413987451234567906123</sgtin>
+              </query_kiz_info>
+            </documents>";
+
+            var docId = Client.SendDocument(xml);
+            WriteLine("Uploaded document: {0}", docId);
+
+            // may throw 404 NotFound?
+            var md = Client.GetDocumentMetadata(docId);
+            Assert.NotNull(md);
+        }
     }
 }
