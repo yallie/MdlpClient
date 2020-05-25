@@ -644,6 +644,56 @@
             Assert.AreEqual("507540413987451236", details.Sscc[0]);
         }
 
+        private Documents CreateDocument210(string senderId, string sgtin, string sscc)
+        {
+            // создаем запрос содержимого упаковки
+            var doc = new Documents();
+            doc.Query_Kiz_Info = new Query_Kiz_Info
+            {
+                Subject_Id = senderId,
+                Sgtin = sgtin,
+                Sscc_Down = sscc,
+                Sscc_Up = sscc,
+            };
+
+            return doc;
+        }
+
+        [Test, Explicit]
+        public void SendDocument210ToSandbox()
+        {
+            // Документ 210 возвращает информацию о содержимом короба, либо о КИЗ
+            // из личного кабинета тестового участника-Типографии
+            // берем код места деятельности, расположенного по адресу:
+            // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+            // отсюда делалась отправка ЛП
+            var senderId = "00000000104494";
+
+            // Код препарата. GTIN – указывается из реестра ЛП тестового участника
+            // из личного кабинета тестового участника-Типографии берем ЛП: Найзин
+            var gtin = "50754041398745";
+
+            // SGTIN = GTIN + S/N
+            var sgtin = gtin + "1234567906123";
+
+            // Идентификатор SSCC из документа 915 (он же был в документах 415 и 601)
+            var sscc = "507540413987451236";
+
+            // Пошлем документ (в данном случае получили код 89219f2a-f1db-4d2d-bcfb-05274c2188cd)
+            var doc210 = CreateDocument210(senderId, sgtin, sscc);
+            var docId = Client.SendDocument(doc210);
+            WriteLine("Sent document 210: {0}", docId);
+        }
+
+        [Test]
+        public void GetDocument210FromSandbox()
+        {
+            var doc = Client.GetDocumentMetadata("89219f2a-f1db-4d2d-bcfb-05274c2188cd");
+            WriteLine(doc.DocStatus);
+            var ticket = Client.GetTicket(doc.DocumentID);
+            Assert.AreEqual(Operation_Result_Type_Enum.Rejected, ticket.Result.Operation_Result);
+        }
+
         [Test]
         public void Sandbox_Issue_SimilarToTest_TestServer_IssueSR00497874()
         {

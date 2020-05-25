@@ -876,5 +876,17 @@
             var xml = XmlSerializationHelper.Serialize(doc701, " Подтверждение из Автомойки ");
             WriteLine(xml);
         }
+
+        [Test]
+        public void XmlSerializationHelperSetsXsdSchemaVersionIfNotSpecified()
+        {
+            var doc = new Documents();
+            Assert.True(string.IsNullOrWhiteSpace(doc.Version));
+
+            var xml = XmlSerializationHelper.Serialize(doc);
+            doc = XmlSerializationHelper.Deserialize(xml);
+            Assert.False(string.IsNullOrWhiteSpace(doc.Version));
+            Assert.AreEqual(XmlSerializationHelper.DocumentSchemaVersion, doc.Version);
+        }
     }
 }

@@ -29223,6 +29223,11 @@ namespace MdlpApiClient.Serialization
     public static class XmlSerializationHelper
     {
         /// <summary>
+        /// Gets or sets current document XSD schema version.
+        /// </summary>
+        public static string DocumentSchemaVersion { get; set; } = "1.34";
+
+        /// <summary>
         /// Deserializes the given XML document.
         /// </summary>
         /// <param name="docXml">XML document to deserialize.</param>
@@ -29244,6 +29249,12 @@ namespace MdlpApiClient.Serialization
         /// <returns>Serialized XML document.</returns>
         public static string Serialize(Documents doc, string comments = null)
         {
+            // make sure that document schema version is specified
+            if (string.IsNullOrWhiteSpace(doc.Version))
+            {
+                doc.Version = DocumentSchemaVersion;
+            }
+
             var serializer = new XmlSerializer(typeof(Documents));
             using (var writer = new StringWriter())
             {
