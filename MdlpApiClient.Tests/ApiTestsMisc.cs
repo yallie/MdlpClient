@@ -76,7 +76,7 @@
             {
                 //DocType = 607,
                 DocStatus = DocStatusEnum.PROCESSED_DOCUMENT,
-                ProcessedDateFrom = new DateTime(2020, 05, 23, 0, 30, 00)
+                ProcessedDateFrom = new DateTime(2020, 05, 26, 10, 30, 00)
             }, 0, 1);
             Assert.NotNull(docs);
             Assert.NotNull(docs.Documents);
