@@ -44,15 +44,23 @@
             CR + "}" + CR;
         }
 
-        internal static string FormatBody(string content)
+        internal static string FormatBody(string content, bool isJson = true)
         {
             if (string.IsNullOrWhiteSpace(content))
             {
                 return string.Empty;
             }
 
-            return "body: " + JsonFormatter.FormatJson(content) + CR;
+            if (isJson)
+            {
+               return "body: " + JsonFormatter.FormatJson(content) + CR;
+            }
+
+            return "body:" + CR + content + CR;
         }
+
+        private static bool IsJson(string contentType) =>
+            contentType != null && contentType.IndexOf("json", StringComparison.OrdinalIgnoreCase) >= 0;
 
         internal static string FormatBody(RequestBody body)
         {
@@ -62,7 +70,7 @@
             }
 
             var bodyValue = body.Value + string.Empty;
-            if (body.ContentType != null && body.ContentType.IndexOf("json", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (IsJson(body.ContentType))
             {
                 bodyValue = JsonFormatter.FormatJson(bodyValue);
             }
@@ -73,24 +81,6 @@
         private static bool IsEmpty(RequestBody body)
         {
             return (body == null || body.Value == null || string.Empty.Equals(body.Value));
-        }
-
-        private IEnumerable<Tuple<string, object>> GetHeaders(IRestRequest request)
-        {
-            var headers =
-                from p in request.Parameters
-                where p.Type == ParameterType.HttpHeader
-                select Tuple.Create(p.Name, p.Value);
-
-            if (request.Body != null && !string.IsNullOrWhiteSpace(request.Body.ContentType))
-            {
-                headers = headers.Concat(new[]
-                {
-                    Tuple.Create("Content-type", request.Body.ContentType as object)
-                });
-            }
-
-            return headers;
         }
 
         private IEnumerable<Tuple<string, object>> GetHeaders(IHttp http)
@@ -108,25 +98,6 @@
             }
 
             return headers;
-        }
-
-        private void Trace(IRestRequest request)
-        {
-            var tracer = Tracer;
-            if (tracer != null)
-            {
-                var method = request.Method.ToString();
-                var uri = Client.BuildUri(request);
-                var body = FormatBody(request.Body);
-                var headers = FormatHeaders(GetHeaders(request));
-
-                tracer("-> {0} {1}{2}{3}{4}", new object[]
-                {
-                    method, uri, CR,
-                    headers,
-                    body,
-                });
-            }
         }
 
         private void Trace(IHttp http, IRestRequest request)
@@ -220,7 +191,7 @@
                 var timings = FormatTimings(response);
                 var headerList = response.Headers.Select(p => Tuple.Create(p.Name, p.Value));
                 var headers = FormatHeaders(headerList);
-                var body = FormatBody(response.Content);
+                var body = FormatBody(response.Content, IsJson(response.ContentType));
                 var errorMessage = string.IsNullOrWhiteSpace(response.ErrorMessage) ? string.Empty :
                     "error message: " + response.ErrorMessage + CR;
 
