@@ -27423,6 +27423,11 @@ namespace MdlpApiClient.DataContracts
         public const string MANAGE_BRANCH = "MANAGE_BRANCH";
 
         /// <summary>
+        /// Позволяет взаимодействовать с заявлениями на формирование Договора по предоставлению устройства регистрации эмиссии
+        /// </summary>
+        public const string MANAGE_EMISSION_APPLICATIONS = "MANAGE_EMISSION_APPLICATIONS";
+
+        /// <summary>
         /// Позволяет взаимодействовать с анкетами на РЭ
         /// </summary>
         public const string MANAGE_EMISSION_FORM = "MANAGE_EMISSION_FORM";
@@ -27431,6 +27436,11 @@ namespace MdlpApiClient.DataContracts
         /// Позволяет регистрировать иностранных контрагентов
         /// </summary>
         public const string MANAGE_FOREIGN_COUNTERPARTY = "MANAGE_FOREIGN_COUNTERPARTY";
+
+        /// <summary>
+        /// Позволяет взаимодействовать с анкетами на РЭ с размещением по месту
+        /// </summary>
+        public const string MANAGE_IN_PLACE_EMISSION_FORM = "MANAGE_IN_PLACE_EMISSION_FORM";
 
         /// <summary>
         /// Позволяет регистрировать ЛП и получать список заявок на регистрацию ЛП
@@ -27448,6 +27458,11 @@ namespace MdlpApiClient.DataContracts
         public const string MANAGE_MEMBER_APPLICATIONS = "MANAGE_MEMBER_APPLICATIONS";
 
         /// <summary>
+        /// Позволяет взаимодействовать с заявлениями на формирование Договора на оказание услуг по предоставлению кодов маркировки
+        /// </summary>
+        public const string MANAGE_PAYMENT_APPLICATIONS = "MANAGE_PAYMENT_APPLICATIONS";
+
+        /// <summary>
         /// Позволяет редактировать адрес в лицензиях на фармацевтическую деятельность
         /// </summary>
         public const string MANAGE_PHARM_LICENSE_ADDRESS = "MANAGE_PHARM_LICENSE_ADDRESS";
@@ -27456,6 +27471,16 @@ namespace MdlpApiClient.DataContracts
         /// Позволяет редактировать адрес в лицензиях на производство ЛП
         /// </summary>
         public const string MANAGE_PROD_LICENSE_ADDRESS = "MANAGE_PROD_LICENSE_ADDRESS";
+
+        /// <summary>
+        /// Позволяет взаимодействовать с заявлениями на формирование Договора по предоставлению устройства регистрации эмиссии путем предоставления удаленного доступа
+        /// </summary>
+        public const string MANAGE_REMOTE_EMISSION_APPLICATIONS = "MANAGE_REMOTE_EMISSION_APPLICATIONS";
+
+        /// <summary>
+        /// Позволяет взаимодействовать с анкетами на РЭ с удаленным доступом
+        /// </summary>
+        public const string MANAGE_REMOTE_EMISSION_FORM = "MANAGE_REMOTE_EMISSION_FORM";
 
         /// <summary>
         /// Позволяет добавлять СОХ/МОХ
@@ -27591,6 +27616,11 @@ namespace MdlpApiClient.DataContracts
         /// Получение информации из реестра виртуального склада
         /// </summary>
         public const string REESTR_VIRTUAL_STORAGE = "REESTR_VIRTUAL_STORAGE";
+
+        /// <summary>
+        /// Позволяет заказывать SGTIN
+        /// </summary>
+        public const string SGTIN_ORDER = "SGTIN_ORDER";
 
         /// <summary>
         /// Позволяет загружать документ
@@ -32141,15 +32171,23 @@ namespace MdlpApiClient
             CR + "}" + CR;
         }
 
-        internal static string FormatBody(string content)
+        internal static string FormatBody(string content, bool isJson = true)
         {
             if (string.IsNullOrWhiteSpace(content))
             {
                 return string.Empty;
             }
 
-            return "body: " + JsonFormatter.FormatJson(content) + CR;
+            if (isJson)
+            {
+               return "body: " + JsonFormatter.FormatJson(content) + CR;
+            }
+
+            return "body:" + CR + content + CR;
         }
+
+        private static bool IsJson(string contentType) =>
+            contentType != null && contentType.IndexOf("json", StringComparison.OrdinalIgnoreCase) >= 0;
 
         internal static string FormatBody(RequestBody body)
         {
@@ -32159,7 +32197,7 @@ namespace MdlpApiClient
             }
 
             var bodyValue = body.Value + string.Empty;
-            if (body.ContentType != null && body.ContentType.IndexOf("json", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (IsJson(body.ContentType))
             {
                 bodyValue = JsonFormatter.FormatJson(bodyValue);
             }
@@ -32170,24 +32208,6 @@ namespace MdlpApiClient
         private static bool IsEmpty(RequestBody body)
         {
             return (body == null || body.Value == null || string.Empty.Equals(body.Value));
-        }
-
-        private IEnumerable<Tuple<string, object>> GetHeaders(IRestRequest request)
-        {
-            var headers =
-                from p in request.Parameters
-                where p.Type == ParameterType.HttpHeader
-                select Tuple.Create(p.Name, p.Value);
-
-            if (request.Body != null && !string.IsNullOrWhiteSpace(request.Body.ContentType))
-            {
-                headers = headers.Concat(new[]
-                {
-                    Tuple.Create("Content-type", request.Body.ContentType as object)
-                });
-            }
-
-            return headers;
         }
 
         private IEnumerable<Tuple<string, object>> GetHeaders(IHttp http)
@@ -32205,25 +32225,6 @@ namespace MdlpApiClient
             }
 
             return headers;
-        }
-
-        private void Trace(IRestRequest request)
-        {
-            var tracer = Tracer;
-            if (tracer != null)
-            {
-                var method = request.Method.ToString();
-                var uri = Client.BuildUri(request);
-                var body = FormatBody(request.Body);
-                var headers = FormatHeaders(GetHeaders(request));
-
-                tracer("-> {0} {1}{2}{3}{4}", new object[]
-                {
-                    method, uri, CR,
-                    headers,
-                    body,
-                });
-            }
         }
 
         private void Trace(IHttp http, IRestRequest request)
@@ -32317,7 +32318,7 @@ namespace MdlpApiClient
                 var timings = FormatTimings(response);
                 var headerList = response.Headers.Select(p => Tuple.Create(p.Name, p.Value));
                 var headers = FormatHeaders(headerList);
-                var body = FormatBody(response.Content);
+                var body = FormatBody(response.Content, IsJson(response.ContentType));
                 var errorMessage = string.IsNullOrWhiteSpace(response.ErrorMessage) ? string.Empty :
                     "error message: " + response.ErrorMessage + CR;
 

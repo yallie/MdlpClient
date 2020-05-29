@@ -31,6 +31,11 @@
         public const string MANAGE_BRANCH = "MANAGE_BRANCH";
 
         /// <summary>
+        /// Позволяет взаимодействовать с заявлениями на формирование Договора по предоставлению устройства регистрации эмиссии
+        /// </summary>
+        public const string MANAGE_EMISSION_APPLICATIONS = "MANAGE_EMISSION_APPLICATIONS";
+
+        /// <summary>
         /// Позволяет взаимодействовать с анкетами на РЭ
         /// </summary>
         public const string MANAGE_EMISSION_FORM = "MANAGE_EMISSION_FORM";
@@ -39,6 +44,11 @@
         /// Позволяет регистрировать иностранных контрагентов
         /// </summary>
         public const string MANAGE_FOREIGN_COUNTERPARTY = "MANAGE_FOREIGN_COUNTERPARTY";
+
+        /// <summary>
+        /// Позволяет взаимодействовать с анкетами на РЭ с размещением по месту
+        /// </summary>
+        public const string MANAGE_IN_PLACE_EMISSION_FORM = "MANAGE_IN_PLACE_EMISSION_FORM";
 
         /// <summary>
         /// Позволяет регистрировать ЛП и получать список заявок на регистрацию ЛП
@@ -56,6 +66,11 @@
         public const string MANAGE_MEMBER_APPLICATIONS = "MANAGE_MEMBER_APPLICATIONS";
 
         /// <summary>
+        /// Позволяет взаимодействовать с заявлениями на формирование Договора на оказание услуг по предоставлению кодов маркировки
+        /// </summary>
+        public const string MANAGE_PAYMENT_APPLICATIONS = "MANAGE_PAYMENT_APPLICATIONS";
+
+        /// <summary>
         /// Позволяет редактировать адрес в лицензиях на фармацевтическую деятельность
         /// </summary>
         public const string MANAGE_PHARM_LICENSE_ADDRESS = "MANAGE_PHARM_LICENSE_ADDRESS";
@@ -64,6 +79,16 @@
         /// Позволяет редактировать адрес в лицензиях на производство ЛП
         /// </summary>
         public const string MANAGE_PROD_LICENSE_ADDRESS = "MANAGE_PROD_LICENSE_ADDRESS";
+
+        /// <summary>
+        /// Позволяет взаимодействовать с заявлениями на формирование Договора по предоставлению устройства регистрации эмиссии путем предоставления удаленного доступа
+        /// </summary>
+        public const string MANAGE_REMOTE_EMISSION_APPLICATIONS = "MANAGE_REMOTE_EMISSION_APPLICATIONS";
+
+        /// <summary>
+        /// Позволяет взаимодействовать с анкетами на РЭ с удаленным доступом
+        /// </summary>
+        public const string MANAGE_REMOTE_EMISSION_FORM = "MANAGE_REMOTE_EMISSION_FORM";
 
         /// <summary>
         /// Позволяет добавлять СОХ/МОХ
@@ -199,6 +224,11 @@
         /// Получение информации из реестра виртуального склада
         /// </summary>
         public const string REESTR_VIRTUAL_STORAGE = "REESTR_VIRTUAL_STORAGE";
+
+        /// <summary>
+        /// Позволяет заказывать SGTIN
+        /// </summary>
+        public const string SGTIN_ORDER = "SGTIN_ORDER";
 
         /// <summary>
         /// Позволяет загружать документ
