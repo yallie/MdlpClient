@@ -8,7 +8,7 @@
         /// <summary>
         /// Позволяет удалять черновики.
         /// </summary>
-        public const string DELETE_DRAFTS = "DELETE_DRAFTS";
+        internal const string DELETE_DRAFTS = "DELETE_DRAFTS";
 
         /// <summary>
         /// Позволяет по идентификатору документа получить ссылку на документ.

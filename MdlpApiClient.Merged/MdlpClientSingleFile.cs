@@ -27398,6 +27398,11 @@ namespace MdlpApiClient.DataContracts
     public class RightsEnum
     {
         /// <summary>
+        /// Позволяет удалять черновики.
+        /// </summary>
+        internal const string DELETE_DRAFTS = "DELETE_DRAFTS";
+
+        /// <summary>
         /// Позволяет по идентификатору документа получить ссылку на документ.
         /// </summary>
         public const string DOWNLOAD_DOCUMENT = "DOWNLOAD_DOCUMENT";
