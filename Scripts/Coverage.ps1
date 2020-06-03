@@ -9,7 +9,7 @@ codecov -t "064fad14-0241-4b7a-9c86-ab7b5ed067a3" -f MdlpCoverage.xml
 
 # convert trx reports to JUnit format so Gitlab can parse them
 trx2junit MdlpApiClient.Tests\TestResults\TestResults.trx
-TestReportPrefix.ps1 -inputFileName MdlpApiClient.Tests\TestResults\TestResults.xml -outputFileName MdlpApiClient.Tests\TestResults\TestResults.xml -prefix "Normal."
+& 'TestReportPrefix.ps1' -inputFileName MdlpApiClient.Tests\TestResults\TestResults.xml -outputFileName MdlpApiClient.Tests\TestResults\TestResults.xml -prefix "Normal."
 
 # make sure we don't fail on REST methods that need long timeouts
 Wait-Event -Timeout 20
@@ -18,7 +18,7 @@ Wait-Event -Timeout 20
 dotnet.exe test MdlpApiClient.Merged.Tests --logger="trx;LogFileName=TestResultsMerged.trx"
 $exit2 = $lastexitcode
 trx2junit MdlpApiClient.Merged.Tests\TestResults\TestResultsMerged.trx
-TestReportPrefix.ps1 -inputFileName MdlpApiClient.Merged.Tests\TestResults\TestResultsMerged.xml -outputFileName MdlpApiClient.Merged.Tests\TestResults\TestResultsSingleFile.trx -prefix "Merged."
+& 'TestReportPrefix.ps1' -inputFileName MdlpApiClient.Merged.Tests\TestResults\TestResultsMerged.xml -outputFileName MdlpApiClient.Merged.Tests\TestResults\TestResultsSingleFile.trx -prefix "Merged."
 
 # return dotnet test exit code
 if (($exit + $exit2) -ne 0)
