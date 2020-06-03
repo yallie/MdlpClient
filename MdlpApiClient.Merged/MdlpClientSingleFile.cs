@@ -26908,6 +26908,56 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
+    /// <summary>
+    /// 4.45. Статусы кодов маркировки в производственной серии
+    /// Таблица 41. Статусы кодов маркировки в производственной серии
+    /// </summary>
+    public class ProductLabeingStatus
+    {
+        /// <summary>
+        /// Производство.
+        /// </summary>
+        public const string PRODUCTION = "PRODUCTION";
+
+        /// <summary>
+        /// Импорт.
+        /// </summary>
+        public const string IMPORT = "IMPORT";
+
+        /// <summary>
+        /// Закупка в России.
+        /// </summary>
+        public const string PURCHASE_IN_RUSSIA = "PURCHASE_IN_RUSSIA";
+
+        /// <summary>
+        /// Розничные продажи.
+        /// </summary>
+        public const string RETAIL_SALE = "RETAIL_SALE";
+
+        /// <summary>
+        /// Отпуск по льготным рецептам.
+        /// </summary>
+        public const string DISCOUNT_SALE = "DISCOUNT_SALE";
+
+        /// <summary>
+        /// Отпуск для оказания мед. помощи.
+        /// </summary>
+        public const string MEDICAL_USE = "MEDICAL_USE";
+
+        /// <summary>
+        /// Оптовые продажи.
+        /// </summary>
+        public const string WHOLESALE = "WHOLESALE";
+
+        /// <summary>
+        /// Прочий вывод.
+        /// </summary>
+        public const string OTHER = "OTHER";
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
     using System;
     using System.Runtime.Serialization;
 
@@ -30996,12 +31046,11 @@ namespace MdlpApiClient
 
 namespace MdlpApiClient
 {
-    using System;
+    using System.Linq;
     using System.Net;
     using DataContracts;
     using MdlpApiClient.Toolbox;
     using RestSharp;
-    using ServiceStack.Text;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 8: MDLP information.
@@ -31309,6 +31358,36 @@ namespace MdlpApiClient
                 Up = HierarchySsccInfoInternal.Convert(result.Up),
                 Down = HierarchySsccInfoInternal.Convert(result.Down),
             };
+        }
+
+        /// <summary>
+        /// 8.4.4. Метод для получения информации о полной иерархии 
+        /// вложенности третичной упаковки для нескольких SSCC
+        /// </summary>
+        /// <param name="ssccs">Список идентификационный код третичной упаковки</param>
+        /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
+        public SsccFullHierarchyResponse<HierarchySsccInfo>[] GetSsccFullHierarchy(string[] ssccs)
+        {
+            if (ssccs.IsNullOrEmpty())
+            {
+                return new SsccFullHierarchyResponse<HierarchySsccInfo>[0];
+            }
+
+            RequestRate(35); // 101, сказано 30
+
+            var ssccList = string.Join(",", ssccs);
+            var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>[]>("reestr/sscc/full-hierarchy", new[]
+            {
+                new Parameter("sscc", ssccList, ParameterType.QueryString),
+            });
+
+            // sort child records and convert to real HierarchySsccInfo items
+            return result.Select(r => new SsccFullHierarchyResponse<HierarchySsccInfo>
+            {
+                Up = HierarchySsccInfoInternal.Convert(r.Up),
+                Down = HierarchySsccInfoInternal.Convert(r.Down),
+            })
+            .ToArray();
         }
 
         /// <summary>
@@ -31958,7 +32037,6 @@ namespace MdlpApiClient
         /// <param name="request">The request to execute.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         internal T Execute<T>(IRestRequest request, string apiMethodName)
-            where T : class, new()
         {
             PrepareRequest(request, apiMethodName);
             var response = Client.Execute<T>(request);
@@ -32005,7 +32083,6 @@ namespace MdlpApiClient
         /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         public T Get<T>(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
-            where T : class, new()
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
             if (!parameters.IsNullOrEmpty())
@@ -32042,7 +32119,6 @@ namespace MdlpApiClient
         /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         public T Post<T>(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
-            where T : class, new()
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);
