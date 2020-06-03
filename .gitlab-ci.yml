@@ -44,7 +44,9 @@ unit_tests:
       - MdlpApiClient.Tests\TestResults\TestResults.trx
       - MdlpApiClient.Tests\TestResults\TestResults.xml
     reports:
-      junit: MdlpApiClient.Tests\TestResults\TestResults.xml
+      junit:
+        - MdlpApiClient.Tests\TestResults\TestResults.xml
+        - MdlpApiClient.Merged.Tests\TestResults\TestResultsSingleFile.xml
     expire_in: 1 day
 
 mirror:
