@@ -19,6 +19,7 @@
     <RepositoryUrl>https://github.com/yallie/MdlpClient.git</RepositoryUrl>
     <!--PackageLicenseExpression>MIT</PackageLicenseExpression-->
     <PackageReleaseNotes>Beta release. What's new:
+
       v1.4.0:
       — Support for XSD v1.35
       — Set default XSD schema version
