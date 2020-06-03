@@ -544,6 +544,39 @@
         }
 
         [Test]
+        public void Chapter8_04_4_GetSsccFullHierarchyForMultipleSsccss()
+        {
+            var l = Client.GetSsccFullHierarchy(new[] { "100000000000000200" });
+            Assert.NotNull(l);
+            Assert.AreEqual(1, l.Length);
+
+            var h = l[0];
+            Assert.NotNull(h.Up);
+            Assert.NotNull(h.Down);
+
+            // validate up hierarchy
+            Assert.AreEqual("000000111100000100", h.Up.Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSgtins.Length);
+            Assert.AreEqual(1, h.Up.ChildSsccs.Length);
+            Assert.AreEqual("000000111100000097", h.Up.ChildSsccs[0].Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSsccs.Length);
+            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSgtins.Length);
+
+            // validate down hierarchy
+            Assert.AreEqual("000000111100000097", h.Down.Sscc);
+            Assert.IsNotNull(h.Down.ChildSsccs);
+            Assert.IsNotNull(h.Down.ChildSgtins);
+            Assert.AreEqual(2, h.Down.ChildSgtins.Length);
+            Assert.AreEqual(0, h.Down.ChildSsccs.Length);
+            Assert.AreEqual("04607028393860G000000001J21", h.Down.ChildSgtins[0].Sgtin);
+            Assert.AreEqual("04607028393860G000000001J22", h.Down.ChildSgtins[1].Sgtin);
+        }
+
+        [Test]
         public void Chapter8_05_1_GetCurrentMedProducts()
         {
             var medProducts = Client.GetCurrentMedProducts(new MedProductsFilter

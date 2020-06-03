@@ -225,7 +225,6 @@
         /// <param name="request">The request to execute.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         internal T Execute<T>(IRestRequest request, string apiMethodName)
-            where T : class, new()
         {
             PrepareRequest(request, apiMethodName);
             var response = Client.Execute<T>(request);
@@ -272,7 +271,6 @@
         /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         public T Get<T>(string url, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
-            where T : class, new()
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
             if (!parameters.IsNullOrEmpty())
@@ -309,7 +307,6 @@
         /// <param name="parameters">IRestRequest parameters.</param>
         /// <param name="apiMethodName">Strong-typed REST API method name, for tracing.</param>
         public T Post<T>(string url, object body, Parameter[] parameters = null, [CallerMemberName] string apiMethodName = null)
-            where T : class, new()
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.AddJsonBody(body);

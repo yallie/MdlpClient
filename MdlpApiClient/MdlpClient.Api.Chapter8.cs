@@ -1,11 +1,10 @@
 ﻿namespace MdlpApiClient
 {
-    using System;
+    using System.Linq;
     using System.Net;
     using DataContracts;
     using MdlpApiClient.Toolbox;
     using RestSharp;
-    using ServiceStack.Text;
 
     /// <remarks>
     /// Strongly typed REST API methods. Chapter 8: MDLP information.
@@ -313,6 +312,36 @@
                 Up = HierarchySsccInfoInternal.Convert(result.Up),
                 Down = HierarchySsccInfoInternal.Convert(result.Down),
             };
+        }
+
+        /// <summary>
+        /// 8.4.4. Метод для получения информации о полной иерархии 
+        /// вложенности третичной упаковки для нескольких SSCC
+        /// </summary>
+        /// <param name="ssccs">Список идентификационный код третичной упаковки</param>
+        /// <returns>Список КИЗ, непосредственно вложенных в указанную третичную упаковку</returns>
+        public SsccFullHierarchyResponse<HierarchySsccInfo>[] GetSsccFullHierarchy(string[] ssccs)
+        {
+            if (ssccs.IsNullOrEmpty())
+            {
+                return new SsccFullHierarchyResponse<HierarchySsccInfo>[0];
+            }
+
+            RequestRate(35); // 101, сказано 30
+
+            var ssccList = string.Join(",", ssccs);
+            var result = Get<SsccFullHierarchyResponse<HierarchySsccInfoInternal>[]>("reestr/sscc/full-hierarchy", new[]
+            {
+                new Parameter("sscc", ssccList, ParameterType.QueryString),
+            });
+
+            // sort child records and convert to real HierarchySsccInfo items
+            return result.Select(r => new SsccFullHierarchyResponse<HierarchySsccInfo>
+            {
+                Up = HierarchySsccInfoInternal.Convert(r.Up),
+                Down = HierarchySsccInfoInternal.Convert(r.Down),
+            })
+            .ToArray();
         }
 
         /// <summary>
