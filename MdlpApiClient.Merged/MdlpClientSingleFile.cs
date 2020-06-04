@@ -22602,6 +22602,132 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 8.13.1. Получение сводной информации распределения ЛП
+    /// Информация о производственных сериях
+    /// </summary>
+    [DataContract]
+    public class BatchInfo
+    {
+        /// <summary>
+        /// Номер производственной серии.
+        /// </summary>
+        [DataMember(Name = "batch")]
+        public string Batch { get; set; }
+
+        /// <summary>
+        /// Дата регистрации производственной серии.
+        /// </summary>
+        [DataMember(Name = "registration_date")]
+        public DateTime RegistrationDate { get; set; }
+
+        /// <summary>
+        /// Количество кодов маркировки в производственной серии.
+        /// </summary>
+        [DataMember(Name = "size")]
+        public int Size { get; set; }
+
+        /// <summary>
+        /// Информация по статусам кодов маркировки в производственной серии, <see cref="BatchStatusInfo"/>.
+        /// </summary>
+        [DataMember(Name = "statuses")]
+        public BatchStatusInfo[] Statuses { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    /// <summary>
+    /// 4.45. Статусы кодов маркировки в производственной серии
+    /// Таблица 41. Статусы кодов маркировки в производственной серии
+    /// </summary>
+    public class BatchStatus
+    {
+        /// <summary>
+        /// Производство.
+        /// </summary>
+        public const string PRODUCTION = "PRODUCTION";
+
+        /// <summary>
+        /// Импорт.
+        /// </summary>
+        public const string IMPORT = "IMPORT";
+
+        /// <summary>
+        /// Закупка в России.
+        /// </summary>
+        public const string PURCHASE_IN_RUSSIA = "PURCHASE_IN_RUSSIA";
+
+        /// <summary>
+        /// Розничные продажи.
+        /// </summary>
+        public const string RETAIL_SALE = "RETAIL_SALE";
+
+        /// <summary>
+        /// Отпуск по льготным рецептам.
+        /// </summary>
+        public const string DISCOUNT_SALE = "DISCOUNT_SALE";
+
+        /// <summary>
+        /// Отпуск для оказания мед. помощи.
+        /// </summary>
+        public const string MEDICAL_USE = "MEDICAL_USE";
+
+        /// <summary>
+        /// Оптовые продажи.
+        /// </summary>
+        public const string WHOLESALE = "WHOLESALE";
+
+        /// <summary>
+        /// Прочий вывод.
+        /// </summary>
+        public const string OTHER = "OTHER";
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.13.1. Получение сводной информации распределения ЛП
+    /// Информация по статусам кодов маркировки в производственной серии
+    /// </summary>
+    [DataContract]
+    public class BatchStatusInfo
+    {
+        /// <summary>
+        /// Статус кодов маркировки в производственной серии, <see cref="BatchStatus"/>.
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = true)]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Наименование организации.
+        /// </summary>
+        [DataMember(Name = "organization_name", IsRequired = true)]
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// Адрес МД/МОХ.
+        /// </summary>
+        [DataMember(Name = "address", IsRequired = false)]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Количество кодов маркировки в данном статусе.
+        /// </summary>
+        [DataMember(Name = "sgtin_amount", IsRequired = false)]
+        public int SgtinAmount { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
     /// 8.9.3. Метод для получения информации о лицевых счетах
     /// Формат объекта BillingAccount
     /// </summary>
@@ -26908,56 +27034,6 @@ namespace MdlpApiClient.DataContracts
 
 namespace MdlpApiClient.DataContracts
 {
-    /// <summary>
-    /// 4.45. Статусы кодов маркировки в производственной серии
-    /// Таблица 41. Статусы кодов маркировки в производственной серии
-    /// </summary>
-    public class ProductLabeingStatus
-    {
-        /// <summary>
-        /// Производство.
-        /// </summary>
-        public const string PRODUCTION = "PRODUCTION";
-
-        /// <summary>
-        /// Импорт.
-        /// </summary>
-        public const string IMPORT = "IMPORT";
-
-        /// <summary>
-        /// Закупка в России.
-        /// </summary>
-        public const string PURCHASE_IN_RUSSIA = "PURCHASE_IN_RUSSIA";
-
-        /// <summary>
-        /// Розничные продажи.
-        /// </summary>
-        public const string RETAIL_SALE = "RETAIL_SALE";
-
-        /// <summary>
-        /// Отпуск по льготным рецептам.
-        /// </summary>
-        public const string DISCOUNT_SALE = "DISCOUNT_SALE";
-
-        /// <summary>
-        /// Отпуск для оказания мед. помощи.
-        /// </summary>
-        public const string MEDICAL_USE = "MEDICAL_USE";
-
-        /// <summary>
-        /// Оптовые продажи.
-        /// </summary>
-        public const string WHOLESALE = "WHOLESALE";
-
-        /// <summary>
-        /// Прочий вывод.
-        /// </summary>
-        public const string OTHER = "OTHER";
-    }
-}
-
-namespace MdlpApiClient.DataContracts
-{
     using System;
     using System.Runtime.Serialization;
 
@@ -29007,6 +29083,30 @@ namespace MdlpApiClient.DataContracts
         /// Не использован.
         /// </summary>
         public const string ELIMINATED = "eliminated";
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.13.1. Получение сводной информации распределения ЛП
+    /// </summary>
+    [DataContract]
+    public class ShortDistribution
+    {
+        /// <summary>
+        /// Уникальный идентификатор GTIN лекарственного препарата.
+        /// </summary>
+        [DataMember(Name = "gtin")]
+        public string Gtin { get; set; }
+
+        /// <summary>
+        /// Информация о производственных сериях, см. <see cref="BatchInfo"/>
+        /// </summary>
+        [DataMember(Name = "batches")]
+        public BatchInfo[] Batches { get; set; }
     }
 }
 
@@ -31733,6 +31833,26 @@ namespace MdlpApiClient
             new[]
             {
                 new Parameter("halt_id", haltId, ParameterType.UrlSegment),
+            });
+        }
+
+        /// <summary>
+        /// 8.13.1. Получение сводной информации распределения ЛП
+        /// </summary>
+        /// <param name="gtin">Код GTIN лекарственного препарата</param>
+        /// <param name="batch">Номер производственной серии (пока поддерживается только одна)</param>
+        /// <returns>Сводная информация о распределении партий ЛП</returns>
+        public EntriesResponse<ShortDistribution> GetBatchShortDistribution(string gtin, string batch)
+        {
+            RequestRate(1); // 102
+
+            return Post<EntriesResponse<ShortDistribution>>("reestr/batches/short-distribution", new
+            {
+                gtin = gtin,
+                batches = new[]
+                {
+                    batch,
+                },
             });
         }
     }

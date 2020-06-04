@@ -543,7 +543,7 @@
             Assert.AreEqual(HttpStatusCode.NotFound, ex.StatusCode);
         }
 
-        [Test]
+        [Test, Ignore("Not yet deployed on the test server")]
         public void Chapter8_04_4_GetSsccFullHierarchyForMultipleSsccss()
         {
             var l = Client.GetSsccFullHierarchy(new[] { "100000000000000200" });
@@ -952,6 +952,17 @@
 
             var list = string.Join(",", sgtins.Entries.Select(e => e.Sgtin));
             Assert.AreEqual("04610020540019SCHEME2600094,04610020540019SCHEME2600095", list);
+        }
+
+        [Test, Ignore("Not yet deployed on the test server")]
+        public void Chapter8_13_1_GetBatchShortDistribution()
+        {
+            var batches = Client.GetBatchShortDistribution("04610020540019", "SCHEME2600094");
+            Assert.NotNull(batches);
+            Assert.NotNull(batches.Entries);
+            Assert.AreEqual(2, batches.Total);
+            Assert.AreEqual(2, batches.Entries.Length);
+            AssertRequiredItems(batches.Entries);
         }
     }
 }
