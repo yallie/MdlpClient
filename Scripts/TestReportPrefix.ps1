@@ -6,8 +6,9 @@
 #
 # powershell /file TestReportPrefix.ps1 -inputFileName in.xml -outputFileName out.xml -prefix MyProject
 
-using assembly System.Xml.Linq
-using namespace System.Xml.Linq
+# Powershell 5.0 is required for using:
+#using assembly System.Xml.Linq
+#using namespace System.Xml.Linq
 
 param (
 	[parameter(Mandatory = $true)] $inputFileName, 
@@ -15,8 +16,10 @@ param (
 	[parameter(Mandatory = $true)] $prefix
 )
 
+$xmlLinq = [System.Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq");
+
 echo "Loading $inputFileName..."
-$xml = [XDocument]::Load($inputFileName)
+$xml = [System.Xml.Linq.XDocument]::Load($inputFileName)
 
 # add prefix to all test suite class names
 ForEach ($suite in $xml.Root.Elements("testsuite")) 
