@@ -4,7 +4,7 @@
     /// 4.45. Статусы кодов маркировки в производственной серии
     /// Таблица 41. Статусы кодов маркировки в производственной серии
     /// </summary>
-    public class ProductLabeingStatus
+    public class BatchStatus
     {
         /// <summary>
         /// Производство.

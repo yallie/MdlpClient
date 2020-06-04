@@ -689,5 +689,23 @@
                 new Parameter("halt_id", haltId, ParameterType.UrlSegment),
             });
         }
+
+        /// <summary>
+        /// 8.13.1. Получение сводной информации распределения ЛП
+        /// </summary>
+        /// <param name="gtin">Код GTIN лекарственного препарата</param>
+        /// <param name="batch">Номер производственной серии</param>
+        /// <returns>Список решений о приостановке КИЗ</returns>
+        public EntriesResponse<ShortDistribution> GetBatchShortDistribution(string gtin, string batch)
+        {
+            return Post<EntriesResponse<ShortDistribution>>("reestr/batches/short-distribution", new
+            {
+                gtin = gtin,
+                batches = new[]
+                {
+                    batch
+                },
+            });
+        }
     }
 }
