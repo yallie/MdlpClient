@@ -32076,7 +32076,7 @@ namespace MdlpApiClient
         {
             // use request parameters to store additional properties, not really used by the requests
             request.AddParameter(ApiTimestampParameterName, DateTime.Now.Ticks, ParameterType.UrlSegment);
-            request.AddParameter(ApiStopwatchParameterName, Stopwatch.StartNew(), ParameterType.UrlSegment);
+            request.AddParameter(ApiTickCountParameterName, Environment.TickCount.ToString(), ParameterType.UrlSegment);
             if (!string.IsNullOrWhiteSpace(apiMethodName))
             {
                 request.AddHeader(ApiMethodNameHeaderName, apiMethodName);
@@ -32335,12 +32335,13 @@ namespace MdlpApiClient
     using RestSharp.Serialization.Json;
     using MdlpApiClient.Toolbox;
     using System.Diagnostics;
+    using System.Globalization;
 
     partial class MdlpClient
     {
         private const string ApiMethodNameHeaderName = "X-ApiMethodName";
         private const string ApiTimestampParameterName = "X-ApiTimestamp";
-        private const string ApiStopwatchParameterName = "X-ApiStopwatch";
+        private const string ApiTickCountParameterName = "X-ApiTickCount";
 
         /// <summary>
         /// Tracer function, such as <see cref="Console.WriteLine(string, object[])"/>.
@@ -32455,9 +32456,9 @@ namespace MdlpApiClient
             }
         }
 
-        internal static string FormatTimings(DateTime? startTime, Stopwatch stopwatch)
+        internal static string FormatTimings(DateTime? startTime, int tickCount)
         {
-            if (startTime == null && stopwatch == null)
+            if (startTime == null && tickCount == 0)
             {
                 return string.Empty;
             }
@@ -32472,10 +32473,9 @@ namespace MdlpApiClient
                 items.Add("  started: " + startTime.Value.ToString("s").Replace("T", " ").Replace("00:00:00", "").Trim());
             }
 
-            if (stopwatch != null)
+            if (tickCount > 0)
             {
-                stopwatch.Stop();
-                items.Add("  elapsed: " + stopwatch.Elapsed);
+                items.Add("  elapsed: " + TimeSpan.FromMilliseconds(tickCount).ToString("g", CultureInfo.InvariantCulture));
             }
 
             items.Add("}");
@@ -32494,19 +32494,19 @@ namespace MdlpApiClient
                 startTime = new DateTime(timestampTicks);
             }
 
-            var stopwatch = default(Stopwatch);
-            var stopwatchParameter = response.Request.Parameters.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiStopwatchParameterName));
-            if (stopwatchParameter != null && stopwatchParameter.Value is Stopwatch)
+            var tickCount = default(int);
+            var tickCountParameter = response.Request.Parameters.FirstOrDefault(h => StringComparer.OrdinalIgnoreCase.Equals(h.Name, ApiTickCountParameterName));
+            if (tickCountParameter != null && tickCountParameter.Value is string tickCountString)
             {
-                stopwatch = stopwatchParameter.Value as Stopwatch;
-                if (stopwatch != null)
+                // tick count can be negative if overflown
+                if (int.TryParse(tickCountString, out var count))
                 {
-                    stopwatch.Stop();
+                    tickCount = (int)((uint)Environment.TickCount - (uint)count);
                 }
             }
 
             // trace timestamp and duration
-            return FormatTimings(startTime, stopwatch);
+            return FormatTimings(startTime, tickCount);
         }
 
         private void Trace(IRestResponse response)

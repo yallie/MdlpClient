@@ -144,7 +144,7 @@
         {
             // use request parameters to store additional properties, not really used by the requests
             request.AddParameter(ApiTimestampParameterName, DateTime.Now.Ticks, ParameterType.UrlSegment);
-            request.AddParameter(ApiStopwatchParameterName, Stopwatch.StartNew(), ParameterType.UrlSegment);
+            request.AddParameter(ApiTickCountParameterName, Environment.TickCount.ToString(), ParameterType.UrlSegment);
             if (!string.IsNullOrWhiteSpace(apiMethodName))
             {
                 request.AddHeader(ApiMethodNameHeaderName, apiMethodName);

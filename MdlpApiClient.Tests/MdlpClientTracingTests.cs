@@ -36,23 +36,22 @@
         [Test]
         public void FormatTimingsTest()
         {
-            Assert.AreEqual(string.Empty, MdlpClient.FormatTimings(null, null));
+            Assert.AreEqual(string.Empty, MdlpClient.FormatTimings(null, 0));
             Assert.AreEqual(@"timings: {
   started: 2020-04-14
 }
-",          MdlpClient.FormatTimings(new DateTime(2020, 04, 14), null));
+",          MdlpClient.FormatTimings(new DateTime(2020, 04, 14), 0));
 
-            var sw = new Stopwatch(); sw.Stop(); sw.Reset();
             Assert.AreEqual(@"timings: {
-  elapsed: 00:00:00
+  elapsed: 0:00:00.032
 }
-",          MdlpClient.FormatTimings(null, sw));
+",          MdlpClient.FormatTimings(null, 32));
 
             Assert.AreEqual(@"timings: {
   started: 2020-04-14 10:20:30
-  elapsed: 00:00:00
+  elapsed: 0:00:00.1
 }
-",          MdlpClient.FormatTimings(new DateTime(2020, 04, 14, 10, 20, 30), sw));
+", MdlpClient.FormatTimings(new DateTime(2020, 04, 14, 10, 20, 30), 100));
         }
     }
 }
