@@ -461,11 +461,11 @@
         /// 8.7.1. Метод добавления доверенного контрагента или контрагентов
         /// </summary>
         /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
-        public void AddTrustedPartners(params string[] partnerIds)
+        public AddTrustedPartnersResponse AddTrustedPartners(params string[] partnerIds)
         {
             RequestRate(0.5); // 79
 
-            Post("reestr/trusted_partners/add", new
+            return Post<AddTrustedPartnersResponse>("reestr/trusted_partners/add", new
             {
                 trusted_partners = partnerIds
             });
