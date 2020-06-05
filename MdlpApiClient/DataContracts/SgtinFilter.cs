@@ -125,12 +125,6 @@
         public string OmsOrderID { get; set; }
 
         /// <summary>
-        /// Информация о биллинге
-        /// </summary>
-        [DataMember(Name = "billing_info", IsRequired = false)]
-        public SgtinBillingInformation BillingInfo { get; set; }
-
-        /// <summary>
         /// Признак, отображающий, относится ли ЛП к списку 7ВЗН
         /// </summary>
         [DataMember(Name = "vzn_drug", IsRequired = false)]

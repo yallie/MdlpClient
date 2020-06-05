@@ -14,7 +14,7 @@
         /// Номер производственной серии.
         /// </summary>
         [DataMember(Name = "batch")]
-        public string Batch { get; set; }
+        public string BatchNumber { get; set; }
 
         /// <summary>
         /// Дата регистрации производственной серии.
