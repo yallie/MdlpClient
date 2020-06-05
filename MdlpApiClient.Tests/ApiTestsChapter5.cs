@@ -27,17 +27,16 @@
         [Test]
         public void Chapter5_01_SendDocumentText()
         {
-            var docXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
+            var docXml = @"<documents xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" version=""1.34"">
   <register_end_packing action_id=""311"">
     <subject_id>00000000100930</subject_id>
     <operation_date>2020-04-08T16:14:05.8168969+03:00</operation_date>
     <order_type>1</order_type>
     <series_number>100000001</series_number>
     <expiration_date>22.08.2020</expiration_date>
-    <gtin>11170012610151</gtin>
+    <gtin>04607028394287</gtin>
     <signs>
-      <sgtin>07091900400001TRANSF2000021</sgtin>
+      <sgtin>04607028394287TRANSF2000021</sgtin>
     </signs>
   </register_end_packing>
 </documents>";

@@ -670,6 +670,16 @@
             return doc;
         }
 
+        [Test, Ignore("I've run this test once to check whether the sandbox accepts the malformed XML-documents")]
+        public void SandboxAccepdsMalformedXmlDocuments()
+        {
+            //var documentId = Client.SendDocument("Привет! Хочу проверить, принимаются ли некорректные XML-документы.");
+            //Assert.NotNull(documentId);
+
+            // got documentId: 56835c65-96c5-4917-9867-a0fa953a6b66
+            var ticket = Client.GetTicket("56835c65-96c5-4917-9867-a0fa953a6b66");
+        }
+
         [Test, Explicit("Schema210 is obsolete and will be replaced with schema 220")]
         public void SendDocument210WithSgtinAndSsccToSandbox()
         {
