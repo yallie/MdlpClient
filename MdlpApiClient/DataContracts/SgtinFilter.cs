@@ -4,7 +4,9 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter
+    /// 4.39. Формат объекта SgtinsFilter
+    /// Таблица 35. Формат объекта SgtinsFilter
+    /// 8.3.1. Метод для поиска по реестру КИЗ.
     /// </summary>
     [DataContract]
     public class SgtinFilter

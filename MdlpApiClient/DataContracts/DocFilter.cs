@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.18. Формат объекта DocFilter
+    /// 4.20. Формат объекта DocFilter
     /// Содержит информацию для фильтрации списка документов.
     /// </summary>
     [DataContract]

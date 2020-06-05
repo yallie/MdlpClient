@@ -4,8 +4,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.40. Формат объекта MedProductsFilter
-    /// Таблица 36. Формат объекта MedProductsFilter
+    /// 4.42. Формат объекта MedProductsFilter
+    /// Таблица 38. Формат объекта MedProductsFilter
     /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП
     /// </summary>
     [DataContract]

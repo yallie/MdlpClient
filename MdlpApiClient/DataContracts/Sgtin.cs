@@ -4,8 +4,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.32. Формат объекта SGTIN
-    /// </summary>
+    /// 4.34. Формат объекта SGTIN
+    /// Таблица 30. Формат объекта SGTIN    /// </summary>
     [DataContract]
     public class Sgtin
     {
@@ -239,5 +239,11 @@
         /// </summary>
         [DataMember(Name = "halt_id", IsRequired = true)]
         public string HaltID { get; set; }
+
+        /// <summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "sys_id", IsRequired = true)]
+        public string SystemSubjectID { get; set; }
     }
 }

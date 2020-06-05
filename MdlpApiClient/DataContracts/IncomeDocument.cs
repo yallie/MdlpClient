@@ -3,7 +3,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.17. Формат объекта IncomeDocument
+    /// 4.19. Формат объекта IncomeDocument
     /// Таблица 13. Формат объекта IncomeDocument
     /// Объект IncomeDocument наследует все поля объекта Document и добавляет следующие:
     /// </summary>

@@ -4,8 +4,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.39. Формат объекта LicenseApiFilter
-    /// Таблица 35. Формат объекта LicenseApiFilter
+    /// 4.41. Формат объекта LicenseApiFilter
+    /// Таблица 37. Формат объекта LicenseApiFilter
     /// 7.6.2. Метод фильтрации лицензий на производство
     /// </summary>
     [DataContract]

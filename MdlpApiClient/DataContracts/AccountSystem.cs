@@ -3,6 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.26. Формат объекта AccountSystem
+    /// Таблица 22. Формат объекта AccountSystem
     /// 6.1.1. Метод для регистрации учетной системы
     /// 6.1.11. Метод для получения информации об УС
     /// </summary>

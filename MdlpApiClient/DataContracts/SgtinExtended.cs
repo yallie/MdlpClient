@@ -3,7 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.33. Формат объекта SgtinExtended
+    /// 4.35. Формат объекта SgtinExtended
+    /// Таблица 31. Формат объекта SgtinExtended
     /// </summary>
     [DataContract]
     public class SgtinExtended : Sgtin

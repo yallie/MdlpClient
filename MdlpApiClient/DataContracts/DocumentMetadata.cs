@@ -4,6 +4,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.17. Формат объекта Document
+    /// Таблица 13. Формат объекта Document
     /// 5.9. Получение метаданных документа
     /// </summary>
     [DataContract]

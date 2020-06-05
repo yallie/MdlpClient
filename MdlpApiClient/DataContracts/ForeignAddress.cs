@@ -3,8 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.27. Формат объекта ForeignAddress
-    /// Таблица 23. Формат объекта ForeignAddress
+    /// 4.29. Формат объекта ForeignAddress
+    /// Таблица 25. Формат объекта ForeignAddress
     /// 8.6.1. Метод для регистрации иностранного контрагента
     /// 8.8.1. Метод фильтрации по субъектам обращения
     /// </summary>

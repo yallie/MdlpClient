@@ -3,8 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.25. Формат объекта RightsInfo
-    /// Таблица 21. Формат объекта RightsInfo
+    /// 4.27. Формат объекта RightsInfo
+    /// Таблица 23. Формат объекта RightsInfo
     /// 6.6.1. Метод для получения информации о существующих правах
     /// </summary>
     [DataContract]

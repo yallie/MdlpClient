@@ -3,8 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.22. Формат объекта GroupedUser
-    /// Таблица 18. Формат объекта GroupedUser
+    /// 4.24. Формат объекта GroupedUser
+    /// Таблица 20. Формат объекта GroupedUser
     /// 6.1.4. Метод для получения информации о пользователе
     /// </summary>
     [DataContract]

@@ -3,7 +3,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.16. Формат объекта OutcomeDocument
+    /// 4.18. Формат объекта OutcomeDocument
     /// Таблица 12. Формат объекта OutcomeDocument
     /// Объект OutcomeDocument наследует все поля объекта Document и добавляет следующие:
     /// </summary>

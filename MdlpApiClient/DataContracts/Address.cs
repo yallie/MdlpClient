@@ -3,6 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.28. Формат объекта Address
+    /// Таблица 24. Формат объекта Address
     /// 8.1.2. Адрес места осуществления деятельности.
     /// </summary>
     [DataContract]

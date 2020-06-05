@@ -3,8 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.28. Формат объекта UserEditProfileEntry
-    /// Таблица 24. Формат объекта UserEditProfileEntry
+    /// 4.30. Формат объекта UserEditProfileEntry
+    /// Таблица 26. Формат объекта UserEditProfileEntry
     /// </summary>
     [DataContract]
     public class UserEditProfileEntry : UserBase    {

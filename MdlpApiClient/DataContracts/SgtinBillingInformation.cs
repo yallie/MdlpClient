@@ -3,7 +3,8 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.34. Формат объекта SgtinBillingInformation
+    /// 4.36. Формат объекта SgtinBillingInformation
+    /// Таблица 32. Формат объекта SgtinBillingInformation
     /// </summary>
     [DataContract]
     public class SgtinBillingInformation
