@@ -24183,15 +24183,6 @@ namespace MdlpApiClient.DataContracts
         public string RegistrationHolderCode { get; set; }
 
         /// <summary>
-        /// Статус действия регистрационного удостоверения
-        /// </summary>
-        /// <remarks>
-        /// Частичное вхождение, без учета регистра
-        /// </remarks>
-        [DataMember(Name = "REG_STATUS", IsRequired = false)]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Торговое наименованиe лекарственного препарата
         /// Например: Гертикад®
         /// </summary>
@@ -24398,12 +24389,6 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "DRUG_CODE_VERSION", IsRequired = false)]
         public int? DrugCodeVersion { get; set; }
-
-        /// <summary>
-        /// Статус действия регистрационного удостоверения
-        /// </summary>
-        [DataMember(Name = "REG_STATUS", IsRequired = false)]
-        public string RegistrationStatus { get; set; }
 
         /// <summary>
         /// Комплектность
@@ -25293,12 +25278,6 @@ namespace MdlpApiClient.DataContracts
         public string Gtin { get; set; }
 
         /// <summary>
-        /// Статус рег. удостоверения
-        /// </summary>
-        [DataMember(Name = "reg_status")]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Номер рег. удостоверения
         /// </summary>
         [DataMember(Name = "reg_number")]
@@ -26138,12 +26117,6 @@ namespace MdlpApiClient.DataContracts
     [DataContract]
     public class MedProductPublic
     {
-        /// <summary>
-        /// Статус рег. удостоверения
-        /// </summary>
-        [DataMember(Name = "reg_status")]
-        public string RegistrationStatus { get; set; }
-
         /// <summary>
         /// Номер рег. удостоверения
         /// </summary>

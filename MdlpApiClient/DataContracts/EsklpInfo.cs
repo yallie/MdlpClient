@@ -185,12 +185,6 @@
         public int? DrugCodeVersion { get; set; }
 
         /// <summary>
-        /// Статус действия регистрационного удостоверения
-        /// </summary>
-        [DataMember(Name = "REG_STATUS", IsRequired = false)]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Комплектность
         /// </summary>
         [DataMember(Name = "COMPLETENESS", IsRequired = false)]

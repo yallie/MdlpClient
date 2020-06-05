@@ -22,12 +22,6 @@
         public string Gtin { get; set; }
 
         /// <summary>
-        /// Статус рег. удостоверения
-        /// </summary>
-        [DataMember(Name = "reg_status")]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Номер рег. удостоверения
         /// </summary>
         [DataMember(Name = "reg_number")]

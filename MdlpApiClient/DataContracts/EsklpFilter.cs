@@ -50,15 +50,6 @@
         public string RegistrationHolderCode { get; set; }
 
         /// <summary>
-        /// Статус действия регистрационного удостоверения
-        /// </summary>
-        /// <remarks>
-        /// Частичное вхождение, без учета регистра
-        /// </remarks>
-        [DataMember(Name = "REG_STATUS", IsRequired = false)]
-        public string RegistrationStatus { get; set; }
-
-        /// <summary>
         /// Торговое наименованиe лекарственного препарата
         /// Например: Гертикад®
         /// </summary>
