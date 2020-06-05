@@ -22182,6 +22182,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.26. Формат объекта AccountSystem
+    /// Таблица 22. Формат объекта AccountSystem
     /// 6.1.1. Метод для регистрации учетной системы
     /// 6.1.11. Метод для получения информации об УС
     /// </summary>
@@ -22245,6 +22247,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.28. Формат объекта Address
+    /// Таблица 24. Формат объекта Address
     /// 8.1.2. Адрес места осуществления деятельности.
     /// </summary>
     [DataContract]
@@ -22364,6 +22368,24 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "address", IsRequired = true)]
         public string Address { get; set; }
+    }
+}
+
+namespace MdlpApiClient.DataContracts
+{
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// 8.7.1. Метод добавления доверенного контрагента
+    /// </summary>
+    [DataContract]
+    public class AddTrustedPartnersResponse
+    {
+        [DataMember(Name = "code", IsRequired = true)]
+        public string Code { get; set; }
+
+        [DataMember(Name = "failed_partners", IsRequired = false)]
+        public string[] FailedPartners { get; set; }
     }
 }
 
@@ -22612,7 +22634,7 @@ namespace MdlpApiClient.DataContracts
         /// Номер производственной серии.
         /// </summary>
         [DataMember(Name = "batch")]
-        public string Batch { get; set; }
+        public string BatchNumber { get; set; }
 
         /// <summary>
         /// Дата регистрации производственной серии.
@@ -23403,9 +23425,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.36. Формат объекта DeviceContractInfoEntry
-    /// Таблица 32. Формат объекта DeviceContractInfoEntry
-    /// </summary>
+    /// 4.38. Формат объекта DeviceContractInfoEntry
+    /// Таблица 34. Формат объекта DeviceContractInfoEntry    /// </summary>
     [DataContract]
     public class DeviceContractInfoEntry
     {
@@ -23429,7 +23450,7 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.18. Формат объекта DocFilter
+    /// 4.20. Формат объекта DocFilter
     /// Содержит информацию для фильтрации списка документов.
     /// </summary>
     [DataContract]
@@ -23571,6 +23592,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
+    /// 4.17. Формат объекта Document
+    /// Таблица 13. Формат объекта Document
     /// 5.9. Получение метаданных документа
     /// </summary>
     [DataContract]
@@ -24600,8 +24623,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.27. Формат объекта ForeignAddress
-    /// Таблица 23. Формат объекта ForeignAddress
+    /// 4.29. Формат объекта ForeignAddress
+    /// Таблица 25. Формат объекта ForeignAddress
     /// 8.6.1. Метод для регистрации иностранного контрагента
     /// 8.8.1. Метод фильтрации по субъектам обращения
     /// </summary>
@@ -25050,7 +25073,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 6.6.4. Метод для получения информации о группе прав пользователей
+    /// 4.21. Формат объекта Group
+    /// Таблица 17. Формат объекта Group    /// 6.6.4. Метод для получения информации о группе прав пользователей
     /// </summary>
     [DataContract]
     public class Group
@@ -25080,8 +25104,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.22. Формат объекта GroupedUser
-    /// Таблица 18. Формат объекта GroupedUser
+    /// 4.24. Формат объекта GroupedUser
+    /// Таблица 20. Формат объекта GroupedUser
     /// 6.1.4. Метод для получения информации о пользователе
     /// </summary>
     [DataContract]
@@ -25707,7 +25731,7 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.17. Формат объекта IncomeDocument
+    /// 4.19. Формат объекта IncomeDocument
     /// Таблица 13. Формат объекта IncomeDocument
     /// Объект IncomeDocument наследует все поля объекта Document и добавляет следующие:
     /// </summary>
@@ -25790,8 +25814,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.39. Формат объекта LicenseApiFilter
-    /// Таблица 35. Формат объекта LicenseApiFilter
+    /// 4.41. Формат объекта LicenseApiFilter
+    /// Таблица 37. Формат объекта LicenseApiFilter
     /// 7.6.2. Метод фильтрации лицензий на производство
     /// </summary>
     [DataContract]
@@ -25829,8 +25853,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.38. Формат объекта LicenseEntry
-    /// Таблица 34. Формат объекта LicenseEntry
+    /// 4.40. Формат объекта LicenseEntry
+    /// Таблица 36. Формат объекта LicenseEntry
     /// 7.6.1. Получение информации о лицензиях на производство
     /// 7.6.2. Получение информации о лицензиях на производство по фильтру
     /// </summary>
@@ -26269,8 +26293,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.40. Формат объекта MedProductsFilter
-    /// Таблица 36. Формат объекта MedProductsFilter
+    /// 4.42. Формат объекта MedProductsFilter
+    /// Таблица 38. Формат объекта MedProductsFilter
     /// 8.5.1. Метод для получения информации из реестра производимых организацией ЛП
     /// </summary>
     [DataContract]
@@ -26632,7 +26656,7 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.16. Формат объекта OutcomeDocument
+    /// 4.18. Формат объекта OutcomeDocument
     /// Таблица 12. Формат объекта OutcomeDocument
     /// Объект OutcomeDocument наследует все поля объекта Document и добавляет следующие:
     /// </summary>
@@ -27805,8 +27829,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.25. Формат объекта RightsInfo
-    /// Таблица 21. Формат объекта RightsInfo
+    /// 4.27. Формат объекта RightsInfo
+    /// Таблица 23. Формат объекта RightsInfo
     /// 6.6.1. Метод для получения информации о существующих правах
     /// </summary>
     [DataContract]
@@ -27870,8 +27894,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.32. Формат объекта SGTIN
-    /// </summary>
+    /// 4.34. Формат объекта SGTIN
+    /// Таблица 30. Формат объекта SGTIN    /// </summary>
     [DataContract]
     public class Sgtin
     {
@@ -28105,6 +28129,12 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "halt_id", IsRequired = true)]
         public string HaltID { get; set; }
+
+        /// <summary>
+        /// Идентификатор субъекта обращения в «ИС "Маркировка". МДЛП»
+        /// </summary>
+        [DataMember(Name = "sys_id", IsRequired = true)]
+        public string SystemSubjectID { get; set; }
     }
 }
 
@@ -28151,7 +28181,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.34. Формат объекта SgtinBillingInformation
+    /// 4.36. Формат объекта SgtinBillingInformation
+    /// Таблица 32. Формат объекта SgtinBillingInformation
     /// </summary>
     [DataContract]
     public class SgtinBillingInformation
@@ -28308,7 +28339,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.33. Формат объекта SgtinExtended
+    /// 4.35. Формат объекта SgtinExtended
+    /// Таблица 31. Формат объекта SgtinExtended
     /// </summary>
     [DataContract]
     public class SgtinExtended : Sgtin
@@ -28396,7 +28428,9 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 8.3.1. Метод для поиска по реестру КИЗ. Структура данных SgtinFilter
+    /// 4.39. Формат объекта SgtinsFilter
+    /// Таблица 35. Формат объекта SgtinsFilter
+    /// 8.3.1. Метод для поиска по реестру КИЗ.
     /// </summary>
     [DataContract]
     public class SgtinFilter
@@ -28513,12 +28547,6 @@ namespace MdlpApiClient.DataContracts
         /// </summary>
         [DataMember(Name = "oms_order_id", IsRequired = false)]
         public string OmsOrderID { get; set; }
-
-        /// <summary>
-        /// Информация о биллинге
-        /// </summary>
-        [DataMember(Name = "billing_info", IsRequired = false)]
-        public SgtinBillingInformation BillingInfo { get; set; }
 
         /// <summary>
         /// Признак, отображающий, относится ли ЛП к списку 7ВЗН
@@ -28799,7 +28827,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.35. Формат объекта SgtinPaymentInformation
+    /// 4.37. Формат объекта SgtinPaymentInformation
+    /// Таблица 33. Формат объекта SgtinPaymentInformation
     /// </summary>
     [DataContract]
     public class SgtinPaymentInformation
@@ -29310,8 +29339,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.21. Формат объекта User
-    /// Таблица 17. Формат объекта User
+    /// 4.23. Формат объекта User
+    /// Таблица 19. Формат объекта User
     /// </summary>
     [DataContract]
     public class User : UserBase
@@ -29464,8 +29493,8 @@ namespace MdlpApiClient.DataContracts
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 4.28. Формат объекта UserEditProfileEntry
-    /// Таблица 24. Формат объекта UserEditProfileEntry
+    /// 4.30. Формат объекта UserEditProfileEntry
+    /// Таблица 26. Формат объекта UserEditProfileEntry
     /// </summary>
     [DataContract]
     public class UserEditProfileEntry : UserBase    {
@@ -31607,11 +31636,11 @@ namespace MdlpApiClient
         /// 8.7.1. Метод добавления доверенного контрагента или контрагентов
         /// </summary>
         /// <param name="partnerIds">Идентификаторы субъектов или ИНН партнеров</param>
-        public void AddTrustedPartners(params string[] partnerIds)
+        public AddTrustedPartnersResponse AddTrustedPartners(params string[] partnerIds)
         {
             RequestRate(0.5); // 79
 
-            Post("reestr/trusted_partners/add", new
+            return Post<AddTrustedPartnersResponse>("reestr/trusted_partners/add", new
             {
                 trusted_partners = partnerIds
             });
