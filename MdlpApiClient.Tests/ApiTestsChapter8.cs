@@ -546,34 +546,64 @@
         [Test, Ignore("Not yet deployed on the test server")]
         public void Chapter8_04_4_GetSsccFullHierarchyForMultipleSsccss()
         {
-            var l = Client.GetSsccFullHierarchy(new[] { "100000000000000200" });
-            Assert.NotNull(l);
-            Assert.AreEqual(1, l.Length);
+            // Ticket SR00524696
+            // Ответили, что надо вызывать через HTTPS
+            // Выяснилось, что разницы нет, та же ошибка
+            ////using (var client = new MdlpClient(credentials: new ResidentCredentials
+            ////{
+            ////    ClientID = ClientID1,
+            ////    ClientSecret = ClientSecret1,
+            ////    UserID = TestUserThumbprint,
+            ////},
+            ////baseUrl: MdlpClient.StageApiHttps)
+            ////{
+            ////    Tracer = WriteLine
+            ////})
 
-            var h = l[0];
-            Assert.NotNull(h.Up);
-            Assert.NotNull(h.Down);
+            // Выполняем запрос на Песочнице — там, похоже, работает
+            ////var cred = new ResidentCredentials
+            ////{
+            ////    ClientID = "22d12250-6cf3-4a87-b439-f698cfddc498",
+            ////    ClientSecret = "3deb0ba1-26f2-4516-b652-931fe832e3ff",
+            ////    UserID = "10E4921908D24A0D1AD94A29BD0EF51696C6D8DA"
+            ////};
 
-            // validate up hierarchy
-            Assert.AreEqual("000000111100000100", h.Up.Sscc);
-            Assert.IsNotNull(h.Up.ChildSsccs);
-            Assert.IsNotNull(h.Up.ChildSgtins);
-            Assert.AreEqual(0, h.Up.ChildSgtins.Length);
-            Assert.AreEqual(1, h.Up.ChildSsccs.Length);
-            Assert.AreEqual("000000111100000097", h.Up.ChildSsccs[0].Sscc);
-            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSsccs);
-            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSgtins);
-            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSsccs.Length);
-            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSgtins.Length);
+            ////using (var client = new MdlpClient(credentials: cred, baseUrl: MdlpClient.SandboxApiHttps)
+            ////{
+            ////    Tracer = WriteLine
+            ////})
 
-            // validate down hierarchy
-            Assert.AreEqual("000000111100000097", h.Down.Sscc);
-            Assert.IsNotNull(h.Down.ChildSsccs);
-            Assert.IsNotNull(h.Down.ChildSgtins);
-            Assert.AreEqual(2, h.Down.ChildSgtins.Length);
-            Assert.AreEqual(0, h.Down.ChildSsccs.Length);
-            Assert.AreEqual("04607028393860G000000001J21", h.Down.ChildSgtins[0].Sgtin);
-            Assert.AreEqual("04607028393860G000000001J22", h.Down.ChildSgtins[1].Sgtin);
+            var client = Client;
+            {
+                var l = client.GetSsccFullHierarchy(new[] { "000000000105900000", "147600887000110010" });
+                Assert.NotNull(l);
+                Assert.AreEqual(1, l.Length);
+
+                var h = l[0];
+                Assert.NotNull(h.Up);
+                Assert.NotNull(h.Down);
+
+                // validate up hierarchy
+                Assert.AreEqual("000000111100000100", h.Up.Sscc);
+                Assert.IsNotNull(h.Up.ChildSsccs);
+                Assert.IsNotNull(h.Up.ChildSgtins);
+                Assert.AreEqual(0, h.Up.ChildSgtins.Length);
+                Assert.AreEqual(1, h.Up.ChildSsccs.Length);
+                Assert.AreEqual("000000111100000097", h.Up.ChildSsccs[0].Sscc);
+                Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSsccs);
+                Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSgtins);
+                Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSsccs.Length);
+                Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSgtins.Length);
+
+                // validate down hierarchy
+                Assert.AreEqual("000000111100000097", h.Down.Sscc);
+                Assert.IsNotNull(h.Down.ChildSsccs);
+                Assert.IsNotNull(h.Down.ChildSgtins);
+                Assert.AreEqual(2, h.Down.ChildSgtins.Length);
+                Assert.AreEqual(0, h.Down.ChildSsccs.Length);
+                Assert.AreEqual("04607028393860G000000001J21", h.Down.ChildSgtins[0].Sgtin);
+                Assert.AreEqual("04607028393860G000000001J22", h.Down.ChildSgtins[1].Sgtin);
+            }
         }
 
         [Test]

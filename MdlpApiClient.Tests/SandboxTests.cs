@@ -900,5 +900,77 @@
             Assert.NotNull(package.Sscc_Info.Childs[0].Sgtin_Info);
             Assert.AreEqual(4, package.Sscc_Info.Childs[0].Sgtin_Info.Count);
         }
+
+        [Test]
+        public void Chapter8_04_4_Sandbox_GetSsccFullHierarchyForMultipleSsccss()
+        {
+            var l = Client.GetSsccFullHierarchy(new[] { "000000000105900000", "147600887000110010" });
+            Assert.NotNull(l);
+            Assert.AreEqual(2, l.Length);
+
+            var h = l[0];
+            Assert.NotNull(h.Up);
+            Assert.NotNull(h.Down);
+
+            // validate up hierarchy
+            Assert.AreEqual("000000000105900000", h.Up.Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSgtins.Length);
+            Assert.AreEqual(0, h.Up.ChildSsccs.Length);
+
+            // validate down hierarchy
+            Assert.AreEqual("000000000105900000", h.Down.Sscc);
+            Assert.IsNotNull(h.Down.ChildSsccs);
+            Assert.IsNotNull(h.Down.ChildSgtins);
+            Assert.AreEqual(19, h.Down.ChildSgtins.Length);
+            Assert.AreEqual(0, h.Down.ChildSsccs.Length);
+            Assert.AreEqual("189011481011940000000001041", h.Down.ChildSgtins[0].Sgtin);
+            Assert.AreEqual("189011481011940000000001042", h.Down.ChildSgtins[1].Sgtin);
+
+            h = l[1];
+            Assert.NotNull(h.Up);
+            Assert.NotNull(h.Down);
+
+            // validate up hierarchy
+            Assert.AreEqual("147600887000120010", h.Up.Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSgtins.Length);
+            Assert.AreEqual(1, h.Up.ChildSsccs.Length);
+            Assert.AreEqual("147600887000110010", h.Up.ChildSsccs[0].Sscc);
+            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSsccs);
+            Assert.IsNotNull(h.Up.ChildSsccs[0].ChildSgtins);
+            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSsccs.Length);
+            Assert.AreEqual(0, h.Up.ChildSsccs[0].ChildSgtins.Length);
+
+            // validate down hierarchy
+            Assert.AreEqual("147600887000110010", h.Down.Sscc);
+            Assert.IsNotNull(h.Down.ChildSsccs);
+            Assert.IsNotNull(h.Down.ChildSgtins);
+            Assert.AreEqual(1, h.Down.ChildSgtins.Length);
+            Assert.AreEqual(0, h.Down.ChildSsccs.Length);
+            Assert.AreEqual("046200115828050000000000153", h.Down.ChildSgtins[0].Sgtin);
+        }
+
+        [Test]
+        public void Chapter8_13_1_Sandbox_GetBatchShortDistribution()
+        {
+            // public SGTIN information has BatchNumber
+            // "046200115828050000000000153"
+            var sgtin = Client.GetPublicSgtins("50754041398745" + "1234567906123");
+            Assert.NotNull(sgtin.Entries);
+            Assert.AreEqual(1, sgtin.Entries.Length);
+            Assert.NotNull(sgtin.Entries[0]);
+            var batchNumber = sgtin.Entries[0].BatchNumber;
+            var gtin = sgtin.Entries[0].Sgtin.Substring(0, 14);
+
+            // 18901148101194
+            // 04620011582805
+            var batches = Client.GetBatchShortDistribution(gtin, batchNumber);
+            Assert.NotNull(batches);
+            Assert.AreEqual(0, batches.Total);
+            Assert.IsNull(batches.Entries);
+        }
     }
 }
