@@ -3,6 +3,8 @@
     using System;
     using System.Linq;
     using System.Net;
+    using System.Threading;
+    using System.Xml.Linq;
     using MdlpApiClient.DataContracts;
     using MdlpApiClient.Serialization;
     using MdlpApiClient.Toolbox;
@@ -171,7 +173,7 @@
                 Session_Ui = sessionUi,
 
                 // Регистрация сведений о вводе ЛП в оборот (выпуск продукции) = схема 313
-                Register_Product_Emission= new Register_Product_Emission
+                Register_Product_Emission = new Register_Product_Emission
                 {
                     // Идентификатор места деятельности (14 знаков) — 
                     // указывается идентификатор из ранее загруженной схемы 311:
@@ -971,6 +973,196 @@
             Assert.NotNull(batches);
             Assert.AreEqual(0, batches.Total);
             Assert.IsNull(batches.Entries);
+        }
+
+        // sessionUi — просто Guid, объединяющий документы в смысловую группу
+        private string SandboxSessionUI = "D1FDD60B-1F09-4171-AB39-D1737584B943";
+
+        private Documents CreateDocument311(string gtin)
+        {
+            // Создаем документ схемы 311 от имени организации Типография для типографий
+            var doc = new Documents
+            {
+                Session_Ui = SandboxSessionUI,
+
+                // Регистрация окончания упаковки = схема 311
+                Register_End_Packing = new Register_End_Packing
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    Subject_Id = "00000000104494",
+
+                    // в этом месте мы сегодня заканчиваем упаковку препаратов
+                    Operation_Date = DateTime.Now,
+
+                    Series_Number = "1234567890",
+                    Expiration_Date = "03.07.2025",
+                    Gtin = gtin,
+                }
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
+            // 13-значного серийного номера. Для каждой отгрузки 
+            // необходимо генерировать уникальный серийный номер
+            doc.Register_End_Packing.Signs.Add(gtin + "0000000000101");
+            doc.Register_End_Packing.Signs.Add(gtin + "0000000000102");
+            doc.Register_End_Packing.Signs.Add(gtin + "0000000000103");
+            doc.Register_End_Packing.Signs.Add(gtin + "0000000000104");
+            doc.Register_End_Packing.Signs.Add(gtin + "0000000000105");
+            doc.Register_End_Packing.Signs.Add(gtin + "0000000000106");
+            return doc;
+        }
+
+        private Documents CreateDocument313(string gtin)
+        {
+            // Создаем документ схемы 313 от имени организации Типография для типографий
+            var doc = new Documents
+            {
+                Session_Ui = SandboxSessionUI,
+
+                // Регистрация сведений о выпуске готовой продукции = схема 313
+                Register_Product_Emission = new Register_Product_Emission
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    Subject_Id = "00000000104494",
+
+                    // в этом месте мы сегодня заканчиваем упаковку препаратов
+                    Operation_Date = DateTime.Now,
+
+                    // реквизиты сведений о вводе в оборот
+                    Release_Info = new Release_Info_Type
+                    {
+                        Confirmation_Num = "249",
+                        Doc_Num = "249",
+                        Doc_Date = DateTime.Today.ToString(@"dd\.MM\.yyyy"),
+                    },
+                }
+            };
+
+            // Перечень идентификационных кодов потребительских упаковок.
+            // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
+            // 13-значного серийного номера. Для каждой отгрузки 
+            // необходимо генерировать уникальный серийный номер
+            doc.Register_Product_Emission.Signs = new Register_Product_EmissionSigns();
+            doc.Register_Product_Emission.Signs.Sgtin.Add(gtin + "0000000000101");
+            doc.Register_Product_Emission.Signs.Sgtin.Add(gtin + "0000000000102");
+            doc.Register_Product_Emission.Signs.Sgtin.Add(gtin + "0000000000103");
+            doc.Register_Product_Emission.Signs.Sgtin.Add(gtin + "0000000000104");
+            doc.Register_Product_Emission.Signs.Sgtin.Add(gtin + "0000000000105");
+            doc.Register_Product_Emission.Signs.Sgtin.Add(gtin + "0000000000106");
+            return doc;
+        }
+
+        private Documents CreateDocument415(string receiverId, params string[] sgtins) // Documents doc311)
+        {
+            // Создаем документ схемы 415 от имени организации Типография для типографий
+            var doc = new Documents
+            {
+                // Если не указать версию, загрузка документа не срабатывает:
+                // пишет, что тип документа не определен
+                Version = "1.34",
+                Session_Ui = SandboxSessionUI,
+
+                // Перемещение на склад получателя = схема 415
+                Move_Order = new Move_Order
+                {
+                    // из личного кабинета тестового участника-Типографии
+                    // берем код места деятельности, расположенного по адресу:
+                    // край Забайкальский р-н Могойтуйский пгт Могойтуй ул Банзарова
+                    // здесь у нас пока хранятся упакованные ЛП, ждущие отправки
+                    Subject_Id = "00000000104494",
+
+                    // сюда мы будем отправлять упакованные ЛП
+                    Receiver_Id = receiverId,
+
+                    // сегодня отправляем препараты
+                    Operation_Date = DateTime.Now,
+
+                    // Реквизиты документа отгрузки: номер и дата документа
+                    Doc_Num = "249",
+                    Doc_Date = DateTime.Today.ToString(@"dd\.MM\.yyyy"),
+
+                    // Тип операции отгрузки со склада: 1 - продажа, 2 - возврат
+                    Turnover_Type = Turnover_Type_Enum.Item1,
+
+                    // Источник финансирования: 1 - собственные средства, 2-3 - бюджет
+                    Source = Source_Type.Item1,
+
+                    // Тип договора: 1 - купля-продажа
+                    Contract_Type = Contract_Type_Enum.Item1,
+
+                    // Реестровый номер контракта (договора)
+                    // в Единой информационной системе в сфере закупок
+                    // нам в данном случае не требуется
+                    Contract_Num = null,
+                },
+            };
+
+            // Список отгружаемой продукции
+            var order = doc.Move_Order.Order_Details;
+            foreach (var sgtin in sgtins) // doc311.Register_End_Packing.Signs)
+            {
+                order.Add(new Move_OrderOrder_DetailsUnion
+                {
+                    Sgtin = sgtin,
+                    Cost = 1000, // цена единицы продукции
+                    Vat_Value = 100, // сумма НДС
+                });
+            }
+
+            // итого в документе перемещения схемы 415 у нас только список SGTIN
+            return doc;
+        }
+
+        private void CreateTestSgtinsUploadDocumentAndCheckResults()
+        {
+            // создаем sgtin-ы
+            var doc3x = CreateDocument311("55413760478406");
+            var doc3xId = Client.SendDocument(doc3x);
+            WriteLine($"Uploaded document: {doc3xId}");
+
+            // ждем, пока документ будет обработан
+            var doc3xmd = Client.GetDocumentMetadata(doc3xId);
+            while (doc3xmd.DocStatus != DocStatusEnum.PROCESSED_DOCUMENT &&
+                doc3xmd.DocStatus != DocStatusEnum.FAILED_RESULT_READY)
+            {
+                doc3xmd = Client.GetDocumentMetadata(doc3xId);
+                Thread.Sleep(TimeSpan.FromSeconds(10));
+            }
+
+            // получаем текст документа
+            var docXml = Client.GetDocumentText(doc3xId);
+            WriteLine(docXml);
+
+            // получаем квитанцию и смотрим, что там за ответ
+            var docTicket = Client.GetTicketText(doc3xId);
+            var docTicketXml = XDocument.Parse(docTicket);
+            WriteLine(docTicketXml.ToString());
+        }
+
+        [Test, Explicit]
+        public void CreateTestMoveOrderNotification()
+        {
+            var receiver = "00000000120755"; // Крыленко
+
+            // отправляем КАЛИЯ ХЛОРИД+МАГНИЯ ХЛОРИД+НАТРИЯ АЦЕТАТ+НАТРИЯ ГЛЮКОНАТ+НАТРИЯ ХЛОРИД
+            var doc = CreateDocument415(receiver,
+                "55413760478406uI22xO2hloD7Y",
+                "55413760478406u8WACOLE9UVKA",
+                "55413760478406tkWZ4VXFnHwk9",
+                "55413760478406t45BLRLAMA3Cv",
+                "55413760478406stsKoDEUCsD9G");
+
+            // загрузился документ: 653d57ad-a486-40f1-8b27-520f02f33ad2
+            var docId = "653d57ad-a486-40f1-8b27-520f02f33ad2"; // Client.SendDocument(doc);
+            WriteLine($"Uploaded document: {docId}");
+
+            var xml = Client.GetDocumentText(docId);
+            WriteLine(xml);
         }
     }
 }
