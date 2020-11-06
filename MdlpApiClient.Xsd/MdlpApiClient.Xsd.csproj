@@ -24,6 +24,14 @@
   <!-- Generate classes from root XSD schema -->
   <Target Name="GenerateDocumentClassesFromXsdSchemas" BeforeTargets="Build">
   	<Exec Command="$(NuGetPackageRoot)\XmlSchemaClassGenerator.Console\2.0.349\tools\net461\XmlSchemaClassGenerator.Console.exe $(ProjectDir)\documents.xsd -n &quot;&quot;=MdlpApiClient.Xsd" />
+
+  	<!-- Add pragma warning disable/restore -->
+  	<Exec Command="echo #pragma warning disable 1591&gt;MdlpApiClient.Xsd.tmp1.cs" />
+  	<Exec Command="echo #pragma warning restore 1591&gt;MdlpApiClient.Xsd.tmp2.cs" />
+  	<Exec Command="copy MdlpApiClient.Xsd.tmp1.cs + MdlpApiClient.Xsd.cs + MdlpApiClient.Xsd.tmp2.cs MdlpApiClient.Xsd.tmp3.cs" />
+  	<Exec Command="del MdlpApiClient.Xsd.cs" />
+  	<Exec Command="ren MdlpApiClient.Xsd.tmp3.cs MdlpApiClient.Xsd.cs" />
+  	<Exec Command="del MdlpApiClient.Xsd.tmp?.cs" />
   </Target>
 
 </Project>

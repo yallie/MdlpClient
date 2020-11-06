@@ -75,6 +75,8 @@
 	<xs:include schemaLocation="622-return_contract_production_notification.xsd"/>
 	<xs:include schemaLocation="623-change_property_notification.xsd"/>
 	<xs:include schemaLocation="701-accept.xsd"/>
+	<xs:include schemaLocation="702-posting.xsd"/>
+	<xs:include schemaLocation="703-posting_import.xsd"/>
 	<xs:include schemaLocation="811-relabeling.xsd"/>
 	<xs:include schemaLocation="911-unit_pack.xsd"/>
 	<xs:include schemaLocation="912-unit_unpack.xsd"/>
@@ -460,6 +462,16 @@
 				<xs:element name="accept" type="accept">
 					<xs:annotation>
 						<xs:documentation>701 - Регистрация в ИС МДЛП подтверждения (акцептования) сведений</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="posting" type="posting">
+					<xs:annotation>
+						<xs:documentation>702 - Регистрация в ИС МДЛП сведений об оприходовании</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="posting_import" type="posting_import">
+					<xs:annotation>
+						<xs:documentation>703 - Регистрация в ИС МДЛП сведений об оприходовании (импорт)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="relabeling" type="relabeling">
