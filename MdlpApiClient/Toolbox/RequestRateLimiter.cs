@@ -14,15 +14,26 @@
         public Dictionary<string, Task> RequestTasks { get; } =
             new Dictionary<string, Task>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Allows to override the default delays for each API method.
+        /// </summary>
+        public Dictionary<string, TimeSpan> RequestDelays { get; } =
+            new Dictionary<string, TimeSpan>();
+
         public Task DelayAsync(TimeSpan span, [CallerMemberName]string methodName = null)
         {
+            // null value can't be used as a key
+            methodName = methodName ?? string.Empty;
+
+            if (RequestDelays.TryGetValue(methodName, out var timeSpan))
+            {
+                span = timeSpan;
+            }
+
             if (span == TimeSpan.Zero)
             {
                 return Task.CompletedTask;
             }
-
-            // null value can't be used as a key
-            methodName = methodName ?? string.Empty;
 
             lock (RequestTasks)
             {

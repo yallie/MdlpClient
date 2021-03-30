@@ -74,5 +74,18 @@
             RequestRate(10);
             Assert.That(DateTime.Now - time3, Is.GreaterThan(TimeSpan.FromSeconds(1)));
         }
+
+        [Test]
+        public void RequestRateCanBeOverridden()
+        {
+            Limiter.RequestDelays[nameof(RequestRateCanBeOverridden)] = TimeSpan.FromMilliseconds(100);
+
+            var sw = Stopwatch.StartNew();
+            RequestRate(5);
+            RequestRate(5);
+            RequestRate(5);
+            sw.Stop();
+            Assert.That(sw.ElapsedMilliseconds, Is.LessThan(300));
+        }
     }
 }

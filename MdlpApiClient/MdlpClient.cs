@@ -1,6 +1,7 @@
 ﻿namespace MdlpApiClient
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -90,6 +91,15 @@
         private IRestSerializer Serializer { get; set; }
 
         private RequestRateLimiter Limiter { get; set; }
+
+        /// <summary>
+        /// Gets the overridden values of delays between requests.
+        /// </summary>
+        /// <remarks>
+        /// Sample usage:
+        /// client.RequestDelays[nameof(client.SendDocument)] = TimeSpan.FromSeconds(5);
+        /// </remarks>
+        public Dictionary<string, TimeSpan> RequestDelays => Limiter.RequestDelays;
 
         private void RequestRate(double seconds, [CallerMemberName]string methodName = null)
         {
