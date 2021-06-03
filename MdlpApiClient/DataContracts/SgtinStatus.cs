@@ -257,5 +257,25 @@
         /// Не использован.
         /// </summary>
         public const string ELIMINATED = "eliminated";
+
+        /// <summary>
+        /// Отгружен по агентскому договору.
+        /// </summary>
+        public const string TRANSFERRED_TO_AGENT = "transferred_to_agent";
+
+        /// <summary>
+        /// Ожидает подтверждения возврата иностранного ЛП.
+        /// </summary>
+        public const string AWAITING_RETURN_CONFIRMATION = "awaiting_return_confirmation";
+
+        /// <summary>
+        /// Выдан по документам.
+        /// </summary>
+        public const string DISPENSING_BY_DOCUMENT = "dispensing_by_document";
+
+        /// <summary>
+        /// Частично выдан по документам.
+        /// </summary>
+        public const string IN_PARTIAL_DISPENSING_BY_DOCUMENT = "in_partial_dispensing_by_document";
     }
 }
