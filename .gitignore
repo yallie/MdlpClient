@@ -353,3 +353,4 @@ MigrationBackup/
 # Custom stuff
 .temp
 .mirror
+*.bak

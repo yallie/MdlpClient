@@ -72,6 +72,7 @@
         /// <inheritdoc/>
         public void Dispose()
         {
+            IsDisposed = true;
             if (IsAuthenticated)
             {
                 Logout();
@@ -115,6 +116,11 @@
         private CredentialsBase Credentials { get; set; }
 
         private X509Certificate2 userCertificate;
+
+        /// <summary>
+        /// Gets a value indicating whether the client is disposed.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
 
         internal bool IsAuthenticated { get; private set; }
 
