@@ -73,7 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="restsharp" Version="106.11.4" />
+    <PackageReference Include="restsharp" Version="106.12.0" />
     <PackageReference Include="GostCryptography" Version="2.0.8" />
     <PackageReference Include="ServiceStack.Text" Version="4.0.33" />
   </ItemGroup>
