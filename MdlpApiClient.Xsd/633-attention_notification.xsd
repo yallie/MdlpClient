@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition 9.0.11.3078 (http://www.liquid-technologies.com)-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="base_ref.xsd" />
+    <xs:include schemaLocation="base_types.xsd" />
+    <xs:complexType name="attention_notification">
+        <xs:annotation>
+            <xs:documentation>Уведомление о предупреждении или нарушении</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="notification_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата уведомления</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="warning_type" type="warning_type_enum">
+                <xs:annotation>
+                    <xs:documentation>Тип предупреждения или нарушения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="warning_description" type="string_unlimit">
+                <xs:annotation>
+                    <xs:documentation>Описание предупреждения или нарушения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="info_link" type="string_unlimit" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Ссылка на информацию</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="comment" type="string_unlimit" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Примечание к уведомлению</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" fixed="633" use="required" />
+    </xs:complexType>
+</xs:schema>

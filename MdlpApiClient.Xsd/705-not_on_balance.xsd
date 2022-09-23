@@ -3,9 +3,9 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="base_ref.xsd" />
     <xs:include schemaLocation="base_types.xsd" />
-    <xs:complexType name="health_care">
+    <xs:complexType name="not_on_balance">
         <xs:annotation>
-            <xs:documentation>Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи</xs:documentation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений об отсутствии лекарственных препаратов на балансе</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="subject_id" type="subject_id_type">
@@ -18,46 +18,48 @@
                     <xs:documentation>Дата совершения операции</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="doc_date" type="date_type">
-                <xs:annotation>
-                    <xs:documentation>Реквизиты документа, на основании которого осуществлена выдача - дата</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="doc_num" type="document_number_200_type">
-                <xs:annotation>
-                    <xs:documentation>Реквизиты документа, на основании которого осуществлена выдача - номер</xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="order_details">
                 <xs:annotation>
                     <xs:documentation>Список продукции</xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="union" maxOccurs="25000">
+                    <xs:choice>
+                        <xs:element name="sgtin" type="sign_sgtin_type" maxOccurs="25000">
+                            <xs:annotation>
+                                <xs:documentation>Номер SGTIN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="series_details">
+                            <xs:annotation>
+                                <xs:documentation>Сведения о серии</xs:documentation>
+                            </xs:annotation>
                             <xs:complexType>
                                 <xs:sequence>
-                                    <xs:element name="sgtin" type="sign_sgtin_type">
+                                    <xs:element name="series_number" type="series_number_type">
                                         <xs:annotation>
-                                            <xs:documentation>Номер SGTIN</xs:documentation>
+                                            <xs:documentation>Номер производственной серии</xs:documentation>
                                         </xs:annotation>
                                     </xs:element>
-                                    <xs:element name="sold_part" type="part_type" minOccurs="0">
+                                    <xs:element name="gtin" type="gs1_gtin_type">
                                         <xs:annotation>
-                                            <xs:documentation>Доля от вторичной упаковки</xs:documentation>
+                                            <xs:documentation>Код GTIN</xs:documentation>
                                         </xs:annotation>
                                     </xs:element>
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
-                    </xs:sequence>
+                    </xs:choice>
                 </xs:complexType>
-                <xs:unique name="ux_health_care_sgtin">
-                    <xs:selector xpath="union/sgtin" />
+                <xs:unique name="ux_not_on_balance_sgtin">
+                    <xs:selector xpath="sgtin" />
                     <xs:field xpath="." />
+                </xs:unique>
+                <xs:unique name="ux_not_on_balance_series_number">
+                    <xs:selector xpath="series_details" />
+                    <xs:field xpath="series_number" />
                 </xs:unique>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" fixed="531" use="required" />
+        <xs:attribute name="action_id" type="xs:int" fixed="705" use="required" />
     </xs:complexType>
 </xs:schema>

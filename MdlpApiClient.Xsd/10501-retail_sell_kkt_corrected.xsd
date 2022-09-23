@@ -3,9 +3,9 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="base_ref.xsd" />
     <xs:include schemaLocation="base_types.xsd" />
-    <xs:complexType name="retail_sell_kkt">
+    <xs:complexType name="retail_sell_kkt_corrected">
         <xs:annotation>
-            <xs:documentation>Регистрация в ИС МДЛП сведений о продаже лекарственного препарата в рамках розничной торговли с использованием ККТ</xs:documentation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о корректировке данных о продаже лекарственного препарата в рамках розничной торговли с использованием ККТ</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="subject_id" type="subject_any_type">
@@ -30,10 +30,15 @@
                             </xs:annotation>
                             <xs:complexType>
                                 <xs:sequence>
-                                    <xs:element name="type" type="receipt_type_enum">
+                                    <xs:element name="type">
                                         <xs:annotation>
                                             <xs:documentation>Тип фискального чека (3 - чек продажи, 31 - чек коррекции)</xs:documentation>
                                         </xs:annotation>
+                                        <xs:simpleType>
+                                            <xs:restriction base="receipt_type_enum">
+                                                <xs:enumeration value="31" />
+                                            </xs:restriction>
+                                        </xs:simpleType>
                                     </xs:element>
                                     <xs:element name="operation_date" type="datetimeoffset">
                                         <xs:annotation>
@@ -96,14 +101,9 @@
                                                                     <xs:documentation>Сумма льготной скидки</xs:documentation>
                                                                 </xs:annotation>
                                                             </xs:element>
-                                                            <xs:element name="sold_part" type="part_type" minOccurs="0">
+                                                            <xs:element name="corrected_part" type="part_type" minOccurs="0">
                                                                 <xs:annotation>
                                                                     <xs:documentation>Доля от вторичной упаковки</xs:documentation>
-                                                                </xs:annotation>
-                                                            </xs:element>
-                                                            <xs:element name="owner_inn" type="inn_type" minOccurs="0">
-                                                                <xs:annotation>
-                                                                    <xs:documentation>ИНН владельца ЛП при осуществлении дистанционной торговли</xs:documentation>
                                                                 </xs:annotation>
                                                             </xs:element>
                                                         </xs:sequence>
@@ -112,9 +112,14 @@
                                             </xs:sequence>
                                         </xs:complexType>
                                     </xs:element>
-                                    <xs:element name="receipt_id" type="string64_type" minOccurs="0">
+                                    <xs:element name="receipt_id" type="string64_type">
                                         <xs:annotation>
                                             <xs:documentation>Идентификатор результирующей квитанции по чеку</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="origin_receipt_id" type="string64_type">
+                                        <xs:annotation>
+                                            <xs:documentation>Идентификатор корректируемого документа</xs:documentation>
                                         </xs:annotation>
                                     </xs:element>
                                 </xs:sequence>
@@ -124,6 +129,6 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" fixed="10511" use="required" />
+        <xs:attribute name="action_id" type="xs:int" fixed="10501" use="required" />
     </xs:complexType>
 </xs:schema>

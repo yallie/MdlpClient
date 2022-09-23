@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:include schemaLocation="base_ref.xsd"/>
-    <xs:include schemaLocation="base_types.xsd"/>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition 9.0.11.3078 (http://www.liquid-technologies.com)-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="base_ref.xsd" />
+    <xs:include schemaLocation="base_types.xsd" />
     <xs:complexType name="skzkm_health_care">
         <xs:annotation>
             <xs:documentation>Регистрация в ИС МДЛП сведений о выдаче лекарственного препарата для оказания медицинской помощи (информация с СКЗКМ)</xs:documentation>
@@ -36,7 +37,11 @@
                         <xs:element name="union" maxOccurs="25000">
                             <xs:complexType>
                                 <xs:sequence>
-                                    <xs:element name="sgtin" type="sign_sgtin_type"/>
+                                    <xs:element name="sgtin" type="sign_sgtin_type">
+                                        <xs:annotation>
+                                            <xs:documentation>Номер SGTIN</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
                                     <xs:element name="sold_part" type="part_type" minOccurs="0">
                                         <xs:annotation>
                                             <xs:documentation>Доля от вторичной упаковки</xs:documentation>
@@ -48,8 +53,8 @@
                     </xs:sequence>
                 </xs:complexType>
                 <xs:unique name="ismp_ux_health_care_sgtin">
-                    <xs:selector xpath="union/sgtin"/>
-                    <xs:field xpath="."/>
+                    <xs:selector xpath="union/sgtin" />
+                    <xs:field xpath="." />
                 </xs:unique>
             </xs:element>
             <xs:element name="device_info" type="skzkm_info_type">
@@ -58,6 +63,6 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" use="required" fixed="10531"/>
+        <xs:attribute name="action_id" type="xs:int" fixed="10531" use="required" />
     </xs:complexType>
 </xs:schema>

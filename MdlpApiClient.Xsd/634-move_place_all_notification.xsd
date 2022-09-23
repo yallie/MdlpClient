@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition 9.0.11.3078 (http://www.liquid-technologies.com)-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="base_ref.xsd" />
+    <xs:include schemaLocation="base_types.xsd" />
+    <xs:complexType name="move_place_all_notification">
+        <xs:annotation>
+            <xs:documentation>Уведомление получателя о перемещении всех лекарственных препаратов между различными адресами осуществления деятельности</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="system_subject_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="receiver_id" type="subject_id_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-получателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_num" type="document_number_200_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа основания: номер документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_date" type="date_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа основания: дата документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_id" type="string200_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор операции перемещения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" fixed="634" use="required" />
+    </xs:complexType>
+</xs:schema>

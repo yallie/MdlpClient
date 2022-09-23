@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:include schemaLocation="base_ref.xsd"/>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition 9.0.11.3078 (http://www.liquid-technologies.com)-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="base_ref.xsd" />
     <xs:complexType name="result">
         <xs:annotation>
             <xs:documentation>Результат обработки направленного в систему запроса</xs:documentation>
@@ -21,7 +22,7 @@
                     <xs:documentation>Результат фиксации</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="operation_comment" type="string1000_type" minOccurs="0">
+            <xs:element name="operation_comment" type="string_unlimit" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Примечание к операции</xs:documentation>
                 </xs:annotation>
@@ -65,7 +66,7 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" use="required" fixed="200"/>
+        <xs:attribute name="action_id" type="xs:int" fixed="200" use="required" />
         <xs:attribute name="accept_time" type="xs:dateTime" use="required">
             <xs:annotation>
                 <xs:documentation>Дата и время проводки запроса</xs:documentation>

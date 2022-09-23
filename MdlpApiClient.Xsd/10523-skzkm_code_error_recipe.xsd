@@ -3,9 +3,9 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="base_ref.xsd" />
     <xs:include schemaLocation="base_types.xsd" />
-    <xs:complexType name="skzkm_recipe">
+    <xs:complexType name="skzkm_code_error_recipe">
         <xs:annotation>
-            <xs:documentation>Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту (информация с СКЗКМ)</xs:documentation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений об отпуске по льготному рецепту лекарственных препаратов с невалидными КМ (информация с СКЗКМ)</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="subject_id" type="subject_id_type">
@@ -57,7 +57,7 @@
                         </xs:element>
                     </xs:sequence>
                 </xs:complexType>
-                <xs:unique name="ismp_ux_recipe_sgtin">
+                <xs:unique name="ismp_ux_code_error_recipe_sgtin">
                     <xs:selector xpath="union/sgtin" />
                     <xs:field xpath="." />
                 </xs:unique>
@@ -68,6 +68,6 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" fixed="10521" use="required" />
+        <xs:attribute name="action_id" type="xs:int" fixed="10523" use="required" />
     </xs:complexType>
 </xs:schema>

@@ -3,9 +3,9 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="base_ref.xsd" />
     <xs:include schemaLocation="base_types.xsd" />
-    <xs:complexType name="release_in_circulation">
+    <xs:complexType name="agent_acceptance">
         <xs:annotation>
-            <xs:documentation>Регистрация в ИС МДЛП сведений о вводе ЛП в оборот на территории РФ</xs:documentation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о приемке лекарственных препаратов агентом в рамках агентского договора</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="subject_id" type="subject_id_type">
@@ -13,19 +13,40 @@
                     <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="shipper_id" type="subject_id_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор грузоотправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="operation_date" type="datetimeoffset">
                 <xs:annotation>
                     <xs:documentation>Дата совершения операции</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="release_info" type="release_info_type">
+            <xs:element name="receive_type">
                 <xs:annotation>
-                    <xs:documentation>Реквизиты сведений о вводе в оборот</xs:documentation>
+                    <xs:documentation>Тип операции приемки</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="receive_type_enum">
+                        <xs:enumeration value="1" />
+                        <xs:enumeration value="2" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="doc_num" type="document_number_200_type">
+                <xs:annotation>
+                    <xs:documentation>Реквизиты документа основания: номер документа</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="signs">
+            <xs:element name="doc_date" type="date_type">
                 <xs:annotation>
-                    <xs:documentation>Перечень идентификационных кодов потребительских упаковок</xs:documentation>
+                    <xs:documentation>Реквизиты документа основания: дата документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список принимаемой продукции</xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:choice maxOccurs="25000">
@@ -41,16 +62,16 @@
                         </xs:element>
                     </xs:choice>
                 </xs:complexType>
-                <xs:unique name="ux_release_in_circulation_sgtin">
+                <xs:unique name="ux_agent_acceptance_sgtin">
                     <xs:selector xpath="sgtin" />
                     <xs:field xpath="." />
                 </xs:unique>
-                <xs:unique name="ux_release_in_circulation_sscc">
+                <xs:unique name="ux_agent_acceptance_sscc">
                     <xs:selector xpath="sscc" />
                     <xs:field xpath="." />
                 </xs:unique>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" fixed="342" use="required" />
+        <xs:attribute name="action_id" type="xs:int" fixed="473" use="required" />
     </xs:complexType>
 </xs:schema>

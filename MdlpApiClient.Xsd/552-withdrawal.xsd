@@ -1,66 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-	<xs:include schemaLocation="base_ref.xsd"/>
-	<xs:include schemaLocation="base_types.xsd"/>
-	<xs:complexType name="withdrawal">
-		<xs:annotation>
-			<xs:documentation>Регистрация в ИС МДЛП сведений о выводе из оборота лекарственных препаратов по различным причинам</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="subject_id" type="subject_any_type">
-				<xs:annotation>
-					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="operation_date" type="datetimeoffset">
-				<xs:annotation>
-					<xs:documentation>Дата совершения операции</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="doc_num" type="document_number_200_type" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="doc_date" type="date_type" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Дата регистрации документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="withdrawal_type" type="withdrawal_type_enum">
-				<xs:annotation>
-					<xs:documentation>Тип вывода из оборота</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="order_details">
-				<xs:annotation>
-					<xs:documentation>Список продукции</xs:documentation>
-				</xs:annotation>
-				<xs:complexType>
-					<xs:choice maxOccurs="25000">
-						<xs:element name="sgtin" type="sign_sgtin_type">
-							<xs:annotation>
-								<xs:documentation>Номер SGTIN</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="sscc" type="sscc_type">
-							<xs:annotation>
-								<xs:documentation>Номер транспортной упаковки</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-					</xs:choice>
-				</xs:complexType>
-				<xs:unique name="ux_withdrawal_sgtin">
-					<xs:selector xpath="sgtin"/>
-					<xs:field xpath="."/>
-				</xs:unique>
-				<xs:unique name="ux_withdrawal_sscc">
-					<xs:selector xpath="sscc"/>
-					<xs:field xpath="."/>
-				</xs:unique>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="action_id" type="xs:int" use="required" fixed="552"/>
-	</xs:complexType>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition 9.0.11.3078 (http://www.liquid-technologies.com)-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="base_ref.xsd" />
+    <xs:include schemaLocation="base_types.xsd" />
+    <xs:complexType name="withdrawal">
+        <xs:annotation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о выводе из оборота лекарственных препаратов по различным причинам</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="subject_id" type="subject_any_type">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="operation_date" type="datetimeoffset">
+                <xs:annotation>
+                    <xs:documentation>Дата совершения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_num" type="document_number_200_type" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Регистрационный номер документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="doc_date" type="date_type" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дата регистрации документа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="withdrawal_type" type="withdrawal_type_enum">
+                <xs:annotation>
+                    <xs:documentation>Тип вывода из оборота</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="export_country_code" type="code_country_type" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Код страны экспорта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="order_details">
+                <xs:annotation>
+                    <xs:documentation>Список продукции</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice maxOccurs="25000">
+                        <xs:element name="sgtin">
+                            <xs:annotation>
+                                <xs:documentation>Номер SGTIN</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:simpleContent>
+                                    <xs:extension base="sign_sgtin_type">
+                                        <xs:attribute name="withdrawal_part" type="part_type" use="optional">
+                                            <xs:annotation>
+                                                <xs:documentation>Доля от вторичной упаковки</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:attribute>
+                                    </xs:extension>
+                                </xs:simpleContent>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="sscc" type="sscc_type">
+                            <xs:annotation>
+                                <xs:documentation>Номер транспортной упаковки</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+                <xs:unique name="ux_withdrawal_sgtin">
+                    <xs:selector xpath="sgtin" />
+                    <xs:field xpath="." />
+                </xs:unique>
+                <xs:unique name="ux_withdrawal_sscc">
+                    <xs:selector xpath="sscc" />
+                    <xs:field xpath="." />
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="action_id" type="xs:int" fixed="552" use="required" />
+    </xs:complexType>
 </xs:schema>

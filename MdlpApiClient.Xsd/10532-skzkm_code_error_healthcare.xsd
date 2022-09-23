@@ -3,9 +3,9 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="base_ref.xsd" />
     <xs:include schemaLocation="base_types.xsd" />
-    <xs:complexType name="skzkm_recipe">
+    <xs:complexType name="skzkm_code_error_healthcare">
         <xs:annotation>
-            <xs:documentation>Регистрация в ИС МДЛП сведений об отпуске лекарственного препарата по льготному рецепту (информация с СКЗКМ)</xs:documentation>
+            <xs:documentation>Регистрация в ИС МДЛП сведений о выдаче для оказания медицинской помощи лекарственных препаратов с невалидными КМ (информация с СКЗКМ)</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="subject_id" type="subject_id_type">
@@ -20,17 +20,12 @@
             </xs:element>
             <xs:element name="doc_date" type="date_type">
                 <xs:annotation>
-                    <xs:documentation>Реквизиты документа: дата регистрации льготного рецепта</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="doc_series" type="document_number_200_type" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Реквизиты документа: номер серии льготного рецепта</xs:documentation>
+                    <xs:documentation>Реквизиты документа, на основании которого осуществлена выдача - дата</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="doc_num" type="document_number_200_type">
                 <xs:annotation>
-                    <xs:documentation>Реквизиты документа: номер льготного рецепта</xs:documentation>
+                    <xs:documentation>Реквизиты документа, на основании которого осуществлена выдача - номер</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="order_details">
@@ -57,7 +52,7 @@
                         </xs:element>
                     </xs:sequence>
                 </xs:complexType>
-                <xs:unique name="ismp_ux_recipe_sgtin">
+                <xs:unique name="ismp_ux_code_error_healthcare_sgtin">
                     <xs:selector xpath="union/sgtin" />
                     <xs:field xpath="." />
                 </xs:unique>
@@ -68,6 +63,6 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="action_id" type="xs:int" fixed="10521" use="required" />
+        <xs:attribute name="action_id" type="xs:int" fixed="10532" use="required" />
     </xs:complexType>
 </xs:schema>

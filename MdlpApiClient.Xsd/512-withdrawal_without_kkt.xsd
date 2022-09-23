@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (x64) (http://www.altova.com) by Pashenina Veronika (Perspective Technologies Development Center, LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="base_ref.xsd"/>
+	<xs:include schemaLocation="base_types.xsd"/>
+	<xs:complexType name="withdrawal_without_kkt">
+		<xs:annotation>
+			<xs:documentation>Регистрация в ИС МДЛП сведений об отпуске ЛП в аптеке по документам, отличным от кассового чека</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subject_id" type="subject_id_type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор организации-отправителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operation_date" type="datetimeoffset">
+				<xs:annotation>
+					<xs:documentation>Дата совершения операции</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sales">
+				<xs:annotation>
+					<xs:documentation>Детализация продажи</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="union" maxOccurs="25000">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="doc_number" type="string200_type">
+										<xs:annotation>
+											<xs:documentation>Номер документа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="doc_date" type="date_type">
+										<xs:annotation>
+											<xs:documentation>Дата документа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="prescription" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Льготный рецепт</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="prescription_num" type="document_number_200_type">
+													<xs:annotation>
+														<xs:documentation>Реквизиты документа: номер льготного рецепта
+                                                        </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="prescription_date" type="date_type">
+													<xs:annotation>
+														<xs:documentation>Реквизиты документа: дата регистрации льготного рецепта
+                                                        </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="prescription_series" type="document_number_200_type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Реквизиты документа: номер серии льготного рецепта
+                                                        </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="detail" maxOccurs="1000">
+										<xs:annotation>
+											<xs:documentation>Детализация продажи по каждой единице продукции</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="sgtin" type="sign_sgtin_type">
+													<xs:annotation>
+														<xs:documentation>Номер SGTIN</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="cost" type="price_type">
+													<xs:annotation>
+														<xs:documentation>Стоимость (с учетом налога на добавленную стоимость)</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="vat_value" type="price_type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Cумма НДС, руб</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="sold_part" type="part_type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Доля от вторичной упаковки</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+										<xs:unique name="ux_withdrawal_without_kkt_sign">
+											<xs:selector xpath="sgtin"/>
+											<xs:field xpath="."/>
+										</xs:unique>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action_id" type="xs:int" use="required" fixed="512"/>
+	</xs:complexType>
+</xs:schema>
