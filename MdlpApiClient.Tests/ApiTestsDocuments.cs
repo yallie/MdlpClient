@@ -32,7 +32,7 @@
             var doc = new Documents
             {
                 Version = "1.34",
-                Register_End_Packing = new Register_End_Packing
+                Skzkm_Register_End_Packing = new Skzkm_Register_End_Packing
                 {
                     Subject_Id = "00000000100930",
                     Operation_Date = DateTime.Now,
@@ -43,7 +43,7 @@
                 }
             };
 
-            doc.Register_End_Packing.Signs.Add("07091900400001TRANSF2000021");
+            doc.Skzkm_Register_End_Packing.Signs.Add("07091900400001TRANSF2000021");
 
             var docId = Client.SendDocument(doc);
             Assert.NotNull(docId);

@@ -76,8 +76,8 @@
                 Version = "1.34",
                 Session_Ui = sessionUi,
 
-                // Окончание упаковки = схема 311
-                Register_End_Packing = new Register_End_Packing
+                // Окончание упаковки = схема 10311
+                Skzkm_Register_End_Packing = new Skzkm_Register_End_Packing
                 {
                     // из личного кабинета тестового участника-Типографии
                     // берем код места деятельности, расположенного по адресу:
@@ -108,13 +108,13 @@
             // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
             // 13-значного серийного номера. Для каждой отгрузки 
             // необходимо генерировать уникальный серийный номер
-            var gtin = doc.Register_End_Packing.Gtin;
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567906123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567907123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567908123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567909123");
-            doc.Register_End_Packing.Signs.Add(gtin + "123456790A123");
-            doc.Register_End_Packing.Signs.Add(gtin + "123456790B123");
+            var gtin = doc.Skzkm_Register_End_Packing.Gtin;
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567906123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567907123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567908123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567909123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "123456790A123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "123456790B123");
 
             // Документ загружен, но не обработан: fe4120a9-0485-4b0d-a878-fba3d7a644bd.
             // Похоже, серверу-таки не нравится XML-декларация: <?xml version="1.0" encoding="..." ?>
@@ -139,10 +139,10 @@
             // "43e26ea9-7f84-4b92-bd94-37d897ed2a45" — после загрузки была ошибка обработки
             var document = Client.GetDocument("e5d3b7c3-a472-44c4-92c8-4feb3c2632a9");
             Assert.NotNull(document);
-            Assert.NotNull(document.Register_End_Packing);
-            Assert.NotNull(document.Register_End_Packing.Signs);
-            Assert.AreEqual(6, document.Register_End_Packing.Signs.Count);
-            Assert.AreEqual("00000000104494", document.Register_End_Packing.Subject_Id);
+            Assert.NotNull(document.Skzkm_Register_End_Packing);
+            Assert.NotNull(document.Skzkm_Register_End_Packing.Signs);
+            Assert.AreEqual(6, document.Skzkm_Register_End_Packing.Signs.Count);
+            Assert.AreEqual("00000000104494", document.Skzkm_Register_End_Packing.Subject_Id);
         }
 
         [Test]
@@ -985,8 +985,8 @@
             {
                 Session_Ui = SandboxSessionUI,
 
-                // Регистрация окончания упаковки = схема 311
-                Register_End_Packing = new Register_End_Packing
+                // Регистрация окончания упаковки = схема 10311
+                Skzkm_Register_End_Packing = new Skzkm_Register_End_Packing
                 {
                     // из личного кабинета тестового участника-Типографии
                     // берем код места деятельности, расположенного по адресу:
@@ -1006,12 +1006,12 @@
             // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
             // 13-значного серийного номера. Для каждой отгрузки 
             // необходимо генерировать уникальный серийный номер
-            doc.Register_End_Packing.Signs.Add(gtin + "0000000000101");
-            doc.Register_End_Packing.Signs.Add(gtin + "0000000000102");
-            doc.Register_End_Packing.Signs.Add(gtin + "0000000000103");
-            doc.Register_End_Packing.Signs.Add(gtin + "0000000000104");
-            doc.Register_End_Packing.Signs.Add(gtin + "0000000000105");
-            doc.Register_End_Packing.Signs.Add(gtin + "0000000000106");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "0000000000101");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "0000000000102");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "0000000000103");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "0000000000104");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "0000000000105");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "0000000000106");
             return doc;
         }
 

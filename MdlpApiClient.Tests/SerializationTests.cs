@@ -418,11 +418,11 @@
         public void XmlSerializationTest()
         {
             var doc = new Documents();
-            doc.Register_End_Packing = new Register_End_Packing();
-            doc.Register_End_Packing.Gtin = "12345";
-            doc.Register_End_Packing.Signs.Add("43232424");
-            doc.Register_End_Packing.Signs.Add("654o6u45");
-            doc.Register_End_Packing.Signs.Add("fstkjwtk");
+            doc.Skzkm_Register_End_Packing = new Skzkm_Register_End_Packing();
+            doc.Skzkm_Register_End_Packing.Gtin = "12345";
+            doc.Skzkm_Register_End_Packing.Signs.Add("43232424");
+            doc.Skzkm_Register_End_Packing.Signs.Add("654o6u45");
+            doc.Skzkm_Register_End_Packing.Signs.Add("fstkjwtk");
 
             var xml = XmlSerializationHelper.Serialize(doc);
             Assert.NotNull(xml);
@@ -448,10 +448,10 @@
 
             var doc = XmlSerializationHelper.Deserialize(docXml);
             Assert.NotNull(doc);
-            Assert.NotNull(doc.Register_End_Packing);
-            Assert.AreEqual("11170012610151", doc.Register_End_Packing.Gtin);
-            Assert.AreEqual(1, doc.Register_End_Packing.Signs.Count);
-            Assert.AreEqual("07091900400001TRANSF2000021", doc.Register_End_Packing.Signs[0]);
+            Assert.NotNull(doc.Skzkm_Register_End_Packing);
+            Assert.AreEqual("11170012610151", doc.Skzkm_Register_End_Packing.Gtin);
+            Assert.AreEqual(1, doc.Skzkm_Register_End_Packing.Signs.Count);
+            Assert.AreEqual("07091900400001TRANSF2000021", doc.Skzkm_Register_End_Packing.Signs[0]);
         }
 
         private Documents CreateDocument311()
@@ -463,11 +463,11 @@
             {
                 // Если не указать версию, загрузка документа не срабатывает:
                 // пишет, что тип документа не определен
-                Version = "1.34",
+                Version = "1.38",
                 Session_Ui = sessionUi,
 
-                // Окончание упаковки = схема 311
-                Register_End_Packing = new Register_End_Packing
+                // Окончание упаковки = схема 10311
+                Skzkm_Register_End_Packing = new Skzkm_Register_End_Packing
                 {
                     // из личного кабинета тестового участника-Типографии
                     // берем код места деятельности, расположенного по адресу:
@@ -498,13 +498,13 @@
             // Идентификаторы SGTIN. – формируются путем добавления к GTIN 
             // 13-значного серийного номера. Для каждой отгрузки 
             // необходимо генерировать уникальный серийный номер
-            var gtin = doc.Register_End_Packing.Gtin;
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567890123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567891123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567892123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567893123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567894123");
-            doc.Register_End_Packing.Signs.Add(gtin + "1234567895123");
+            var gtin = doc.Skzkm_Register_End_Packing.Gtin;
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567890123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567891123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567892123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567893123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567894123");
+            doc.Skzkm_Register_End_Packing.Signs.Add(gtin + "1234567895123");
 
             // В песочницу документ успешно загружен через ЛК и обработан,
             // код документа a711f795-123b-486b-a2f9-590124733a5e
