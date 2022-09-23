@@ -5,8 +5,8 @@
     <Description>Честный знак. ИС «Маркировка». МДЛП — MDLP REST API client.</Description>
     <Company>Alexey Yakovlev</Company>
     <Copyright>Copyright © Alexey Yakovlev 2020-2021</Copyright>
-    <Version>1.4.1.2</Version>
-    <FileVersion>1.4.1.2</FileVersion>
+    <Version>1.4.2.0</Version>
+    <FileVersion>1.4.2.0</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Authors>Alexey Yakovlev;Contributors</Authors>
 
@@ -19,6 +19,10 @@
     <RepositoryUrl>https://github.com/yallie/MdlpClient.git</RepositoryUrl>
     <!--PackageLicenseExpression>MIT</PackageLicenseExpression-->
     <PackageReleaseNotes>Beta release. What's new:
+
+      v1.4.2:
+      — Added support for XSD v1.38 (2022/06/08)
+      - Removed single-file version project
 
       v1.4.1:
       — Added new XSD schemas, v1.35 (2020/10/23): 702, 703
