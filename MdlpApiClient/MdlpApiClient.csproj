@@ -22,7 +22,7 @@
 
       v1.4.2:
       — Added support for XSD v1.38 (2022/06/08)
-      - Removed single-file version project
+      — Removed single-file version project
 
       v1.4.1:
       — Added new XSD schemas, v1.35 (2020/10/23): 702, 703
